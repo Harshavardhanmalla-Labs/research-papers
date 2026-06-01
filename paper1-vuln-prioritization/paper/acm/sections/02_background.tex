@@ -1,0 +1,34 @@
+\section{Background}
+
+\textbf{CVSS.} CVSS \cite{first_cvss_v31} scores intrinsic vulnerability characteristics; we
+use a normalized base score as the severity feature and a \texttt{cvss\_only} baseline,
+noting its limited exploitation-predictive value \cite{allodi2014comparing}.
+
+\textbf{EPSS.} EPSS \cite{jacobs2021epss} estimates near-term exploitation probability and is
+the strongest single public exploitation signal; it is asset-agnostic by design,
+which asset-context features attempt to complement. It is our primary baseline.
+
+\textbf{CISA KEV.} The KEV catalog \cite{cisa_kev} lists confirmed-exploited CVEs and, under
+BOD 22-01 \cite{cisa_bod2201}, assigns federal remediation deadlines used both as
+features and as scheduler deadlines.
+
+\textbf{The vulnerability-host pair.} Severity and exploitation likelihood are
+CVE-level, but remediation is performed on a host. We adopt the pair (v, h) as the
+unit of decision and explanation: the same CVE on a domain controller and a kiosk
+are different decisions, which is what makes per-decision audit evidence
+meaningful.
+
+\textbf{Remediation capacity.} Teams remediate within bounded windows under blackout,
+CAB cadence, and approval gates; any realistic evaluation must rank \textit{and} schedule
+under fixed capacity, since the binding constraint often dominates outcomes.
+
+\textbf{Public-sector audit/compliance context.} Frameworks such as NIST SP 800-40
+\cite{nist80040r4}, NIST SP 800-53 \cite{nist80053r5}, and CIS Controls \cite{cis_controls_v8}
+emphasize documented, reviewable processes. Producing evidence that *supports
+compliance review* is a first-class design goal, distinct from claiming compliance.
+
+\textbf{Synthetic benchmarking.} Real agency telemetry is sensitive and rarely
+shareable, impeding reproducibility. A deterministic synthetic fleet from
+documented parameter distributions, combined with real public feeds, enables open,
+repeatable evaluation; we are explicit that this bounds external validity (Section
+11).

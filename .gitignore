@@ -1,0 +1,37 @@
+# Node / Next.js
+viewer/node_modules/
+viewer/.next/
+viewer/.env*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# LaTeX intermediates (keep .pdf, .tex, .bib)
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Large data / generated result files
+**/results/primary_full_v1/raw/
+**/results/primary_results_v1/raw/
+**/paper2_runtime/
+
+# Secrets
+.env
+*.pem

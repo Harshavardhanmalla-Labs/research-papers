@@ -1,0 +1,6 @@
+{
+  "blocked": true,
+  "decision": "CONDITIONAL_GO_pending_data_acquisition",
+  "note": "Public-feed fetch blocked and no cache; NOT a failure of the method.",
+  "reason": "NVD fetch failed and no cache (window 2023-06-01..2024-09-30; unauthenticated NVD is rate-limited \u2014 set NVD_API_KEY): HTTP Error 429: Too Many Requests"
+}

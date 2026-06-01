@@ -1,0 +1,7 @@
+event_id,user_id,action,event_timestamp,actor_user_id,days_since_last_logon_at_action,is_anomalous,anomaly_class
+d484c860-75a3-3046-bd8e-722e5c3bbc7f,57825b7e-a028-fe17-5b50-babfc33abe05,created,2024-02-11T14:00:00,7ffc490c-4f87-c307-c641-f9661d80d05c,,False,
+ee1847c2-eff6-abac-57cd-eff30bf8abbd,fbb8b408-e340-f610-6418-17fcb913e5b7,password_reset,2024-01-19T11:00:00,7ffc490c-4f87-c307-c641-f9661d80d05c,,False,
+e2c8aa1a-2ecc-e308-385c-8294881d70d5,36335bd9-7ac6-e01b-7293-c7a7287c1280,reactivated,2024-02-07T03:00:00,7ffc490c-4f87-c307-c641-f9661d80d05c,180.0,True,dormant_account_reactivation
+c578a59f-88a6-1c8c-4d0b-05315d2595df,ab2af160-83f1-e414-0d21-6cb2d5a40c0a,reactivated,2024-03-17T02:00:00,7ffc490c-4f87-c307-c641-f9661d80d05c,180.0,True,dormant_account_reactivation
+06c8f2ff-a0dc-0a56-a86b-87bbd56e877a,e9fb05d9-a688-2ec1-74ff-3c9ecd2cd349,reactivated,2024-01-16T03:00:00,7ffc490c-4f87-c307-c641-f9661d80d05c,333.2,True,dormant_account_reactivation
+293090a9-c511-a439-2853-6cf781224af5,ce906c6b-65db-1bcc-323f-fc865cf8e51a,reactivated,2024-01-19T05:00:00,7ffc490c-4f87-c307-c641-f9661d80d05c,272.8,True,dormant_account_reactivation

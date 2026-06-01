@@ -1,0 +1,64 @@
+% Section: HygieneBench Design
+% Source: paper_draft_v0.1.md § 3. HygieneBench Design
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\section{\hygienebench Design}
+\label{sec:design}
+
+\subsection{Schema and Synthetic Generator}
+
+\hygienebench v0.1 uses a schema with eleven entity/event tables and one anomaly
+label table (Table~\ref{tab:schema}). The generator (\texttt{SyntheticHygieneGenerator})
+is implemented in Python using NumPy and Pandas, with all randomness gated through
+\texttt{numpy.random.default\_rng(seed)}. Entity identifiers are deterministic UUIDs
+derived from \texttt{hashlib.md5(seed\_tag + index)}, ensuring reproducibility
+across platforms.
+
+\input{tables/tab_schema}
+
+\paragraph{Structural priors.}
+Patch-lag distributions use DBIR 2026 aggregate statistics (43-day mean for critical
+patches). CVE severity distributions use NVD base score statistics. Telemetry
+refresh cadence requirements follow CISA BOD 23-01 (14-day asset discovery, 72-hour
+patch data)~\cite{cisa_bod2301_2022}. AD group-size distributions lack a
+peer-reviewed published source and are modeled via disclosed assumptions (power-law
+approximation) with sensitivity sweeps. All structural priors are documented in the
+dataset card.
+
+\paragraph{Conditions.}
+Five telemetry conditions parameterize freshness and missingness:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{C-BASE:} No artificial staleness; all sources current.
+  \item \textbf{C-FRESH:} Elevated freshness flagging; sources verified current.
+  \item \textbf{C-STALE:} 20\% of entities have heavy-stale telemetry ($>$14-day gap).
+  \item \textbf{C-MISS:} One data source absent for 15\% of entities.
+  \item \textbf{C-UNSUP:} C-BASE with anomaly labels withheld from the training pipeline.
+\end{itemize}
+
+Each condition is generated for three seeds (42, 137, 2024), producing 15 dataset
+instances (5 conditions $\times$ 3 seeds) with $n$=1,000 users per instance.
+
+\subsection{Anomaly Taxonomy}
+
+\hygienebench defines twelve anomaly classes (Table~\ref{tab:taxonomy}), each
+mapped to an ATT\&CK enabling condition (not a detection claim for any specific
+technique). Enabling-condition mappings are annotated with a required disclaimer:
+\emph{correlation with an ATT\&CK enabling condition does not imply that any
+specific attack technique was executed or detected.}
+
+\input{tables/tab_taxonomy}
+
+\subsection{Benchmark Tasks}
+
+Seven tasks cover the twelve anomaly classes across different entity scopes and
+temporal windows (Table~\ref{tab:tasks}). Task injection counts are per dataset
+instance; injection uses \texttt{AnomalyInjector(seed + 999)} to ensure a distinct
+RNG stream from the generator.
+
+\input{tables/tab_tasks}
+
+\paragraph{Dataset splits.}
+Labels are stratified 60/20/20 by anomaly class. Anomalous entities are assigned to
+the test split, with normal entities split randomly across train/val/test. The split
+is deterministic given the seed.

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "batch_id": "B-primary-primary",
+  "smoke": false,
+  "table_group": "primary",
+  "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "cells_completed": 12,
+  "seeds_per_cell": {
+    "P-random-na": 30,
+    "P-cvss_only-na": 30,
+    "P-epss_only-na": 30,
+    "P-kev_first-na": 30,
+    "P-cvss_x_epss-na": 30,
+    "P-cvss_plus_epss_plus_kev-na": 30,
+    "P-proposed-w_uniform": 30,
+    "P-proposed-w_paper1_placeholder": 30,
+    "P-proposed-w_epss_dominant": 30,
+    "P-proposed-w_cvss_dominant": 30,
+    "P-proposed-w_kev_dominant": 30,
+    "P-proposed-w_context_dominant": 30
+  },
+  "seed_runs_completed": 360,
+  "wallclock_seconds_total": 488.9582462310791,
+  "per_seed_run_seconds_mean": 1.3582173506418864,
+  "n_triggered_rules": 3,
+  "timestamp_utc": "2026-05-28T18:08:07.553799+00:00"
+}

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "hygienebench"
+version = "0.1.0"
+description = "HygieneBench: Synthetic telemetry generator and benchmark for cyber-hygiene anomaly detection"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.24", "pandas>=2.0", "scipy>=1.10"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+hygienebench-generate = "hygienebench.cli:main_generate"
+hygienebench-validate = "hygienebench.cli:main_validate"

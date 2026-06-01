@@ -1,0 +1,158 @@
+% references.bib — Paper 1
+%
+% IMPORTANT (read before use):
+%   - None of these entries were re-verified against a live source in the
+%     authoring environment. Each entry below is from best knowledge of a
+%     STANDARD PUBLIC DOCUMENT or a widely-cited CANONICAL PAPER, and every
+%     entry is marked "CONFIRM at camera-ready". Treat all fields (authors,
+%     year, volume/issue, pages, DOI/URL) as DRAFT until confirmed against the
+%     publisher of record.
+%   - No entry was invented for a work whose bibliographic details are
+%     uncertain. Works that could NOT be stated with high confidence
+%     (adjacent ML systems Deep VULMAN / VulRG / VulnScore / V-REx; commercial
+%     RBVM vendor docs; the exact CJIS Security Policy version) are NOT given
+%     BibTeX entries here and remain [VERIFY] in references_todo.md.
+%
+% Tier-1: standard documents + canonical methodology/exploit-prediction papers.
+
+% ---------------------------------------------------------------------------
+% A. CVSS / EPSS / exploit prediction
+% ---------------------------------------------------------------------------
+
+@techreport{first_cvss_v31,
+  title       = {Common Vulnerability Scoring System version 3.1: Specification Document},
+  author      = {{Forum of Incident Response and Security Teams (FIRST)}},
+  institution = {FIRST.org},
+  year        = {2019},
+  url         = {https://www.first.org/cvss/v3-1/specification-document},
+  note        = {Published 2019-07-12. PDF: https://www.first.org/cvss/v3-1/cvss-v31-specification\_r1.pdf. CVSS v4.0 (2023-11-01) available at https://www.first.org/cvss/specification-document. Verified 2026-05-31.}
+}
+
+@article{jacobs2021epss,
+  title      = {Exploit Prediction Scoring System (EPSS)},
+  author     = {Jacobs, Jay and Romanosky, Sasha and Edwards, Benjamin and Adjerid, Idris and Roytman, Michael},
+  journal    = {Digital Threats: Research and Practice},
+  volume     = {2},
+  number     = {3},
+  articleno  = {20},
+  numpages   = {17},
+  year       = {2021},
+  month      = jun,
+  doi        = {10.1145/3436242},
+  url        = {https://dl.acm.org/doi/10.1145/3436242},
+  note       = {Verified 2026-05-31 via ACM DL. Author order corrected: Adjerid before Roytman per ACM record.}
+}
+
+@article{allodi2014comparing,
+  title      = {Comparing Vulnerability Severity and Exploits Using Case-Control Studies},
+  author     = {Allodi, Luca and Massacci, Fabio},
+  journal    = {ACM Transactions on Information and System Security},
+  volume     = {17},
+  number     = {1},
+  articleno  = {9},
+  numpages   = {20},
+  year       = {2014},
+  month      = aug,
+  doi        = {10.1145/2630069},
+  url        = {https://dl.acm.org/doi/10.1145/2630069},
+  note       = {Verified 2026-05-31 via ACM DL.}
+}
+
+@inproceedings{sabottke2015vulnerability,
+  title     = {Vulnerability Disclosure in the Age of Social Media: Exploiting Twitter for Predicting Real-World Exploits},
+  author    = {Sabottke, Carl and Suciu, Octavian and Dumitra{\c{s}}, Tudor},
+  booktitle = {24th USENIX Security Symposium (USENIX Security 15)},
+  year      = {2015},
+  note      = {CONFIRM pages/publisher at camera-ready}
+}
+
+% ---------------------------------------------------------------------------
+% B. CISA / NIST / compliance
+% ---------------------------------------------------------------------------
+
+@misc{cisa_kev,
+  title        = {Known Exploited Vulnerabilities Catalog},
+  author       = {{Cybersecurity and Infrastructure Security Agency (CISA)}},
+  howpublished = {\url{https://www.cisa.gov/known-exploited-vulnerabilities-catalog}},
+  year         = {2021},
+  note         = {Living catalog; launched November 2021 alongside BOD 22-01. URL verified 2026-05-31. Add urldate/access date at camera-ready.}
+}
+
+@misc{cisa_bod2201,
+  title        = {Binding Operational Directive 22-01: Reducing the Significant Risk of Known Exploited Vulnerabilities},
+  author       = {{Cybersecurity and Infrastructure Security Agency (CISA)}},
+  year         = {2021},
+  howpublished = {\url{https://www.cisa.gov/news-events/directives/bod-22-01-reducing-significant-risk-known-exploited-vulnerabilities}},
+  note         = {Issued 2021-11-03. PDF: https://www.cisa.gov/sites/default/files/publications/Reducing\_the\_Significant\_Risk\_of\_Known\_Exploited\_Vulnerabilities\_211103.pdf. Verified 2026-05-31.}
+}
+
+@techreport{nist80040r4,
+  title       = {Guide to Enterprise Patch Management Planning: Preventive Maintenance for Technology},
+  author      = {Souppaya, Murugiah and Scarfone, Karen},
+  institution = {National Institute of Standards and Technology},
+  number      = {NIST Special Publication 800-40 Revision 4},
+  year        = {2022},
+  note        = {CONFIRM DOI 10.6028/NIST.SP.800-40r4 and authors at camera-ready}
+}
+
+@techreport{nist80053r5,
+  title       = {Security and Privacy Controls for Information Systems and Organizations},
+  author      = {{Joint Task Force}},
+  institution = {National Institute of Standards and Technology},
+  number      = {NIST Special Publication 800-53 Revision 5},
+  year        = {2020},
+  note        = {CONFIRM DOI 10.6028/NIST.SP.800-53r5 at camera-ready}
+}
+
+@techreport{nist80030r1,
+  title       = {Guide for Conducting Risk Assessments},
+  author      = {{Joint Task Force Transformation Initiative}},
+  institution = {National Institute of Standards and Technology},
+  number      = {NIST Special Publication 800-30 Revision 1},
+  year        = {2012},
+  note        = {CONFIRM DOI 10.6028/NIST.SP.800-30r1 at camera-ready}
+}
+
+@misc{cis_controls_v8,
+  title        = {CIS Critical Security Controls Version 8},
+  author       = {{Center for Internet Security}},
+  year         = {2021},
+  note         = {CONFIRM exact version (v8 / v8.1) and URL at camera-ready}
+}
+
+% ---------------------------------------------------------------------------
+% E. Statistical methodology
+% ---------------------------------------------------------------------------
+
+@article{wilcoxon1945,
+  title   = {Individual Comparisons by Ranking Methods},
+  author  = {Wilcoxon, Frank},
+  journal = {Biometrics Bulletin},
+  volume  = {1},
+  number  = {6},
+  pages   = {80--83},
+  year    = {1945},
+  note    = {CONFIRM at camera-ready}
+}
+
+@article{holm1979,
+  title   = {A Simple Sequentially Rejective Multiple Test Procedure},
+  author  = {Holm, Sture},
+  journal = {Scandinavian Journal of Statistics},
+  volume  = {6},
+  number  = {2},
+  pages   = {65--70},
+  year    = {1979},
+  note    = {CONFIRM at camera-ready}
+}
+
+@article{efron1987better,
+  title   = {Better Bootstrap Confidence Intervals},
+  author  = {Efron, Bradley},
+  journal = {Journal of the American Statistical Association},
+  volume  = {82},
+  number  = {397},
+  pages   = {171--185},
+  year    = {1987},
+  note    = {CONFIRM at camera-ready}
+}

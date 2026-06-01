@@ -1,0 +1,6 @@
+policy_name: A
+rho_senior: 0.7
+synchronous_threshold_R: 0.7
+elevated_approval_probability: 0.85
+kev_breach_override_hours: 48
+risk_acceptance_probability_high_complexity: 0.05

@@ -1,0 +1,7 @@
+config_name: light
+blackouts:
+  kiosk:
+    business_hours:
+      timezone: local
+      hours: [8, 18]
+      weekdays: [mon, tue, wed, thu, fri]

@@ -1,0 +1,265 @@
+# Paper 2 — Step 3.17 (F8) planned-batches & compute envelope.
+# COMPANION to F6 (paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.{csv,yaml}).
+# This file does NOT mutate F6; it only selects an execution plan over F6's cells.
+# Step-4 implementation loads this YAML and refuses to launch batches not in it.
+
+schema_version: 1
+locked_at_step: 3.17
+source_cell_file:
+  csv:  paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+  yaml: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.yaml
+
+# --- Compute envelope (locked) ---
+compute_envelope:
+  target_wallclock_hours: 12          # soft target
+  hard_max_wallclock_hours: 18        # absolute ceiling for the combined pilot + primary
+  per_batch_abort_factor: 1.5         # any batch > 1.5x its budget pauses for review
+  max_cpu_utilization_pct: 90
+  memory_budget_gb: 16
+  disk_budget_gb_incremental: 25      # under paper2/results + paper2/audit + data/cache
+  parallelism:
+    policy: seed_level
+    max_workers: 4                    # 2..4 depending on memory; default 4 if mem>=16GB
+    note: workers process distinct seeds within a batch; cells inside a seed run serially to reuse per-t0 feature frames
+  checkpoint_cadence:
+    acquisition: once_per_run         # NVD universe build/cache hit
+    per_t0_feature_frame: once_per_seed_per_t0
+    per_cell_result: per_cell
+    per_batch_summary: per_batch
+  acceptable_overnight_runs: 2        # tolerable to span 2 evenings; refuse anything beyond
+  freeze_wrap: required_per_batch     # per F7 contract; one witness per batch
+
+# --- Chosen plan (per task brief: F8-f pilot-then-primary) ---
+chosen_plan:
+  option_id: F8-f
+  name: pilot_then_primary
+  rationale: |
+    Preserves F6's scientific design verbatim; measures real runtime / cache
+    behaviour / checkpoint cadence on 6 seeds across all 48 runnable cells BEFORE
+    committing to 1,440 seed-runs; allows a deterministic fallback escalation if
+    the projection exceeds the hard ceiling.
+
+# --- Fallback escalation order (only applied if pilot projects > 18h for primary) ---
+fallback_order:
+  # ordered first-to-last; STOP at the first option that brings projected primary <= 18h
+  - id: F8-e
+    description: collapse weight vectors to {w_paper1_placeholder, w_epss_dominant, w_context_dominant}
+    expected_saving_pct: "~50"           # half the proposed_fixed_prior primary + ablation cells
+    impact_on_claims: CLM-C1 Holm family shrinks from C(6,2)=15 to C(3,2)=3 pairs
+  - id: F8-d
+    description: collapse ablation set to {remove_E, remove_K, remove_C, remove_X}
+    expected_saving_pct: "~30"           # drops 4 of 12 ablation new runnable cells
+    impact_on_claims: CLM-C4 loses ablation cells for S and R; report explicitly
+  - id: F8-c
+    description: collapse blackout sweep to {primary, strict} only
+    expected_saving_pct: "~15"           # drops 6 of 9 blackout new runnable cells
+    impact_on_claims: CLM-C3 reduces to a 1-pair family per strategy
+  - id: F8-b
+    description: collapse capacity sweep to {0.01 (reused), 0.05}
+    expected_saving_pct: "~20"           # drops 10 of 15 capacity new runnable cells
+    impact_on_claims: CLM-C2 reduces to a 1-pair family per strategy
+  - id: F8-a
+    description: "seed reduction n_seeds 30 -> 15 (LAST RESORT)"
+    expected_saving_pct: "~50"           # all batches halve
+    impact_on_claims: "F4 MDE-d at n=15 ~ 0.78; MDE-hd ~ 1965 hd at x1.0, 2948 hd at x1.5; STILL clears 5000-hd meaningful threshold but margin thins; SM-2 escalation more likely to bind"
+
+pilot_only_fallback:
+  enabled: false
+  note: |
+    Pilot alone does NOT replace primary unless F8 explicitly declares
+    pilot-only fallback (this YAML's enabled=false keeps that closed by default).
+
+# --- Pilot batches (6 seeds; 4 batches, one per F6 table group) ---
+pilot_batches:
+  - batch_id: B-pilot-primary
+    source_cell_file: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+    cell_filter: "table_group == 'primary' AND run_status == 'planned'"
+    planned_cells: 12
+    planned_seeds: 6
+    planned_seed_runs: 72
+    estimated_runtime_hours: [0.5, 1.0]   # [optimistic, mid]
+    freeze_wrap_required: true
+    checkpoint_required: true
+    stop_rules_required:
+      pre_flight: [K1, K3, K6]
+      per_cell: [K3, K4, S-C3, S-E1, S-E2]
+      per_comparison: []                  # paired analysis deferred to primary
+      post_run: [K5, S-C3, F4_pilot_runtime_projection]
+      manuscript: []
+  - batch_id: B-pilot-capacity
+    source_cell_file: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+    cell_filter: "table_group == 'capacity_sensitivity' AND run_status == 'planned'"
+    planned_cells: 15
+    planned_seeds: 6
+    planned_seed_runs: 90
+    estimated_runtime_hours: [0.6, 1.2]
+    freeze_wrap_required: true
+    checkpoint_required: true
+    stop_rules_required:
+      pre_flight: [K1, K3, K6]
+      per_cell: [K3, K4, S-C3, S-E1, S-E2]
+      post_run: [K5]
+  - batch_id: B-pilot-blackout
+    source_cell_file: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+    cell_filter: "table_group == 'blackout_sensitivity' AND run_status == 'planned'"
+    planned_cells: 9
+    planned_seeds: 6
+    planned_seed_runs: 54
+    estimated_runtime_hours: [0.4, 0.8]
+    freeze_wrap_required: true
+    checkpoint_required: true
+    stop_rules_required:
+      pre_flight: [K1, K3, K6]
+      per_cell: [K3, K4, S-C3, S-E1, S-E2]
+      post_run: [K5]
+  - batch_id: B-pilot-ablation
+    source_cell_file: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+    cell_filter: "table_group == 'feature_ablation' AND run_status == 'planned'"
+    planned_cells: 12
+    planned_seeds: 6
+    planned_seed_runs: 72
+    estimated_runtime_hours: [0.5, 1.0]
+    freeze_wrap_required: true
+    checkpoint_required: true
+    stop_rules_required:
+      pre_flight: [K1, K3, K6]
+      per_cell: [K3, K4, S-C3, S-E1, S-E2]
+      post_run: [K5]
+
+pilot_summary:
+  total_batches: 4
+  total_planned_cells: 48
+  total_planned_seeds_per_cell: 6
+  total_planned_seed_runs: 288
+  total_estimated_runtime_hours: [2.0, 4.0]
+
+# --- Pilot gate (decides whether primary is allowed to start) ---
+pilot_gate:
+  measured_per_seed_run_seconds: TBD                 # wall-clock per seed-run, averaged across pilot
+  projected_primary_runtime_hours: TBD               # derived as measured_per_seed_run * 1440 / 3600
+  decision_rule:
+    - if: projected_primary_runtime_hours <= ${compute_envelope.hard_max_wallclock_hours}
+      then: PROCEED_TO_PRIMARY_NO_FALLBACK
+    - elif: projected_primary_runtime_hours > ${compute_envelope.hard_max_wallclock_hours}
+      then: APPLY_FALLBACK_ORDER_AND_REPLAN
+  required_pilot_passes:
+    - K6 freeze invariant held at every batch
+    - K5 audit chain valid on every batch
+    - K4 scheduler_feasibility_rate >= 0.95 on every primary cell pilot run
+    - K3 status confirmed (already TRIGGERED — informational, never blocking)
+
+# --- Primary batches (30 seeds; 4 batches, one per F6 table group) ---
+# Allowed only after pilot_gate.decision == PROCEED_TO_PRIMARY_NO_FALLBACK
+primary_batches:
+  - batch_id: B-primary-primary
+    source_cell_file: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+    cell_filter: "table_group == 'primary' AND run_status == 'planned'"
+    planned_cells: 12
+    planned_seeds: 30
+    planned_seed_runs: 360
+    estimated_runtime_hours: [2.5, 5.0]
+    freeze_wrap_required: true
+    checkpoint_required: true
+    stop_rules_required:
+      pre_flight: [K1, K3, K6]
+      per_cell: [K3, K4, S-C3, S-E1, S-E2]
+      per_comparison: [SM-1, SM-2, SM-3]
+      post_run: [K2, K5, K7, K8, S-B1, S-B3, S-C1, S-C2, S-C4]
+      manuscript: [SM-4, SM-5, F3_forbidden_phrase_guard]
+  - batch_id: B-primary-capacity
+    source_cell_file: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+    cell_filter: "table_group == 'capacity_sensitivity' AND run_status == 'planned'"
+    planned_cells: 15
+    planned_seeds: 30
+    planned_seed_runs: 450
+    estimated_runtime_hours: [3.0, 6.0]
+    freeze_wrap_required: true
+    checkpoint_required: true
+    stop_rules_required:
+      pre_flight: [K1, K3, K6]
+      per_cell: [K3, K4, S-C3, S-E1, S-E2]
+      per_comparison: [SM-1, SM-2, SM-3]
+      post_run: [K2, K5, K8, S-C2]
+  - batch_id: B-primary-blackout
+    source_cell_file: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+    cell_filter: "table_group == 'blackout_sensitivity' AND run_status == 'planned'"
+    planned_cells: 9
+    planned_seeds: 30
+    planned_seed_runs: 270
+    estimated_runtime_hours: [1.8, 3.5]
+    freeze_wrap_required: true
+    checkpoint_required: true
+    stop_rules_required:
+      pre_flight: [K1, K3, K6]
+      per_cell: [K3, K4, S-C3, S-E1, S-E2]
+      per_comparison: [SM-1, SM-2]
+      post_run: [K2, K5, K8, S-C3]
+  - batch_id: B-primary-ablation
+    source_cell_file: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+    cell_filter: "table_group == 'feature_ablation' AND run_status == 'planned'"
+    planned_cells: 12
+    planned_seeds: 30
+    planned_seed_runs: 360
+    estimated_runtime_hours: [2.5, 5.0]
+    freeze_wrap_required: true
+    checkpoint_required: true
+    stop_rules_required:
+      pre_flight: [K1, K3, K6]
+      per_cell: [K3, K4, S-C3, S-E1, S-E2]
+      per_comparison: [SM-1, SM-2]
+      post_run: [K2, K5, K8, S-C4]
+
+primary_summary:
+  total_batches: 4
+  total_planned_cells: 48
+  total_planned_seeds_per_cell: 30
+  total_planned_seed_runs: 1440
+  total_estimated_runtime_hours: [9.8, 19.5]
+  total_with_pilot_hours: [11.8, 23.5]
+  note: |
+    Mid-estimate (~19.5h) is just over the 18h hard ceiling. Parallelism
+    (max_workers=4 seed-level) is expected to bring this to ~3-6h on the
+    optimistic end. The pilot exists precisely to measure this BEFORE
+    committing.
+
+# --- Shared-computation architecture requirements (locked) ---
+shared_computation:
+  must:
+    - Build NVD universe ONCE per run (cache hit on data/cache/paper2_probe/nvd_chunk_*.json)
+    - Build EPSS / KEV as-of maps ONCE per t0
+    - Generate fleet ONCE per seed
+    - Build vulnerability-host pair frames ONCE per seed x t0
+    - Compute feature frames ONCE per seed x t0
+    - Reuse feature frames across all strategies / weight vectors / capacities / blackouts / approvers / ablations within the same seed x t0
+    - Scheduler runs per cell
+    - Metrics run per cell
+    - Freeze witness wraps every batch (F7)
+    - Stop-rule evaluation runs per batch + per_run gates per F5
+  must_not:
+    - Re-fetch any NVD chunk during pilot or primary (forbidden inside the batch wrap)
+    - Mutate F6 source-of-truth CSV/YAML (this YAML is the only F8 selector)
+    - Bypass freeze wrap for reuse-only consumers (F7 §5)
+
+# --- Abort / resume semantics (locked) ---
+abort_resume:
+  per_batch_runtime_overrun:
+    trigger: batch_runtime > ${compute_envelope.per_batch_abort_factor} * estimated_max_runtime
+    action: pause_after_current_checkpoint; batch_status = paused_runtime_exceeded; require_manual_approval
+  freeze_check_fail:
+    trigger: K6 or K5 fires at pre_flight or post_run
+    action: hard_halt; mark all in-progress cells invalid; no resume without freeze-restoration ticket
+  k2_robustness_null_post_run:
+    trigger: K2 fires across every primary axis after primary completion
+    action: paper reframed as failure-aware methodology only; do NOT re-tune to manufacture a robustness signal
+  scheduler_infeasibility:
+    trigger: K4 fires (scheduler_feasibility_rate < 0.95) on any cell
+    action: exclude cell from primary operational claims with written footnote (per K4 + S-C3)
+  resume_policy:
+    must:
+      - skip completed seed/cell checkpoints
+      - re-verify Paper-1 freeze at every resumed batch boundary (F7)
+      - re-load F6 + F8 YAMLs (this file) at resume time
+      - re-emit a fresh freeze witness for the resumed batch
+    must_not:
+      - recompute completed cells unless `--force` is explicit and decision_log entry added
+      - resume across freeze-witness boundaries silently

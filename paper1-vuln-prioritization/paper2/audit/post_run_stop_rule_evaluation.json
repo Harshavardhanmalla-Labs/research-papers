@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "K2": {
+    "rule_id": "K2",
+    "category": "statistical_inference",
+    "evaluated": true,
+    "axes": {
+      "A1_capacity": {
+        "n_diffs": 150,
+        "abs_median_delta_ehd": 118127056.0,
+        "bca_ci_low": -124755242.4,
+        "bca_ci_high": -74597243.2,
+        "fires_K2": false
+      },
+      "A6_blackout": {
+        "n_diffs": 90,
+        "abs_median_delta_ehd": 2985944.0,
+        "bca_ci_low": 2165968.8,
+        "bca_ci_high": 3712766.4,
+        "fires_K2": false
+      },
+      "A3_weight_family": {
+        "n_diffs": 450,
+        "abs_median_delta_ehd": 110328.0,
+        "bca_ci_low": -14503890.8,
+        "bca_ci_high": 8400669.999999998,
+        "fires_K2": false
+      },
+      "A5_feature_ablation": {
+        "n_diffs": 0,
+        "abs_median_delta_ehd": NaN,
+        "bca_ci_low": NaN,
+        "bca_ci_high": NaN,
+        "fires_K2": false
+      }
+    },
+    "fires_on_every_primary_axis": false,
+    "action": "scope-reduce for axes that fire; other axes remain primary"
+  },
+  "K7": {
+    "rule_id": "K7",
+    "category": "acquisition",
+    "evaluated": false,
+    "status": "SKIPPED",
+    "rationale": "Step 8 produced no catalog perturbation outputs. K7 requires running one-product perturbations of the 31-product catalog and recomputing the catalog-matched-CVE set per perturbation (paper2/feasibility/catalog_drift_check.json). That work is explicitly out of scope for Step 9; Step 11 (manuscript) must note 'catalog stability not measured at scale; one-product drift unknown' as a limitation."
+  },
+  "K8": {
+    "rule_id": "K8",
+    "category": "statistical_inference",
+    "evaluated": true,
+    "axes": {
+      "A1_capacity": {
+        "cv_within": 0.024436665373737596,
+        "cv_across": 0.021219905727212166,
+        "fires_K8": true
+      },
+      "A3_weight_family": {
+        "cv_within": 0.02427023400167994,
+        "cv_across": 0.0015642331131033949,
+        "fires_K8": true
+      },
+      "A5_feature_ablation": {
+        "cv_within": 0.02434698168648709,
+        "cv_across": 0.0018996501998990924,
+        "fires_K8": true
+      },
+      "A6_blackout": {
+        "cv_within": 0.02429704295687265,
+        "cv_across": 0.00261875986509173,
+        "fires_K8": true
+      }
+    },
+    "any_axis_fires_K8": true,
+    "action": "for each axis that fires K8, demote that axis to descriptive-only"
+  }
+}

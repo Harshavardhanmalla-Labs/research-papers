@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-05-28T17:44:59.250170+00:00",
+  "context": {
+    "unique_positive_distinct_cves": 7,
+    "per_window_positive_counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      1,
+      1,
+      1
+    ]
+  },
+  "triggered_rules": [
+    {
+      "rule_id": "K1",
+      "reason": "calibration_pivot_locked",
+      "measured": 7,
+      "threshold": 20,
+      "extra": {}
+    },
+    {
+      "rule_id": "S-A",
+      "reason": "mirrors K1; calibration experiments forbidden",
+      "measured": 7,
+      "threshold": 20,
+      "extra": {}
+    },
+    {
+      "rule_id": "K3",
+      "reason": "unique_positive < threshold (OR branch)",
+      "measured": 7,
+      "threshold": 20,
+      "extra": {}
+    }
+  ],
+  "n_triggered": 3
+}

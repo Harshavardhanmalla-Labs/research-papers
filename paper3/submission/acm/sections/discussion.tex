@@ -1,0 +1,72 @@
+% Section: Discussion
+% Source: paper_draft_v0.1.md § 6. Discussion
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Interpretation of the Negative-Result Finding}
+
+The 86.2\% failure rate is not a finding against ML in security operations broadly.
+It is a finding about the relative performance of unsupervised ML versus structured
+rule baselines on \emph{synthetic, structured, class-imbalanced tabular anomaly
+detection} in the specific domain of cyber-hygiene telemetry.
+
+The synthetic benchmark is, by design, favorable to rule-based methods: anomaly
+injection creates features that are directly correlated with the anomaly class in
+ways that rule thresholds exploit cleanly. In operational environments, data is
+noisier, labels are unavailable, and the feature space is more complex.
+\hygienebench reports this limitation explicitly in the dataset card and generator
+documentation.
+
+The appropriate takeaway is: for \hygienebench v0.1, ML adds consistent value over
+rule baselines specifically on T2 (group membership drift) and T5
+(patch/vulnerability hygiene). These tasks involve multi-signal combinations that
+benefit from learned representations. Future work should test whether this advantage
+persists under increased population-level noise and label sparsity.
+
+\subsection{Limitations}
+
+\paragraph{Synthetic data.}
+All telemetry is synthetic. Structural priors are approximate (DBIR 2026 for patch
+lag; NVD for CVE severity; CISA BOD 23-01 for freshness cadence). AD group-size
+distributions lack a peer-reviewed source and are modeled under disclosed
+assumptions. Detection performance on real operational data will differ from
+benchmark results.
+
+\paragraph{Approximations in M6 and M8.}
+M6 is implemented as PCA-based linear reconstruction error (not a neural
+autoencoder) and M8 as networkx graph features + Isolation Forest (not
+DOMINANT-style deep graph autoencoder~\cite{ding2019dominant}). These are disclosed
+approximations; results may change with full implementations.
+
+\paragraph{Small population scale.}
+Medium scale ($n$=1,000 users) limits the statistical power of the evaluation. The
+population is smaller than most public-sector environments, which may affect the
+generalizability of the class imbalance findings.
+
+\paragraph{Feature engineering as a design choice.}
+The task feature extractors (T1--T7) encode domain knowledge about which features
+matter. Methods that exploit these features more effectively will appear better. A
+fully unsupervised method that discovers relevant features from raw tables is not
+evaluated.
+
+\paragraph{Fixed $k$ values.}
+P@$k$ is sensitive to the choice of $k$. \hygienebench uses operationally motivated
+$k$ values (daily/weekly SOC review budgets) rather than tuning $k$ to maximize
+method performance. This is a deliberate design choice but limits comparison to
+benchmarks with different $k$ conventions.
+
+\paragraph{No calibration.}
+Anomaly scores are not calibrated to probabilities. Calibration is the primary
+research question of a separate line of work and is excluded from \hygienebench by
+design.
+
+\subsection{Relationship to Prior Work}
+
+\hygienebench is designed to complement, not replace, existing benchmarks. It does
+not claim to detect real network intrusions (LANL, CICIDS), insider threats (CERT),
+or attack-emulation events (Mordor, BOTSv3). It is the first benchmark, to our
+knowledge, that jointly covers Active Directory identity hygiene state, endpoint
+patch posture, vulnerability exposure, and telemetry freshness under controlled
+conditions with an openly released, reproducible synthetic generator.

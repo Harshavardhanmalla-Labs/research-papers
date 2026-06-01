@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "batch_id": "B-pilot-capacity",
+  "cell_id": "CAP-proposed-w_context_dominant-cap0005",
+  "seeds_completed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "smoke": false,
+  "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833"
+}

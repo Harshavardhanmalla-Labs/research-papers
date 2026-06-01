@@ -1,0 +1,28 @@
+% Table 1: HygieneBench schema
+% Source: paper_draft_v0.1.md Table 1
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\begin{table}[t]
+\centering
+\caption{\hygienebench v0.1 schema (medium scale, $n$=1,000 users).}
+\label{tab:schema}
+\small
+\begin{tabular}{@{}lrl@{}}
+\toprule
+Table & Rows & Description \\
+\midrule
+\texttt{users}                   & 1,000      & AD user accounts with identity state \\
+\texttt{groups}                  & 65         & AD security and distribution groups \\
+\texttt{computers}               & 830        & Managed endpoints \\
+\texttt{assets}                  & 830        & Asset inventory entries \\
+\texttt{login\_events}           & $\sim$249k & Authentication events (30-day window) \\
+\texttt{group\_membership\_events} & $\sim$51 & Group add/remove events (30-day) \\
+\texttt{account\_lifecycle\_events} & varies  & Account create/disable/enable events \\
+\texttt{endpoint\_patch\_state}  & 830        & Per-endpoint patch compliance snapshot \\
+\texttt{vulnerability\_records}  & $\sim$3.5k & Per-endpoint CVE exposure records \\
+\texttt{remediation\_events}     & varies     & Patch and remediation actions \\
+\texttt{telemetry\_freshness\_log} & varies   & Per-entity data-source freshness \\
+\texttt{anomaly\_labels}         & 110        & Ground-truth labels with task and split \\
+\bottomrule
+\end{tabular}
+\end{table}

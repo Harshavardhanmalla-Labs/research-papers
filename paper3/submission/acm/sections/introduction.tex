@@ -1,0 +1,70 @@
+% Section: Introduction
+% Source: paper_draft_v0.1.md § 1. Introduction
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\section{Introduction}
+
+Maintaining cyber hygiene---keeping privileged accounts active and monitored,
+endpoint agents deployed, patches current, and telemetry fresh---is a persistent
+operational challenge for security operations centers (SOCs), particularly in
+public-sector environments subject to compliance mandates such as CISA Binding
+Operational Directives~\cite{cisa_bod2301_2022} and NIST SP
+800-40~\cite{nist_sp80040_2022}. Failures in hygiene posture create the enabling
+conditions for identity-based attacks: dormant accounts reactivated by adversaries,
+endpoints missing agent coverage, and stale privileged credentials that may be
+invisible to behavioral analytics requiring recent baselines.
+
+Despite the operational importance of hygiene-state monitoring, the anomaly-detection
+research community lacks a dedicated public benchmark for this problem. Existing
+benchmarks---the LANL Unified Host and Network Dataset~\cite{kent2015lanl}, CERT
+Insider Threat datasets~\cite{glasser2013cert}, CICIDS~\cite{sharafaldin2018cicids},
+and attack-emulation repositories such as Mordor/Security
+Datasets~\cite{rodriguez2019mordor}---provide rich telemetry for network intrusion
+or insider-threat detection but do not model identity hygiene state, patch posture,
+vulnerability exposure, or telemetry freshness and missingness as first-class
+evaluation axes. Commercial platforms (Microsoft Defender for Identity, Splunk UBA,
+Exabeam) address related detection problems but are closed and do not release
+benchmark datasets.
+
+This gap matters for two reasons. First, researchers who develop anomaly-detection
+methods for security operations have no way to compare their methods on
+hygiene-specific telemetry under controlled conditions. Second, there is no
+principled accounting of when unsupervised ML methods add value over simpler
+rule-based approaches for hygiene anomalies---a question with real operational
+implications, since rule maintenance is expensive and ML deployment requires
+justification.
+
+This paper makes the following contributions:
+
+\begin{itemize}[leftmargin=*]
+
+\item \textbf{C1: Synthetic generator.} A fully open, seeded synthetic telemetry
+  generator covering eleven entity/event tables (Active Directory users, groups,
+  computers, assets; login events; group membership events; endpoint patch state;
+  vulnerability records; remediation events; account lifecycle events; telemetry
+  freshness log) with documented structural priors.
+
+\item \textbf{C2: Anomaly taxonomy.} Twelve cyber-hygiene anomaly classes
+  (AH-01 through AH-12) with ATT\&CK enabling-condition mappings (not technique
+  detection claims), injection protocols, and class imbalance specifications.
+
+\item \textbf{C3: Benchmark task suite.} Seven evaluation tasks (T1--T7) under
+  five telemetry conditions, with pre-registered $k$ values, feature sets, and
+  method applicability flags.
+
+\item \textbf{C4: Comparative evaluation, failure-aware.} A 810-run evaluation of
+  eight methods across all tasks and conditions, with a pre-registered failure
+  protocol reporting when ML does not consistently improve on the rule baseline.
+
+\item \textbf{C5: Negative-result reporting.} Explicit reporting and analysis of
+  the 86.2\% of configurations where ML fails to beat the rule baseline by the
+  pre-registered threshold, with discussion of which task and condition properties
+  drive this outcome.
+
+\end{itemize}
+
+The remainder of the paper is organized as follows. Section~\ref{sec:related}
+reviews related benchmarks. Section~\ref{sec:design} describes the \hygienebench
+design. Section~\ref{sec:setup} presents experimental setup.
+Section~\ref{sec:results} reports results. Section~\ref{sec:discussion} discusses
+findings and limitations. Section~\ref{sec:conclusion} concludes.

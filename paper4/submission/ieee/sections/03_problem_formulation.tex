@@ -1,0 +1,41 @@
+\section{Problem Formulation}
+
+\subsection{Setting}
+
+Let $F$ denote a fleet of hosts $H = \{h_1, \ldots, h_N\}$ and let $C = \{c_1, \ldots, c_M\}$ denote a set of disclosed CVEs. Let $V \subseteq H \times C$ be the set of applicable (host, CVE) pairs: $(h, c) \in V$ if CVE $c$ is applicable to host $h$ (i.e., host $h$ runs vulnerable software affected by $c$). The set $V$ is derived from the patch state and vulnerability records tables.
+
+Let $K$ be the remediation capacity: the number of (host, CVE) pairs that a team can remediate within a single maintenance window. A prioritization method produces a ranked list $R$ of $|V|$ pairs; the top $K$ elements of $R$ define the action set for the window.
+
+\subsection{Ground Truth}
+
+A pair $(h, c)$ is a \emph{true positive} (also referred to as a high-priority pair) if all of the following hold (pre-registered definition):
+
+\begin{enumerate}
+  \item $\mathrm{EPSS}(c) > 0.10$ --- the CVE has non-trivial exploit likelihood.
+  \item $\mathrm{HRS}(h) >$ fleet 75th percentile --- the host is in the bottom quartile of hygiene posture.
+  \item $(h, c) \in V$ --- the CVE is applicable to the host.
+\end{enumerate}
+
+Condition~1 ensures the CVE is at meaningful risk of exploitation. Condition~2 ensures the host is a hygiene outlier rather than a well-managed endpoint. The conjunction ensures HygienePrio's design goal --- identifying high-exploit-likelihood CVEs on hygiene-poor hosts --- has an operational ground truth against which to evaluate.
+
+\textbf{Note on circularity:} The use of HRS in both the scorer (via $\mathrm{HRS}(h)$) and the ground truth (via the HRS $>$ 75th percentile condition) creates a structural advantage for HygienePrio over baselines that do not use HRS. This is acknowledged and discussed in \S9 (Threats to Validity). The ground truth definition is pre-registered and fixed; it is not modified post-hoc to favor any method.
+
+\subsection{Metrics}
+
+\textbf{Precision@$K$ (P@$K$):} The proportion of true positive pairs in the top-$K$ positions of the ranked list $R$:
+\[
+  P@K = \frac{|\{(h,c) \in \mathrm{top}_K(R) : (h,c) \text{ is true positive}\}|}{K}
+\]
+Evaluated at $K = 50, 100, 250$.
+
+\textbf{NDCG@$K$ (Normalized Discounted Cumulative Gain at $K$):} Standard information-retrieval ranking quality metric, weighting gains by position with logarithmic discount:
+\[
+  \mathrm{NDCG}@K = \frac{\mathrm{DCG}@K}{\mathrm{IDCG}@K}
+\]
+where $\mathrm{DCG}@K = \sum_{i=1}^{K} \mathrm{rel}_i / \log_2(i+1)$, $\mathrm{rel}_i \in \{0,1\}$ is the relevance of the $i$-th ranked pair, and $\mathrm{IDCG}@K$ is the DCG of the ideal ranking. Evaluated at $K = 50, 100, 250$.
+
+\textbf{Oracle-gap (\%):} The fraction of theoretically achievable P@$K$ that each method captures:
+\[
+  \mathrm{Oracle\text{-}gap}(\text{method}, K) = \frac{P@K_{\mathrm{oracle}} - P@K_{\mathrm{method}}}{P@K_{\mathrm{oracle}}} \times 100
+\]
+where $P@K_{\mathrm{oracle}}$ is the P@$K$ of an oracle ranker that places all true positives first. Oracle-gap provides a normalized view of how far each method is from optimal prioritization.

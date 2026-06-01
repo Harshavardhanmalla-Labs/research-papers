@@ -1,0 +1,505 @@
+# Public/common products only. No employer-specific data.
+# Used as a fixture catalog for the synthetic fleet generator.
+defaults:
+  service_running_prior: 0.85
+  mitigation_prior: 0.10
+  deployment_channel_available: 1.0
+  reboot_required_prior: 0.10
+
+products:
+  # ---- Browsers ----
+  - product_key: chrome
+    vendor: google
+    product: chrome
+    category: browser
+    supported_os: [windows_workstation, macos, linux]
+    install_priors_by_role:
+      standard_workstation: 0.85
+      privileged_workstation: 0.70
+      member_server: 0.05
+      kiosk: 0.40
+      public_facing_server: 0.0
+    service_running_prior: 0.95
+    mitigation_prior: 0.05
+    reboot_required_prior: 0.0
+    bundle_group: chrome_stable
+    version_history:
+      - { version: "120.0.6099.130", release_date: 2023-12-12 }
+      - { version: "121.0.6167.85", release_date: 2024-01-23 }
+      - { version: "122.0.6261.95", release_date: 2024-02-20 }
+      - { version: "125.0.6422.61", release_date: 2024-05-14 }
+      - { version: "128.0.6613.84", release_date: 2024-08-20 }
+      - { version: "131.0.6778.85", release_date: 2024-11-12 }
+
+  - product_key: firefox
+    vendor: mozilla
+    product: firefox
+    category: browser
+    supported_os: [windows_workstation, macos, linux]
+    install_priors_by_role:
+      standard_workstation: 0.25
+      privileged_workstation: 0.30
+      kiosk: 0.10
+    bundle_group: firefox_release
+    version_history:
+      - { version: "115.5.0esr", release_date: 2023-11-21 }
+      - { version: "121.0", release_date: 2023-12-19 }
+      - { version: "125.0.1", release_date: 2024-04-22 }
+      - { version: "128.0esr", release_date: 2024-07-09 }
+      - { version: "132.0", release_date: 2024-10-29 }
+
+  - product_key: edge
+    vendor: microsoft
+    product: edge
+    category: browser
+    supported_os: [windows_workstation, windows_server, macos]
+    install_priors_by_role:
+      standard_workstation: 0.90
+      privileged_workstation: 0.90
+      member_server: 0.60
+      domain_controller: 0.40
+      kiosk: 0.50
+      public_facing_server: 0.0
+    bundle_group: msft_patch_tuesday
+    version_history:
+      - { version: "120.0.2210.91", release_date: 2023-12-15 }
+      - { version: "122.0.2365.66", release_date: 2024-02-29 }
+      - { version: "125.0.2535.51", release_date: 2024-05-16 }
+      - { version: "128.0.2739.42", release_date: 2024-08-22 }
+      - { version: "131.0.2903.51", release_date: 2024-11-14 }
+
+  # ---- Productivity ----
+  - product_key: microsoft_365_apps
+    vendor: microsoft
+    product: 365_apps
+    category: productivity
+    supported_os: [windows_workstation, macos]
+    install_priors_by_role:
+      standard_workstation: 0.85
+      privileged_workstation: 0.85
+      kiosk: 0.10
+    reboot_required_prior: 0.05
+    bundle_group: msft_patch_tuesday
+    version_history:
+      - { version: "16.0.17126.20132", release_date: 2024-01-09 }
+      - { version: "16.0.17328.20284", release_date: 2024-05-14 }
+      - { version: "16.0.17726.20126", release_date: 2024-08-13 }
+      - { version: "16.0.18025.20030", release_date: 2024-11-12 }
+
+  - product_key: adobe_acrobat_reader
+    vendor: adobe
+    product: acrobat_reader
+    category: productivity
+    supported_os: [windows_workstation, macos]
+    install_priors_by_role:
+      standard_workstation: 0.70
+      privileged_workstation: 0.65
+      kiosk: 0.10
+    version_history:
+      - { version: "23.008.20533", release_date: 2024-01-09 }
+      - { version: "24.002.20933", release_date: 2024-04-09 }
+      - { version: "24.003.20121", release_date: 2024-08-13 }
+      - { version: "24.005.20307", release_date: 2024-11-12 }
+
+  - product_key: seven_zip
+    vendor: igor_pavlov
+    product: 7zip
+    category: productivity
+    supported_os: [windows_workstation, windows_server]
+    install_priors_by_role:
+      standard_workstation: 0.40
+      privileged_workstation: 0.50
+      member_server: 0.20
+    reboot_required_prior: 0.0
+    version_history:
+      - { version: "23.01", release_date: 2023-06-20 }
+      - { version: "24.07", release_date: 2024-06-20 }
+      - { version: "24.09", release_date: 2024-11-29 }
+
+  # ---- Endpoint agents ----
+  - product_key: edr_agent_generic
+    vendor: generic
+    product: edr_agent
+    category: endpoint_agent
+    supported_os: [windows_workstation, windows_server, linux, macos]
+    install_priors_by_role:
+      standard_workstation: 0.98
+      privileged_workstation: 0.99
+      member_server: 0.99
+      domain_controller: 1.0
+      kiosk: 0.95
+      public_facing_server: 0.99
+      restricted_zone_system: 0.99
+    service_running_prior: 0.99
+    reboot_required_prior: 0.20
+    version_history:
+      - { version: "5.10.0", release_date: 2024-01-10 }
+      - { version: "5.12.0", release_date: 2024-05-15 }
+      - { version: "5.14.0", release_date: 2024-09-10 }
+
+  - product_key: backup_agent_generic
+    vendor: generic
+    product: backup_agent
+    category: endpoint_agent
+    supported_os: [windows_workstation, windows_server, linux]
+    install_priors_by_role:
+      standard_workstation: 0.40
+      privileged_workstation: 0.60
+      member_server: 0.95
+      domain_controller: 1.0
+      public_facing_server: 0.90
+      restricted_zone_system: 0.95
+    version_history:
+      - { version: "9.0.0", release_date: 2023-09-01 }
+      - { version: "10.0.0", release_date: 2024-06-01 }
+
+  # ---- Remote access ----
+  - product_key: openssh_server
+    vendor: openbsd
+    product: openssh_server
+    category: remote_access
+    supported_os: [linux, macos, windows_server]
+    install_priors_by_role:
+      member_server: 0.85
+      public_facing_server: 0.90
+      restricted_zone_system: 0.70
+    service_running_prior: 0.95
+    mitigation_prior: 0.20
+    version_history:
+      - { version: "9.3p2", release_date: 2023-09-20 }
+      - { version: "9.6p1", release_date: 2023-12-18 }
+      - { version: "9.8p1", release_date: 2024-07-01 }
+      - { version: "9.9p1", release_date: 2024-09-19 }
+
+  - product_key: openvpn_client
+    vendor: openvpn
+    product: openvpn_client
+    category: remote_access
+    supported_os: [windows_workstation, macos, linux]
+    install_priors_by_role:
+      standard_workstation: 0.30
+      privileged_workstation: 0.50
+      mobile_device: 0.20
+    version_history:
+      - { version: "2.6.6", release_date: 2023-10-19 }
+      - { version: "2.6.8", release_date: 2024-01-31 }
+      - { version: "2.6.11", release_date: 2024-05-30 }
+
+  # ---- Runtime libraries ----
+  - product_key: openssl
+    vendor: openssl
+    product: openssl
+    category: runtime_library
+    supported_os: [linux, macos, windows_server, windows_workstation]
+    install_priors_by_role:
+      standard_workstation: 0.70
+      privileged_workstation: 0.80
+      member_server: 0.95
+      domain_controller: 0.95
+      kiosk: 0.30
+      public_facing_server: 0.99
+      restricted_zone_system: 0.95
+    service_running_prior: 0.50  # not a service per se; passive lib
+    version_history:
+      - { version: "3.0.13", release_date: 2024-01-30 }
+      - { version: "3.1.5", release_date: 2024-01-30 }
+      - { version: "3.2.1", release_date: 2024-01-30 }
+      - { version: "3.3.0", release_date: 2024-04-09 }
+      - { version: "3.4.0", release_date: 2024-10-22 }
+
+  - product_key: libcurl
+    vendor: curl
+    product: libcurl
+    category: runtime_library
+    supported_os: [linux, macos, windows_server, windows_workstation]
+    install_priors_by_role:
+      standard_workstation: 0.50
+      privileged_workstation: 0.60
+      member_server: 0.85
+      public_facing_server: 0.95
+      restricted_zone_system: 0.70
+    version_history:
+      - { version: "8.4.0", release_date: 2023-10-11 }
+      - { version: "8.6.0", release_date: 2024-01-31 }
+      - { version: "8.9.0", release_date: 2024-07-24 }
+      - { version: "8.11.0", release_date: 2024-11-06 }
+
+  - product_key: zlib
+    vendor: zlib
+    product: zlib
+    category: runtime_library
+    supported_os: [linux, macos, windows_server, windows_workstation]
+    install_priors_by_role:
+      standard_workstation: 0.90
+      member_server: 0.95
+      public_facing_server: 0.99
+    version_history:
+      - { version: "1.3", release_date: 2023-08-18 }
+      - { version: "1.3.1", release_date: 2024-01-22 }
+
+  - product_key: log4j
+    vendor: apache
+    product: log4j
+    category: runtime_library
+    supported_os: [linux, windows_server]
+    install_priors_by_role:
+      member_server: 0.25
+      public_facing_server: 0.30
+    version_history:
+      - { version: "2.20.0", release_date: 2023-02-20 }
+      - { version: "2.23.1", release_date: 2024-03-06 }
+      - { version: "2.24.1", release_date: 2024-10-04 }
+
+  - product_key: java_runtime
+    vendor: oracle
+    product: java_runtime
+    category: runtime_library
+    supported_os: [windows_workstation, windows_server, linux, macos]
+    install_priors_by_role:
+      standard_workstation: 0.30
+      member_server: 0.50
+      public_facing_server: 0.55
+      restricted_zone_system: 0.40
+    bundle_group: oracle_cpu
+    version_history:
+      - { version: "17.0.10", release_date: 2024-01-16 }
+      - { version: "17.0.12", release_date: 2024-07-16 }
+      - { version: "21.0.5", release_date: 2024-10-15 }
+
+  - product_key: python_runtime
+    vendor: python
+    product: cpython
+    category: runtime_library
+    supported_os: [linux, macos, windows_workstation, windows_server]
+    install_priors_by_role:
+      member_server: 0.80
+      public_facing_server: 0.85
+      privileged_workstation: 0.50
+    version_history:
+      - { version: "3.11.7", release_date: 2023-12-04 }
+      - { version: "3.11.10", release_date: 2024-09-07 }
+      - { version: "3.12.7", release_date: 2024-10-01 }
+
+  # ---- Web/app servers ----
+  - product_key: nginx
+    vendor: nginx
+    product: nginx
+    category: web_server
+    supported_os: [linux]
+    install_priors_by_role:
+      member_server: 0.25
+      public_facing_server: 0.60
+      restricted_zone_system: 0.15
+    service_running_prior: 0.98
+    bundle_group: nginx_stable
+    version_history:
+      - { version: "1.24.0", release_date: 2023-04-11 }
+      - { version: "1.26.2", release_date: 2024-08-13 }
+      - { version: "1.27.2", release_date: 2024-10-02 }
+
+  - product_key: apache_httpd
+    vendor: apache
+    product: httpd
+    category: web_server
+    supported_os: [linux, windows_server]
+    install_priors_by_role:
+      member_server: 0.20
+      public_facing_server: 0.30
+      restricted_zone_system: 0.15
+    service_running_prior: 0.98
+    version_history:
+      - { version: "2.4.58", release_date: 2023-10-19 }
+      - { version: "2.4.62", release_date: 2024-07-17 }
+
+  - product_key: iis
+    vendor: microsoft
+    product: iis
+    category: web_server
+    supported_os: [windows_server]
+    install_priors_by_role:
+      member_server: 0.30
+      public_facing_server: 0.25
+      domain_controller: 0.10
+    service_running_prior: 0.98
+    bundle_group: msft_patch_tuesday
+    version_history:
+      - { version: "10.0.17763", release_date: 2018-11-13 }
+      - { version: "10.0.20348", release_date: 2021-08-18 }
+      - { version: "10.0.26100", release_date: 2024-11-01 }
+
+  - product_key: tomcat
+    vendor: apache
+    product: tomcat
+    category: web_server
+    supported_os: [linux, windows_server]
+    install_priors_by_role:
+      member_server: 0.20
+      public_facing_server: 0.25
+      restricted_zone_system: 0.10
+    service_running_prior: 0.95
+    version_history:
+      - { version: "9.0.85", release_date: 2024-01-09 }
+      - { version: "10.1.25", release_date: 2024-06-12 }
+      - { version: "11.0.0", release_date: 2024-09-13 }
+
+  # ---- Databases ----
+  - product_key: postgresql
+    vendor: postgresql
+    product: postgresql
+    category: database
+    supported_os: [linux, windows_server]
+    install_priors_by_role:
+      member_server: 0.25
+      public_facing_server: 0.10
+      restricted_zone_system: 0.30
+    service_running_prior: 0.98
+    version_history:
+      - { version: "15.6", release_date: 2024-02-08 }
+      - { version: "16.4", release_date: 2024-08-08 }
+      - { version: "16.5", release_date: 2024-11-14 }
+
+  - product_key: mysql
+    vendor: oracle
+    product: mysql
+    category: database
+    supported_os: [linux, windows_server]
+    install_priors_by_role:
+      member_server: 0.20
+      public_facing_server: 0.10
+    service_running_prior: 0.98
+    version_history:
+      - { version: "8.0.36", release_date: 2024-01-16 }
+      - { version: "8.0.39", release_date: 2024-07-23 }
+
+  - product_key: mssql
+    vendor: microsoft
+    product: mssql
+    category: database
+    supported_os: [windows_server]
+    install_priors_by_role:
+      member_server: 0.25
+      restricted_zone_system: 0.20
+    service_running_prior: 0.98
+    bundle_group: msft_patch_tuesday
+    version_history:
+      - { version: "2019 15.0.4360", release_date: 2024-01-09 }
+      - { version: "2022 16.0.4135", release_date: 2024-05-14 }
+
+  - product_key: sqlite
+    vendor: sqlite
+    product: sqlite
+    category: database
+    supported_os: [windows_workstation, windows_server, linux, macos, ios, android]
+    install_priors_by_role:
+      standard_workstation: 0.95
+      privileged_workstation: 0.95
+      member_server: 0.90
+      domain_controller: 0.90
+      kiosk: 0.95
+      mobile_device: 0.99
+      public_facing_server: 0.85
+    service_running_prior: 0.20
+    version_history:
+      - { version: "3.45.0", release_date: 2024-01-15 }
+      - { version: "3.46.0", release_date: 2024-05-23 }
+      - { version: "3.47.0", release_date: 2024-10-21 }
+
+  - product_key: mongodb
+    vendor: mongodb
+    product: mongodb
+    category: database
+    supported_os: [linux, windows_server]
+    install_priors_by_role:
+      member_server: 0.10
+      public_facing_server: 0.05
+    service_running_prior: 0.95
+    version_history:
+      - { version: "7.0.6", release_date: 2024-02-22 }
+      - { version: "7.0.14", release_date: 2024-09-25 }
+
+  # ---- OS-bundled components ----
+  - product_key: windows_defender
+    vendor: microsoft
+    product: defender
+    category: os_component
+    supported_os: [windows_workstation, windows_server]
+    install_priors_by_role:
+      standard_workstation: 1.0
+      privileged_workstation: 1.0
+      member_server: 1.0
+      domain_controller: 1.0
+      kiosk: 1.0
+      public_facing_server: 0.50
+      restricted_zone_system: 1.0
+    service_running_prior: 0.95
+    bundle_group: msft_patch_tuesday
+    version_history:
+      - { version: "1.401.0.0", release_date: 2024-01-08 }
+      - { version: "1.413.0.0", release_date: 2024-09-10 }
+
+  - product_key: powershell
+    vendor: microsoft
+    product: powershell
+    category: os_component
+    supported_os: [windows_workstation, windows_server, linux, macos]
+    install_priors_by_role:
+      standard_workstation: 1.0
+      privileged_workstation: 1.0
+      member_server: 1.0
+      domain_controller: 1.0
+    bundle_group: msft_patch_tuesday
+    version_history:
+      - { version: "5.1.22621", release_date: 2022-09-20 }
+      - { version: "7.4.1", release_date: 2024-01-23 }
+      - { version: "7.4.6", release_date: 2024-10-22 }
+
+  - product_key: dotnet_runtime
+    vendor: microsoft
+    product: dotnet
+    category: os_component
+    supported_os: [windows_workstation, windows_server, linux, macos]
+    install_priors_by_role:
+      standard_workstation: 0.95
+      privileged_workstation: 0.95
+      member_server: 0.85
+      domain_controller: 0.85
+      public_facing_server: 0.40
+    bundle_group: msft_patch_tuesday
+    version_history:
+      - { version: "6.0.27", release_date: 2024-02-13 }
+      - { version: "8.0.10", release_date: 2024-10-08 }
+
+  # ---- Mobile OS components ----
+  - product_key: safari_ios
+    vendor: apple
+    product: safari
+    category: mobile_os_component
+    supported_os: [ios]
+    install_priors_by_role:
+      mobile_device: 0.55
+    version_history:
+      - { version: "17.7", release_date: 2024-09-16 }
+      - { version: "18.0", release_date: 2024-09-16 }
+      - { version: "18.1", release_date: 2024-10-28 }
+
+  - product_key: chrome_android
+    vendor: google
+    product: chrome_android
+    category: mobile_os_component
+    supported_os: [android]
+    install_priors_by_role:
+      mobile_device: 0.50
+    version_history:
+      - { version: "128.0.6613.146", release_date: 2024-09-04 }
+      - { version: "131.0.6778.135", release_date: 2024-11-19 }
+
+  - product_key: android_webview
+    vendor: google
+    product: android_system_webview
+    category: mobile_os_component
+    supported_os: [android]
+    install_priors_by_role:
+      mobile_device: 0.95
+    version_history:
+      - { version: "128.0.6613.146", release_date: 2024-09-04 }
+      - { version: "131.0.6778.135", release_date: 2024-11-19 }

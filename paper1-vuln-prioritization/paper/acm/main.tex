@@ -1,0 +1,159 @@
+%% Paper 1 — ACM acmart scaffold (Phase 22A).
+%% Structural scaffold generated from paper/manuscript/paper_submission_draft.md.
+%% NOT a final camera-ready file: see README.md. Requires a final LaTeX cleanup
+%% pass (table widths, CCS concepts, citation confirmation) before submission.
+%%
+%% Claim framing is benchmark/framework with a NEUTRAL result; no superiority,
+%% no real-world validation, no compliance proof, no immigration/external-process
+%% language.
+%%
+%% Some citations remain unresolved and appear in-text as \textbf{[VERIFY: ...]}.
+%% Resolve or remove them (do NOT fabricate) before submission. See
+%% ../manuscript/references_todo.md and ../manuscript/citation_audit.md.
+
+\documentclass[manuscript,review,anonymous=false]{acmart}
+
+%% If acmart is unavailable, this file will not compile; that is expected for the
+%% scaffold (see README.md, "Compile status").
+
+\settopmatter{printacmref=false}     % TODO: enable for camera-ready
+\setcopyright{none}                   % TODO: set proper rights at submission
+\acmConference[TBD]{To be determined}{TBD}{TBD}  % TODO: venue (recommended: ACM DTRAP)
+
+\usepackage{graphicx}
+
+\begin{document}
+
+\title{Context-Aware Vulnerability Prioritization for Government Endpoint Fleets:
+Integrating Exploit Intelligence, Asset Criticality, and Endpoint Telemetry}
+
+\author{Harshavardhan Malla}
+\affiliation{%
+  \institution{Independent Researcher}
+  \country{}                          % TODO: country/contact at submission
+}
+\email{}                              % TODO: contact email / ORCID at submission
+
+\begin{abstract}
+\input{sections/00_abstract}
+\end{abstract}
+
+%% TODO: add CCS concepts (\ccsdesc) and refine keywords before submission.
+\keywords{vulnerability prioritization; EPSS; KEV; risk-based vulnerability
+management; reproducible benchmark; auditability; public-sector security operations}
+
+\maketitle
+
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_related_work}
+\input{sections/04_problem_statement}
+\input{sections/05_framework}
+\input{sections/06_architecture}
+\input{sections/07_methodology}
+\input{sections/08_dataset}
+\input{sections/09_metrics}
+\input{sections/10_compliance_mapping}
+\input{sections/11_threats_to_validity}
+\input{sections/12_original_contribution}
+\input{sections/13_results}
+\input{sections/14_discussion}
+\input{sections/15_limitations}
+\input{sections/16_future_work}
+\input{sections/17_conclusion}
+
+%% =========================================================================
+%% Generated tables and figures (from the frozen artifact; see ../tables, ../figures).
+%% Inputs are bare tabulars produced programmatically. TODO at camera-ready:
+%%   - wrap wide tables with \resizebox or switch to landscape/booktabs;
+%%   - replace literal "Table N"/"Figure N" in prose with \ref{} to these labels;
+%%   - place floats near their first reference.
+%% Numbering below is authored to match the in-text references (Tables 1-6,
+%% Figures 1-5); Supplementary Table A1 is the full metric summary.
+%% =========================================================================
+
+\begin{table*}[t]\centering\small
+  \caption{Acceptance and integrity checks for the frozen 30-seed run.}
+  \label{tab:acceptance}
+  \input{tables/table_acceptance_checks.tex}     % Table 1
+\end{table*}
+
+\begin{table*}[t]\centering\small
+  \caption{Per-strategy simulated EHD (absolute mean/std and EEHDA forms; lower is better).}
+  \label{tab:ehd}
+  \input{tables/table_ehd_primary.tex}            % Table 2
+\end{table*}
+
+\begin{table*}[t]\centering\small
+  \caption{Each non-oracle strategy vs the EPSS baseline on mean EHD (lower is better).}
+  \label{tab:vsepss}
+  \input{tables/table_strategy_comparison_vs_epss.tex}  % Table 3
+\end{table*}
+
+\begin{table*}[t]\centering\small
+  \caption{Ranking-quality metrics by strategy (precision@k, recall@k, nDCG@k; k=10).}
+  \label{tab:ranking}
+  \input{tables/table_ranking_metrics.tex}        % Table 4
+\end{table*}
+
+\begin{table*}[t]\centering\small
+  \caption{Operational metrics by strategy.}
+  \label{tab:operational}
+  \input{tables/table_operational_metrics.tex}    % Table 5
+\end{table*}
+
+\begin{table*}[t]\centering\small
+  \caption{Audit-trail metrics by strategy (hash-chain validity and record counts).}
+  \label{tab:audit}
+  \input{tables/table_audit_metrics.tex}          % Table 6
+\end{table*}
+
+\begin{figure}[t]\centering
+  \includegraphics[width=\columnwidth]{figures/fig_ehd_by_strategy.pdf}
+  \caption{Mean absolute EHD by strategy with standard-deviation error bars (lower is better).}
+  \label{fig:ehd}
+\end{figure}
+
+\begin{figure}[t]\centering
+  \includegraphics[width=\columnwidth]{figures/fig_fraction_of_oracle.pdf}
+  \caption{EEHDA fraction-of-oracle by strategy (observed values; some outside [0,1]).}
+  \label{fig:foo}
+\end{figure}
+
+\begin{figure}[t]\centering
+  \includegraphics[width=\columnwidth]{figures/fig_relative_to_epss.pdf}
+  \caption{EEHDA relative-to-EPSS by strategy; the zero line marks parity.}
+  \label{fig:relepss}
+\end{figure}
+
+\begin{figure}[t]\centering
+  \includegraphics[width=\columnwidth]{figures/fig_ehd_distribution_selected.pdf}
+  \caption{EHD distribution across seeds for selected strategies.}
+  \label{fig:dist}
+\end{figure}
+
+\begin{figure}[t]\centering
+  \includegraphics[width=\columnwidth]{figures/fig_proposed_vs_epss_by_seed.pdf}
+  \caption{Per-seed EHD: proposed\_full vs epss\_only with a $y=x$ reference line.}
+  \label{fig:pfvsepss}
+\end{figure}
+
+%% Supplementary Table A1 (full per-(strategy, metric) summary) lives in
+%% ../tables/table_primary_metric_summary.tex; include as supplementary material.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+%% NOTE: bibliography keys must resolve in references.bib. Tier-1 entries are
+%% drafts pending confirmation; [VERIFY] works have NO entry yet (do not fabricate).
+
+\appendix
+\section{Reproducibility and Provenance}
+All numeric results derive from a single frozen artifact (30 seeds, 13 strategies)
+sealed with a content-addressed freeze manifest (per-file SHA-256) and verified
+prior to table and figure generation. The run used bundled toy fixtures and the
+deterministic synthetic fleet generator with no live feed calls and no production
+data: 4{,}290 metric rows, 0 NaN, 0 infinite values, 390 hash-chain-valid audit
+logs, maximum scheduled count equal to the configured capacity (100), strict
+inspection passed with zero issues. See \texttt{../manuscript/reproducibility\_appendix.md}.
+
+\end{document}

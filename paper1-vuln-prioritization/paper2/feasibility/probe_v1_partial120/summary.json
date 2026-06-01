@@ -1,0 +1,39 @@
+{
+  "calibration": {
+    "attempted": false,
+    "reason": "positive distinct CVEs 0 < min 50"
+  },
+  "counts": {
+    "catalog_matched_cves": 281,
+    "cves_for_pairs_disclosed_le_t0": 281,
+    "cves_with_cpe": 10337,
+    "distinct_cves_in_pairs": 281,
+    "epss_t0_rows": 258100,
+    "hosts_generated": 500,
+    "kev_asof_t0_count": 1159,
+    "kev_future_label_count": 0,
+    "label_a_negative_cves": 281,
+    "label_a_positive_cves": 0,
+    "negative_pairs": 54717,
+    "normalized_cves": 12635,
+    "pairs_built": 54717,
+    "positive_pairs": 0,
+    "total_nvd_records": 13050
+  },
+  "decision": "PIVOT_away_from_calibration",
+  "note": "Feasibility probe only; NOT a calibrated result, NOT a paper claim. Synthetic fleet + public feeds; PoC license-gated and off by default. Paper 1 frozen outputs untouched.",
+  "params": {
+    "end_date": "2024-08-31",
+    "fleet_size": 500,
+    "h_days": 30,
+    "horizon_end": "2024-10-01",
+    "include_poc": false,
+    "label_window_end": "2024-10-01",
+    "min_positive_cves": 50,
+    "seed": 20260601,
+    "skip_fetch": false,
+    "start_date": "2024-05-04",
+    "t0": "2024-09-01",
+    "use_cached_only": false
+  }
+}

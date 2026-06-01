@@ -1,0 +1,23 @@
+\section{Methodology}
+
+The reported evaluation uses bundled toy fixtures (a small CVE/KEV/PoC set) with
+the deterministic synthetic fleet generator; no live feeds are called and no
+production data is used. Pairs are labeled over the half-open window
+\texttt{(t0, t0 + H]}: Label A is positive if the CVE enters KEV or a public
+proof-of-concept is first observed within the window; Label B is positive only on
+proof-of-concept observation. Features are observation-only at \texttt{t0}; a temporal
+train/gap/test split with an \texttt{H}-day gap prevents label leakage. The reported cell
+uses Label A. When fitted, weights are calibrated with regularized logistic/ridge
+regression under time-block cross-validation with negative-coefficient clipping;
+the reported run uses \textbf{placeholder weights}, a deliberate, disclosed limitation
+(Sections 11, 15). The cell comprises a 10,000-host fleet; capacity ratio 0.01
+(capacity = max(1, floor(0.01 $\times$ 10,000)) = 100 pair-actions per window); Label A;
+approver Policy A; the primary blackout configuration; the AD/Entra default
+identity configuration; and 30 seeds. Thirteen strategies are evaluated: random,
+cvss\_only, epss\_only, kev\_first, cvss\_x\_epss, cvss\_plus\_epss\_plus\_kev, cve\_max,
+cve\_mean, cve\_sum, proposed\_full, proposed\_no\_criticality, proposed\_no\_exposure,
+and an evaluation-only oracle. A gradient-boosted-tree comparator is excluded
+because no fitted model artifact was supplied. All randomness derives from a master
+seed via SHA-256-based sub-seed derivation; the result is sealed with a freeze
+manifest and passes strict structural inspection before any table or figure is
+generated.

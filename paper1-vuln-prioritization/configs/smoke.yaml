@@ -1,0 +1,19 @@
+config_name: smoke_v1
+seed_master: 1
+fleet_size: 100
+capacity_ratio: 0.05
+label: A
+approver_policy: A
+identity_config: ad_entra_default
+blackout_config: primary
+epss_version_handling: pooled_with_covariate
+data_window_start: 2025-09-01
+data_window_end: 2025-11-30
+H_days: 30
+train_split_months: 2
+strategies: [random, epss_only, oracle]
+seed_count: 2
+maintenance_cadence_days: 14
+remediation_failure_rate: 0.05
+rollback_probability_given_failure: 0.30
+output_dir: results/smoke_v1

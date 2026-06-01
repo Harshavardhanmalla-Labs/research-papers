@@ -1,0 +1,15 @@
+{
+  "batch_id": "B-pilot-capacity",
+  "freeze_witness_before_sha256": "5b551bb6018805a32a8f4d68bcaf0aa28d2610be1c7d9361756dd947bc8c6fbd",
+  "freeze_witness_after_sha256": "0ab6d31f5c55c5f8e747b250d6f60eb8da34964e6b8ad79ab3b2cca6008bc98e",
+  "freeze_witness_id": "5b551bb6018805a32a8f4d68bcaf0aa28d2610be1c7d9361756dd947bc8c6fbd",
+  "status": "OK",
+  "failure_reason": null,
+  "assertions": {
+    "before_status_ok": true,
+    "after_status_ok": true,
+    "manifest_sha_equal": true,
+    "no_paper1_paths_modified": true,
+    "no_freeze_primary_invocation": true
+  }
+}

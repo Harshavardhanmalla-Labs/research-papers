@@ -1,0 +1,18 @@
+\section{Threats to Validity}
+
+The evaluation uses a synthetic fleet and a small bundled fixture set, so absolute
+magnitudes are properties of these inputs. The proposed model used uncalibrated
+placeholder weights, so no method-quality conclusion is possible until calibration
+on historical exploitation data is performed. Inter-strategy differences are within
+noise (sub-0.5\% spread, smaller than per-seed standard deviation), so the study is
+not powered to separate strategies. No live or production data was used, and no
+commercial RBVM tool was compared. Only the single primary cell ran; Label B,
+alternative policies/blackouts, and sensitivity sweeps remain future work. EPSS,
+KEV, and PoC signals carry coverage/timing/labeling bias, and KEV/PoC-derived
+labels are exploitation proxies rather than ground-truth compromise. Exposure and
+criticality assume telemetry/CMDB observability that may be incomplete or stale.
+The synthetic fleet may not reflect any specific agency. The scheduler models
+approval and timing, not patch success/rollback. Under capacity constraints and the
+current EHD accounting, the label-prioritizing oracle is not a strict EHD lower
+bound, which is why some strategies report fraction-of-oracle values outside [0, 1];
+these are reported as observed.

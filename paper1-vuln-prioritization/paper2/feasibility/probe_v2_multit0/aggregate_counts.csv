@@ -1,0 +1,16 @@
+metric,value
+n_windows,18
+t0_start,2023-09-01
+t0_end,2025-02-01
+universe_start,2021-09-01
+universe_end,2025-02-01
+nvd_lookback_days,730
+h_days,30
+total_nvd_records,110224
+normalized_cves,104495
+cves_with_cpe,95006
+catalog_matched_cves,2688
+union_distinct_cves_in_pairs,2688
+unique_positive_cves,7
+unique_negative_cves,2681
+event_positive_cves_across_windows,7

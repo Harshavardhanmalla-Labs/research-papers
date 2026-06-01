@@ -1,0 +1,37 @@
+\section{Discussion}
+
+\subsection{Why Hygiene Signals Help Where CVE-Level Features Alone Did Not}
+
+Paper~1 (VulnPrio) found that adding CVE-level features --- asset criticality scores, endpoint exposure flags, KEV membership --- to EPSS did not improve prioritization over EPSS-only on the EEHDA fleet. The explanation offered in Paper~1 was that uncalibrated weights on synthetic fixtures could not extract signal from these features. HygienePrio's results in this synthetic evaluation suggest an alternative or complementary explanation: the features added in Paper~1 were primarily CVE-level or static host-role features, while the missing signal was dynamic, telemetry-derived host-level hygiene posture.
+
+The structural difference is important. Knowing that a host is a ``domain controller'' (asset criticality signal from Paper~1) provides some risk context, but it does not distinguish between a well-managed domain controller with current patches and telemetry, and a neglected domain controller with 60\% unpatched CVE debt, stale telemetry, and over-privileged group memberships. HRS captures this distinction; asset criticality does not.
+
+This observation is consistent with HygieneBench's (Paper~3) finding that ML methods add meaningful signal on patch-vulnerability hygiene (T5) and group-membership drift (T2) --- precisely the dimensions that HRS encodes. The signal is present in the hygiene telemetry; the challenge is surfacing it in a form suitable for prioritization scoring.
+
+\subsection{Cross-Paper Synthesis}
+
+The three papers form a methodological sequence:
+
+\begin{enumerate}
+  \item \textbf{Paper~1 (VulnPrio):} Established the prioritization problem, EEHDA fleet, and the null result that CVE-level multi-factor models do not improve over EPSS on EHD metric. Contribution: reproducible benchmark and honest null.
+  \item \textbf{Paper~3 (HygieneBench):} Established that host-level hygiene signals (patch posture, AD drift, telemetry staleness) carry discriminative structure detectable from synthetic fleet telemetry, though 86.2\% of ML configurations fail to outperform simple rules. Contribution: hygiene anomaly benchmark and failure-aware evaluation.
+  \item \textbf{Paper~4 (HygienePrio):} Integrates the lessons: hygiene signals (from Paper~3) added to the EPSS-weighted prioritization framework (from Paper~1) suggest measurable improvement in P@$K$ (synthetic evaluation). Contribution: first cross-domain integration of exploit likelihood and hygiene posture for remediation ordering.
+\end{enumerate}
+
+This sequence illustrates a research methodology of building on honest null results. Paper~1's null did not indicate that the problem is unsolvable; it indicated that a particular feature set was insufficient. Paper~3 identified a feature set with discriminative potential. Paper~4 operationalizes that identification. Future work (Section~11) could test Paper~4's claim on real fleet data.
+
+\subsection{Practical Implications (Synthetic-Only)}
+
+If the synthetic-evaluation results generalize --- which requires external validation on real fleet data not performed here --- then operations teams using EPSS-only prioritization may be systematically underweighting the risk from hygiene-poor hosts. A host with moderate EPSS CVEs but severe patch debt, stale telemetry, and broad AD exposure may be a higher-priority target than a well-managed host carrying a high-EPSS CVE.
+
+The ablation results suggest that patch posture is the highest-value hygiene dimension for prioritization. Teams with limited instrumentation capacity should prioritize patch posture tracking before more complex hygiene signals such as AD exposure breadth or telemetry freshness monitoring. This ordering is consistent with the CISA BOD 23-01 mandate hierarchy, which prioritizes patch data freshness (72-hour cadence) as the foundational telemetry requirement.
+
+\subsection{Limitations}
+
+\textbf{Synthetic data.} All results are from a synthetically generated fleet using structural priors from public sources (DBIR, NVD, CISA BOD). The synthetic fleet cannot capture the full heterogeneity of real enterprise environments: vendor-specific patch behaviors, organizational policy exceptions, legacy asset configurations, and attacker behavior patterns that differ from synthetic threat models. Results should not be interpreted as predictions for real fleet prioritization without external validation.
+
+\textbf{Ground truth circularity.} HygienePrio's ground truth definition includes HRS $>$ 75th percentile as a condition (\S3.2). This creates a structural advantage for HygienePrio-full and variants that incorporate HRS over baselines (EPSS-only, CVSS-only, Random) that do not. The pre-registration fix of this definition before evaluation prevents post-hoc optimization, but the circularity is an inherent design tension. Future work could use independent ground truth (e.g., actual exploitation events in real fleet data) to evaluate HygienePrio without this circularity.
+
+\textbf{Calibration on synthetic data.} Weights calibrated on synthetic seeds may not transfer to real fleet data, where distributional assumptions (patch-lag priors, EPSS score distribution, KEV prevalence) may differ substantially.
+
+\textbf{Scorer linearity.} The HygienePrio scorer is a linear combination with one interaction term. More complex non-linear relationships between hygiene dimensions and remediation priority may exist in real fleets that a linear scorer cannot capture.

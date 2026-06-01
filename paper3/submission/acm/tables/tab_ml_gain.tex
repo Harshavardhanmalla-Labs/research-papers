@@ -1,0 +1,22 @@
+% Table 6: Tasks where ML adds value
+% Source: paper_draft_v0.1.md Table 6
+% Numbers verified against results/primary_full_v1/primary_results.csv (2026-05-28)
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\begin{table}[t]
+\centering
+\caption{Tasks where ML consistently adds value ($\Delta$AP $> 0.05$ in
+  $\geq$2/3 seeds).}
+\label{tab:ml_gain}
+\small
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Task & Best ML & Rule AP & ML AP & $\Delta$AP & Condition \\
+\midrule
+T2 & M7 (Z-score) & 0.766 & 0.951 & \textbf{$+$0.185} & C-BASE/STALE \\
+T2 & M4 (LOF)     & 0.855 & 0.975 & \textbf{$+$0.120} & C-MISS \\
+T5 & M5 (OCSVM)   & 0.458 & 0.668 & \textbf{$+$0.210} & C-BASE/STALE \\
+T5 & M5 (OCSVM)   & 0.726 & 0.837 & \textbf{$+$0.111} & C-MISS \\
+\bottomrule
+\end{tabular}
+\end{table}

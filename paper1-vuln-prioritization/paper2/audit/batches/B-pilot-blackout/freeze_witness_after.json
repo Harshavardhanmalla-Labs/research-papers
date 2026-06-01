@@ -1,0 +1,25 @@
+{
+  "kind": "freeze_witness_after",
+  "batch_id": "B-pilot-blackout",
+  "cell_ids": [
+    "BLK-epss_only-none",
+    "BLK-epss_only-light",
+    "BLK-epss_only-strict",
+    "BLK-proposed-w_paper1_placeholder-none",
+    "BLK-proposed-w_paper1_placeholder-light",
+    "BLK-proposed-w_paper1_placeholder-strict",
+    "BLK-proposed-w_context_dominant-none",
+    "BLK-proposed-w_context_dominant-light",
+    "BLK-proposed-w_context_dominant-strict"
+  ],
+  "command": "make verify-primary-freeze PYTHON=.venv/bin/python",
+  "timestamp_utc": "2026-05-28T17:46:47.776083+00:00",
+  "paper1_freeze_manifest_path": "results/primary_full_v1/FREEZE_MANIFEST.json",
+  "paper1_freeze_manifest_sha256": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "verify_primary_freeze_exit_code": 0,
+  "git_status_short": "",
+  "paper2_output_dir": "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/audit/batches/B-pilot-blackout",
+  "status": "OK",
+  "output_paths": [],
+  "freeze_primary_invocation_count": 0
+}

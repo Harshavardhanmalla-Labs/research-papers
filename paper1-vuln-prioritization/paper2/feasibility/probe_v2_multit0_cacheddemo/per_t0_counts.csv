@@ -1,0 +1,5 @@
+t0,horizon_end,vulns_disclosed_le_t0,pairs_built,distinct_cves_in_pairs,positive_cves_this_window,positive_pairs,negative_pairs,kev_asof_t0_count
+2024-05-31,2024-06-30,56,4689,56,0,0,4689,1117
+2024-06-30,2024-07-30,118,9729,118,0,0,9729,1126
+2024-07-31,2024-08-30,192,14117,192,0,0,14117,1140
+2024-08-31,2024-09-30,281,22739,281,0,0,22739,1159

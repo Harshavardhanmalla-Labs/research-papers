@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-05-28T19:00:05.714963+00:00",
+  "source_primary_batches": [
+    "B-primary-primary",
+    "B-primary-capacity",
+    "B-primary-blackout",
+    "B-primary-ablation"
+  ],
+  "primary_complete_status": "PRIMARY_COMPLETE_VALID",
+  "primary_total_seed_runs": 1440,
+  "primary_total_cells": 48,
+  "primary_wallclock_seconds": 2143.210725545883,
+  "tables_generated": [
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/primary_per_cell_summary.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/primary_per_cell_summary.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/primary_strategy_summary.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/primary_strategy_summary.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/delta_vs_epss.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/delta_vs_epss.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/sensitivity_weight_family.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/sensitivity_weight_family.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/sensitivity_capacity.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/sensitivity_capacity.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/sensitivity_blackout.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/sensitivity_blackout.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/sensitivity_feature_ablation.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/sensitivity_feature_ablation.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/scheduler_feasibility_summary.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/scheduler_feasibility_summary.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/stop_rule_summary.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/stop_rule_summary.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/primary_per_seed_wide.csv"
+  ],
+  "inference_files_generated": [
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_B1_delta_vs_epss.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_B1_delta_vs_epss.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_C1_weight_family.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_C1_weight_family.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_C2_capacity.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_C2_capacity.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_C3_blackout.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_C3_blackout.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_C4_feature_ablation.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_C4_feature_ablation.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_policy_drops.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/inference/inference_policy_drops.md"
+  ],
+  "figures_generated": [
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_delta_ehd_vs_epss_by_strategy.png",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_delta_ehd_vs_epss_by_strategy.pdf",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_weight_family_sensitivity_delta_ehd.png",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_weight_family_sensitivity_delta_ehd.pdf",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_capacity_sensitivity_delta_ehd.png",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_capacity_sensitivity_delta_ehd.pdf",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_blackout_sensitivity_delta_ehd.png",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_blackout_sensitivity_delta_ehd.pdf",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_feature_ablation_delta_ehd.png",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_feature_ablation_delta_ehd.pdf",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_rank_churn_weight_family_heatmap.png",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_rank_churn_weight_family_heatmap.pdf",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_scheduler_feasibility_sentinel.png",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/figures/fig_scheduler_feasibility_sentinel.pdf"
+  ],
+  "post_run_files_generated": [
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/post_run_stop_rules.csv",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/tables/post_run_stop_rules.md",
+    "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/audit/post_run_stop_rule_evaluation.json"
+  ],
+  "inference_families_generated": [
+    "B1",
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "policy_drops"
+  ],
+  "post_run_stop_rules_evaluated": [
+    "K2",
+    "K7",
+    "K8"
+  ],
+  "freeze_verification_after_step9": "OK",
+  "paper1_freeze_manifest_sha256": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "warnings": [],
+  "step10_manuscript_drafting_allowed": true
+}

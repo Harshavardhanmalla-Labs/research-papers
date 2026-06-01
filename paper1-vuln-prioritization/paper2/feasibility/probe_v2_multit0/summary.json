@@ -1,0 +1,342 @@
+{
+  "aggregate": {
+    "catalog_matched_cves": 2688,
+    "cves_with_cpe": 95006,
+    "event_positive_cves_across_windows": 7,
+    "h_days": 30,
+    "n_windows": 18,
+    "normalized_cves": 104495,
+    "nvd_lookback_days": 730,
+    "t0_end": "2025-02-01",
+    "t0_start": "2023-09-01",
+    "total_nvd_records": 110224,
+    "union_distinct_cves_in_pairs": 2688,
+    "unique_negative_cves": 2681,
+    "unique_positive_cves": 7,
+    "universe_end": "2025-02-01",
+    "universe_start": "2021-09-01"
+  },
+  "calibration": {
+    "attempted": false,
+    "reason": "unique positive distinct CVEs 7 < min 50"
+  },
+  "decision": "PIVOT_away_from_calibration",
+  "mode": "multi_t0",
+  "note": "Multi-t0 feasibility probe only; NOT a calibrated result, NOT a paper claim. Synthetic fleet + public feeds (NVD/EPSS/KEV); PoC license-gated and off. The gating metric is UNIQUE distinct positive CVEs. Paper 1 frozen outputs untouched.",
+  "nvd_acquisition": {
+    "api_key_present": true,
+    "blocked": false,
+    "chunks": [
+      {
+        "records": 7634,
+        "status": "cached",
+        "window": [
+          "2021-09-01",
+          "2021-12-29"
+        ]
+      },
+      {
+        "records": 8375,
+        "status": "cached",
+        "window": [
+          "2021-12-30",
+          "2022-04-28"
+        ]
+      },
+      {
+        "records": 8698,
+        "status": "fetched",
+        "window": [
+          "2022-04-29",
+          "2022-08-26"
+        ]
+      },
+      {
+        "records": 8781,
+        "status": "fetched",
+        "window": [
+          "2022-08-27",
+          "2022-12-24"
+        ]
+      },
+      {
+        "records": 10339,
+        "status": "fetched",
+        "window": [
+          "2022-12-25",
+          "2023-04-23"
+        ]
+      },
+      {
+        "records": 9716,
+        "status": "fetched",
+        "window": [
+          "2023-04-24",
+          "2023-08-21"
+        ]
+      },
+      {
+        "records": 10698,
+        "status": "fetched",
+        "window": [
+          "2023-08-22",
+          "2023-12-19"
+        ]
+      },
+      {
+        "records": 12413,
+        "status": "fetched",
+        "window": [
+          "2023-12-20",
+          "2024-04-17"
+        ]
+      },
+      {
+        "records": 13999,
+        "status": "fetched",
+        "window": [
+          "2024-04-18",
+          "2024-08-15"
+        ]
+      },
+      {
+        "records": 13640,
+        "status": "fetched",
+        "window": [
+          "2024-08-16",
+          "2024-12-13"
+        ]
+      },
+      {
+        "records": 5931,
+        "status": "fetched",
+        "window": [
+          "2024-12-14",
+          "2025-02-01"
+        ]
+      }
+    ],
+    "completed_chunks": 11,
+    "requested_window": [
+      "2021-09-01",
+      "2025-02-01"
+    ],
+    "source": "fetched",
+    "total_chunks": 11,
+    "total_records": 110224
+  },
+  "params": {
+    "aggregate_positive_cves": true,
+    "fleet_size": 500,
+    "h_days": 30,
+    "min_positive_cves": 50,
+    "nvd_api_key_present": true,
+    "nvd_lookback_days": 730,
+    "seed": 20260601,
+    "skip_fetch": false,
+    "t0_end": "2025-02-01",
+    "t0_frequency": "monthly",
+    "t0_start": "2023-09-01",
+    "use_cached_only": false
+  },
+  "per_window": [
+    {
+      "distinct_cves_in_pairs": 1673,
+      "horizon_end": "2023-10-01",
+      "kev_asof_t0_count": 987,
+      "negative_pairs": 332915,
+      "pairs_built": 332915,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2023-09-01",
+      "vulns_disclosed_le_t0": 1673
+    },
+    {
+      "distinct_cves_in_pairs": 1733,
+      "horizon_end": "2023-10-31",
+      "kev_asof_t0_count": 1006,
+      "negative_pairs": 343761,
+      "pairs_built": 344353,
+      "positive_cves_this_window": 2,
+      "positive_pairs": 592,
+      "t0": "2023-10-01",
+      "vulns_disclosed_le_t0": 1733
+    },
+    {
+      "distinct_cves_in_pairs": 1812,
+      "horizon_end": "2023-12-01",
+      "kev_asof_t0_count": 1024,
+      "negative_pairs": 355772,
+      "pairs_built": 355772,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2023-11-01",
+      "vulns_disclosed_le_t0": 1812
+    },
+    {
+      "distinct_cves_in_pairs": 1860,
+      "horizon_end": "2023-12-31",
+      "kev_asof_t0_count": 1042,
+      "negative_pairs": 365601,
+      "pairs_built": 365621,
+      "positive_cves_this_window": 2,
+      "positive_pairs": 20,
+      "t0": "2023-12-01",
+      "vulns_disclosed_le_t0": 1860
+    },
+    {
+      "distinct_cves_in_pairs": 1899,
+      "horizon_end": "2024-01-31",
+      "kev_asof_t0_count": 1053,
+      "negative_pairs": 371809,
+      "pairs_built": 372102,
+      "positive_cves_this_window": 1,
+      "positive_pairs": 293,
+      "t0": "2024-01-01",
+      "vulns_disclosed_le_t0": 1899
+    },
+    {
+      "distinct_cves_in_pairs": 1963,
+      "horizon_end": "2024-03-02",
+      "kev_asof_t0_count": 1074,
+      "negative_pairs": 381601,
+      "pairs_built": 381894,
+      "positive_cves_this_window": 1,
+      "positive_pairs": 293,
+      "t0": "2024-02-01",
+      "vulns_disclosed_le_t0": 1963
+    },
+    {
+      "distinct_cves_in_pairs": 2015,
+      "horizon_end": "2024-03-31",
+      "kev_asof_t0_count": 1083,
+      "negative_pairs": 392217,
+      "pairs_built": 392217,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-03-01",
+      "vulns_disclosed_le_t0": 2015
+    },
+    {
+      "distinct_cves_in_pairs": 2063,
+      "horizon_end": "2024-05-01",
+      "kev_asof_t0_count": 1093,
+      "negative_pairs": 400722,
+      "pairs_built": 400722,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-04-01",
+      "vulns_disclosed_le_t0": 2063
+    },
+    {
+      "distinct_cves_in_pairs": 2121,
+      "horizon_end": "2024-05-31",
+      "kev_asof_t0_count": 1104,
+      "negative_pairs": 410390,
+      "pairs_built": 410390,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-05-01",
+      "vulns_disclosed_le_t0": 2121
+    },
+    {
+      "distinct_cves_in_pairs": 2183,
+      "horizon_end": "2024-07-01",
+      "kev_asof_t0_count": 1117,
+      "negative_pairs": 422980,
+      "pairs_built": 422980,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-06-01",
+      "vulns_disclosed_le_t0": 2183
+    },
+    {
+      "distinct_cves_in_pairs": 2246,
+      "horizon_end": "2024-07-31",
+      "kev_asof_t0_count": 1126,
+      "negative_pairs": 435131,
+      "pairs_built": 435131,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-07-01",
+      "vulns_disclosed_le_t0": 2246
+    },
+    {
+      "distinct_cves_in_pairs": 2322,
+      "horizon_end": "2024-08-31",
+      "kev_asof_t0_count": 1140,
+      "negative_pairs": 446599,
+      "pairs_built": 446599,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-08-01",
+      "vulns_disclosed_le_t0": 2322
+    },
+    {
+      "distinct_cves_in_pairs": 2408,
+      "horizon_end": "2024-10-01",
+      "kev_asof_t0_count": 1159,
+      "negative_pairs": 466493,
+      "pairs_built": 466493,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-09-01",
+      "vulns_disclosed_le_t0": 2408
+    },
+    {
+      "distinct_cves_in_pairs": 2471,
+      "horizon_end": "2024-10-31",
+      "kev_asof_t0_count": 1184,
+      "negative_pairs": 478500,
+      "pairs_built": 478500,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-10-01",
+      "vulns_disclosed_le_t0": 2471
+    },
+    {
+      "distinct_cves_in_pairs": 2546,
+      "horizon_end": "2024-12-01",
+      "kev_asof_t0_count": 1201,
+      "negative_pairs": 487802,
+      "pairs_built": 487802,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-11-01",
+      "vulns_disclosed_le_t0": 2546
+    },
+    {
+      "distinct_cves_in_pairs": 2598,
+      "horizon_end": "2024-12-31",
+      "kev_asof_t0_count": 1223,
+      "negative_pairs": 495871,
+      "pairs_built": 495871,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-12-01",
+      "vulns_disclosed_le_t0": 2598
+    },
+    {
+      "distinct_cves_in_pairs": 2635,
+      "horizon_end": "2025-01-31",
+      "kev_asof_t0_count": 1239,
+      "negative_pairs": 502913,
+      "pairs_built": 502913,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2025-01-01",
+      "vulns_disclosed_le_t0": 2635
+    },
+    {
+      "distinct_cves_in_pairs": 2688,
+      "horizon_end": "2025-03-03",
+      "kev_asof_t0_count": 1253,
+      "negative_pairs": 512742,
+      "pairs_built": 513037,
+      "positive_cves_this_window": 1,
+      "positive_pairs": 295,
+      "t0": "2025-02-01",
+      "vulns_disclosed_le_t0": 2688
+    }
+  ]
+}

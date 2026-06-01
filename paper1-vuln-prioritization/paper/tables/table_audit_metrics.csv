@@ -1,0 +1,14 @@
+strategy,audit_hash_chain_valid_mean,audit_record_count_mean
+cve_max,1.0,127.73333333333332
+cve_mean,1.0,121.36666666666666
+cve_sum,1.0,131.06666666666666
+cvss_only,1.0,139.83333333333334
+cvss_plus_epss_plus_kev,1.0,123.93333333333334
+cvss_x_epss,1.0,122.46666666666668
+epss_only,1.0,124.8
+kev_first,1.0,124.8
+oracle,1.0,184.26666666666668
+proposed_full,1.0,101.0
+proposed_no_criticality,1.0,101.0
+proposed_no_exposure,1.0,292.06666666666666
+random,1.0,103.43333333333334

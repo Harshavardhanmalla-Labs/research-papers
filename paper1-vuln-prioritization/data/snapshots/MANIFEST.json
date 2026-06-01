@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-05-28T01:47:05.050933Z",
+  "snapshots": [
+    {
+      "created_by": "paper1",
+      "license_note": "",
+      "path": "data/snapshots/epss/epss_20240830.json",
+      "record_count": 258034,
+      "schema_version": "1",
+      "sha256": "226d0c24f9c8394f4df93db4f947872223e21281963689f427379d18405d7e70",
+      "snapshot_date": "2024-08-30",
+      "source_name": "epss"
+    },
+    {
+      "created_by": "paper1",
+      "license_note": "",
+      "path": "data/snapshots/epss/epss_20240831.json",
+      "record_count": 258085,
+      "schema_version": "1",
+      "sha256": "3c33ed4525b716443380b0173a2d8bfae01f6e403a173f4bb690a38bc33835d1",
+      "snapshot_date": "2024-08-31",
+      "source_name": "epss"
+    },
+    {
+      "created_by": "paper1",
+      "license_note": "",
+      "path": "data/snapshots/epss/epss_20240901.json",
+      "record_count": 258100,
+      "schema_version": "1",
+      "sha256": "97b907b41ffa8ca3c1ae4a8a9becb08b392cac1155f48857b6992c05655fb662",
+      "snapshot_date": "2024-09-01",
+      "source_name": "epss"
+    },
+    {
+      "created_by": "paper1",
+      "license_note": "",
+      "path": "data/snapshots/kev/kev_20241001.json",
+      "record_count": 1184,
+      "schema_version": "1",
+      "sha256": "843cd4abc37354235f2d0139858b31dfac8bdd3b8738b377b17f980d2411fd94",
+      "snapshot_date": "2024-10-01",
+      "source_name": "kev"
+    }
+  ]
+}

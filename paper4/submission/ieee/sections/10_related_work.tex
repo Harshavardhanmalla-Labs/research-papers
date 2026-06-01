@@ -1,0 +1,11 @@
+\section{Related Work}
+
+This section supplements \S2 with additional related work.
+
+\textbf{Risk-based vulnerability management (RBVM).} Commercial RBVM platforms (Tenable Lumin, Qualys TruRisk, Rapid7 InsightVM) combine EPSS, CVSS, threat intelligence, and asset context in proprietary scoring models. These systems address the same problem as HygienePrio but are closed and not independently reproducible. No comparison claims are made against commercial RBVM tools.
+
+\textbf{Machine-learning vulnerability prioritization.} Jacobs et al.~\cite{jacobs2021epss} developed EPSS as a supervised learning model on NVD and threat intelligence features. HygienePrio differs from these in focusing on the host dimension rather than CVE-level features.
+
+\textbf{Identity and access management risk.} AD-exposure-aware risk scoring has been proposed in the context of lateral movement risk assessment. HygienePrio incorporates AD exposure as one dimension of HRS rather than as a standalone risk signal, consistent with the multi-dimensional hygiene framing of HygieneBench.
+
+\textbf{Telemetry freshness and observability.} The requirement for current asset and patch telemetry is mandated by CISA BOD 23-01~\cite{cisa2022bod2301}. HygienePrio operationalizes telemetry freshness as a host-level risk amplifier, encoding the intuition that a host we cannot see clearly is riskier to deprioritize.

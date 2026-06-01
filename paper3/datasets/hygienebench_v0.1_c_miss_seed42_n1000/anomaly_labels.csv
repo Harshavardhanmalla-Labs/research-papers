@@ -1,0 +1,51 @@
+label_id,entity_type,entity_id,anomaly_class,anomaly_severity,injected_at,observable_from,source_record_ids,benchmark_task_id,split
+8f4aada6-1734-e093-532b-1f4d514f489b,user,97c47c90-49d2-07c4-be96-73a04442a20d,stale_privileged_account,high,2024-01-01T00:00:00,2024-01-01T00:00:00,97c47c90-49d2-07c4-be96-73a04442a20d,T1,val
+123a0389-edee-2fe1-d098-b5385fb141d5,user,e9fb05d9-a688-2ec1-74ff-3c9ecd2cd349,stale_privileged_account,high,2024-01-01T00:00:00,2024-01-01T00:00:00,e9fb05d9-a688-2ec1-74ff-3c9ecd2cd349,T1,train
+83ab8f51-3c5e-a1b9-ea3f-a759a7611323,user,74061857-cd6f-1ffd-9510-2258f7d9c926,stale_privileged_account,high,2024-01-01T00:00:00,2024-01-01T00:00:00,74061857-cd6f-1ffd-9510-2258f7d9c926,T1,train
+0d65355a-d117-32ba-bb53-06d7e6bd4cd1,user,ce906c6b-65db-1bcc-323f-fc865cf8e51a,stale_privileged_account,high,2024-01-01T00:00:00,2024-01-01T00:00:00,ce906c6b-65db-1bcc-323f-fc865cf8e51a,T1,test
+4ae6067c-f8ad-902e-9430-080826843808,event,78b63cc9-1c82-7025-2f07-16330bb97a3c,group_membership_drift,medium,2024-01-01T00:00:00,2024-02-15 03:00:00,78b63cc9-1c82-7025-2f07-16330bb97a3c,T2,train
+ca6526ad-283d-6c64-a3a7-5aa9cccef75d,event,d87a5795-8365-d692-3fdd-3d5c9436af4f,group_membership_drift,medium,2024-01-01T00:00:00,2024-03-04 04:00:00,d87a5795-8365-d692-3fdd-3d5c9436af4f,T2,test
+6421f02a-1c39-805e-919f-2f7cb664d8ca,event,e8f38fec-1333-1150-aaf2-2bcbae687d3a,group_membership_drift,medium,2024-01-01T00:00:00,2024-01-25 06:00:00,e8f38fec-1333-1150-aaf2-2bcbae687d3a,T2,val
+940a7cd6-ae73-94ac-80c4-512ef9121854,event,9cfd5bc7-f5f0-dc45-7a10-36cab4d5d602,group_membership_drift,medium,2024-01-01T00:00:00,2024-03-09 11:00:00,9cfd5bc7-f5f0-dc45-7a10-36cab4d5d602,T2,train
+ac6dfa7b-db58-353b-406b-82aa2c555240,event,76372b5f-b8e2-d21d-b09b-c20b7ca9f955,privilege_escalation_drift,critical,2024-01-01T00:00:00,2024-03-20 04:00:00,76372b5f-b8e2-d21d-b09b-c20b7ca9f955,T2,val
+e29c5f58-3684-e707-076b-e857816ba9bc,event,cfb96e5d-9146-f835-8eca-6f52d19b5b57,privilege_escalation_drift,critical,2024-01-01T00:00:00,2024-02-06 02:00:00,cfb96e5d-9146-f835-8eca-6f52d19b5b57,T2,test
+04e34554-7737-9c5b-31ea-690f93b40cbc,computer,2ed2028a-3aa3-0b03-54af-0fbcfb2ffbfa,endpoint_identity_risk_correlation,critical,2024-01-01T00:00:00,2024-01-01T00:00:00,"2ed2028a-3aa3-0b03-54af-0fbcfb2ffbfa,74061857-cd6f-1ffd-9510-2258f7d9c926",T3,val
+2afe6af5-2f1e-7c13-a6ec-351da6112572,computer,315db770-3c47-b62a-44b9-c0000fe7b385,endpoint_identity_risk_correlation,critical,2024-01-01T00:00:00,2024-01-01T00:00:00,"315db770-3c47-b62a-44b9-c0000fe7b385,e9fb05d9-a688-2ec1-74ff-3c9ecd2cd349",T3,train
+c73710c7-6a43-d187-f920-aea1fadefa5c,computer,858ee757-f9e7-021d-bc27-bf00d6d65254,endpoint_identity_risk_correlation,critical,2024-01-01T00:00:00,2024-01-01T00:00:00,"858ee757-f9e7-021d-bc27-bf00d6d65254,97c47c90-49d2-07c4-be96-73a04442a20d",T3,test
+6585576c-0377-2232-0e77-58e456c74bfc,computer,cec7a69f-b334-7a48-5af2-85c76d5d10ec,missing_endpoint_agent,high,2024-01-01T00:00:00,2024-01-01T00:00:00,cec7a69f-b334-7a48-5af2-85c76d5d10ec,T4,val
+7873ecb1-0858-58f2-f86d-1f060942d8e5,computer,e998c222-b4b9-1cd7-c337-5535311c58b5,missing_endpoint_agent,high,2024-01-01T00:00:00,2024-01-01T00:00:00,e998c222-b4b9-1cd7-c337-5535311c58b5,T4,train
+b0afc1e5-bbe3-c3bc-96ea-c96bdcadc01e,computer,4b02a1ab-4ccd-9e0b-ffa4-2229e2e758a2,missing_endpoint_agent,high,2024-01-01T00:00:00,2024-01-01T00:00:00,4b02a1ab-4ccd-9e0b-ffa4-2229e2e758a2,T4,train
+cf28be9a-f668-4f88-aaee-ef94ea238a30,computer,7d2061a7-f393-f021-5ab4-f62d877a9867,missing_endpoint_agent,high,2024-01-01T00:00:00,2024-01-01T00:00:00,7d2061a7-f393-f021-5ab4-f62d877a9867,T4,test
+3db48996-ba12-ba56-3022-e94ad8e45a15,computer,d0fe812d-33d9-3769-db49-6d40044da397,missing_endpoint_agent,high,2024-01-01T00:00:00,2024-01-01T00:00:00,d0fe812d-33d9-3769-db49-6d40044da397,T4,train
+2d7e9ce6-e403-937d-fa11-2019f58a55ef,computer,5512026a-d3ba-0a56-37b1-87eae9fc1f8c,missing_endpoint_agent,high,2024-01-01T00:00:00,2024-01-01T00:00:00,5512026a-d3ba-0a56-37b1-87eae9fc1f8c,T4,test
+ef3fabe6-2ca3-03cc-e3de-52ab1bca2eee,computer,15639e1a-d625-0cea-bb4e-1920d1e9e1c8,missing_endpoint_agent,high,2024-01-01T00:00:00,2024-01-01T00:00:00,15639e1a-d625-0cea-bb4e-1920d1e9e1c8,T4,train
+8a587ec7-b2f0-1c6d-8d7d-f1469087775d,computer,0d924ec2-206e-fb1e-d2b1-443aeebc70fa,missing_endpoint_agent,high,2024-01-01T00:00:00,2024-01-01T00:00:00,0d924ec2-206e-fb1e-d2b1-443aeebc70fa,T4,test
+748c5f5f-4bbf-6cee-210a-f9efed477973,asset,4dc7b645-944f-e6fb-f4f6-15f2e94aa73a,asset_inventory_mismatch,medium,2024-01-01T00:00:00,2024-01-01T00:00:00,4dc7b645-944f-e6fb-f4f6-15f2e94aa73a,T4,train
+7651bed5-425c-98cb-6a51-25338c775169,asset,d24aa8f8-5822-0774-c567-8a4a742ad7ce,asset_inventory_mismatch,medium,2024-01-01T00:00:00,2024-01-01T00:00:00,d24aa8f8-5822-0774-c567-8a4a742ad7ce,T4,train
+7bd23fca-d79b-f134-8b11-0082df3f6ca8,asset,da7a831d-17f6-79a2-9a6f-2a1cf2ee7c16,asset_inventory_mismatch,medium,2024-01-01T00:00:00,2024-01-01T00:00:00,da7a831d-17f6-79a2-9a6f-2a1cf2ee7c16,T4,train
+50ee00cf-2a30-cb1f-d474-6404dd468b7b,asset,0d924ec2-206e-fb1e-d2b1-443aeebc70fa,asset_inventory_mismatch,medium,2024-01-01T00:00:00,2024-01-01T00:00:00,0d924ec2-206e-fb1e-d2b1-443aeebc70fa,T4,test
+4f7fbebf-4821-22ab-8f71-8ce36640b729,asset,d02115e8-f743-e2e8-feed-2b288e48de71,asset_inventory_mismatch,medium,2024-01-01T00:00:00,2024-01-01T00:00:00,d02115e8-f743-e2e8-feed-2b288e48de71,T4,test
+4717da1d-57b7-d1fd-83be-b37f7c96e50a,asset,73f0ffa9-de3e-1516-2f08-8b8f890609b0,asset_inventory_mismatch,medium,2024-01-01T00:00:00,2024-01-01T00:00:00,73f0ffa9-de3e-1516-2f08-8b8f890609b0,T4,val
+43741f80-7f04-7851-64d2-b900025eb41a,computer,883c5dae-7534-b805-40e0-c1eac44342be,patch_noncompliance_cluster,high,2024-01-01T00:00:00,2024-01-01T00:00:00,883c5dae-7534-b805-40e0-c1eac44342be,T5,train
+a1e89932-695d-1813-3632-323052121d59,computer,16cdfc31-dcfd-2a0b-9378-abd345adf896,patch_noncompliance_cluster,high,2024-01-01T00:00:00,2024-01-01T00:00:00,16cdfc31-dcfd-2a0b-9378-abd345adf896,T5,test
+44ada54c-7536-7830-129d-fe83748c7308,computer,ae1a771a-445e-a754-dc15-9f5edf5b9d2e,patch_noncompliance_cluster,high,2024-01-01T00:00:00,2024-01-01T00:00:00,ae1a771a-445e-a754-dc15-9f5edf5b9d2e,T5,train
+20661800-bef6-d79d-01bb-1213b653d2f2,computer,18b8245b-237f-7cc0-951b-cfcbe19bafdd,patch_noncompliance_cluster,high,2024-01-01T00:00:00,2024-01-01T00:00:00,18b8245b-237f-7cc0-951b-cfcbe19bafdd,T5,test
+49d076c2-8919-97c1-7325-535ff17406f1,computer,6d64df4d-5cc5-3bc6-9cd0-90c61da581c1,patch_noncompliance_cluster,high,2024-01-01T00:00:00,2024-01-01T00:00:00,6d64df4d-5cc5-3bc6-9cd0-90c61da581c1,T5,train
+2711a76a-3eb0-c617-6532-cdcbfd78dd62,computer,43136634-5628-50f4-9c76-aa2d308a9021,patch_noncompliance_cluster,high,2024-01-01T00:00:00,2024-01-01T00:00:00,43136634-5628-50f4-9c76-aa2d308a9021,T5,train
+d3de7509-58b2-7ed5-fbde-02e38dead469,computer,b77654c0-dfcc-609b-7a1d-7f01c538ff86,patch_noncompliance_cluster,high,2024-01-01T00:00:00,2024-01-01T00:00:00,b77654c0-dfcc-609b-7a1d-7f01c538ff86,T5,test
+c7826c8f-41b8-0561-bcf2-629c57cc7b1d,computer,bfeab403-0813-9f97-7a46-0a7329835e38,patch_noncompliance_cluster,high,2024-01-01T00:00:00,2024-01-01T00:00:00,bfeab403-0813-9f97-7a46-0a7329835e38,T5,val
+a340e938-c054-883c-89d3-16512aabd7ff,computer,8c99518f-8fed-121a-c4ec-628a96a25178,kev_exposure_aging,critical,2024-01-01T00:00:00,2024-01-01T00:00:00,e606e4f1-2930-359b-ce24-2d739d92de10,T5,train
+eb932f6f-84f8-6693-0114-fc632446d7d9,computer,be3e2fcf-66c5-0bca-cff3-8934e52cddbe,kev_exposure_aging,critical,2024-01-01T00:00:00,2024-01-01T00:00:00,63124a2f-a941-4c8f-dea2-da63f5fecd47,T5,train
+898f5662-8e3f-f3ec-271c-9dc4c7cb9012,computer,7a9591f1-468e-df84-1c54-7a2f9f54941c,kev_exposure_aging,critical,2024-01-01T00:00:00,2024-01-01T00:00:00,a5acaf0b-c71c-9479-4597-b34366bed752,T5,test
+923f7d4a-e1ce-6bf9-03ce-344036e9bdb4,computer,e6812f32-430d-8be4-4ea8-41b07dca1b9e,kev_exposure_aging,critical,2024-01-01T00:00:00,2024-01-01T00:00:00,f0b94d94-8549-37ab-b007-9969d1af3fc1,T5,val
+1bfaad91-7950-9e6b-499e-4d042e4835da,computer,652803d1-dc78-57f1-6e21-b5365debc317,kev_exposure_aging,critical,2024-01-01T00:00:00,2024-01-01T00:00:00,a53cda0c-d0cf-8639-b3e6-c1adc2118e49,T5,train
+2da2e243-0f13-966b-fa86-bc456a2adda2,computer,f75aa37d-1034-fcbb-c59f-0fad5ca923f1,abnormal_remediation_delay,high,2024-01-01T00:00:00,2024-01-01T00:00:00,0ba53562-913b-268a-d28c-d6a6d340a5cc,T5,train
+83406d98-c7fe-b97f-2f36-b5ce280c06ef,computer,df5d358d-96e3-1094-0c73-e1119fcd745c,abnormal_remediation_delay,high,2024-01-01T00:00:00,2024-01-01T00:00:00,9609ecc2-a651-a841-cbef-07c5f419f680,T5,val
+11417c19-c64c-16ea-b901-9abd684fec1a,computer,73f0ffa9-de3e-1516-2f08-8b8f890609b0,abnormal_remediation_delay,high,2024-01-01T00:00:00,2024-01-01T00:00:00,457150ed-b58f-8ed3-fb33-525e781a68b4,T5,train
+994a30be-6e72-6736-d481-601cac4b5248,computer,1fd2be47-973e-3caa-60c9-d02c96f3f7ac,abnormal_remediation_delay,high,2024-01-01T00:00:00,2024-01-01T00:00:00,21021c39-040e-9564-c3cb-56ca64193aea,T5,test
+7e63b11a-01e5-2c3f-60f9-bd89f0b0f819,user,36335bd9-7ac6-e01b-7293-c7a7287c1280,dormant_account_reactivation,high,2024-01-01T00:00:00,2024-02-07T03:00:00,e2c8aa1a-2ecc-e308-385c-8294881d70d5,T6,test
+e657524f-f649-fa77-3316-49e7ef4259a7,user,ab2af160-83f1-e414-0d21-6cb2d5a40c0a,dormant_account_reactivation,high,2024-01-01T00:00:00,2024-03-17T02:00:00,c578a59f-88a6-1c8c-4d0b-05315d2595df,T6,train
+5510b86c-5e96-fee7-61ad-6d1db6c946fb,user,e9fb05d9-a688-2ec1-74ff-3c9ecd2cd349,dormant_account_reactivation,high,2024-01-01T00:00:00,2024-01-16T03:00:00,06c8f2ff-a0dc-0a56-a86b-87bbd56e877a,T6,val
+b4e6bb43-f48c-6669-48e4-8ea28d9506d5,user,ce906c6b-65db-1bcc-323f-fc865cf8e51a,dormant_account_reactivation,high,2024-01-01T00:00:00,2024-01-19T05:00:00,293090a9-c511-a439-2853-6cf781224af5,T6,train
+691b5a2f-96e7-bc9a-3950-6bb19e688cc9,user,fbb8b408-e340-f610-6418-17fcb913e5b7,privilege_escalation_drift,critical,2024-01-01T00:00:00,2024-02-07T00:00:00,fbb8b408-e340-f610-6418-17fcb913e5b7,T7,train
+a52de598-586f-212f-2384-224bc3ca74b9,user,db08ff6f-a023-aec7-90cf-76d646865ef8,privilege_escalation_drift,critical,2024-01-01T00:00:00,2024-03-07T00:00:00,db08ff6f-a023-aec7-90cf-76d646865ef8,T7,train

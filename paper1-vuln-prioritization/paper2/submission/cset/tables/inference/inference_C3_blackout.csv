@@ -1,0 +1,4 @@
+family_id,comparison_id,metric,n_pairs,mean_delta,median_delta,bootstrap_ci_low,bootstrap_ci_high,wilcoxon_p,holm_p,holm_reject,inference_status,drop_reason,interpretation_guardrail
+C3,epss_only__na__blackout_policy__none__to__light,ehd_absolute,30,2232528.000000,2220912.000000,2216029.172545,2253889.043848,,,False,allowed,,descriptive
+C3,proposed_fixed_prior__w_context_dominant__blackout_policy__none__to__light,ehd_absolute,30,3634655.466667,3633832.000000,3616158.982675,3653772.866023,,,False,allowed,,descriptive
+C3,proposed_fixed_prior__w_paper1_placeholder__blackout_policy__none__to__light,ehd_absolute,30,2995243.200000,2985944.000000,2974491.641463,3017681.104571,,,False,allowed,,descriptive

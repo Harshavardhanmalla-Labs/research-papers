@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-05-28T18:40:48.486729+00:00",
+  "primary_batches_completed": 4,
+  "expected_batches": 4,
+  "total_cells_completed": 48,
+  "total_seed_runs_completed": 1440,
+  "expected_seed_runs": 1440,
+  "total_wallclock_seconds": 2143.210725545883,
+  "measured_per_seed_run_seconds": 1.4883407816290855,
+  "freeze_status_all_batches": "OK",
+  "stop_rules_triggered": [
+    "K1",
+    "K3",
+    "S-A"
+  ],
+  "hard_halt_triggered": [],
+  "all_rows_have_freeze_witness_id": true,
+  "no_primary_forbidden_operations": true,
+  "paper1_freeze_verified_after": null,
+  "status": "PRIMARY_COMPLETE_VALID",
+  "reason": "all 4 primary batches valid; 1440 seed-runs; freeze OK on every batch; no hard-halt rules; all rows carry freeze_witness_id",
+  "per_batch": [
+    {
+      "batch_id": "B-primary-primary",
+      "status": "OK",
+      "cells_completed": 12,
+      "seed_runs_completed": 360,
+      "wallclock_seconds_total": 488.9582462310791,
+      "per_seed_run_seconds_mean": 1.3582173506418864,
+      "freeze_status": "OK",
+      "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+      "stop_rules_triggered": [
+        "K1",
+        "S-A",
+        "K3"
+      ],
+      "per_row_total": 2160,
+      "per_row_missing_witness": 0
+    },
+    {
+      "batch_id": "B-primary-capacity",
+      "status": "OK",
+      "cells_completed": 15,
+      "seed_runs_completed": 450,
+      "wallclock_seconds_total": 604.7741780281067,
+      "per_seed_run_seconds_mean": 1.3439426178402372,
+      "freeze_status": "OK",
+      "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+      "stop_rules_triggered": [
+        "K1",
+        "S-A",
+        "K3"
+      ],
+      "per_row_total": 2700,
+      "per_row_missing_witness": 0
+    },
+    {
+      "batch_id": "B-primary-blackout",
+      "status": "OK",
+      "cells_completed": 9,
+      "seed_runs_completed": 270,
+      "wallclock_seconds_total": 397.0904700756073,
+      "per_seed_run_seconds_mean": 1.4707054447244714,
+      "freeze_status": "OK",
+      "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+      "stop_rules_triggered": [
+        "K1",
+        "S-A",
+        "K3"
+      ],
+      "per_row_total": 1620,
+      "per_row_missing_witness": 0
+    },
+    {
+      "batch_id": "B-primary-ablation",
+      "status": "OK",
+      "cells_completed": 12,
+      "seed_runs_completed": 360,
+      "wallclock_seconds_total": 652.3878312110901,
+      "per_seed_run_seconds_mean": 1.8121884200308058,
+      "freeze_status": "OK",
+      "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+      "stop_rules_triggered": [
+        "K1",
+        "S-A",
+        "K3"
+      ],
+      "per_row_total": 2160,
+      "per_row_missing_witness": 0
+    }
+  ]
+}

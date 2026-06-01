@@ -1,0 +1,24 @@
+% Auto-converted from paper2_full_draft.md §5.
+% Wording preserved; no claims added.
+\section{Problem Statement}
+Three pre-registered research questions structure this study:
+
+\begin{itemize}
+\item \textbf{Q1 (Class A, calibration feasibility).} Under public-feed labels on a
+\end{itemize}
+
+31-product catalog over the EPSS v3 era, is per-feature weight calibration statistically defensible? Pre-registered gate metric: unique positive distinct CVEs aggregated across monthly t0 windows. Gate threshold: $\geq$ 50 for GO, 20–49 for CONDITIONAL, < 20 for PIVOT.
+
+\begin{itemize}
+\item \textbf{Q2 (Class C, sensitivity).} With weights held as fixed design priors,
+\end{itemize}
+
+do the operational EHD outcomes vary across capacity ratios, blackout policies, and feature ablations? Pre-registered primary metric: paired-seed ΔEHD with BCa CIs; a descriptive-language guardrail applies throughout.
+
+\begin{itemize}
+\item \textbf{Q3 (Classes E and F, audit).} Does the runtime preserve scheduler
+\end{itemize}
+
+feasibility, content-addressed audit, and Paper 1's freeze invariant on every batch? Pre-registered metrics: \texttt{scheduler\_feasibility\_rate}, \texttt{hash\_chain\_validity}, freeze verification status.
+
+Ranking-quality metrics (precision/recall/nDCG at K) and KEV-deadline-breach metrics are diagnostic-only due to label sparsity; they appear in appendix tables but never as headline claims.

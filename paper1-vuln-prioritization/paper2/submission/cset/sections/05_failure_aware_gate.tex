@@ -1,0 +1,12 @@
+% Auto-converted from paper2_full_draft.md §6.
+% Wording preserved; no claims added.
+\section{Failure-Aware Calibration Gate}
+The gate is a pre-registered decision procedure with four parts: a hardened public-feed acquisition pipeline, a multi-t0 aggregation that counts distinct CVE-level positives across monthly horizons, a stop-rule registry, and a content-addressed audit log.
+
+\textbf{Acquisition.} The acquisition path fetches NVD disclosures in $\leq$ 120-day chunks (the API's per-window cap), caches each chunk for resume, paces requests, and reports HTTP-429 partial states honestly. The unauthenticated path is rate-limited; an API key is required to fetch multi-year windows. KEV is fetched cumulatively and used both as a feature (as-of-t0) and as the future-label in \texttt{(t0, t0+H]}; EPSS for the gate measurement is taken from the public daily snapshots.
+
+\textbf{Multi-t0 aggregation.} The gate metric is the \emph{count of unique distinct CVEs} that appear as future-positives across any monthly t0 window in the EPSS v3 era. A CVE positive in two windows counts once. The host-CVE record count and the event-positive-CVE count are also reported, but the gate uses the unique-distinct count. The host-CVE record count is not the calibration unit; the calibration unit is the CVE.
+
+\textbf{Stop-rule registry.} The pre-registered stop-rule registry encodes a calibration-infeasibility threshold (fires when unique positives $< 20$), a per-window label sparsity check, and three inference modifiers: a degenerate-comparison auto-drop rule, an oracle-inference disable rule, a descriptive-language guardrail (applied when a Holm rejection falls inside the meaningful-effect threshold), and a ban on significance language for diagnostic-only metrics.
+
+\textbf{Audit log.} Every execution batch is wrapped in a freeze invariant: a pre-flight integrity check, a post-run repeat, manifest SHA identity verification, and assertions that no Paper-1 paths were modified. Every per-seed metric row carries a \texttt{freeze\_witness\_id} that ties it to the verified freeze state.

@@ -1,0 +1,69 @@
+{
+  "dataset_id": "hygienebench_v0.1_c_stale_seed137_n1000",
+  "generator_version": "v0.1",
+  "schema_version": "v0.1",
+  "seed": 137,
+  "condition_id": "c_stale",
+  "population_scale": "medium",
+  "n_users": 1000,
+  "n_groups": 65,
+  "n_computers": 830,
+  "n_assets": 830,
+  "n_login_events": 255390,
+  "n_group_membership_events": 54,
+  "n_vulnerability_records": 3370,
+  "n_anomaly_labels": 110,
+  "anomaly_class_counts": {
+    "abnormal_remediation_delay": 4,
+    "asset_inventory_mismatch": 33,
+    "dormant_account_reactivation": 4,
+    "endpoint_identity_risk_correlation": 3,
+    "group_membership_drift": 4,
+    "kev_exposure_aging": 5,
+    "missing_endpoint_agent": 41,
+    "patch_noncompliance_cluster": 8,
+    "privilege_escalation_drift": 4,
+    "stale_privileged_account": 4
+  },
+  "class_imbalance_ratios": {
+    "abnormal_remediation_delay": 0.004,
+    "asset_inventory_mismatch": 0.033,
+    "dormant_account_reactivation": 0.004,
+    "endpoint_identity_risk_correlation": 0.003,
+    "group_membership_drift": 0.004,
+    "kev_exposure_aging": 0.005,
+    "missing_endpoint_agent": 0.041,
+    "patch_noncompliance_cluster": 0.008,
+    "privilege_escalation_drift": 0.004,
+    "stale_privileged_account": 0.004
+  },
+  "split_counts": {
+    "users": {
+      "train": 594,
+      "test": 208,
+      "val": 198
+    },
+    "anomaly_labels": {
+      "train": 61,
+      "test": 27,
+      "val": 22
+    }
+  },
+  "freshness_regime": {
+    "stale_rate": 0.2,
+    "stale_severity": "stale_heavy",
+    "missing_sources": [],
+    "missing_source_rate": 0.0,
+    "ou_level_gap": false
+  },
+  "labels_visible_at_train": true,
+  "generation_timestamp": "2026-05-28T18:39:25.651109+00:00",
+  "structural_prior_sources": {
+    "patch_lag": "DBIR 2026 aggregate (43-day mean critical); lognormal model assumption",
+    "cve_severity": "NVD empirical distribution (public); normal approximation",
+    "ad_group_size": "Model assumption (no published distribution); sensitivity swept",
+    "telemetry_cadence": "CISA BOD 23-01 (7/14-day mandate as normal baseline)",
+    "privileged_rate": "Model assumption 5%; sensitivity swept"
+  },
+  "synthetic_data_disclaimer": "All data is fully synthetic and seeded. No employer, government, or production data was used or referenced. Entity identifiers are random UUIDs derived from the seed. Performance claims are bounded to this synthetic evaluation environment."
+}

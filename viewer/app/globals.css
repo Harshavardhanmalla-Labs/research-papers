@@ -1,0 +1,307 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE — "Warm Paper"
+   Surfaces feel like cream parchment, accent is rich violet.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+
+  /* Surfaces — ivory-cream spectrum */
+  --s0: 253 252 248;   /* #fdfc f8  — warm white      */
+  --s1: 246 243 236;   /* #f6f3ec  — parchment        */
+  --s2: 237 233 224;   /* #ede9e0  — card             */
+  --s3: 225 220 209;   /* #e1dcd1  — elevated         */
+  --s4: 210 204 191;   /* #d2ccbf  — raised           */
+  --s5: 192 185 170;   /* #c0b9aa  — highest          */
+
+  /* Accent — royal violet */
+  --accent:       124  58 237;   /* #7c3aed */
+  --accent-dim:   109  40 217;   /* #6d28d9 */
+  --accent-muted: 237 233 254;   /* #ede9fe */
+
+  /* Border */
+  --border-c: 208 202 190;       /* #d0cabe */
+
+  /* Foreground text */
+  --fg:   28  24  20;   /* #1c1814 — warm near-black  */
+  --fg-2: 61  55  48;   /* #3d3730 — warm charcoal    */
+  --fg-3: 112 102  92;  /* #70665c — warm gray        */
+  --fg-4: 156 148 138;  /* #9c948a — muted warm       */
+  --fg-5: 192 186 178;  /* #c0bab2 — faint warm       */
+
+  /* Misc — accent-derived so they update automatically per paper */
+  --blockquote-bg:           rgba(237, 233, 224, 0.70);
+  --dot-color:               rgb(var(--accent) / 0.05);
+  --scrollbar-thumb:         #d0cabe;
+  --scrollbar-thumb-hover:   #b8b0a0;
+  --sidebar-brand-bg:        linear-gradient(145deg, rgb(var(--accent) / 0.12) 0%, rgb(var(--accent-dim) / 0.04) 100%);
+  --active-glow:             0 0 0 1px rgb(var(--accent) / 0.30), 2px 0 0 0 rgb(var(--accent) / 1) inset, 0 4px 20px rgb(var(--accent) / 0.10);
+  --thead-bg:                rgb(225 220 209);
+  --thead-border:            rgb(208 202 190);
+  --table-stripe-even:       rgb(253 252 248);
+  --table-stripe-odd:        rgb(246 243 236);
+  --table-hover:             rgb(var(--accent) / 0.05);
+  --results-num-color:       rgb(var(--accent-dim));
+  --code-color:              rgb(var(--accent-dim));
+  --prose-blockquote-border: rgb(var(--accent));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK MODE — "Midnight Violet"
+   Deep blue-purple cosmos + soft lavender glow.
+   ═══════════════════════════════════════════════════════════════ */
+.dark {
+  color-scheme: dark;
+
+  /* Surfaces — blue-violet spectrum */
+  --s0:  9   9  16;   /* #09090f — cosmic black       */
+  --s1: 13  13  24;   /* #0d0d18 — sidebar            */
+  --s2: 19  19  34;   /* #131322 — card               */
+  --s3: 27  26  48;   /* #1b1a30 — elevated           */
+  --s4: 36  35  64;   /* #242340 — raised             */
+  --s5: 47  46  82;   /* #2f2e52 — highest            */
+
+  /* Accent — soft lavender-violet */
+  --accent:       167 139 250;   /* #a78bfa — violet-400    */
+  --accent-dim:   124  58 237;   /* #7c3aed — violet-600    */
+  --accent-muted:  46  16 101;   /* #2e1065 — violet-950    */
+
+  /* Border */
+  --border-c: 30 29 54;          /* #1e1d36 */
+
+  /* Foreground */
+  --fg:   241 240 255;  /* #f1f0ff — violet-white      */
+  --fg-2: 196 193 232;  /* #c4c1e8 — lavender-gray     */
+  --fg-3: 139 135 196;  /* #8b87c4 — muted violet      */
+  --fg-4:  88  84 148;  /* #585494 — faint             */
+  --fg-5:  58  55 110;  /* #3a376e — very faint        */
+
+  /* Misc — accent-derived so they update automatically per paper */
+  --blockquote-bg:           rgba(27, 26, 48, 0.70);
+  --dot-color:               rgb(var(--accent) / 0.045);
+  --scrollbar-thumb:         #1b1a30;
+  --scrollbar-thumb-hover:   #2f2e52;
+  --sidebar-brand-bg:        linear-gradient(145deg, rgb(var(--accent-dim) / 0.30) 0%, rgb(var(--accent) / 0.06) 100%);
+  --active-glow:             0 0 0 1px rgb(var(--accent) / 0.35), 2px 0 0 0 rgb(var(--accent) / 1) inset, 0 4px 24px rgb(var(--accent) / 0.12);
+  --thead-bg:                rgb(27 26 48);
+  --thead-border:            rgb(58 55 110);
+  --table-stripe-even:       rgb(13 13 24);
+  --table-stripe-odd:        rgb(19 19 34);
+  --table-hover:             rgb(var(--accent) / 0.07);
+  --results-num-color:       rgb(var(--accent));
+  --code-color:              rgb(var(--accent));
+  --prose-blockquote-border: rgb(var(--accent));
+}
+
+/* ═══════════════════
+   BASE
+   ═══════════════════ */
+html, body { height: 100%; }
+
+body {
+  background-color: rgb(var(--s0));
+  color: rgb(var(--fg-2));
+  background-image: radial-gradient(circle at 1.5px 1.5px, var(--dot-color) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* ═══════════════════
+   SCROLLBAR
+   ═══════════════════ */
+* { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
+*::-webkit-scrollbar        { width: 5px; height: 5px; }
+*::-webkit-scrollbar-track  { background: transparent; }
+*::-webkit-scrollbar-thumb  { background-color: var(--scrollbar-thumb); border-radius: 4px; }
+*::-webkit-scrollbar-thumb:hover { background-color: var(--scrollbar-thumb-hover); }
+*::-webkit-scrollbar-corner { background: transparent; }
+
+/* ═══════════════════
+   SIDEBAR
+   ═══════════════════ */
+.sidebar-brand {
+  background: var(--sidebar-brand-bg);
+}
+
+/* Active paper card — left accent rail + glow */
+.sidebar-active-glow {
+  box-shadow: var(--active-glow);
+}
+
+/* Per-paper icon colours (always fixed — identity in the list) */
+.paper-icon-p1 { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); }
+.paper-icon-p2 { background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%); }
+.paper-icon-p3 { background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%); }
+.paper-icon-p4 { background: linear-gradient(135deg, #f43f5e 0%, #fb923c 100%); }
+
+/* Brand icon — tracks the active paper accent */
+.brand-icon {
+  background: linear-gradient(135deg, rgb(var(--accent-dim)) 0%, rgb(var(--accent)) 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PER-PAPER ACCENT PALETTE OVERRIDES
+   Only --accent / --accent-dim / --accent-muted change.
+   Everything using rgb(var(--accent) / …) cascades automatically.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* P1 — Sky / Azure (light) */
+:root[data-paper="paper1"] {
+  --accent:       14 165 233;   /* sky-500  #0ea5e9 */
+  --accent-dim:    2 132 199;   /* sky-600  #0284c7 */
+  --accent-muted: 224 242 254;  /* sky-50   #f0f9ff */
+}
+/* P1 — Sky / Azure (dark) */
+.dark[data-paper="paper1"] {
+  --accent:       56 189 248;   /* sky-400  #38bdf8 */
+  --accent-dim:   14 165 233;   /* sky-500  #0ea5e9 */
+  --accent-muted:  8  47  73;   /* sky-950  #08172e */
+}
+
+/* P2 — Teal / Cyan (light) */
+:root[data-paper="paper2"] {
+  --accent:       20 184 166;   /* teal-500  #14b8a6 */
+  --accent-dim:   13 148 136;   /* teal-600  #0d9488 */
+  --accent-muted: 204 251 241;  /* teal-50   #f0fdfa */
+}
+/* P2 — Teal / Cyan (dark) */
+.dark[data-paper="paper2"] {
+  --accent:       45 212 191;   /* teal-400  #2dd4bf */
+  --accent-dim:   20 184 166;   /* teal-500  #14b8a6 */
+  --accent-muted:  4  47  46;   /* teal-950  #042f2e */
+}
+
+/* P3 — Violet / Purple — already the default in :root and .dark */
+/* Explicit entry for completeness; matches the base values. */
+:root[data-paper="paper3"] {
+  --accent:       124  58 237;   /* violet-600 */
+  --accent-dim:   109  40 217;   /* violet-700 */
+  --accent-muted: 237 233 254;   /* violet-50  */
+}
+.dark[data-paper="paper3"] {
+  --accent:       167 139 250;   /* violet-400 */
+  --accent-dim:   124  58 237;   /* violet-600 */
+  --accent-muted:  46  16 101;   /* violet-950 */
+}
+
+/* P4 — Rose / Coral (light) */
+:root[data-paper="paper4"] {
+  --accent:       225  29  72;   /* rose-600   #e11d48 */
+  --accent-dim:   190  18  60;   /* rose-700   #be123c */
+  --accent-muted: 255 228 230;   /* rose-50    #fff1f2 */
+}
+/* P4 — Rose / Coral (dark) */
+.dark[data-paper="paper4"] {
+  --accent:       251 113 133;   /* rose-400   #fb7185 */
+  --accent-dim:   244  63  94;   /* rose-500   #f43f5e */
+  --accent-muted:  76   5  25;   /* rose-950   #4c0519 */
+}
+
+/* ═══════════════════
+   ANIMATIONS
+   ═══════════════════ */
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tab-content { animation: tabFadeIn 0.18s ease-out forwards; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* ═══════════════════
+   PROSE overrides
+   ═══════════════════ */
+.prose table {
+  display: block;
+  overflow-x: auto;
+  border: 1px solid rgb(var(--border-c));
+  border-radius: 10px;
+}
+.prose thead     { background: var(--thead-bg); }
+.prose thead tr  { border-bottom: 1px solid var(--thead-border) !important; }
+.prose tr:hover td { background: var(--table-hover); }
+.prose blockquote {
+  border-left-color: var(--prose-blockquote-border) !important;
+}
+
+/* ═══════════════════
+   RESULTS TABLE
+   ═══════════════════ */
+.results-table thead            { background: var(--thead-bg); box-shadow: 0 2px 10px rgb(0 0 0 / 0.10); }
+.results-table thead tr         { border-bottom: 2px solid rgb(var(--accent-dim) / 0.5); }
+.results-table tbody tr:nth-child(even) { background-color: var(--table-stripe-even); }
+.results-table tbody tr:nth-child(odd)  { background-color: var(--table-stripe-odd);  }
+.results-table tbody tr:hover           { background-color: var(--table-hover) !important; }
+
+/* ═══════════════════
+   CARDS / FIGURES
+   ═══════════════════ */
+.fig-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.fig-card:hover {
+  transform: translateY(-4px);
+  border-color: rgb(var(--accent) / 0.55);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.20), 0 0 0 1px rgb(var(--accent) / 0.25);
+}
+
+/* ═══════════════════
+   INPUTS
+   ═══════════════════ */
+.search-input:focus {
+  outline: none;
+  border-color: rgb(var(--accent) / 0.65);
+  box-shadow: 0 0 0 3px rgb(var(--accent) / 0.14);
+}
+
+/* ═══════════════════
+   MISC UTILS
+   ═══════════════════ */
+.card-hover { transition: transform 0.16s ease, box-shadow 0.16s ease; }
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgb(0 0 0 / 0.16), 0 0 0 1px rgb(var(--accent) / 0.22);
+}
+.num-val { color: var(--results-num-color); font-variant-numeric: tabular-nums; }
+
+/* Tab active glow under indicator */
+.tab-active-glow {
+  box-shadow: 0 -1px 12px -2px rgb(var(--accent) / 0.40) inset;
+}
+
+/* ═══════════════════
+   SCROLLBAR UTILS
+   ═══════════════════ */
+/* Hide scrollbar track but keep scroll behaviour */
+.hide-scrollbar {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE/Edge */
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ═══════════════════
+   THEME TOGGLE
+   ═══════════════════ */
+.theme-pill {
+  background: rgb(var(--s3));
+  border: 1px solid rgb(var(--border-c));
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.theme-pill:hover {
+  background: rgb(var(--s4));
+  border-color: rgb(var(--accent) / 0.4);
+}
+/* Light mode knob = amber sun; dark mode knob = active paper accent */
+.theme-knob {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+}
+.dark .theme-knob {
+  background: linear-gradient(135deg, rgb(var(--accent-dim)) 0%, rgb(var(--accent)) 100%);
+}

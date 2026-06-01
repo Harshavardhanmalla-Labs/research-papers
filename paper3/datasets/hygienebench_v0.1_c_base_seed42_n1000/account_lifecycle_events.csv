@@ -1,0 +1,11 @@
+event_id,user_id,action,event_timestamp,actor_user_id,days_since_last_logon_at_action,is_anomalous,anomaly_class
+d484c860-75a3-3046-bd8e-722e5c3bbc7f,ded34338-b6ef-548a-0384-e873fc5c4c45,created,2024-02-25T12:00:00,a073a399-ae79-ea3b-1484-692e23080ced,,False,
+ee1847c2-eff6-abac-57cd-eff30bf8abbd,a8efd320-1003-cdd6-fb46-b73274858bf4,created,2024-01-11T16:00:00,a073a399-ae79-ea3b-1484-692e23080ced,,False,
+495d01d8-9f55-fc3f-aab2-64155b778663,45530f92-36b0-8451-efe2-7aa319c5c10f,created,2024-02-25T09:00:00,a073a399-ae79-ea3b-1484-692e23080ced,,False,
+a0ad25ed-21a3-16da-39ab-04893f99b56f,9f4c8515-02a5-7fda-f790-b53ac33e1b2f,disabled,2024-01-17T13:00:00,a073a399-ae79-ea3b-1484-692e23080ced,,False,
+ac7760af-23ca-750f-e88b-24fd823e3569,9c983f52-4e60-210a-253b-785378137ed5,created,2024-01-29T12:00:00,a073a399-ae79-ea3b-1484-692e23080ced,,False,
+ffcbf47d-24bd-d9d6-eea3-c8c2e22b8655,92b225d3-831c-c332-f462-49dd3869fd5a,created,2024-03-05T12:00:00,a073a399-ae79-ea3b-1484-692e23080ced,,False,
+34e8e971-7f53-6a09-143f-0b74f578accb,167de1d0-8735-1db0-f5c3-f8bc26aeefc6,reactivated,2024-03-08T05:00:00,a073a399-ae79-ea3b-1484-692e23080ced,180.0,True,dormant_account_reactivation
+516b622c-7170-f3e0-9acc-7b7021d49ac0,63f53bac-0aa4-765e-72c0-5d0fa4698438,reactivated,2024-01-31T03:00:00,a073a399-ae79-ea3b-1484-692e23080ced,180.0,True,dormant_account_reactivation
+966e4226-0e5f-b35c-26c2-ea082697d89d,17925f9a-d929-ad2c-f877-07dfb1d5aeda,reactivated,2024-02-10T03:00:00,a073a399-ae79-ea3b-1484-692e23080ced,272.8,True,dormant_account_reactivation
+08ba246b-8570-b55b-1d90-47f9c4394887,7b3ef2b8-8146-e255-8b42-025d8de61772,reactivated,2024-02-20T03:00:00,a073a399-ae79-ea3b-1484-692e23080ced,180.0,True,dormant_account_reactivation

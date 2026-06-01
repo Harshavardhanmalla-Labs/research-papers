@@ -1,0 +1,87 @@
+# Per-product service exposure metadata. When the product is installed,
+# whether its service is enabled by role and how externally reachable.
+services:
+  chrome:
+    service_name: chrome
+    default_enabled_by_role: { standard_workstation: true, privileged_workstation: true, kiosk: true }
+    network_protocol: none
+    default_port: null
+    internet_reachable_possible: false
+  firefox:
+    service_name: firefox
+    default_enabled_by_role: { standard_workstation: true }
+    network_protocol: none
+    default_port: null
+    internet_reachable_possible: false
+  edge:
+    service_name: edge
+    default_enabled_by_role: { standard_workstation: true, privileged_workstation: true, member_server: false }
+    network_protocol: none
+    default_port: null
+    internet_reachable_possible: false
+  openssh_server:
+    service_name: sshd
+    default_enabled_by_role: { member_server: true, public_facing_server: true, restricted_zone_system: true }
+    network_protocol: tcp
+    default_port: 22
+    internet_reachable_possible: true
+  iis:
+    service_name: w3svc
+    default_enabled_by_role: { member_server: true, public_facing_server: true }
+    network_protocol: tcp
+    default_port: 80
+    internet_reachable_possible: true
+  apache_httpd:
+    service_name: apache2
+    default_enabled_by_role: { member_server: true, public_facing_server: true }
+    network_protocol: tcp
+    default_port: 80
+    internet_reachable_possible: true
+  nginx:
+    service_name: nginx
+    default_enabled_by_role: { member_server: true, public_facing_server: true }
+    network_protocol: tcp
+    default_port: 80
+    internet_reachable_possible: true
+  tomcat:
+    service_name: tomcat
+    default_enabled_by_role: { member_server: true, public_facing_server: true }
+    network_protocol: tcp
+    default_port: 8080
+    internet_reachable_possible: true
+  postgresql:
+    service_name: postgresql
+    default_enabled_by_role: { member_server: true, restricted_zone_system: true }
+    network_protocol: tcp
+    default_port: 5432
+    internet_reachable_possible: false
+  mysql:
+    service_name: mysqld
+    default_enabled_by_role: { member_server: true }
+    network_protocol: tcp
+    default_port: 3306
+    internet_reachable_possible: false
+  mssql:
+    service_name: mssqlserver
+    default_enabled_by_role: { member_server: true, restricted_zone_system: true }
+    network_protocol: tcp
+    default_port: 1433
+    internet_reachable_possible: false
+  mongodb:
+    service_name: mongod
+    default_enabled_by_role: { member_server: true, public_facing_server: true }
+    network_protocol: tcp
+    default_port: 27017
+    internet_reachable_possible: false
+  edr_agent_generic:
+    service_name: edr_agent
+    default_enabled_by_role: { standard_workstation: true, privileged_workstation: true, member_server: true, domain_controller: true, kiosk: true, public_facing_server: true, restricted_zone_system: true }
+    network_protocol: tcp
+    default_port: 443
+    internet_reachable_possible: false
+  windows_defender:
+    service_name: WinDefend
+    default_enabled_by_role: { standard_workstation: true, privileged_workstation: true, member_server: true, domain_controller: true, kiosk: true, restricted_zone_system: true }
+    network_protocol: none
+    default_port: null
+    internet_reachable_possible: false

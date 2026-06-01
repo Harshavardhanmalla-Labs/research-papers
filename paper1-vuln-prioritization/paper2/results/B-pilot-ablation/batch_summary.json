@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "batch_id": "B-pilot-ablation",
+  "smoke": false,
+  "table_group": "feature_ablation",
+  "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "cells_completed": 12,
+  "seeds_per_cell": {
+    "ABL-w_paper1_placeholder-remove_E": 6,
+    "ABL-w_paper1_placeholder-remove_K": 6,
+    "ABL-w_paper1_placeholder-remove_S": 6,
+    "ABL-w_paper1_placeholder-remove_C": 6,
+    "ABL-w_paper1_placeholder-remove_X": 6,
+    "ABL-w_paper1_placeholder-remove_R": 6,
+    "ABL-w_context_dominant-remove_E": 6,
+    "ABL-w_context_dominant-remove_K": 6,
+    "ABL-w_context_dominant-remove_S": 6,
+    "ABL-w_context_dominant-remove_C": 6,
+    "ABL-w_context_dominant-remove_X": 6,
+    "ABL-w_context_dominant-remove_R": 6
+  },
+  "seed_runs_completed": 72,
+  "wallclock_seconds_total": 134.1237530708313,
+  "per_seed_run_seconds_mean": 1.862829903761546,
+  "n_triggered_rules": 3,
+  "timestamp_utc": "2026-05-28T17:49:03.167287+00:00"
+}

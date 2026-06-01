@@ -1,0 +1,13 @@
+% Auto-converted from paper2_full_draft.md §9.
+% Wording preserved; no claims added.
+\section{Fixed-Prior Sensitivity Design}
+Because calibration was not attempted, the second part of the work is a pre-registered sensitivity sweep with weights held as fixed design priors. The factorial comprises 48 runnable cells across four batches:
+
+\begin{itemize}
+  \item \textbf{Primary table (12 cells)}: 6 baseline strategies (\texttt{random}, \texttt{cvss\_only}, \texttt{epss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) and 6 fixed-prior cells (one per pre-registered weight vector), all at central capacity 0.01, primary blackout, and full feature set.
+  \item \textbf{Capacity sensitivity (15 cells)}: 5 strategies across 4 capacity levels \{0.005, 0.01, 0.02, 0.05\}; five cells reused from primary.
+  \item \textbf{Blackout sensitivity (9 cells)}: 3 strategies across 4 blackout policies \{none, light, primary, strict\}; three cells reused from primary.
+  \item \textbf{Feature ablation (12 cells)}: 2 weight vectors (\texttt{w\_paper1\_placeholder}, \texttt{w\_context\_dominant}) $\times$ 6 single-feature ablations; two full cells reused from primary.
+\end{itemize}
+
+Catalog expansion, fuzzy CPE matching, EPSS v4, PoC labels, and seed sweeps at $n = 50$ and $n = 100$ were pre-registered as deferred. Gradient-boosted and other learned comparators were pre-registered as forbidden because calibration was not attempted.

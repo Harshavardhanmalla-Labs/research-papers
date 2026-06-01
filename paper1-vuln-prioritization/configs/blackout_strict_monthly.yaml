@@ -1,0 +1,22 @@
+config_name: strict_monthly
+# Strict-monthly posture: remediation is permitted only during the first
+# Saturday maintenance window of the month (22:00-02:00 UTC, same-day
+# approximation). Public-facing hosts retain the KEV emergency override.
+blackouts:
+  kiosk:
+    first_saturday_maintenance:
+      hours: [22, 2]
+  public_facing_server:
+    first_saturday_maintenance:
+      hours: [22, 2]
+    kev_override_hours: 48
+  member_server:
+    first_saturday_maintenance:
+      hours: [22, 2]
+  restricted_zone_system:
+    first_saturday_maintenance:
+      hours: [22, 2]
+  domain_controller:
+    first_saturday_maintenance:
+      hours: [22, 2]
+    staged_rollout: true

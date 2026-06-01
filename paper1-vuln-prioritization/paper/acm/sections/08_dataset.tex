@@ -1,0 +1,18 @@
+\section{Synthetic Dataset Design}
+
+The fleet is generated from documented parameter distributions, not from any real
+environment. Hosts are allocated across roles (e.g., standard workstation, member
+server, domain controller, kiosk) with documented proportions and carry
+network-zone, identity-tier, and data-sensitivity attributes. Each host is assigned
+an OS and a software inventory from catalogs (determining vulnerability
+applicability) and a patch state (allowing exclusion of already-remediated CVEs).
+Telemetry-derived asset criticality combines role, identity privilege (an Identity
+Privilege Exposure Score), network exposure, and data sensitivity into \texttt{C}; a
+per-pair local-exposure feature \texttt{X} reflects component reachability on that host;
+and a per-pair complexity feature \texttt{R} captures remediation cost and rollback risk.
+Configurable CMDB staleness and telemetry-missingness rates model incomplete
+observability; missing continuous features are imputed and a missing KEV status
+defaults to zero with a recorded warning. Synthetic data is necessary because real
+public-sector telemetry is sensitive and non-shareable; a documented generator
+keeps the evaluation open and repeatable while we bound the external-validity
+claims.

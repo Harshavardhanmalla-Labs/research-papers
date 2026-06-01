@@ -1,0 +1,58 @@
+% Auto-converted from paper2_full_draft.md §11.
+% Wording preserved; no claims added.
+\section{Results}
+\subsection{Gate result}
+
+The measured value is \textbf{7 unique positive distinct CVEs} across 18 monthly t0 windows on the 31-product catalog over the EPSS v3 era. The pre-registered gate threshold is $\geq 50$ for GO, 20--49 for CONDITIONAL, and $< 20$ for PIVOT. The measured value falls in the PIVOT zone; the calibration-infeasibility threshold triggered. Calibration was not attempted.
+
+\subsection{Primary execution integrity}
+
+The primary execution comprises 4 batches, \textbf{48 cells}, \textbf{1,440 seed-runs}, and \textbf{8,640 metric rows}. Every row carries a \texttt{freeze\_witness\_id} equal to the Paper-1 manifest SHA-256 (\texttt{750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833}); zero rows are missing the witness ID. All four batches passed five freeze-integrity assertions: pre-flight check OK, post-run check OK, manifest SHA byte-equal, no Paper-1 paths modified, and no freeze bypass invoked. Data-integrity and freeze-violation hard halts did not trigger. No row uses a calibration or learned strategy.
+
+\subsection{Operational EHD outcomes}
+
+The baseline \texttt{epss\_only} central-cell mean EHD is $\approx$3.32\,$\times$\,10$^9$ host-days (30 seeds). Paired-seed $\Delta$EHD relative to \texttt{epss\_only}, reported as descriptive observations:
+
+\begin{itemize}
+  \item \texttt{cvss\_only}: mean $\approx -163$\,hd, BCa CI [$-$1,918, $+$1,329] — within noise floor; descriptive null.
+  \item \texttt{kev\_first}: mean $\approx +140$\,hd, BCa CI [$-$356, $+$839] — descriptive null.
+  \item \texttt{cvss\_x\_epss}: mean $\approx +374$\,hd, BCa CI [$-$384, $+$1,145] — descriptive null.
+  \item \texttt{cvss\_plus\_epss\_plus\_kev}: mean $\approx +103$\,hd, BCa CI [$-$224, $+$431] — descriptive null.
+  \item \texttt{w\_epss\_dominant}: mean $\approx -2.21\,\times\,10^6$\,hd, BCa CI does not overlap zero.
+  \item \texttt{w\_cvss\_dominant}: mean $\approx -8.82\,\times\,10^6$\,hd, BCa CI does not overlap zero.
+  \item \texttt{w\_kev\_dominant}: similar order to \texttt{w\_cvss\_dominant}.
+  \item \texttt{w\_uniform}, \texttt{w\_paper1\_placeholder}: similar order to \texttt{w\_epss\_dominant}.
+  \item \texttt{w\_context\_dominant}: mean $\approx -1.61\,\times\,10^7$\,hd, BCa CI does not overlap zero.
+\end{itemize}
+
+These are descriptive observations relative to EPSS. Although several $\Delta$EHD magnitudes exceed the 5,000-hd meaningful-effect threshold, the descriptive-language guardrail applies throughout: magnitudes are not interpreted as quality claims. No claim is made that any context-aware prior is meaningfully better than EPSS at this label sparsity (see post-run variance analysis below). Paired BCa CIs are the primary inferential quantity.
+
+\subsection{Weight-family sensitivity}
+
+Fifteen pairwise comparisons across the six fixed-prior vectors are recorded. Differences in mean EHD across vectors are observed but are not interpreted as a quality ordering; the vectors are design priors, not evidence-based estimates.
+
+\subsection{Capacity sensitivity}
+
+$\Delta$EHD across consecutive capacity steps \{0.005$\to$0.01, 0.01$\to$0.02, 0.02$\to$0.05\} is reported for five strategy/vector arms. Records are populated with paired BCa CIs under the descriptive guardrail.
+
+\subsection{Blackout sensitivity}
+
+Blackout transitions \{none\,$\to$\,light\,$\to$\,primary\,$\to$\,strict\} are evaluated for three strategies. No cell with zero scheduler feasibility occurred; the pre-registered floor of 0.95 was not approached.
+
+\subsection{Feature-ablation sensitivity}
+
+Twelve paired ablation-vs-full comparisons (two fixed-prior vectors $\times$ six feature ablations) are reported. Where the ablation-effect sign flips between vectors, both signs are recorded; no single vector is preferred.
+
+\subsection{Scheduler feasibility and audit integrity}
+
+\texttt{scheduler\_feasibility\_rate = 1.0} on every primary cell. All four batches passed freeze-integrity verification; the Paper-1 freeze manifest SHA-256 was byte-equal before and after every batch.
+
+\subsection{Post-run variance analysis}
+
+Three post-run checks were recorded.
+
+\begin{itemize}
+  \item \textbf{Sensitivity measurability.} Across all four axes (capacity, weight family, feature ablation, blackout), the absolute median paired $\Delta$EHD is well above the 1,000-hd null-axis threshold. Sensitivity is measurable at the cell-mean level.
+  \item \textbf{Catalog perturbation.} One-product catalog perturbations were not executed at scale; this check is recorded as skipped and listed as a limitation.
+  \item \textbf{Within-cell variance criterion.} The criterion fires on every primary robustness axis. The per-cell coefficient of variation across seeds (\texttt{CV\_within} $\approx$ 0.024) is approximately an order of magnitude larger than the across-cells coefficient (\texttt{CV\_across}). Each axis is therefore demoted to descriptive-only: although cell-mean differences are large, per-cell seed noise is comparable to the between-cells signal at the 30-seed budget. No sensitivity claim survives this criterion; all results above are descriptive.
+\end{itemize}

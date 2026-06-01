@@ -1,0 +1,24 @@
+% Table 3: Benchmark tasks
+% Source: paper_draft_v0.1.md Table 3
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\begin{table*}[t]
+\centering
+\caption{Benchmark tasks. $k$ values are pre-registered per TASK\_SPECS.md and
+  reflect operational SOC review budgets.}
+\label{tab:tasks}
+\small
+\begin{tabular}{@{}lllrrl@{}}
+\toprule
+Task & Description & Entity scope & $k$ & Imbalance & Anomaly classes \\
+\midrule
+T1 & Stale privileged account risk          & Privileged users           & 10 & 1:50  & AH-01 \\
+T2 & Group membership drift                 & Users with group events    & 20 & 1:167 & AH-03 \\
+T3 & Endpoint--identity risk correlation    & Users with endpoints       & 15 & 1:333 & AH-05, AH-06 \\
+T4 & Telemetry coverage gaps                & All computers/assets       & 20 & 1:14  & AH-09, AH-10, AH-11 \\
+T5 & Patch--vulnerability hygiene           & All computers              & 25 & 1:59  & AH-07, AH-08, AH-12 \\
+T6 & Dormant account reactivation           & Users with lifecycle events & 10 & 1:250 & AH-04 \\
+T7 & Escalation drift detection             & Users with group add events & 10 & 1:500 & AH-02 \\
+\bottomrule
+\end{tabular}
+\end{table*}

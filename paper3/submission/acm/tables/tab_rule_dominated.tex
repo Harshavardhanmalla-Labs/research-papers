@@ -1,0 +1,22 @@
+% Table 7: Rule-dominated tasks
+% Source: paper_draft_v0.1.md Table 7
+% Numbers verified against results/primary_full_v1/primary_results.csv (2026-05-28)
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\begin{table}[t]
+\centering
+\caption{Rule-dominated tasks (rule AP $\geq$ best-ML AP in majority of configs).}
+\label{tab:rule_dominated}
+\small
+\begin{tabular}{@{}lrl@{}}
+\toprule
+Task & Mean AP (all) & Notes \\
+\midrule
+T1 --- Stale privileged accounts & 0.937 & AP$\approx$1.0 under all conditions \\
+T3 --- Endpoint--identity corr.  & 0.736 & Largest staleness sensitivity: C-STALE $-$0.168 \\
+T4 --- Telemetry coverage gaps   & 0.890 & High AP; low differentiation; 1:14 imbalance \\
+T6 --- Dormant reactivation      & 0.832 & AP$\approx$1.0 most methods; M8 exception (0.490) \\
+T7 --- Escalation drift          & 0.822 & Extreme imbalance; AP$\approx$1.0; ceiling effect \\
+\bottomrule
+\end{tabular}
+\end{table}

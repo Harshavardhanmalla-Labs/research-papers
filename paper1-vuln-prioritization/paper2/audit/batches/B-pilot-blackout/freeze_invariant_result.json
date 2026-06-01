@@ -1,0 +1,15 @@
+{
+  "batch_id": "B-pilot-blackout",
+  "freeze_witness_before_sha256": "1a50f97881d3b4c4e33dc42b8c5a3cf600df692815ff74b44c924893dce611ab",
+  "freeze_witness_after_sha256": "4f974b40f31b54db9d89ceb34d97c65b5c59350e658eabb91a698708a1ab10f6",
+  "freeze_witness_id": "1a50f97881d3b4c4e33dc42b8c5a3cf600df692815ff74b44c924893dce611ab",
+  "status": "OK",
+  "failure_reason": null,
+  "assertions": {
+    "before_status_ok": true,
+    "after_status_ok": true,
+    "manifest_sha_equal": true,
+    "no_paper1_paths_modified": true,
+    "no_freeze_primary_invocation": true
+  }
+}

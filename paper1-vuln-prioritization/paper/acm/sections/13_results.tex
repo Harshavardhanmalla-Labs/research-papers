@@ -1,0 +1,70 @@
+\section{Results}
+
+All quantitative statements are taken from tables and figures generated from the
+frozen artifact (30 seeds, 13 strategies; freeze verified --- see Appendix A). EHD is
+a simulated operational quantity for which lower is better.
+
+\textbf{13.1 Experimental integrity and artifact validation.} The evaluation comprises
+30 seeds, 13 strategies, and 11 metrics per (seed, strategy) cell --- 4,290 per-seed
+metric rows (Table 1) --- and 390 hash-chained audit logs, all of which verify.
+Strict inspection reported zero issues, the freeze manifest verifies, there are no
+NaN and no infinite values, and the per-window capacity (100 pair-actions) is
+respected by every strategy in every seed.
+
+\textbf{13.2 Operational EHD outcomes.} Mean absolute EHD (Table 2; Figures 1 and 4)
+clusters around ~$1.12 \times 10^{6}$ simulated host-days for all strategies. The nominal
+ordering (best/lowest first) places cvss\_only ($1.1190 \times 10^{6}$) and oracle
+($1.1193 \times 10^{6}$) at the low end and proposed\_no\_criticality ($1.1243 \times 10^{6}$) at the
+high end; the total spread across all 13 strategies is about $5.3 \times 10^{3}$ host-days
+(under 0.5\% of the mean) while per-strategy standard deviations are ~3.4-$5.2 \times 10^{3}$
+($\approx$0.3-0.5\%). The strategies are therefore not separable by absolute EHD.
+proposed\_full ($1.1217 \times 10^{6}$) is marginally above (worse than) random
+($1.1213 \times 10^{6}$) and marginally below (better than) epss\_only ($1.1219 \times 10^{6}$); neither
+gap is meaningful at this noise scale. cvss\_only records a slightly lower mean EHD
+than oracle; because the oracle is a label-prioritizing ranker rather than a
+closed-form EHD minimizer under capacity constraints, and the gap (~0.03\%) is far
+inside the noise band, we treat the ordering as effectively flat (Section 11).
+
+\textbf{13.3 Relative performance against EPSS.} Table 3 and Figure 3 express each
+non-oracle strategy relative to epss\_only; lower EHD is better, so a negative delta
+is an improvement. Several strategies show nominally lower EHD than epss\_only
+(cvss\_only -0.26\%, cve\_sum -0.11\%, random -0.056\%, cve\_max -0.050\%,
+proposed\_no\_exposure -0.030\%, proposed\_full -0.017\%); others are nominally worse;
+kev\_first equals epss\_only. proposed\_full's nominal improvement (~0.017\%, ~186
+host-days) is an order of magnitude smaller than the seed standard deviation and is
+not evidence of beating EPSS; random also appears nominally "better than EPSS" by a
+similar margin, confirming these sub-0.1\% gaps are noise (Figure 5).
+
+\textbf{13.4 Fraction-of-oracle analysis.} Figure 2 and the fraction-of-oracle column of
+Table 2 place each strategy on the random(0)-to-oracle(1) scale. Observed values
+fall outside [0, 1] for several strategies (cvss\_only 1.18; proposed\_full -0.23);
+values below 0 indicate worse-than-random behavior under this metric, and a value
+above 1 most plausibly reflects a metric/artifact effect (the oracle is not a
+strict lower bound under capacity here) rather than a genuine result. They are
+reported as observed; given the within-noise spread the scale is not a reliable
+ranking signal in this run.
+
+\textbf{13.5 Ranking metrics.} Table 4 reports precision@k, recall@k, nDCG@k (k = 10).
+oracle and cvss\_only achieve perfect precision@10 and nDCG@10 (1.0); proposed\_full
+records precision@10 = 0.687 and nDCG@10 = 0.690, between epss\_only (0.633) and
+random (0.727). random's top-10 precision exceeds proposed\_full's, indicating that
+under the toy fixtures (small CVE catalog, high positive base rate) top-k precision
+does not discriminate between methods; recall@10 is uniformly small (~$5 \times 10^{-4}$) by
+construction. No ranking-quality superiority claim is drawn.
+
+\textbf{13.6 Operational and audit metrics.} From Table 5: scheduler feasibility is 1.0
+everywhere; scheduled count equals capacity (100) throughout (capacity binding);
+capacity efficiency ranges 0.30-1.0 with proposed\_full at 0.65 (below random's 0.73
+and cvss\_only/oracle's 1.0); KEV-deadline breach rate is uniformly high
+(~0.985-0.996), dominated by the capacity constraint rather than the policy;
+risk-acceptance rate is near zero. From Table 6: every strategy's audit log has a
+valid hash chain (1.0); audit record counts vary (~101-292).
+
+\textbf{13.7 Summary.} The benchmark executes reproducibly (4,290 integrity-verified
+rows, 390 valid audit logs); the audit and scheduler pipeline behaves correctly end
+to end; the oracle/random bounds are nearly flat and metrics are dominated by the
+capacity constraint and the toy-fixture base rate; the proposed model did not
+dominate the baselines (indistinguishable from epss\_only, nominally worse than
+random on EHD, capacity efficiency, and top-10 precision); and the artifact
+exposes measurable operational trade-offs and provides a reproducible, auditable
+basis for calibrated and sensitivity studies.

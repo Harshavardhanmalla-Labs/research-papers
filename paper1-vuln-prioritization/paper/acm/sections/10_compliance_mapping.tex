@@ -1,0 +1,18 @@
+\section{Compliance Mapping}
+
+The framework is designed to \textit{support evidence for review} under common
+public-sector control families; it does not satisfy or prove any control. We map
+cautiously: NIST SP 800-53 RA-5 (vulnerability monitoring) \cite{nist80053r5} ---
+pair-level prioritization and decision records support evidence for how findings
+are triaged; SI-2 (flaw remediation) --- scheduling/timing records support evidence
+for remediation handling under capacity; CM-8 (component inventory) --- the synthetic
+inventory models the asset context such evidence depends on; AU-2/AU-3 (audit
+events/content) --- append-only, hash-chained records support evidence for auditable
+event capture; NIST SP 800-40 Rev. 4 \cite{nist80040r4} --- the scheduling simulation
+reflects documented patch-management structure; CISA BOD 22-01 \cite{cisa_bod2201} ---
+KEV-deadline handling and breach metrics support evidence for directive-driven
+prioritization; CIS Controls v8 \cite{cis_controls_v8} and the CJIS Security Policy
+\textbf{[VERIFY: CJIS Security Policy version]} --- relevant control intent is acknowledged for
+context. In every case the framing is "supports evidence for review," not
+"satisfies" or "proves"; audit evidence is necessary for, but not equivalent to,
+compliance.

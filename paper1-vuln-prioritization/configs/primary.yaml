@@ -1,0 +1,35 @@
+# Pre-registered primary experiment cell.
+# Locked at Step 6.5; do not modify without re-registering.
+config_name: primary_v1
+seed_master: 20260601
+fleet_size: 10000
+capacity_ratio: 0.01
+label: A
+approver_policy: A
+identity_config: ad_entra_default
+blackout_config: primary
+epss_version_handling: pooled_with_covariate
+data_window_start: 2024-06-01
+data_window_end: 2026-05-31
+H_days: 30
+train_split_months: 18
+strategies:
+  - random
+  - cvss_only
+  - epss_only
+  - kev_first
+  - cvss_x_epss
+  - cvss_plus_epss_plus_kev
+  - cve_max
+  - cve_mean
+  - cve_sum
+  - proposed_full
+  - proposed_no_criticality
+  - proposed_no_exposure
+  - oracle
+  - gbt_comparator
+seed_count: 30
+maintenance_cadence_days: 14
+remediation_failure_rate: 0.05
+rollback_probability_given_failure: 0.30
+output_dir: results/primary_v1

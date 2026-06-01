@@ -1,0 +1,13 @@
+| check | value |
+| --- | --- |
+| seed_count | 30 |
+| strategy_count | 13 |
+| metric_rows | 4290 |
+| audit_logs_checked | 390 |
+| audit_logs_valid | True |
+| nan_count | 0 |
+| infinite_metric_count | 0 |
+| max_scheduled_count | 100 |
+| capacity | 100 |
+| scheduled_within_capacity | True |
+| freeze_verified | True |

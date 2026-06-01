@@ -1,0 +1,16 @@
+family_id,comparison_id,metric,n_pairs,mean_delta,median_delta,bootstrap_ci_low,bootstrap_ci_high,wilcoxon_p,holm_p,holm_reject,inference_status,drop_reason,interpretation_guardrail
+C1,w_context_dominant__vs__w_cvss_dominant,ehd_absolute,30,-7290090.133333,-7400920.000000,-7523898.888271,-7074779.760109,,,False,allowed,,descriptive
+C1,w_context_dominant__vs__w_epss_dominant,ehd_absolute,30,-13905065.600000,-13886592.000000,-14189525.805582,-13651194.603297,,,False,allowed,,descriptive
+C1,w_context_dominant__vs__w_kev_dominant,ehd_absolute,30,-13568656.000000,-13589056.000000,-13828324.991338,-13343177.048206,,,False,allowed,,descriptive
+C1,w_context_dominant__vs__w_paper1_placeholder,ehd_absolute,30,-7373632.533333,-7313256.000000,-7584190.784809,-7179315.007676,,,False,allowed,,descriptive
+C1,w_context_dominant__vs__w_uniform,ehd_absolute,30,-6087277.333333,-5926120.000000,-6384479.617975,-5803708.599335,,,False,allowed,,descriptive
+C1,w_cvss_dominant__vs__w_epss_dominant,ehd_absolute,30,-6614975.466667,-6604016.000000,-6748382.676742,-6483456.320299,,,False,allowed,,descriptive
+C1,w_cvss_dominant__vs__w_kev_dominant,ehd_absolute,30,-6278565.866667,-6231680.000000,-6405977.099465,-6166051.820809,,,False,allowed,,descriptive
+C1,w_cvss_dominant__vs__w_paper1_placeholder,ehd_absolute,30,-83542.400000,-58384.000000,-282670.760788,145559.984400,,,False,allowed,,descriptive
+C1,w_cvss_dominant__vs__w_uniform,ehd_absolute,30,1202812.800000,1205224.000000,920032.186372,1479265.417246,,,False,allowed,,descriptive
+C1,w_epss_dominant__vs__w_kev_dominant,ehd_absolute,30,336409.600000,306488.000000,285371.825980,392882.565356,,,False,allowed,,descriptive
+C1,w_epss_dominant__vs__w_paper1_placeholder,ehd_absolute,30,6531433.066667,6448080.000000,6342458.954459,6776159.684653,,,False,allowed,,descriptive
+C1,w_epss_dominant__vs__w_uniform,ehd_absolute,30,7817788.266667,7671064.000000,7521212.698256,8107344.405322,,,False,allowed,,descriptive
+C1,w_kev_dominant__vs__w_paper1_placeholder,ehd_absolute,30,6195023.466667,6212984.000000,6045834.670051,6384534.564091,,,False,allowed,,descriptive
+C1,w_kev_dominant__vs__w_uniform,ehd_absolute,30,7481378.666667,7481080.000000,7227971.311736,7722897.134923,,,False,allowed,,descriptive
+C1,w_paper1_placeholder__vs__w_uniform,ehd_absolute,30,1286355.200000,1410952.000000,1131195.759626,1413362.320371,,,False,allowed,,descriptive

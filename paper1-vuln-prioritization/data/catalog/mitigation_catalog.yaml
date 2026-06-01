@@ -1,0 +1,33 @@
+# Per-product/category mitigation options. Used by the exposure
+# evaluator to decide whether a host has a mitigation in place that
+# reduces local exposure for a given CVE.
+mitigations:
+  browser:
+    - { type: config_disable_service, prior: 0.05 }
+    - { type: application_control,    prior: 0.10 }
+    - { type: vendor_patch,           prior: 0.30 }
+  productivity:
+    - { type: application_control,    prior: 0.15 }
+    - { type: vendor_patch,           prior: 0.30 }
+  endpoint_agent:
+    - { type: vendor_patch,           prior: 0.50 }
+  remote_access:
+    - { type: network_isolation,      prior: 0.30 }
+    - { type: config_disable_service, prior: 0.15 }
+    - { type: vendor_patch,           prior: 0.40 }
+  runtime_library:
+    - { type: vendor_patch,           prior: 0.35 }
+    - { type: compensating_control,   prior: 0.10 }
+  web_server:
+    - { type: network_isolation,      prior: 0.25 }
+    - { type: compensating_control,   prior: 0.20 }
+    - { type: vendor_patch,           prior: 0.30 }
+  database:
+    - { type: network_isolation,      prior: 0.40 }
+    - { type: compensating_control,   prior: 0.20 }
+    - { type: vendor_patch,           prior: 0.30 }
+  os_component:
+    - { type: vendor_patch,           prior: 0.50 }
+    - { type: config_disable_service, prior: 0.10 }
+  mobile_os_component:
+    - { type: vendor_patch,           prior: 0.60 }

@@ -1,0 +1,4 @@
+rule_id,reason,measured,threshold
+K1,calibration_pivot_locked,7,20
+S-A,mirrors K1; calibration experiments forbidden,7,20
+K3,unique_positive < threshold (OR branch),7,20

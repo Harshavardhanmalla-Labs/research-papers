@@ -1,0 +1,12 @@
+% Auto-converted from paper2_full_draft.md §8.
+% Wording preserved; no claims added.
+\section{Public-Feed Data and Sparse-Label Feasibility}
+This section reports the measured gate outcome.
+
+The full-window keyed acquisition fetched \textbf{110,224 NVD records} over \texttt{2021-09-01..2025-02-01}, in 11 chunks of $\leq$ 120 days each, paced at 0.6\,s. Eighteen monthly t0s in the EPSS v3 era were evaluated. KEV future labels were computed in \texttt{(t0, t0 + 30]}. The catalog produced \textbf{2,688 catalog-matched CVEs} under the 31-product \texttt{cpe\_exact} policy. EPSS daily snapshots covered 17 of 18 t0s at $\geq$ 99.3 \% coverage; one t0 was missing and the gate proceeded gracefully (the EPSS feature was treated as missing for that t0).
+
+The headline value is \textbf{7 unique positive distinct CVEs}. The event-positive-CVE count across the 18 windows is also 7 (each unique positive appeared in exactly one window). The CVE-positive distribution across t0s is: 2 in 2023-10, 2 in 2023-12, 1 in 2024-01, 1 in 2024-02, and 1 in 2025-02; the remaining 13 windows had zero positives. The pre-registered PIVOT threshold is < 20 unique positives; the GO threshold is $\geq$ 50.
+
+The calibration-infeasibility threshold triggered: the unique-positive count is below 20, and the per-window positive-count-below-3 share exceeds 75\% of windows. Calibration was not attempted; learned weights were not produced and are not used anywhere in this work. Ranking-quality metrics (precision / recall / nDCG at $K$) and the KEV-deadline-breach metric are therefore reported as diagnostic-only sentinels and do not enter any headline finding.
+
+We emphasise this is a measurement on one slice. Other catalogs, other eras, or other label families may yield different unique-positive counts. We make no general claim about when calibration is or is not feasible. We make a specific claim about \emph{this} catalog × this era × this label.

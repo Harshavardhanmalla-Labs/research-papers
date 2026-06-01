@@ -1,0 +1,7 @@
+event_id,user_id,action,event_timestamp,actor_user_id,days_since_last_logon_at_action,is_anomalous,anomaly_class
+5e194b48-04a3-c57d-aa8e-be4e08988a61,165037d4-a2b1-31bd-ccb5-cc16f6a43345,enabled,2024-01-18T11:00:00,2f56aa76-ed2a-28ff-f25a-1c66bb456eea,,False,
+59552f8d-7955-e345-8895-1c65f62437fc,ef44f589-d099-4856-a5be-16b787b9eb6b,enabled,2024-01-10T11:00:00,2f56aa76-ed2a-28ff-f25a-1c66bb456eea,,False,
+630c8318-a770-1abc-4aa6-969b0322c8d3,36f04d92-4e39-ae8a-cd71-0cd45870291c,reactivated,2024-03-18T04:00:00,2f56aa76-ed2a-28ff-f25a-1c66bb456eea,180.0,True,dormant_account_reactivation
+3bd26b27-481e-988b-c121-100a5aaa53e3,2a03bfc8-9c04-5ef2-8ec3-70d0eadca961,reactivated,2024-01-28T02:00:00,2f56aa76-ed2a-28ff-f25a-1c66bb456eea,180.0,True,dormant_account_reactivation
+24487fd7-a95c-6e2d-2755-7f5c8a641462,faf0039e-426e-22a6-110f-c34603f124e7,reactivated,2024-01-25T05:00:00,2f56aa76-ed2a-28ff-f25a-1c66bb456eea,180.0,True,dormant_account_reactivation
+31de685c-c0bd-4275-da7b-3d54fc9c19d2,1980de7c-f800-448c-ad9d-45a2e7686d2f,reactivated,2024-01-22T05:00:00,2f56aa76-ed2a-28ff-f25a-1c66bb456eea,184.9,True,dormant_account_reactivation

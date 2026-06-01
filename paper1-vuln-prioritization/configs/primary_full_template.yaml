@@ -1,0 +1,79 @@
+# =============================================================================
+# PRIMARY FULL-CELL TEMPLATE (Phase 13).
+#
+# This config is EXECUTABLE only with --confirm-full-run, and it should ALWAYS
+# be run first with --max-seeds 1 (and inspected) before scaling up. There is
+# deliberately NO Makefile target that runs all 30 seeds. The safe order is:
+#
+#     make primary-plan          # validate + estimate, runs nothing
+#     make primary-one-seed      # 1 seed, inspect outputs
+#     make primary-three-seeds   # 3 seeds, inspect outputs
+#     # only then, manually and intentionally:
+#     python scripts/run_primary_experiment.py \
+#         --config configs/primary_full_template.yaml \
+#         --confirm-full-run --max-seeds 30 --allow-large-run
+#
+# Guardrails (enforced by PrimaryRunConfig / run_primary_confirmed):
+#   - a non-dry run requires BOTH confirm_full_run=true (config) AND an
+#     explicit function/CLI confirm;
+#   - a confirmed run requires an explicit --max-seeds (it never defaults to
+#     all seeds);
+#   - --max-seeds > 3 requires --allow-large-run (or extra_confirm_large_run);
+#   - --max-seeds == 30 requires --allow-large-run explicitly;
+#   - allow_live_fetch must be false (no live feeds in this work);
+#   - gbt_comparator may not be included without a fitted model artifact.
+#
+# Output is NOT a final paper result until ALL pre-registered seeds complete
+# and the outputs are frozen.
+#
+# Fixture-date note: dates are pinned to the bundled toy fixtures
+# (t0 = 2025-06-01; KEV/PoC events in (2025-06-01, 2025-07-01]). Wiring real
+# point-in-time snapshots is a separate, later step.
+# =============================================================================
+
+config_name: primary_full_template_v1
+seed_master: 20260601
+seeds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+max_seeds_allowed_without_confirm: 1
+
+fleet_size: 10000
+primary_target_fleet_size: 10000
+capacity_ratio: 0.01
+capacity_min: 1
+
+label: A
+approver_policy: A
+identity_config: ad_entra_default
+blackout_config: primary
+
+t0_start: "2025-06-01"
+t0_end: "2025-08-31"
+H_days: 30
+evaluation_end_days: 90
+data_window_start: "2025-01-01"
+data_window_end: "2026-05-31"
+
+strategies:
+  - random
+  - cvss_only
+  - epss_only
+  - kev_first
+  - cvss_x_epss
+  - cvss_plus_epss_plus_kev
+  - cve_max
+  - cve_mean
+  - cve_sum
+  - proposed_full
+  - proposed_no_criticality
+  - proposed_no_exposure
+  - oracle
+excluded_strategies:
+  - gbt_comparator
+
+output_dir: results/primary_full_v1
+dry_run: false
+require_local_snapshots: false
+allow_live_fetch: false
+confirm_full_run: true
+checkpointing: true

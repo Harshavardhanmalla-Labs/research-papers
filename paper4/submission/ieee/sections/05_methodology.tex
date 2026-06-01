@@ -1,0 +1,83 @@
+\section{HygienePrio Methodology}
+
+\subsection{Hygiene Risk Score (HRS)}
+
+$\mathrm{HRS}(h)$ is a normalized, weighted combination of the three hygiene dimensions defined in \S4.3:
+
+\begin{align}
+  \mathrm{HRS}(h) &= w_1 \times \mathrm{PatchPosture}(h) \notag\\
+                  &\quad+ w_2 \times \mathrm{ADExposure}(h) \notag\\
+                  &\quad+ w_3 \times \mathrm{TelemetryFreshness}(h)
+  \label{eq:hrs}
+\end{align}
+
+Dimension weights $(w_1, w_2, w_3)$ are non-negative and sum to 1.0. They are not calibrated by the grid search (which calibrates the scorer-level weights $\alpha, \beta, \gamma, \delta$); instead, dimension weights are fixed based on the pre-registration protocol defaults: $w_1 = 0.5$, $w_2 = 0.3$, $w_3 = 0.2$. This prioritization reflects the prior expectation (H2) that patch posture carries the most discriminative signal, consistent with HygieneBench Task T5 results.
+
+Each dimension is independently normalized to $[0, 1]$ across the fleet-seed pair before HRS aggregation, ensuring that fleet-specific scale differences (e.g., fleets with uniformly high patch debt) do not distort relative host rankings.
+
+\textbf{HRS calibration note.} Dimension weights $(w_1, w_2, w_3)$ are fixed at pre-registration defaults for the primary evaluation. Sensitivity to dimension weights is explored in the ablation (\S7.2) by setting individual weights to zero. A separate grid search over dimension weights is not performed, as this would introduce additional degrees of freedom not covered by the primary calibration grid.
+
+\subsection{KEV Recency Weight}
+
+$\mathrm{KEV\_recency}(c)$ assigns higher priority to CVEs recently added to the CISA KEV catalog, under the rationale that recently catalogued exploited CVEs represent more active threat vectors:
+
+\begin{equation}
+  \mathrm{KEV\text{-}recency}(c) =
+  \begin{cases}
+    e^{-\lambda \cdot d_{\mathrm{kev}}(c)} & c \in \mathrm{KEV} \\
+    0 & c \notin \mathrm{KEV}
+  \end{cases}
+  \label{eq:kev_recency}
+\end{equation}
+
+\noindent where $d_{\mathrm{kev}}(c)$ is days since KEV catalog entry for CVE $c$.
+
+The decay constant $\lambda = 0.05$ is fixed at the pre-registration default (corresponding to a half-life of approximately 14 days --- matching the CISA BOD 23-01 asset discovery cadence). The sensitivity of results to $\lambda$ is explored informally but not reported as a separate ablation condition.
+
+For CVEs not in KEV (approximately 92\% of the fixture), $\mathrm{KEV\_recency}(c) = 0$, and those pairs are prioritized on EPSS and HRS alone. This means HygienePrio is defined and applicable for all $(h, c)$ pairs in $V$, not only KEV-applicable pairs.
+
+\subsection{HygienePrio Scorer}
+
+The HygienePrio scorer assigns a scalar priority score to each applicable (host, CVE) pair:
+
+\begin{align}
+  S(h, c) &= \alpha \cdot \mathrm{EPSS}(c)
+             + \beta \cdot \mathrm{HRS}(h) \notag\\
+           &\quad + \gamma \cdot \mathrm{KEV\text{-}recency}(c) \notag\\
+           &\quad + \delta \cdot \bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr)
+  \label{eq:scorer}
+\end{align}
+
+The four terms have distinct roles:
+
+\begin{itemize}
+  \item $\alpha \times \mathrm{EPSS}(c)$: Exploit likelihood contribution. Ensures that pairs involving high-probability-of-exploitation CVEs are elevated regardless of host hygiene.
+  \item $\beta \times \mathrm{HRS}(h)$: Host hygiene contribution. Elevates pairs on hygiene-poor hosts even when EPSS is moderate.
+  \item $\gamma \times \mathrm{KEV\_recency}(c)$: Recency-weighted confirmed exploitation signal. Boosts recently catalogued KEV CVEs.
+  \item $\delta \times (\mathrm{EPSS}(c) \times \mathrm{HRS}(h))$: Interaction term. Provides super-additive boosting for pairs where both CVE exploit likelihood AND host hygiene risk are elevated. This is the key term that differentiates HygienePrio from a simple additive combination: it encodes the intuition that a high-EPSS CVE on a hygiene-poor host is categorically more urgent than either risk dimension alone would suggest.
+\end{itemize}
+
+All four weights $(\alpha, \beta, \gamma, \delta)$ are non-negative to ensure that higher values in any component can only increase the priority score, not decrease it. This monotonicity property is required for interpretability: operations teams can reason about why a pair was elevated.
+
+\subsection{Weight Calibration}
+
+Weights $(\alpha, \beta, \gamma, \delta)$ are calibrated by exhaustive grid search on the 5 held-out calibration seeds. The calibration objective is mean P@50 across the 5 seeds. The search grid is:
+
+\begin{itemize}
+  \item $\alpha \in \{0.3, 0.5, 0.7, 1.0\}$
+  \item $\beta \in \{0.1, 0.3, 0.5, 0.7\}$
+  \item $\gamma \in \{0.0, 0.1, 0.3, 0.5\}$
+  \item $\delta \in \{0.0, 0.1, 0.2, 0.3\}$
+\end{itemize}
+
+This yields $4 \times 4 \times 4 \times 4 = 256$ grid points evaluated on 5 seeds each, producing 1,280 P@50 observations. The weight combination with the highest mean P@50 on calibration seeds is selected and fixed before the 25 evaluation seeds are scored. No weight adjustment is made after observing evaluation results.
+
+The calibration-selected weights are reported in the experimental setup section (\S6.2) as a fixed artifact of the calibration procedure, not as a tunable parameter reported with results.
+
+\subsection{Ranked List Generation}
+
+For each seed, the scorer computes $S(h, c)$ for every pair $(h, c) \in V$ (the applicable vulnerability-host pair table for that seed). Pairs are sorted descending by $S(h, c)$. Ties are broken by $\mathrm{EPSS}(c)$ descending, then by CVE ID lexicographic order for determinism. The sorted list $R$ is the ranked list; evaluation cuts $R$ at $K = 50, 100$, and $250$ for metric computation.
+
+\subsection{Relationship to EPSS-Only Baseline}
+
+The EPSS-only baseline ranks $(h, c)$ pairs by $\mathrm{EPSS}(c)$ descending, with ties broken by CVSS base score. Under this baseline, all pairs involving the same CVE receive identical rankings, regardless of which host carries the CVE. HygienePrio breaks this tie-structure via $\mathrm{HRS}(h)$: among pairs sharing a CVE, those on hygiene-poor hosts are elevated. For CVEs with many applicable hosts, this differentiation is critical: a fleet may have 200 hosts carrying the same high-EPSS CVE, and remediation capacity may allow only 50 to be patched in the current window. HygienePrio's host-level tiebreaking directly addresses this case.
