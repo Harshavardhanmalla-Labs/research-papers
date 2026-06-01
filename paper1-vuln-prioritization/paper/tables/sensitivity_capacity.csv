@@ -1,0 +1,16 @@
+cell_id,strategy,weight_vector,capacity_ratio,blackout_policy,approver_policy,ablation,n_seeds,ehd_mean,ehd_median,ehd_std,axis
+CAP-cvss_plus_epss_plus_kev-cap0005,cvss_plus_epss_plus_kev,na,0.005000,primary,A,full,30,3335697072.533333,3318960904.000000,80571576.619616,capacity
+CAP-cvss_plus_epss_plus_kev-cap0020,cvss_plus_epss_plus_kev,na,0.020000,primary,A,full,30,3297189031.466667,3280645136.000000,79641984.180208,capacity
+CAP-cvss_plus_epss_plus_kev-cap0050,cvss_plus_epss_plus_kev,na,0.050000,primary,A,full,30,3220172557.866667,3204015128.000000,77781802.247354,capacity
+CAP-epss_only-cap0005,epss_only,na,0.005000,primary,A,full,30,3335696966.400000,3318960240.000000,80571754.159401,capacity
+CAP-epss_only-cap0020,epss_only,na,0.020000,primary,A,full,30,3297189033.600000,3280645152.000000,79641813.569365,capacity
+CAP-epss_only-cap0050,epss_only,na,0.050000,primary,A,full,30,3220172745.600000,3204016560.000000,77781201.758632,capacity
+CAP-proposed-w_context_dominant-cap0005,proposed_fixed_prior,w_context_dominant,0.005000,primary,A,full,30,3328101048.533333,3311005272.000000,80821094.603754,capacity
+CAP-proposed-w_context_dominant-cap0020,proposed_fixed_prior,w_context_dominant,0.020000,primary,A,full,30,3264617577.600000,3247758096.000000,80618804.333316,capacity
+CAP-proposed-w_context_dominant-cap0050,proposed_fixed_prior,w_context_dominant,0.050000,primary,A,full,30,3142457664.000000,3126101456.000000,79732107.594404,capacity
+CAP-proposed-w_epss_dominant-cap0005,proposed_fixed_prior,w_epss_dominant,0.005000,primary,A,full,30,3334967851.733333,3318252008.000000,80572309.066845,capacity
+CAP-proposed-w_epss_dominant-cap0020,proposed_fixed_prior,w_epss_dominant,0.020000,primary,A,full,30,3285009875.733333,3268264656.000000,79973074.059499,capacity
+CAP-proposed-w_epss_dominant-cap0050,proposed_fixed_prior,w_epss_dominant,0.050000,primary,A,full,30,3165060312.533333,3148949568.000000,79115160.112178,capacity
+CAP-proposed-w_paper1_placeholder-cap0005,proposed_fixed_prior,w_paper1_placeholder,0.005000,primary,A,full,30,3332942911.466667,3316292680.000000,80599799.759394,capacity
+CAP-proposed-w_paper1_placeholder-cap0020,proposed_fixed_prior,w_paper1_placeholder,0.020000,primary,A,full,30,3273756629.866667,3256551384.000000,80212219.257466,capacity
+CAP-proposed-w_paper1_placeholder-cap0050,proposed_fixed_prior,w_paper1_placeholder,0.050000,primary,A,full,30,3154616190.933333,3139360144.000000,79137353.696975,capacity

@@ -1,0 +1,7 @@
+policy_name: B
+rho_senior: 0.7
+low_complexity_delay_business_days: 1
+high_complexity_cab_cadence_business_days: 5
+restricted_zone_additional_delay_business_days: 5
+kev_breach_override_hours: 48
+risk_acceptance_probability_high_complexity_restricted: 0.15

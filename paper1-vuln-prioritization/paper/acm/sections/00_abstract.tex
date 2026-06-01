@@ -1,0 +1,25 @@
+Government endpoint fleets face more disclosed vulnerabilities than they can
+remediate within operational capacity, and prioritization decisions are often made
+without traceable, reviewable evidence. We present an open, reproducible benchmark
+framework for context-aware vulnerability-host \textit{pair} prioritization that
+integrates exploit-intelligence (EPSS, KEV, public proof-of-concept signals),
+asset-criticality, and endpoint-exposure features, and that couples ranking with a
+capacity-constrained scheduling simulation and an append-only, hash-chained audit
+log of every decision. We evaluate the framework on a deterministic,
+public-sector-shaped synthetic fleet using a frozen 30-seed artifact spanning 13
+prioritization strategies and a simulated expected-exploited-host-days (EHD)
+operational metric, with strict output inspection and a content-addressed
+freeze/verify protocol. The evaluation checks artifact integrity end to end (4,290
+metric rows with no missing or non-finite values; 390 audit logs that all verify;
+feasible scheduling within capacity) and computes operational and ranking metrics
+reproducibly from the frozen outputs. Under the current synthetic fixtures and
+uncalibrated (placeholder) weights, the strategies are statistically
+indistinguishable on EHD: the proposed context-aware model neither beats the EPSS
+baseline nor a random ordering, and all inter-strategy differences fall within
+seed-to-seed variation. These results expose capacity-driven and base-rate
+trade-offs and, rather than establishing real-world superiority, provide a
+falsifiable, audit-evidence-producing benchmark on which calibrated and externally
+validated prioritization studies can build. *(All numeric values to be reconfirmed
+against the released artifact before camera-ready.)*
+
+management; reproducible benchmark; auditability; public-sector security operations.

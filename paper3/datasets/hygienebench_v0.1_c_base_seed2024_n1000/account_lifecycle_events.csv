@@ -1,0 +1,11 @@
+event_id,user_id,action,event_timestamp,actor_user_id,days_since_last_logon_at_action,is_anomalous,anomaly_class
+1d0cf866-6525-2855-8be8-398c44067907,d05c6828-0418-3b6c-ce02-2cbf78378939,password_reset,2024-02-12T09:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,,False,
+408078cc-1c5e-3d39-1cb1-6d724dfc4171,9791bbe8-2025-9217-09cd-ff26fb70ab39,disabled,2024-02-12T13:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,,False,
+ea2d42ff-2e7a-8ad8-e19c-fe09b85fddc9,1abe49f1-9890-5998-46d3-6fab104883fc,enabled,2024-01-03T13:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,,False,
+0266ad39-f122-14c2-0155-2b45ba34f38b,8f3063cb-31da-8613-79d3-d5d7eea0fc57,created,2024-03-18T09:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,,False,
+e093201b-1656-c1c4-208f-945aaa02c1b8,877baf95-269e-e368-a0bc-2b8260d855a8,disabled,2024-02-21T16:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,,False,
+c8592ed7-3973-8175-c6b4-573958e467ca,3244bd46-3c23-cd5f-a696-691301851d7d,disabled,2024-01-18T13:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,,False,
+d46f27a1-393d-1d38-7033-b5b827d7d3a4,2a5cca01-6531-81f0-8f53-986d1f61d331,reactivated,2024-01-30T04:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,233.5,True,dormant_account_reactivation
+6ddac3ba-924d-2548-dc1a-178afd253aea,d9e731df-6336-584c-ebca-1feabfb3e861,reactivated,2024-03-14T02:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,180.0,True,dormant_account_reactivation
+f64221ad-0181-a1d5-1c4f-d113ecd47120,0e77b020-c685-f1cc-d6fe-16fc54f778f4,reactivated,2024-02-20T03:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,180.0,True,dormant_account_reactivation
+847426a0-67c3-b54d-db85-b4152ca74007,105e28c1-918a-b058-b43c-1f2b8665ba5e,reactivated,2024-01-26T03:00:00,d1de2ea7-4216-965f-be0a-44ba80178a03,180.0,True,dormant_account_reactivation

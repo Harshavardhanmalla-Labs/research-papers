@@ -1,0 +1,15 @@
+% Auto-converted from paper2_full_draft.md §7.
+% Wording preserved; no claims added.
+\section{Study Design and Pre-Registration}
+The study was pre-registered before any execution. Six fixed design-prior weight vectors were locked at pre-registration:
+
+\begin{itemize}
+\item \texttt{w\_uniform} (1/7 each),
+\item \texttt{w\_paper1\_placeholder} (= Paper 1's \texttt{w\_hand}),
+\item \texttt{w\_epss\_dominant} (E = 0.50),
+\item \texttt{w\_cvss\_dominant} (S = 0.50),
+\item \texttt{w\_kev\_dominant} (K = 0.50),
+\item \texttt{w\_context\_dominant} (C = 0.30, X = 0.25).
+\end{itemize}
+
+Each vector is a \emph{design prior with a citation chain for the direction}, not a literature numeric estimate; reweighting after results is forbidden by pre-registration. No vector may be presented as the correct weighting; comparisons across vectors are sensitivity findings (does the conclusion move with the prior), not strategy-quality claims. The pre-registered factorial is 48 runnable cells $\times$ 30 seeds = 1,440 seed-runs across four primary batches (primary, capacity, blackout, ablation). A pilot run preceded the primary launch; the pilot-gate decision was \texttt{PROCEED\_TO\_PRIMARY\_NO\_FALLBACK}.

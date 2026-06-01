@@ -1,0 +1,57 @@
+% Section: Experimental Setup
+% Source: paper_draft_v0.1.md § 4. Experimental Setup
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\section{Experimental Setup}
+\label{sec:setup}
+
+\subsection{Methods}
+
+We evaluate eight methods representing the main algorithmic families applicable
+to unsupervised tabular anomaly detection under class imbalance
+(Table~\ref{tab:methods}).
+
+\input{tables/tab_methods}
+
+M6 is implemented as PCA-based linear reconstruction error because PyTorch is
+unavailable in the evaluation environment; this is an approximation of a
+one-hidden-layer autoencoder. M8 is implemented using networkx graph features
+(degree, privileged-degree, clustering coefficient) combined with Isolation
+Forest rather than DOMINANT-style deep graph autoencoders~\cite{ding2019dominant},
+for the same reason. Both approximations are documented. M8 is excluded from T4
+and T5 by design (no meaningful graph signal for asset/patch anomalies; reported
+as N/A).
+
+\subsection{Feature Engineering}
+
+For each task, \texttt{TaskFeatureExtractor.extract(task\_id, seed)} computes a
+feature matrix from raw CSVs. Features include task-relevant identity state
+attributes, temporal aggregates (e.g., 30-day login frequency, off-hours rate,
+cross-segment rate), patch compliance scores, vulnerability counts, KEV exposure
+counts, and telemetry freshness scores. Missing values are imputed with
+training-set column means before fitting.
+
+\subsection{Metrics and Negative-Result Protocol}
+
+\paragraph{Primary metrics.}
+Average Precision (AP) and Precision@$k$ (P@$k$) at task-specific $k$ values
+(Table~\ref{tab:tasks}). AP is the standard interpolated area under the
+precision-recall curve. P@$k$ is the fraction of true anomalies in the top-$k$
+ranked entities---the operationally relevant metric for SOC review budgets.
+
+\paragraph{Secondary metrics.}
+Recall@$k$ (R@$k$), False Positive Burden (FPB $= 1 - $P@$k$), and AP stability
+($1 - \text{CV}$ across seeds).
+
+\paragraph{Pre-registered failure protocol.}
+A (condition, task, method) configuration is flagged as a \emph{negative result}
+($\blacktriangleright$) if:
+\begin{equation}
+  \text{AP}(\text{method}) - \text{AP}(\text{M1}) < 0.05
+  \;\text{ \textbf{and} }\;
+  \text{P@}k(\text{method}) - \text{P@}k(\text{M1}) < 0.05
+  \label{eq:failure}
+\end{equation}
+in at least $\lceil 2/3 \times n_{\text{seeds}} \rceil = 2$ of 3 seeds. Flagged
+configurations are reported in full; they are not filtered. This protocol was
+registered in \texttt{PAPER3\_DECISION\_LOG.md} prior to examining any results.

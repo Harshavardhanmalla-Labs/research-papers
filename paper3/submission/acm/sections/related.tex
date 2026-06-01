@@ -1,0 +1,49 @@
+% Section: Related Work
+% Source: paper_draft_v0.1.md § 2. Related Work
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Network intrusion and attack emulation benchmarks.}
+The LANL Unified Host and Network Dataset~\cite{kent2015lanl} provides large-scale
+enterprise network flow and authentication telemetry, but it captures network-level
+events and does not model identity hygiene state (account staleness, privilege
+drift) or endpoint patch posture. CICIDS~\cite{sharafaldin2018cicids} and DARPA
+datasets~\cite{darpa_tc_2018} focus on network traffic classification. Mordor/Security
+Datasets~\cite{rodriguez2019mordor} and BOTSv3 provide attack-emulation telemetry
+from red-team exercises---a fundamentally different framing from hygiene-state
+monitoring. None of these benchmarks includes telemetry freshness or missingness as
+a controlled evaluation variable.
+
+\paragraph{Insider threat datasets.}
+The Carnegie Mellon CERT Insider Threat Dataset~\cite{glasser2013cert} includes user
+behavior logs (email, file access, login) for insider-threat detection. While it
+covers some identity-adjacent behaviors, it does not model endpoint patch state,
+vulnerability records, or the multi-table hygiene-state structure of enterprise AD
+environments.
+
+\paragraph{Graph anomaly detection.}
+The graph anomaly detection literature has produced several methods and datasets for
+attributed-graph anomalies~\cite{ding2019dominant,liu2024pygod}. These approaches
+typically operate on single-hop graph structure and do not model the temporal,
+multi-table telemetry characteristic of enterprise security operations.
+
+\paragraph{Commercial and proprietary platforms.}
+Microsoft Defender for Identity, Entra ID Protection, Splunk UBA, Exabeam, and
+Microsoft Sentinel address overlapping detection problems. They are commercial
+products, not open benchmarks, and do not release datasets or evaluation
+methodologies for external comparison. We make no comparison claims against these
+platforms.
+
+\paragraph{Synthetic security dataset generation.}
+Synthetic generation of security telemetry has precedent in network
+simulation~\cite{creech2013kdd}. \hygienebench extends this tradition to the
+hygiene-state domain with documented structural priors and a reproducible seeded
+generator.
+
+\paragraph{Failure-aware and negative-result reporting.}
+The practice of explicitly reporting when ML fails to outperform simpler baselines
+is well-established in machine learning~\cite{sculley2018winners} but
+underrepresented in security benchmark papers. \hygienebench operationalizes this
+with a pre-registered $\Delta$-threshold protocol applied across all runs.

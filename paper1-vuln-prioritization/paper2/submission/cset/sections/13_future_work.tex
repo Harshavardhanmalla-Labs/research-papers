@@ -1,0 +1,12 @@
+% Auto-converted from paper2_full_draft.md §14.
+% Wording preserved; no claims added.
+\section{Future Work}
+\begin{itemize}
+  \item \textbf{Catalog expansion.} Expand the product catalog and re-run the full gate, so the negative finding can be tested against catalog width.
+  \item \textbf{Per-t0 EPSS.} The current study used a single cached EPSS snapshot at every t0 horizon. A future run with per-t0 EPSS snapshots would allow the EPSS feature to vary by horizon.
+  \item \textbf{Catalog perturbation.} A one-product perturbation drift evaluation would quantify catalog stability under small changes.
+  \item \textbf{Larger seed budget.} Sweeps at $n = 50$ and $n = 100$ seeds would allow the within-cell variance criterion to be re-evaluated and potentially yield inferential rather than descriptive sensitivity findings.
+  \item \textbf{Richer exploit labels.} A licensed PoC / ExploitDB label path, under an explicit license-gate environment with no redistribution, would test whether label-family choice drives the sparsity finding.
+  \item \textbf{LEV integration.} An evaluation incorporating NIST Likely Exploited Vulnerabilities scores~\cite{MellSpring2025NISTLEV} should be conducted once LEV scores stabilise.
+  \item \textbf{EPSS v4 era.} A second gate measurement on the EPSS v4 era, treating v3 and v4 as separate slices, would test whether the negative finding persists across the model-version boundary.
+\end{itemize}

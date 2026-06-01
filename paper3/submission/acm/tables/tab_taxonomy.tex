@@ -1,0 +1,29 @@
+% Table 2: Anomaly taxonomy
+% Source: paper_draft_v0.1.md Table 2
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\begin{table}[t]
+\centering
+\caption{HygieneBench anomaly classes. ATT\&CK mappings are enabling-condition
+  correlations; they do not imply detection of any specific technique.}
+\label{tab:taxonomy}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Class & Code & ATT\&CK enabling condition & Tasks \\
+\midrule
+Stale privileged account       & AH-01 & Valid Accounts: Domain (T1078.002)    & T1 \\
+Privilege escalation drift     & AH-02 & Valid Accounts, Domain Policy Mod.    & T7 \\
+Group membership drift         & AH-03 & Domain Policy Modification (T1484)    & T2 \\
+Dormant account reactivation   & AH-04 & Valid Accounts: Domain (T1078.002)    & T6 \\
+Impossible/unusual login       & AH-05 & Valid Accounts, Lateral Movement      & T1,T3 \\
+Endpoint--identity risk corr.  & AH-06 & Exploit Public-Facing App             & T3 \\
+Patch noncompliance cluster    & AH-07 & Exploit Public-Facing App (T1190)     & T5 \\
+KEV exposure aging             & AH-08 & Exploit Public-Facing App (T1190)     & T5 \\
+Asset inventory mismatch       & AH-09 & Defense Evasion enabling              & T4 \\
+Missing endpoint agent         & AH-10 & Defense Evasion enabling              & T4 \\
+Telemetry missingness cluster  & AH-11 & Defense Evasion enabling              & T4 \\
+Abnormal remediation delay     & AH-12 & Exploit Public-Facing App             & T5 \\
+\bottomrule
+\end{tabular}
+\end{table}

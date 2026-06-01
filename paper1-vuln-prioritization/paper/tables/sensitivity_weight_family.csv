@@ -1,0 +1,13 @@
+cell_id,strategy,weight_vector,capacity_ratio,blackout_policy,approver_policy,ablation,n_seeds,ehd_mean,ehd_median,ehd_std,axis
+P-cvss_only-na,cvss_only,na,0.010000,primary,A,full,30,3322860604.800000,3306189744.000000,80261676.342824,weight_family
+P-cvss_plus_epss_plus_kev-na,cvss_plus_epss_plus_kev,na,0.010000,primary,A,full,30,3322860870.933333,3306188248.000000,80261776.012669,weight_family
+P-cvss_x_epss-na,cvss_x_epss,na,0.010000,primary,A,full,30,3322861142.400000,3306188160.000000,80261561.161073,weight_family
+P-epss_only-na,epss_only,na,0.010000,primary,A,full,30,3322860768.000000,3306187152.000000,80261836.444978,weight_family
+P-kev_first-na,kev_first,na,0.010000,primary,A,full,30,3322860907.733333,3306189520.000000,80261553.786068,weight_family
+P-proposed-w_context_dominant,proposed_fixed_prior,w_context_dominant,0.010000,primary,A,full,30,3306747577.066667,3289447000.000000,80780611.270423,weight_family
+P-proposed-w_cvss_dominant,proposed_fixed_prior,w_cvss_dominant,0.010000,primary,A,full,30,3314037667.200000,3297584632.000000,80421356.814040,weight_family
+P-proposed-w_epss_dominant,proposed_fixed_prior,w_epss_dominant,0.010000,primary,A,full,30,3320652642.666667,3304017936.000000,80230320.971644,weight_family
+P-proposed-w_kev_dominant,proposed_fixed_prior,w_kev_dominant,0.010000,primary,A,full,30,3320316233.066667,3303649736.000000,80322513.084616,weight_family
+P-proposed-w_paper1_placeholder,proposed_fixed_prior,w_paper1_placeholder,0.010000,primary,A,full,30,3314121209.600000,3297182440.000000,80498011.787491,weight_family
+P-proposed-w_uniform,proposed_fixed_prior,w_uniform,0.010000,primary,A,full,30,3312834854.400000,3295913512.000000,80448445.261195,weight_family
+P-random-na,random,na,0.010000,primary,A,full,30,3322853913.600000,3306150576.000000,80262899.682157,weight_family

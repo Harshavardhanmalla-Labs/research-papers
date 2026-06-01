@@ -1,0 +1,67 @@
+# OS catalog: per family, available versions with release dates,
+# and the host-role priors that determine which OS family a host of a
+# given role receives.
+families:
+  windows_workstation:
+    versions:
+      - { version: "Windows 10 22H2 19045.5371", release_date: 2022-10-18 }
+      - { version: "Windows 11 22H2 22621.2715", release_date: 2022-09-20 }
+      - { version: "Windows 11 23H2 22631.3593", release_date: 2023-10-31 }
+      - { version: "Windows 11 24H2 26100.2033", release_date: 2024-10-01 }
+    role_priors:
+      standard_workstation: 1.0
+      privileged_workstation: 0.95
+      kiosk: 1.0
+      buffer: 0.8
+
+  windows_server:
+    versions:
+      - { version: "Windows Server 2016 14393", release_date: 2016-10-12 }
+      - { version: "Windows Server 2019 17763", release_date: 2018-11-13 }
+      - { version: "Windows Server 2022 20348", release_date: 2021-08-18 }
+      - { version: "Windows Server 2025 26100", release_date: 2024-11-01 }
+    role_priors:
+      domain_controller: 1.0
+      member_server: 0.55
+      public_facing_server: 0.45
+      restricted_zone_system: 0.40
+      buffer: 0.1
+
+  linux:
+    versions:
+      - { version: "Ubuntu 22.04 LTS", release_date: 2022-04-21 }
+      - { version: "Ubuntu 24.04 LTS", release_date: 2024-04-25 }
+      - { version: "RHEL 9.4", release_date: 2024-05-01 }
+      - { version: "Debian 12.5", release_date: 2024-02-10 }
+    role_priors:
+      member_server: 0.45
+      public_facing_server: 0.55
+      restricted_zone_system: 0.40
+      buffer: 0.1
+
+  macos:
+    versions:
+      - { version: "macOS 13.6 Ventura", release_date: 2023-09-21 }
+      - { version: "macOS 14.5 Sonoma", release_date: 2024-05-13 }
+      - { version: "macOS 15.0 Sequoia", release_date: 2024-09-16 }
+    role_priors:
+      standard_workstation: 0.05
+      privileged_workstation: 0.05
+      restricted_zone_system: 0.05
+      buffer: 0.05
+
+  ios:
+    versions:
+      - { version: "iOS 17.7", release_date: 2024-09-16 }
+      - { version: "iOS 18.0", release_date: 2024-09-16 }
+      - { version: "iOS 18.1", release_date: 2024-10-28 }
+    role_priors:
+      mobile_device: 0.50
+
+  android:
+    versions:
+      - { version: "Android 13", release_date: 2022-08-15 }
+      - { version: "Android 14", release_date: 2023-10-04 }
+      - { version: "Android 15", release_date: 2024-10-15 }
+    role_priors:
+      mobile_device: 0.50

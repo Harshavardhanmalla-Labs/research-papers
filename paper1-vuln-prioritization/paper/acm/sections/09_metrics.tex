@@ -1,0 +1,18 @@
+\section{Evaluation Metrics}
+
+We report: \textbf{simulated expected exploited-host-days (EHD) and EEHDA} (for a
+positive pair, days open after the label fires, bounded by the evaluation end;
+lower is better; EEHDA expresses each strategy in absolute terms and relative to
+random, relative to EPSS, and as a fraction of oracle headroom); **ranking
+quality** (precision@k, recall@k, nDCG@k, censored labels excluded);
+\textbf{KEV-deadline breach rate}; \textbf{capacity efficiency} (share of scheduled
+non-censored pairs that are positives); \textbf{scheduler feasibility};
+\textbf{risk-acceptance rate}; and \textbf{audit integrity} (hash-chain validity and audit
+record counts). Paired statistical comparison helpers --- the Wilcoxon signed-rank
+test \cite{wilcoxon1945}, Holm-Bonferroni correction \cite{holm1979}, and BCa bootstrap
+confidence intervals \cite{efron1987better} --- are implemented; we do not apply them as
+significance claims here because the observed differences are within seed-to-seed
+noise (Section 13). Structural inspection (no duplicate rankings, contiguous ranks,
+schedules subset of rankings, capacity respected, no infinite or
+undocumented-NaN metrics) and content-addressed freeze verification gate the
+results.

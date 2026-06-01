@@ -1,0 +1,4 @@
+claim_id,rule_id,new_status,reason
+CLM-D1,K3,diagnostic_only,label sparsity
+CLM-G1,K3,diagnostic_only,KEV sparsity
+CLM-A1,K1,measurement_already_triggered,7 < 20 unique positives

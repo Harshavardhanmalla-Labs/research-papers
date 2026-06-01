@@ -1,0 +1,39 @@
+group_id,group_name,group_type,is_privileged,member_count,ou_path,source_freshness_flag,last_updated_at
+f63cdcca-d5bb-77dc-5b1c-c9842c95a22c,Domain Admins,security,True,0,"OU=PrivilegedGroups,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+e514df14-0f4d-f837-fed5-e9616449a75c,Enterprise Admins,security,True,0,"OU=PrivilegedGroups,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+6dd55c1a-5627-dc59-ef26-a0803b03b205,Schema Admins,security,True,0,"OU=PrivilegedGroups,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+633cab91-4c07-e488-45cd-ce73a82003c0,Finance_Staff_000,security,False,0,"OU=Finance,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+7ab3678c-7a30-2cea-62c1-636188fe6376,Engineering_Staff_001,security,False,0,"OU=Engineering,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+8618ae4e-9461-5641-f013-2b0f7e9a79ba,IT_Staff_002,security,False,0,"OU=IT,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+ed1f41ed-18d7-d3a4-b812-c1e4569e5465,HR_Staff_003,security,False,0,"OU=HR,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+8c4aa380-1811-d6f3-1c60-6d6d1e8afed9,Legal_Staff_004,security,False,0,"OU=Legal,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+1043a51d-a094-7db6-d730-68a0ca0607ac,Operations_Staff_005,security,False,0,"OU=Operations,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+776d8da4-dad5-7565-39f2-9b74f055ed14,Security_Staff_006,security,False,0,"OU=Security,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+62af7e80-ea03-0bf5-a936-a00445f006fe,Executive_Staff_007,security,False,0,"OU=Executive,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+8e5da0be-9b58-db63-405e-69aec936897f,Finance_Staff_008,security,False,0,"OU=Finance,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+e51ddacf-25bd-b2bf-ae5a-a97e5b9569d4,Engineering_Staff_009,security,False,0,"OU=Engineering,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+1b2eb18b-14ae-83b5-c8a0-6f3d92a65b54,IT_Staff_010,security,False,0,"OU=IT,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+e07ad88e-9977-08a3-4c5f-fb95d3bf5bf8,HR_Staff_011,security,False,0,"OU=HR,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+4a73a13a-e4dd-cecf-5574-7dea8b867fae,Legal_Staff_012,security,False,0,"OU=Legal,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+01620c71-0133-8b6c-4813-a166e626e333,Operations_Staff_013,security,False,0,"OU=Operations,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+49f1da6b-3a8f-7a63-b30d-e447ac877532,Security_Staff_014,security,False,0,"OU=Security,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+284c3e90-1c4c-effd-ea31-801266e72dae,Finance_DL_000,distribution,False,0,"OU=Finance,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+fb374729-3ead-f13b-4e9a-bb6f4813c681,Engineering_DL_001,distribution,False,0,"OU=Engineering,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+abbb5952-57be-1dc0-7b34-ecc7815cd802,IT_DL_002,distribution,False,0,"OU=IT,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+8f70767f-f4b6-e74a-b35e-75713bc5d824,HR_DL_003,distribution,False,0,"OU=HR,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+6f83be9a-1296-c988-f7f1-28581fbc354a,Legal_DL_004,distribution,False,0,"OU=Legal,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+fdfe2c78-5889-2ce7-5e65-10e9fba2a29f,Operations_DL_005,distribution,False,0,"OU=Operations,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+f652bbf0-c6ca-3b36-0fa3-29c0a4941a36,Security_DL_006,distribution,False,0,"OU=Security,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+9552d786-8e30-5dab-8533-7e925535cf04,Executive_DL_007,distribution,False,0,"OU=Executive,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+a4fb9809-b8a3-19d2-9c13-d96d40206041,Finance_DL_008,distribution,False,0,"OU=Finance,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+32c8ae97-57e1-1bbb-c3b6-8f06b1a5292f,Engineering_DL_009,distribution,False,0,"OU=Engineering,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+e98be451-8e59-69d6-e8d3-6e4bec0df15f,IT_DL_010,distribution,False,0,"OU=IT,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+5f6a441d-cb4f-8d4c-76ce-2f169804277e,HR_DL_011,distribution,False,0,"OU=HR,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+e47f0ecf-daba-ada1-9250-8387695a1c56,Legal_DL_012,distribution,False,0,"OU=Legal,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+eecf63e7-da2c-82f9-9049-58bf86044909,Operations_DL_013,distribution,False,0,"OU=Operations,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+3506c47b-93e2-4faa-41da-2f86b4bc7025,Security_DL_014,distribution,False,0,"OU=Security,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+114c09b3-ca59-2cdb-92fe-aefe7593ff37,Executive_DL_015,distribution,False,0,"OU=Executive,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+d4e9ae3c-643b-7626-5d2c-dc78403d7ec5,Finance_DL_016,distribution,False,0,"OU=Finance,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+9a503f2f-a606-3abf-67e6-e51731eceb8e,Engineering_DL_017,distribution,False,0,"OU=Engineering,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+bf9542c3-3dad-741a-7d3e-a1fbb2888b19,IT_DL_018,distribution,False,0,"OU=IT,DC=corp,DC=local",fresh,2024-01-01T00:00:00
+f8491554-ac8b-a4be-0763-1295c6760fb6,HR_DL_019,distribution,False,0,"OU=HR,DC=corp,DC=local",fresh,2024-01-01T00:00:00

@@ -1,0 +1,29 @@
+% Table 5: Mean AP and P@k by method (all conditions, tasks, seeds; n=810 runs)
+% Source: paper_draft_v0.1.md Table 5
+% Numbers verified against results/primary_full_v1/primary_results.csv (2026-05-28)
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+\begin{table}[t]
+\centering
+\caption{Mean AP and P@$k$ by method across all 810 runs. $\blacktriangleright$ =
+  failure-flagged (ML does not improve on rule by $\Delta$=0.05 in $\geq$2/3 seeds).
+  $\dagger$M8 covers T1--T3, T6--T7 only ($n$=75 configs).}
+\label{tab:overall}
+\small
+\begin{tabular}{@{}llrrl@{}}
+\toprule
+Method & & Mean AP & Mean P@$k$ & Failure rate \\
+\midrule
+M1 & Rule baseline          & \textbf{0.916} & 0.444 & --- \\
+M5 & OCSVM                  & 0.913 & \textbf{0.447} & 69.5\% $\blacktriangleright$ \\
+M8 & Graph-IF$^\dagger$     & 0.801 & 0.348 & \textbf{100\%} $\blacktriangleright$ \\
+M4 & LOF                    & 0.800 & 0.445 & 77.1\% $\blacktriangleright$ \\
+M6 & Linear-AE              & 0.798 & 0.407 & 88.6\% $\blacktriangleright$ \\
+M3 & Isolation Forest       & 0.781 & 0.428 & 88.6\% $\blacktriangleright$ \\
+M7 & Temporal z-score       & 0.774 & 0.392 & 87.6\% $\blacktriangleright$ \\
+M2 & Hybrid scorer          & 0.709 & 0.417 & 96.2\% $\blacktriangleright$ \\
+\midrule
+\multicolumn{4}{l}{\textbf{Overall failure rate: 608/705 = 86.2\%}} \\
+\bottomrule
+\end{tabular}
+\end{table}

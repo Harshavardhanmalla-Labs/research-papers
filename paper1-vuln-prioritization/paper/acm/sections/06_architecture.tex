@@ -1,0 +1,14 @@
+\section{System Architecture}
+
+The end-to-end pipeline is: public feeds (cached snapshots) $\rightarrow$ synthetic fleet
+generation (hosts, criticality, exposure, complexity) $\rightarrow$ vulnerability-host pair
+builder (no-future-leakage) $\rightarrow$ seven-feature frame (E, K, S, C, X, U, R) $\rightarrow$
+prioritization strategies (ranking) $\rightarrow$ capacity-constrained scheduler
+(blackout/approval/risk) $\rightarrow$ append-only hash-chained audit logs $\rightarrow$ evaluation metrics
+$\rightarrow$ freeze and reporting (tables/figures). Two properties are central:
+\textbf{tamper-evident audit logs} (each record's hash chains to its predecessor, so
+post-hoc modification breaks verification), and \textbf{frozen outputs} (a completed
+result set is sealed with a content-addressed freeze manifest of per-file SHA-256
+hashes, and all tables and figures are generated only from a freeze-verified
+artifact). Controlled execution is guarded so that large runs require explicit
+confirmation, and per-seed checkpointing enables deterministic resume.

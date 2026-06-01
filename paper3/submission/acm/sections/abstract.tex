@@ -1,0 +1,30 @@
+% Section: Abstract
+% Source: paper_draft_v0.1.md § Abstract
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+
+Cyber-hygiene anomaly detection---identifying stale privileged accounts, dormant
+account reactivations, endpoint coverage gaps, patch noncompliance clusters, and
+telemetry missingness---is operationally important but poorly served by existing
+public benchmarks, which focus predominantly on network intrusion or
+attack-emulation telemetry. We introduce \hygienebench, an open, reproducible
+benchmark that jointly covers Active Directory identity state, endpoint patch
+posture, vulnerability exposure, and telemetry freshness across seven evaluation
+tasks (T1--T7) and twelve anomaly classes. \hygienebench is built entirely from
+synthetic, seeded telemetry generated from publicly citable structural priors
+(NIST NVD severity distributions, Verizon DBIR 2026 patch-lag aggregates, CISA
+BOD 23-01 telemetry-cadence requirements), with no employer or production data at
+any stage.
+
+We evaluate eight methods---a task-specific rule baseline (M1), a hybrid risk
+scorer (M2), Isolation Forest (M3), Local Outlier Factor (M4), One-Class SVM
+(M5), a linear autoencoder (M6), population-level temporal z-score (M7), and a
+graph-augmented Isolation Forest (M8)---across five telemetry conditions
+(baseline, fresh, stale, missing, unsupervised). Applying a pre-registered failure
+protocol ($\Delta<0.05$ AP and $\Delta<0.05$ P@k in $\geq$2/3 seeds), we find that
+\textbf{86.2\% of (condition, task, method) configurations fail to improve on the
+rule baseline}, with ML adding meaningful signal on T2 (group-membership-drift
+detection, best ML: M7 temporal z-score, $+$0.185 AP over rule) and T5
+(patch-vulnerability hygiene, best ML: M5 OCSVM, $+$0.210 AP over rule).
+Telemetry staleness (C-STALE) consistently degrades detection performance relative
+to the baseline condition. We release the generator, datasets, and evaluation
+harness to enable reproducible comparison of future methods.

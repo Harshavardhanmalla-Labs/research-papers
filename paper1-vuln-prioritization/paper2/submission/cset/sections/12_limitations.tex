@@ -1,0 +1,17 @@
+% Auto-converted from paper2_full_draft.md §13.
+% Wording preserved; no claims added.
+\section{Limitations}
+\begin{itemize}
+  \item \textbf{Synthetic fleet.} The fleet uses the Paper-1 synthetic generator; real-host generalisation is not claimed.
+  \item \textbf{31-product catalog.} Catalog choice is exogenous. A catalog-expansion study is required before the negative finding can be attributed to something other than catalog narrowness.
+  \item \textbf{CPE matching.} The matching policy is \texttt{cpe\_exact} at one configuration; fuzzy and manual matching were deferred.
+  \item \textbf{KEV-only labels.} PoC and ExploitDB labels are license-gated and were not used. The negative finding reflects KEV-only label density at the specific catalog and era; richer label families may behave differently.
+  \item \textbf{Catalog perturbation.} Catalog stability under one-product perturbations was not measured at scale; this remains an open question.
+  \item \textbf{EPSS v3 era only.} The study is scoped to the EPSS v3 era, bounded by the model-version transition at 2025-03-17.
+  \item \textbf{Fixed priors are design priors.} No vector is a published numeric estimate; the citation chains motivate the \emph{direction} of each prior, not a specific magnitude.
+  \item \textbf{No calibration comparator.} The calibration-infeasibility threshold prevents learned-weight cells; no fitted-weight comparator is included.
+  \item \textbf{Ranking-quality and KEV-deadline metrics are diagnostic-only} due to label sparsity. They appear in appendix tables and do not enter the headline finding.
+  \item \textbf{Within-cell variance dominance.} The post-run variance criterion fires on every sensitivity axis, demoting each to descriptive-only at the 30-seed budget; the seed budget is itself a limitation.
+  \item \textbf{No production-readiness.} No production validation is claimed; the pipeline is not a production system.
+  \item \textbf{No deployment or compliance claims.} No government-deployment or compliance claim is made.
+\end{itemize}

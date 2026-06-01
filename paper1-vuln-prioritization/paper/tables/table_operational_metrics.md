@@ -1,0 +1,15 @@
+| strategy | kev_breach_rate_mean | capacity_efficiency_mean | scheduled_count_mean | scheduler_feasibility_mean | risk_acceptance_rate_mean |
+| --- | --- | --- | --- | --- | --- |
+| cve_max | 0.991816 | 0.7 | 100 | 1 | 0.00262826 |
+| cve_mean | 0.993856 | 0.533333 | 100 | 1 | 0.00239185 |
+| cve_sum | 0.994369 | 0.8 | 100 | 1 | 0.00360328 |
+| cvss_only | 0.984662 | 1 | 100 | 1 | 0.00285605 |
+| cvss_plus_epss_plus_kev | 0.993343 | 0.6 | 100 | 1 | 0.00239185 |
+| cvss_x_epss | 0.994366 | 0.566667 | 100 | 1 | 0.00239185 |
+| epss_only | 0.994366 | 0.633333 | 100 | 1 | 0.00263516 |
+| kev_first | 0.994366 | 0.633333 | 100 | 1 | 0.00263516 |
+| oracle | 0.995231 | 1 | 100 | 1 | 0.00398687 |
+| proposed_full | 0.992368 | 0.650333 | 100 | 1 | 0 |
+| proposed_no_criticality | 0.995917 | 0.3 | 100 | 1 | 0 |
+| proposed_no_exposure | 0.99353 | 0.676333 | 100 | 1 | 0 |
+| random | 0.995607 | 0.727333 | 100 | 1 | 0.000326797 |

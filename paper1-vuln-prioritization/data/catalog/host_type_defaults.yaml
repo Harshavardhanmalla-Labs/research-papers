@@ -1,0 +1,138 @@
+# Host-type defaults for the synthetic fleet generator.
+# All numbers are documented design choices, not measurements of any real
+# deployment. The paper publishes this file as the test-bed configuration.
+host_types:
+  standard_workstation:
+    distribution: 0.65
+    patch_lag_mean_days: 21
+    patch_lag_sigma: 0.6
+    role_subscore_range: [0.20, 0.35]
+    ipes_ad_entra: [0.10, 0.30]
+    ipes_federated: [0.10, 0.30]
+    network_subscore_range: [0.10, 0.30]
+    data_subscore_range: [0.10, 0.30]
+    zone_priors: { internal: 0.85, restricted: 0.10, dmz: 0.05 }
+    identity_tier_priors_ad: { tier_2: 0.95, tier_1: 0.05 }
+    identity_tier_priors_federated: { non_ad: 1.0 }
+    data_sensitivity_priors: { general: 0.80, pii: 0.15, cji: 0.05 }
+    group_size: 100
+
+  privileged_workstation:
+    distribution: 0.02
+    patch_lag_mean_days: 14
+    patch_lag_sigma: 0.5
+    role_subscore_range: [0.60, 0.80]
+    ipes_ad_entra: [0.65, 0.95]
+    ipes_federated: [0.65, 0.90]
+    network_subscore_range: [0.30, 0.55]
+    data_subscore_range: [0.55, 0.85]
+    zone_priors: { internal: 0.50, restricted: 0.50 }
+    identity_tier_priors_ad: { tier_0: 0.30, tier_1: 0.70 }
+    identity_tier_priors_federated: { non_ad: 1.0 }
+    data_sensitivity_priors: { pii: 0.40, cji: 0.40, general: 0.20 }
+    group_size: 25
+
+  member_server:
+    distribution: 0.12
+    patch_lag_mean_days: 14
+    patch_lag_sigma: 0.55
+    role_subscore_range: [0.60, 0.80]
+    ipes_ad_entra: [0.55, 0.85]
+    ipes_federated: [0.55, 0.80]
+    network_subscore_range: [0.30, 0.60]
+    data_subscore_range: [0.40, 0.80]
+    zone_priors: { internal: 0.60, restricted: 0.30, dmz: 0.10 }
+    identity_tier_priors_ad: { tier_1: 0.80, tier_0: 0.20 }
+    identity_tier_priors_federated: { non_ad: 1.0 }
+    data_sensitivity_priors: { general: 0.50, pii: 0.30, cji: 0.20 }
+    group_size: 50
+
+  domain_controller:
+    distribution: 0.005
+    patch_lag_mean_days: 7
+    patch_lag_sigma: 0.4
+    role_subscore_range: [0.95, 1.00]
+    ipes_ad_entra: [0.90, 1.00]
+    ipes_federated: [0.55, 0.80]
+    network_subscore_range: [0.40, 0.70]
+    data_subscore_range: [0.80, 1.00]
+    zone_priors: { restricted: 0.90, internal: 0.10 }
+    identity_tier_priors_ad: { tier_0: 1.0 }
+    identity_tier_priors_federated: { tier_0: 1.0 }
+    data_sensitivity_priors: { cji: 0.60, pii: 0.30, general: 0.10 }
+    group_size: 5
+
+  kiosk:
+    distribution: 0.03
+    patch_lag_mean_days: 60
+    patch_lag_sigma: 0.7
+    role_subscore_range: [0.10, 0.30]
+    ipes_ad_entra: [0.05, 0.20]
+    ipes_federated: [0.05, 0.20]
+    network_subscore_range: [0.10, 0.45]
+    data_subscore_range: [0.05, 0.20]
+    zone_priors: { internal: 0.40, dmz: 0.40, public: 0.20 }
+    identity_tier_priors_ad: { tier_2: 1.0 }
+    identity_tier_priors_federated: { non_ad: 1.0 }
+    data_sensitivity_priors: { general: 1.0 }
+    group_size: 50
+
+  mobile_device:
+    distribution: 0.10
+    patch_lag_mean_days: 14
+    patch_lag_sigma: 0.6
+    role_subscore_range: [0.25, 0.45]
+    ipes_ad_entra: [0.10, 0.30]
+    ipes_federated: [0.10, 0.30]
+    network_subscore_range: [0.30, 0.55]
+    data_subscore_range: [0.30, 0.60]
+    zone_priors: { internal: 0.70, dmz: 0.30 }
+    identity_tier_priors_ad: { tier_2: 0.95, tier_1: 0.05 }
+    identity_tier_priors_federated: { non_ad: 1.0 }
+    data_sensitivity_priors: { pii: 0.50, general: 0.40, cji: 0.10 }
+    group_size: 100
+
+  public_facing_server:
+    distribution: 0.015
+    patch_lag_mean_days: 10
+    patch_lag_sigma: 0.45
+    role_subscore_range: [0.70, 0.90]
+    ipes_ad_entra: [0.60, 0.85]
+    ipes_federated: [0.85, 1.00]
+    network_subscore_range: [0.80, 1.00]
+    data_subscore_range: [0.40, 0.80]
+    zone_priors: { dmz: 0.85, public: 0.15 }
+    identity_tier_priors_ad: { tier_1: 0.85, tier_0: 0.15 }
+    identity_tier_priors_federated: { non_ad: 1.0 }
+    data_sensitivity_priors: { pii: 0.50, general: 0.30, cji: 0.20 }
+    group_size: 10
+
+  restricted_zone_system:
+    distribution: 0.04
+    patch_lag_mean_days: 30
+    patch_lag_sigma: 0.7
+    role_subscore_range: [0.75, 0.95]
+    ipes_ad_entra: [0.70, 0.95]
+    ipes_federated: [0.70, 0.90]
+    network_subscore_range: [0.55, 0.80]
+    data_subscore_range: [0.70, 1.00]
+    zone_priors: { restricted: 1.0 }
+    identity_tier_priors_ad: { tier_1: 0.60, tier_0: 0.40 }
+    identity_tier_priors_federated: { non_ad: 1.0 }
+    data_sensitivity_priors: { cji: 0.70, pii: 0.30 }
+    group_size: 20
+
+  buffer:
+    distribution: 0.02
+    patch_lag_mean_days: 21
+    patch_lag_sigma: 0.6
+    role_subscore_range: [0.30, 0.60]
+    ipes_ad_entra: [0.20, 0.50]
+    ipes_federated: [0.20, 0.50]
+    network_subscore_range: [0.20, 0.50]
+    data_subscore_range: [0.20, 0.50]
+    zone_priors: { internal: 0.60, restricted: 0.20, dmz: 0.20 }
+    identity_tier_priors_ad: { tier_2: 0.70, tier_1: 0.30 }
+    identity_tier_priors_federated: { non_ad: 1.0 }
+    data_sensitivity_priors: { general: 0.70, pii: 0.30 }
+    group_size: 100

@@ -1,0 +1,8 @@
+{
+  "calibration_non_degenerate": null,
+  "decision": "PIVOT_away_from_calibration",
+  "metric": "unique_positive_distinct_cves",
+  "min_required_for_go": 50,
+  "note": "Gate uses UNIQUE distinct positive CVEs across windows. event_positive_cves_across_windows is NOT the calibration sample size (a CVE positive in multiple windows is one calibration unit).",
+  "value": 7
+}

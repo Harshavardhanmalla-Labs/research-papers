@@ -1,0 +1,52 @@
+strategies:
+  random:
+    type: random
+  cvss_only:
+    type: feature_only
+    feature: S
+  epss_only:
+    type: feature_only
+    feature: E
+  kev_first:
+    type: kev_first
+    secondary: E
+  cvss_x_epss:
+    type: product
+    features: [S, E]
+  cvss_plus_epss_plus_kev:
+    type: linear
+    weights:
+      S: 1.0
+      E: 1.0
+      K: 0.5
+  cve_max:
+    type: cve_aggregate
+    base: proposed_full
+    aggregator: max
+  cve_mean:
+    type: cve_aggregate
+    base: proposed_full
+    aggregator: mean
+  cve_sum:
+    type: cve_aggregate
+    base: proposed_full
+    aggregator: sum
+  proposed_full:
+    type: linear
+    weights_name: w_logit
+  proposed_no_criticality:
+    type: linear
+    weights_name: w_logit
+    override:
+      C: 0.0
+  proposed_no_exposure:
+    type: linear
+    weights_name: w_logit
+    override:
+      X: 0.0
+  oracle:
+    type: oracle
+    label: A
+  gbt_comparator:
+    type: gbt
+    config: configs/gbt.yaml

@@ -1,0 +1,104 @@
+\section{Results}
+
+All results in this section are from the synthetic EEHDA fleet evaluation across 25 seeds. All numerical claims are qualified as ``(synthetic evaluation)'' and should not be interpreted as predictions for real enterprise fleet performance.
+
+\subsection{Precision@$K$: All Methods Across $K = 50, 100, 250$}
+
+Table~\ref{tab:precision_k} reports mean P@$K$ and BCa 95\% CI for all nine methods at $K = 50, 100$, and $250$ in this synthetic evaluation. The following observations emerge from the results.
+
+\begin{table*}[!t]
+  \caption{Precision@$K$ across all methods (25 evaluation seeds; synthetic evaluation). BCa 95\% CI, 10,000 resamples. Frozen results from \texttt{primary\_results\_v1/primary\_results.csv} (225 rows: 25 seeds $\times$ 9 methods).}
+  \label{tab:precision_k}
+  \centering
+  \begin{tabular}{llll}
+    \toprule
+    \textbf{Method} & \textbf{P@50 mean (95\% CI)} & \textbf{P@100 mean (95\% CI)} & \textbf{P@250 mean (95\% CI)} \\
+    \midrule
+    HygienePrio-full         & 0.509 (0.480--0.542) & 0.458 (0.441--0.474) & 0.420 (0.408--0.432) \\
+    HygienePrio-noFreshness  & 0.490 (0.463--0.528) & 0.446 (0.426--0.463) & 0.411 (0.398--0.422) \\
+    HygienePrio-noInteraction & 0.482 (0.454--0.515) & 0.445 (0.428--0.462) & 0.417 (0.405--0.430) \\
+    HygienePrio-noAD         & 0.424 (0.395--0.460) & 0.379 (0.362--0.398) & 0.370 (0.357--0.382) \\
+    HygienePrio-noPatch      & 0.312 (0.283--0.343) & 0.289 (0.270--0.309) & 0.284 (0.273--0.294) \\
+    HRS-only                 & 0.288 (0.263--0.310) & 0.284 (0.265--0.304) & 0.282 (0.271--0.291) \\
+    EPSS-only                & 0.202 (0.174--0.236) & 0.199 (0.185--0.218) & 0.215 (0.205--0.226) \\
+    CVSS-only                & 0.056 (0.044--0.069) & 0.056 (0.046--0.065) & 0.057 (0.052--0.061) \\
+    Random                   & 0.048 (0.039--0.056) & 0.062 (0.054--0.071) & 0.061 (0.055--0.067) \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\textbf{HygienePrio-full vs.\ EPSS-only.} HygienePrio-full achieves a mean P@50 of 0.509 compared with EPSS-only's 0.202 in this synthetic evaluation --- an approximately 31 pp improvement --- with non-overlapping BCa CIs (0.480--0.542 vs.\ 0.174--0.236). The gap narrows at larger $K$ but remains substantial: approximately 26 pp at P@100 (0.458 vs.\ 0.199) and 21 pp at P@250 (0.420 vs.\ 0.215). This pattern is consistent with RQ3: the hygiene signal is most discriminative at the tightest capacity constraint ($K=50$), where the scorer must be most selective, and remains large but attenuated at larger $K$.
+
+\textbf{H1 assessment.} The observed improvement of approximately 31 pp at P@50 (synthetic evaluation) substantially exceeds the pre-registered H1 threshold of $\geq$5 pp, supporting H1 in the synthetic evaluation context. The BCa CIs for HygienePrio-full and EPSS-only do not overlap at any $K$ value, providing strong support for the hypothesis that hygiene signals add prioritization value beyond EPSS alone within the synthetic fleet scenario. All claims are bounded to this synthetic evaluation; the magnitude of improvement is expected to be substantially lower on real fleet data where the ground truth definition cannot use HRS as a labelling condition (see \S9.1).
+
+\textbf{EPSS-only vs.\ CVSS-only.} Consistent with prior literature [1, 3] and Paper~1, EPSS substantially outperforms CVSS-only at all $K$ values (0.202 vs.\ 0.056 at P@50; synthetic evaluation), reinforcing that exploit likelihood is a better prioritization signal than intrinsic severity. This replication of the Paper~1 finding on a different metric (P@$K$ vs.\ EHD) provides internal consistency.
+
+\textbf{HRS-only vs.\ EPSS-only.} HRS-only (host hygiene without CVE signal) achieves 0.288 at P@50 versus EPSS-only's 0.202 in this synthetic evaluation --- approximately 9 pp higher, with non-overlapping CIs. However, HygienePrio-full (0.509) substantially outperforms HRS-only (0.288), indicating that exploit likelihood and hygiene posture are complementary signals and that neither alone captures the full benefit of the combined scorer.
+
+\subsection{Ablation: Hygiene Dimension Contributions}
+
+Table~\ref{tab:ablation} presents the ablation results, comparing HygienePrio-full with three leave-one-dimension-out variants. Results are for P@50 in this synthetic evaluation.
+
+\begin{table}[!t]
+  \caption{Ablation --- P@50 impact of removing each hygiene dimension (synthetic evaluation). Ablation uses fixed ground-truth labels (HRS from calibrated weights); only scorer's HRS input changes.}
+  \label{tab:ablation}
+  \centering
+  \begin{tabular}{>{\raggedright}p{2.8cm}
+                  >{\raggedright}p{2.0cm}
+                  >{\raggedright}p{1.5cm}
+                  >{\raggedright\arraybackslash}p{1.3cm}}
+    \toprule
+    \textbf{Condition} & \textbf{P@50 (95\%~CI)} & \textbf{Drop} & \textbf{CI overlap?} \\
+    \midrule
+    Full model         & 0.509 (0.480--0.542) & ---          & --- \\
+    noPatch ($w_1{=}0$)& 0.312 (0.283--0.343) & $-$20 pp     & No \\
+    noAD ($w_2{=}0$)   & 0.424 (0.395--0.460) & $-$9 pp      & No \\
+    noFreshness ($w_3{=}0$) & 0.490 (0.463--0.528) & $-$2 pp & Yes \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\textbf{H2 assessment.} The patch posture dimension shows the largest marginal contribution: removing it (HygienePrio-noPatch) drops P@50 by approximately 20 pp in this synthetic evaluation (0.509 $\to$ 0.312), with non-overlapping BCa CIs, strongly supporting H2. The AD exposure dimension shows a substantial secondary contribution ($\sim$9 pp drop, non-overlapping CIs). Telemetry freshness shows the smallest contribution ($\sim$2 pp drop, overlapping CIs suggesting marginal discriminative power in the synthetic fleet). This result is consistent with HygieneBench Task T5's finding that patch-vulnerability hygiene carries the most discriminative signal among hygiene dimensions.
+
+The dimension ordering (patch posture $>$ AD exposure $\gg$ freshness) in this synthetic evaluation suggests that operations teams seeking to deploy a simplified HygienePrio variant should prioritize patch posture instrumentation first, AD group exposure tracking second, and telemetry freshness monitoring last --- at least in the synthetic fleet scenario modeled here.
+
+\subsection{Interaction Term Analysis}
+
+Comparing HygienePrio-full with HygienePrio-noInteraction reveals approximately 3 pp improvement at P@50 from including the interaction term ($\mathrm{EPSS} \times \mathrm{HRS}$) in this synthetic evaluation (0.509 vs.\ 0.482). The BCa CIs overlap substantially (0.480--0.542 vs.\ 0.454--0.515), suggesting the interaction term's contribution is marginal under the synthetic evaluation conditions. At P@100 and P@250 the difference narrows further ($\sim$1 pp). The interaction term's modest contribution likely reflects the synthetic fixture's EPSS distribution: the truly high-EPSS AND high-HRS pair conjunctions are relatively rare ($\sim$10--12\% of applicable pairs per seed), limiting opportunities for the interaction term to add discriminative value.
+
+Per the pre-registration stop rule, if HygienePrio-noInteraction achieves P@$K$ within 1 pp of HygienePrio-full for all $K$, the interaction term would be declared uninformative. At P@50 the difference exceeds 1 pp (3 pp), so the interaction term is retained in the reported full model. However, the overlapping CIs mean this finding should be treated as equivocal: the interaction term likely does not materially change prioritization decisions in this synthetic fleet context.
+
+\subsection{Oracle-Gap Analysis}
+
+\begin{table}[!t]
+  \caption{Oracle-gap (\%) at $K = 50$ by method (synthetic evaluation; BCa 95\% CI)}
+  \label{tab:oracle_gap}
+  \centering
+  \begin{tabular}{>{\raggedright}p{2.8cm}
+                  >{\raggedright}p{2.4cm}
+                  >{\raggedright\arraybackslash}p{2.5cm}}
+    \toprule
+    \textbf{Method} & \textbf{Oracle-gap (95\%~CI)} & \textbf{P@50 captured} \\
+    \midrule
+    HygienePrio-full & 49.1\% (45.6--51.8\%) & $\sim$51\% of oracle \\
+    EPSS-only        & 79.8\% (76.3--82.6\%) & $\sim$20\% of oracle \\
+    CVSS-only        & 94.4\% (93.0--95.5\%) & $\sim$6\%  of oracle \\
+    Random           & 95.2\% (94.2--96.0\%) & $\sim$5\%  of oracle \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The oracle-gap analysis indicates that even HygienePrio-full captures approximately 51\% of theoretically achievable precision at $K=50$ in this synthetic evaluation, leaving substantial room for improvement. The gap between HygienePrio-full and the oracle (49.1\%) reflects both the inherent difficulty of the ranking problem and the residual uncertainty in hygiene signals: among hygiene-poor hosts with similar HRS values, the scorer cannot further discriminate which specific CVE-host pair is the highest-priority target. At $K=50$, with approximately 185--200 true positives per seed (synthetic evaluation), the maximum achievable P@50 is 1.0 (oracle), and HygienePrio-full achieves 0.509. The 49.1\% oracle gap is substantially smaller than EPSS-only's 79.8\% gap, confirming that hygiene signals materially reduce the distance from optimal prioritization in this synthetic context.
+
+\subsection{Summary of Main Findings}
+
+In this synthetic evaluation, the results suggest the following:
+
+\begin{enumerate}
+  \item \textbf{HygienePrio-full improves over EPSS-only by approximately 31 pp} at P@50 (0.509 vs.\ 0.202), with non-overlapping BCa CIs, substantially exceeding the pre-registered H1 threshold ($\geq$5 pp). Improvement is 26 pp at P@100 and 21 pp at P@250. The magnitude reflects the synthetic evaluation's structural properties (see \S9.1 circularity note).
+  \item \textbf{Patch posture is the dominant hygiene dimension}, contributing approximately 20 pp to P@50 in the leave-one-out ablation (0.509 $\to$ 0.312 without patch posture), with non-overlapping CIs, strongly supporting H2.
+  \item \textbf{AD exposure is a substantial secondary contributor}, reducing P@50 by $\sim$9 pp when removed (0.509 $\to$ 0.424), with non-overlapping CIs.
+  \item \textbf{The interaction term and telemetry freshness are marginal} in this synthetic evaluation: both show overlapping CIs with the full model, with contributions of $\sim$3 pp and $\sim$2 pp respectively. The pre-registration stop rule is not triggered at P@50 for the interaction term (3 pp $>$ 1 pp threshold), so both are retained in the full model.
+  \item \textbf{HRS-only outperforms EPSS-only} by $\sim$9 pp (0.288 vs.\ 0.202), but the combination (HygienePrio-full, 0.509) substantially outperforms either signal alone, confirming that exploit likelihood and hygiene posture are complementary.
+  \item \textbf{Oracle gap remains substantial}: HygienePrio-full captures $\sim$51\% of theoretically achievable P@50, versus $\sim$20\% for EPSS-only, indicating both that hygiene signals provide meaningful benefit and that significant room for improvement remains.
+\end{enumerate}

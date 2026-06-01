@@ -1,0 +1,70 @@
+\section{Experimental Setup}
+
+\subsection{Evaluation Infrastructure}
+
+All experiments are implemented in Python 3.11 using NumPy 1.26, Pandas 2.1, and scikit-learn 1.4. Randomness in baseline methods (Random) is seeded by the fleet seed, ensuring reproducibility. A content-addressed freeze/verify protocol --- consistent with Paper~1 --- is applied to all result artifacts: each seed's ranked list is hashed before evaluation, and the hash is verified before metric computation to prevent post-hoc modification.
+
+\subsection{Calibrated Weights}
+
+Following the grid search on 5 calibration seeds (not used in primary evaluation), the following weights were selected:
+
+\begin{table}[!t]
+  \caption{Calibrated scorer weights from grid search on held-out calibration seeds}
+  \label{tab:calibrated_weights}
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Parameter} & \textbf{Calibrated Value} \\
+    \midrule
+    $\alpha$ (EPSS weight) & 0.7 \\
+    $\beta$ (HRS weight) & 0.5 \\
+    $\gamma$ (KEV\_recency weight) & 0.1 \\
+    $\delta$ (interaction weight) & 0.2 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+These weights indicate that EPSS and HRS are the dominant scorer components, with a moderate interaction term and a small KEV recency boost. The relatively low $\gamma$ reflects the low KEV prevalence in the fixture ($\sim$8\%): the $\mathrm{KEV\_recency}$ term contributes meaningfully only for KEV-applicable pairs.
+
+\subsection{Evaluation Procedure}
+
+For each of the 25 evaluation seeds:
+
+\begin{enumerate}
+  \item Generate the EEHDA fleet tables deterministically from the seed.
+  \item Compute $\mathrm{HRS}(h)$ for each host using pre-registered dimension weights ($w_1=0.5$, $w_2=0.3$, $w_3=0.2$).
+  \item Compute $\mathrm{KEV\_recency}(c)$ for each CVE using fixed $\lambda = 0.05$.
+  \item Score all $(h, c) \in V$ using calibrated weights.
+  \item Generate ranked list $R$ by sorting descending by $S(h, c)$.
+  \item Generate baseline ranked lists (EPSS-only, CVSS-only, Random, HRS-only) using identical $V$.
+  \item Compute ground truth labels using the pre-registered definition (\S3.2).
+  \item Compute P@$K$, NDCG@$K$, Oracle-gap for $K = 50, 100, 250$ for all methods.
+  \item Hash and verify result artifacts.
+\end{enumerate}
+
+\subsection{Baselines}
+
+\begin{table}[!t]
+  \caption{Baseline and ablation methods evaluated}
+  \label{tab:baselines}
+  \centering
+  \begin{tabular}{lp{0.6\linewidth}}
+    \toprule
+    \textbf{Method} & \textbf{Description} \\
+    \midrule
+    EPSS-only & Rank by $\mathrm{EPSS}(c)$ descending; primary comparison \\
+    CVSS-only & Rank by CVSS base score descending \\
+    Random & Uniform random (seed-fixed) \\
+    HRS-only & Rank by $\mathrm{HRS}(h)$ descending; tests host hygiene without CVE signal \\
+    HygienePrio-full & Full scorer with calibrated weights \\
+    HygienePrio-noInteraction & $\delta = 0$ (additive only; tests interaction term contribution) \\
+    HygienePrio-noPatch & $w_1 = 0$ (patch posture removed from HRS) \\
+    HygienePrio-noAD & $w_2 = 0$ (AD exposure removed from HRS) \\
+    HygienePrio-noFreshness & $w_3 = 0$ (telemetry freshness removed from HRS) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Reporting Convention}
+
+All metrics are reported as mean $\pm$ 95\% bootstrap confidence interval (BCa method, 10,000 resamples) across 25 evaluation seeds. No null hypothesis significance testing is performed; evidence is based on BCa CI non-overlap between HygienePrio-full and EPSS-only. Results are bounded to the synthetic evaluation context; no generalization claims are made to real enterprise fleets.

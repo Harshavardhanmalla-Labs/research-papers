@@ -1,0 +1,20 @@
+\section{Problem Statement}
+
+Let \texttt{V} be the vulnerabilities observable as of a decision time \texttt{t0} and \texttt{H} the
+hosts in a fleet. The candidate set of \textbf{vulnerability-host pairs} is
+\texttt{P = {(v, h) : v in V, h in H, v applies to h}}, with applicability determined by
+software/configuration matching. Each pair carries exploit-intelligence, severity,
+asset-criticality, and local-exposure attributes observable at \texttt{t0} under strict
+no-future-leakage (Section 7). A \textbf{strategy} induces a total order over \texttt{P}. A
+maintenance window admits at most a fixed \textbf{capacity} \texttt{c} pair-actions, subject to
+blackout windows, operational constraints, and approval gates. The \textbf{objective} is
+to evaluate and compare strategies under this capacity constraint using operational
+and ranking metrics (Section 9), recording each decision as tamper-evident
+evidence.
+
+\textbf{Non-goals.} We do not perform autonomous patching (the scheduler is a
+capacity-constrained scheduling simulation modeling approval and timing, not patch
+execution or success); we do not perform production validation (the fleet is
+public-sector-shaped synthetic); we do not benchmark commercial RBVM products; and
+we do not claim the framework guarantees or proves compliance --- it produces
+evidence that supports review.

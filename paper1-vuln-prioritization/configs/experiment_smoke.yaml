@@ -1,0 +1,49 @@
+# End-to-end smoke experiment configuration (Phase 11).
+#
+# This drives a tiny, deterministic *pipeline verification* — NOT a primary
+# experiment and NOT a paper result. It uses only the bundled toy fixtures
+# and never touches a live feed.
+#
+# Dates note: the bundled toy fixtures (data/fixtures/*.json|csv) are pinned
+# to a reference date of t0 = 2025-06-01 — the toy vulnerabilities disclose
+# in 2025-01..2025-03 and the toy KEV / PoC events fall inside the window
+# (2025-06-01, 2025-07-01]. The Phase 11 brief suggested t0 = 2024-06-01,
+# but that would make every toy vulnerability a *future* disclosure relative
+# to t0 (yielding zero pairs and tripping the feature no-leakage guard). The
+# brief explicitly allows "t0 ... consistent with toy fixtures", so the whole
+# window is shifted forward one year to remain fixture-consistent.
+config_name: experiment_smoke_v1
+seed_master: 20260601
+seeds: [1, 2, 3]
+fleet_size: 100
+
+t0: "2025-06-01"
+H_days: 30
+data_window_start: "2025-01-01"
+data_window_end: "2026-05-31"
+
+# Validation-only temporal split (no model is trained in the smoke). With the
+# window above and H_days=30, train_split_months=4 keeps make_temporal_split
+# valid (start < train_end < gap_end <= test_end <= end) and places t0 in the
+# "test" region.
+train_split_months: 4
+
+# Post-decision evaluation horizon for the simulated EHD metric.
+evaluation_end_days: 90
+
+# Scheduler "now" — a Tuesday evening (after business hours, not a CAB day,
+# not Saturday) so role-based business-hours blackouts do not block everything.
+schedule_now: "2025-06-03T20:00:00Z"
+
+capacity: 20
+label: A
+strategies:
+  - random
+  - epss_only
+  - kev_first
+  - proposed_full
+  - oracle
+approver_policy: A
+blackout_config: primary
+identity_config: ad_entra_default
+output_dir: results/smoke_experiment_v1

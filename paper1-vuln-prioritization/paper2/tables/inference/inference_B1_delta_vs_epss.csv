@@ -1,0 +1,12 @@
+family_id,comparison_id,metric,n_pairs,mean_delta,median_delta,bootstrap_ci_low,bootstrap_ci_high,wilcoxon_p,holm_p,holm_reject,inference_status,drop_reason,interpretation_guardrail
+B1,cvss_only__na__vs__epss_only,ehd_absolute,30,-163.200000,-144.000000,-1917.768087,1328.685083,,,False,allowed,,descriptive
+B1,cvss_plus_epss_plus_kev__na__vs__epss_only,ehd_absolute,30,102.933333,192.000000,-223.895590,431.492295,,,False,allowed,,descriptive
+B1,cvss_x_epss__na__vs__epss_only,ehd_absolute,30,374.400000,432.000000,-384.000000,1144.628234,,,False,allowed,,descriptive
+B1,kev_first__na__vs__epss_only,ehd_absolute,30,139.733333,224.000000,-356.207620,838.804569,,,False,allowed,,descriptive
+B1,proposed_fixed_prior__w_context_dominant__vs__epss_only,ehd_absolute,30,-16113190.933333,-16079640.000000,-16406644.509274,-15859902.880764,,,False,allowed,,descriptive
+B1,proposed_fixed_prior__w_cvss_dominant__vs__epss_only,ehd_absolute,30,-8823100.800000,-8759024.000000,-8974790.672275,-8684531.338123,,,False,allowed,,descriptive
+B1,proposed_fixed_prior__w_epss_dominant__vs__epss_only,ehd_absolute,30,-2208125.333333,-2204272.000000,-2242188.422608,-2176140.614239,,,False,allowed,,descriptive
+B1,proposed_fixed_prior__w_kev_dominant__vs__epss_only,ehd_absolute,30,-2544534.933333,-2510912.000000,-2603336.244597,-2491868.819558,,,False,allowed,,descriptive
+B1,proposed_fixed_prior__w_paper1_placeholder__vs__epss_only,ehd_absolute,30,-8739558.400000,-8727952.000000,-8979783.620985,-8539422.285222,,,False,allowed,,descriptive
+B1,proposed_fixed_prior__w_uniform__vs__epss_only,ehd_absolute,30,-10025913.600000,-9970440.000000,-10318911.917006,-9728650.870034,,,False,allowed,,descriptive
+B1,random__na__vs__epss_only,ehd_absolute,30,-6854.400000,-8208.000000,-17227.584390,3693.342979,,,False,allowed,,descriptive

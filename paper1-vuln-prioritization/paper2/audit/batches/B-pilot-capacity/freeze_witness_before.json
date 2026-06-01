@@ -1,0 +1,29 @@
+{
+  "kind": "freeze_witness_before",
+  "batch_id": "B-pilot-capacity",
+  "cell_ids": [
+    "CAP-epss_only-cap0005",
+    "CAP-epss_only-cap0020",
+    "CAP-epss_only-cap0050",
+    "CAP-cvss_plus_epss_plus_kev-cap0005",
+    "CAP-cvss_plus_epss_plus_kev-cap0020",
+    "CAP-cvss_plus_epss_plus_kev-cap0050",
+    "CAP-proposed-w_paper1_placeholder-cap0005",
+    "CAP-proposed-w_paper1_placeholder-cap0020",
+    "CAP-proposed-w_paper1_placeholder-cap0050",
+    "CAP-proposed-w_epss_dominant-cap0005",
+    "CAP-proposed-w_epss_dominant-cap0020",
+    "CAP-proposed-w_epss_dominant-cap0050",
+    "CAP-proposed-w_context_dominant-cap0005",
+    "CAP-proposed-w_context_dominant-cap0020",
+    "CAP-proposed-w_context_dominant-cap0050"
+  ],
+  "command": "make verify-primary-freeze PYTHON=.venv/bin/python",
+  "timestamp_utc": "2026-05-28T17:42:53.016602+00:00",
+  "paper1_freeze_manifest_path": "results/primary_full_v1/FREEZE_MANIFEST.json",
+  "paper1_freeze_manifest_sha256": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "verify_primary_freeze_exit_code": 0,
+  "git_status_short": "",
+  "paper2_output_dir": "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/audit/batches/B-pilot-capacity",
+  "status": "OK"
+}

@@ -1,0 +1,11 @@
+identity_mapping_config: ad_entra_default
+tiers:
+  tier_0:
+    roles: [domain_controller, certificate_authority]
+    ipes_range: [0.90, 1.00]
+  tier_1:
+    roles: [member_server, public_facing_server, privileged_workstation_high]
+    ipes_range: [0.55, 0.85]
+  tier_2:
+    roles: [standard_workstation, kiosk, mobile_device]
+    ipes_range: [0.10, 0.30]

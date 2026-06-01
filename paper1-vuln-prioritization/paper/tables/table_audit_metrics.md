@@ -1,0 +1,15 @@
+| strategy | audit_hash_chain_valid_mean | audit_record_count_mean |
+| --- | --- | --- |
+| cve_max | 1 | 127.733 |
+| cve_mean | 1 | 121.367 |
+| cve_sum | 1 | 131.067 |
+| cvss_only | 1 | 139.833 |
+| cvss_plus_epss_plus_kev | 1 | 123.933 |
+| cvss_x_epss | 1 | 122.467 |
+| epss_only | 1 | 124.8 |
+| kev_first | 1 | 124.8 |
+| oracle | 1 | 184.267 |
+| proposed_full | 1 | 101 |
+| proposed_no_criticality | 1 | 101 |
+| proposed_no_exposure | 1 | 292.067 |
+| random | 1 | 103.433 |

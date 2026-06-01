@@ -1,0 +1,12 @@
+% Auto-converted from paper2_full_draft.md §12.
+% Wording preserved; no claims added.
+\section{Discussion}
+Sparse public-feed labels are a methodological constraint, not a flaw in any particular model. The gate methodology is intended to surface that constraint before per-feature calibration is attempted, rather than discover it after weights have been fitted and presented. Treating the host-CVE record total as if it were the calibration unit is a misleading habit: the calibration unit is the CVE, and a few thousand records that share a handful of CVE-level labels do not provide more calibration information than the CVE count alone.
+
+The sensitivity sweeps add reproducibility evidence and a set of axis-level descriptive observations: at the cell-mean level the priors do separate from each other, but at the seed level the per-cell variance is the same order of magnitude as the between-cells variance — the within-cell variance criterion fires on every axis. This is a useful signal in itself: it cautions against treating seed-aggregated mean EHD differences as decision evidence at this seed budget. A higher seed budget (deferred $n = 50$ and $n = 100$ runs) would allow this criterion to be re-evaluated.
+
+The work says nothing about EPSS in general; the released v3-era EPSS is used as one feature among several, without retraining or critique. The work says nothing about whether KEV is an adequate ground-truth label in general; it is a sparse signal on the catalog $\times$ era examined. The work says nothing about CVSS quality. The work does not claim that context-aware priors are meaningfully better than EPSS for prioritization; descriptive observations that some priors produce lower EHD at the central cell are reported, and the sensitivity sweeps fall in the descriptive-only zone under the variance criterion.
+
+We do not claim production-readiness. We do not claim deployment evidence. We do not claim government use. We do not claim compliance achievement.
+
+The negative feasibility finding is useful precisely because it is honest and small. It is a data point about a specific catalog × era × label choice. It does not generalise without further measurement, and we do not attempt that generalisation here.

@@ -1,0 +1,31 @@
+\section{Related Work}
+
+\textbf{CVSS, EPSS, and exploit prediction.} CVSS alone poorly predicts exploitation
+\cite{allodi2014comparing}, motivating data-driven scoring including the EPSS lineage
+\cite{jacobs2021epss} and earlier signal-based approaches \cite{sabottke2015vulnerability}.
+We consume these as features/baselines rather than proposing a new predictor.
+
+\textbf{Risk-based vulnerability management and commercial RBVM.} Commercial RBVM
+products --- Microsoft Defender Vulnerability Management [VERIFY: Microsoft Defender
+VM docs], Tenable VPR/ACR \textbf{[VERIFY: Tenable VPR/ACR docs]}, Qualys TruRisk [VERIFY:
+Qualys TruRisk docs], and Cisco/Kenna \textbf{[VERIFY: Cisco/Kenna docs]} --- combine exploit
+signals with proprietary context. They are acknowledged as industry practice but
+are \textbf{not} benchmarked here: their models are closed and not independently
+reproducible.
+
+\textbf{Machine-learning vulnerability prioritization.} Research systems such as Deep
+VULMAN \textbf{[VERIFY: Deep VULMAN source]}, VulRG \textbf{[VERIFY: VulRG source]}, VulnScore
+\textbf{[VERIFY: VulnScore source]}, and V-REx \textbf{[VERIFY: V-REx source]} apply learning and
+risk/graph modeling to prioritization. They advance modeling quality but typically
+report a single tuned configuration on non-reproducible data and do not emphasize
+per-decision audit evidence or an open freeze/verify protocol. We position this
+work as complementary infrastructure and do \textbf{not} claim to be first.
+
+\textbf{Resource-constrained remediation.} Our scheduler models bounded per-window
+capacity, blackout windows, approval policies, and risk acceptance, so strategies
+are evaluated jointly with the operational constraints that shape real outcomes.
+
+\textbf{Public-sector compliance and auditability.} Guidance such as NIST SP 800-40
+\cite{nist80040r4} and SP 800-53 \cite{nist80053r5} and CISA directives \cite{cisa_bod2201}
+frames remediation as a documented, reviewable process; our append-only,
+hash-chained audit log targets the per-decision evidence such processes call for.

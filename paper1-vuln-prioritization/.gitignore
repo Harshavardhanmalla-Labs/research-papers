@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+.python-version
+
+# Caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Data — runtime fetched, never committed
+data/raw/**
+data/cache/**
+!data/raw/.gitkeep
+!data/cache/.gitkeep
+
+# Snapshots — bundled via release, not git
+data/snapshots/**
+!data/snapshots/.gitkeep
+!data/snapshots/MANIFEST.json
+
+# Results — produced by experiments
+results/**
+!results/.gitkeep
+
+# Figures — generated PNG/PDF
+figures/*.png
+figures/*.pdf
+figures/*.svg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local config overrides
+configs/local_*.yaml

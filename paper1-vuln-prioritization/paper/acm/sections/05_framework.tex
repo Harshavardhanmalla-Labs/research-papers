@@ -1,0 +1,22 @@
+\section{Proposed Framework}
+
+The framework is a pipeline of composable components. \textbf{Feed normalization}
+fetches public feeds (NVD/CVE, FIRST EPSS, CISA KEV, optionally ExploitDB
+proof-of-concept indices subject to upstream license) and caches local snapshots
+via date-parameterized as-of queries so no feature observed at \texttt{t0} incorporates
+later information. \textbf{Exploit enrichment} attaches an EPSS score (feature \texttt{E}), KEV
+status and due date (feature \texttt{K} and urgency component \texttt{U}), and proof-of-concept
+observations used for labeling. A deterministic generator produces hosts with
+roles, OS/software inventory, identity tiering, network zone, and data-sensitivity
+proxies, from which we derive an \textbf{asset-criticality} feature \texttt{C} (incorporating
+an Identity Privilege Exposure Score) and a per-pair \textbf{local-exposure} feature
+\texttt{X}; a \textbf{remediation-complexity} feature \texttt{R} captures fix cost/risk.
+\textbf{Pair construction} builds applicable (v, h) pairs with match-method and
+match-confidence provenance, excluding future-disclosure vulnerabilities. A linear
+model \textbf{scores} each pair as
+\texttt{w\_E$\cdot$E + w\_K$\cdot$K + w\_S$\cdot$S + w\_C$\cdot$C + w\_X$\cdot$X + w\_U$\cdot$U - w\_R$\cdot$R} (R subtracted, since higher
+complexity lowers priority), with weights from a registry of placeholder and (when
+fitted) calibrated weights. A five-phase \textbf{capacity-constrained scheduler} fills a
+window under capacity. Every score and scheduling decision is recorded in an
+append-only, hash-chained \textbf{audit log}. An \textbf{evaluation} layer computes metrics
+and a \textbf{reporting} layer renders tables/figures from a frozen, verified artifact.

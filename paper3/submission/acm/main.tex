@@ -1,0 +1,119 @@
+% HygieneBench — ACM CCS AISec Workshop Submission
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+%
+% Instructions:
+%   1. Download the official ACM Primary Article Template:
+%      https://www.acm.org/publications/proceedings-template
+%   2. Replace this preamble with the acmart class from the downloaded template.
+%   3. Set \documentclass[sigconf,anonymous]{acmart} for double-blind review,
+%      or \documentclass[sigconf]{acmart} for camera-ready.
+%   4. Verify page limit against the CCS AISec Workshop CFP (typically 6–8 pages body + refs).
+%   5. Run: pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
+%
+% This scaffold uses a minimal ACM-compatible structure. Replace with the
+% official acmart.cls before compiling for submission.
+% ============================================================================
+
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+% Replace the next line with: \documentclass[sigconf,anonymous]{acmart}
+\documentclass[sigconf]{acmart}
+
+% ---- ACM metadata (fill before submission) ---------------------------------
+\acmConference[CCS AISec '26]{ACM CCS Workshop on Artificial Intelligence and Security}{November 2026}{Salt Lake City, UT, USA}
+% [VERIFY: update year and location to match actual CCS AISec CFP]
+\acmDOI{}        % leave blank until assigned
+\acmISBN{}       % leave blank until assigned
+
+% ---- Packages --------------------------------------------------------------
+\usepackage{booktabs}    % \toprule, \midrule, \bottomrule in tables
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{enumitem}    % \begin{itemize}[leftmargin=*] in contribution list
+
+% ---- Macros ----------------------------------------------------------------
+\newcommand{\hygienebench}{\textsc{HygieneBench}\xspace}
+\newcommand{\failure}{{\small\raisebox{0.5ex}{$\triangleright$}}}  % failure flag symbol
+
+% ---- Bibliography ----------------------------------------------------------
+\bibliographystyle{ACM-Reference-Format}
+
+% ============================================================================
+\begin{document}
+
+% ---- Title -----------------------------------------------------------------
+\title{HygieneBench: A Reproducible Synthetic Benchmark for\\
+       Cyber-Hygiene Anomaly Detection Across Identity,\\
+       Endpoint, and Patch Telemetry}
+
+% ---- Authors (anonymous for review; fill for camera-ready) -----------------
+% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
+% For anonymous review, replace with:
+%   \author{Anonymized for Review}
+%   \affiliation{\institution{Anonymized}}
+\author{Harshavardhan Malla}
+\affiliation{%
+  \institution{Independent Researcher}
+  \country{USA}
+}
+\email{harshavardhanmalla75@gmail.com}
+
+% ---- Abstract --------------------------------------------------------------
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+% ---- CCS Concepts ----------------------------------------------------------
+% [VERIFY: adjust CCS concepts using ACM CCS tool at dl.acm.org/ccs]
+\begin{CCSXML}
+<ccs2012>
+<concept>
+  <concept_id>10002978.10003014.10003017</concept_id>
+  <concept_desc>Security and privacy~Intrusion detection systems</concept_desc>
+  <concept_significance>500</concept_significance>
+</concept>
+<concept>
+  <concept_id>10010147.10010257</concept_id>
+  <concept_desc>Computing methodologies~Anomaly detection</concept_desc>
+  <concept_significance>500</concept_significance>
+</concept>
+<concept>
+  <concept_id>10002978.10002979</concept_id>
+  <concept_desc>Security and privacy~Benchmarks</concept_desc>
+  <concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Security and privacy~Intrusion detection systems}
+\ccsdesc[500]{Computing methodologies~Anomaly detection}
+\ccsdesc[300]{Security and privacy~Benchmarks}
+
+% ---- Keywords --------------------------------------------------------------
+\keywords{cyber hygiene, anomaly detection, benchmark, synthetic data, identity security, endpoint management, negative-result reporting}
+
+\maketitle
+
+% ---- Body ------------------------------------------------------------------
+\input{sections/introduction}
+\input{sections/related}
+\input{sections/design}
+\input{sections/setup}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+% ---- Bibliography ----------------------------------------------------------
+\bibliography{references}
+
+% ---- Appendix (if allowed by venue word/page limit) ------------------------
+% Uncomment if the venue allows appendices within the page limit,
+% or attach as a separate supplemental PDF per venue instructions.
+%
+% \appendix
+% \input{sections/appendix}
+
+\end{document}

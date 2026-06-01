@@ -1,0 +1,75 @@
+% =====================================================================
+% Paper 2 — IEEE CSET 2026 submission (primary target).
+%
+% Template: IEEE conference class (IEEEtran, compsoc mode).
+% Matches CSET 2025 CFP requirements:
+%   class: \documentclass[conference,compsoc]{IEEEtran}
+%   review: double-blind (author field left blank for submission)
+%   page limit: 8 pp (long paper), excluding references and appendices
+%   proceedings: IEEE Computer Society (IEEEtran BibTeX style)
+%
+% VERIFY against official CSET 2026 CFP before final submission —
+% template requirements may change between editions.
+%
+% Reproducibility: all numeric claims trace to paper2/audit/*.json and
+% paper2/tables/*.csv. See paper2/submission/REPRODUCIBILITY_APPENDIX.md.
+% =====================================================================
+\documentclass[conference,compsoc]{IEEEtran}
+
+% --- IEEEtran-compatible preamble -------------------------------------------
+% NOTE: Do NOT include geometry (IEEEtran sets its own margins) or
+%       cite (IEEEtran bundles citation handling).
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{url}
+
+\graphicspath{{figures/}}
+
+% --- Front matter (double-blind: author field blank for submission) ----------
+\title{When Calibration Fails: A Failure-Aware Public-Feed Gate for
+Vulnerability Prioritization Under Sparse Exploit Labels}
+
+% Double-blind submission — author field left blank per CSET CFP.
+% Camera-ready author block:
+% \author{\IEEEauthorblockN{Harshavardhan Malla}
+%   \IEEEauthorblockA{Independent Researcher}}
+\author{}
+
+\begin{document}
+\maketitle
+
+% Abstract is its own section file (00_abstract.tex) and uses
+% \begin{abstract}...\end{abstract}.
+\input{sections/00_abstract.tex}
+
+% --- Body -------------------------------------------------------------------
+\input{sections/01_introduction.tex}
+\input{sections/02_background.tex}
+\input{sections/03_related_work.tex}
+\input{sections/04_problem_statement.tex}
+\input{sections/05_failure_aware_gate.tex}
+\input{sections/06_study_design.tex}
+\input{sections/07_public_feed_data.tex}
+\input{sections/08_fixed_prior_sensitivity.tex}
+\input{sections/09_metrics_inference.tex}
+\input{sections/10_results.tex}
+\input{sections/11_discussion.tex}
+\input{sections/12_limitations.tex}
+\input{sections/13_future_work.tex}
+\input{sections/14_conclusion.tex}
+\input{sections/15_reproducibility.tex}
+
+% --- References -------------------------------------------------------------
+% Citation conversion complete (2026-05-31): all inline citations in
+% sections/01_introduction.tex and sections/03_related_work.tex converted
+% to \cite{} macros. All other sections contain no external citations.
+% BibTeX keys defined in references.bib (15 verified entries).
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

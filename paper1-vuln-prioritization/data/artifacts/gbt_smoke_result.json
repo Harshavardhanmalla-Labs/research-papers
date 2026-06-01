@@ -1,0 +1,46 @@
+{
+  "config": {
+    "deterministic": true,
+    "early_stopping_rounds": 20,
+    "feature_set": [
+      "E",
+      "K",
+      "S",
+      "C",
+      "X",
+      "U",
+      "R"
+    ],
+    "implementation": "lightgbm",
+    "is_unbalance": true,
+    "learning_rate": 0.05,
+    "max_depth": 6,
+    "min_data_in_leaf": 20,
+    "num_boost_round": 500,
+    "num_leaves": 31,
+    "objective": "binary",
+    "random_state_from_master": true,
+    "reg_lambda": 1.0
+  },
+  "created_at": "2026-05-27T16:01:11.850767Z",
+  "feature_columns": [
+    "E",
+    "K",
+    "S",
+    "C",
+    "X",
+    "U",
+    "R"
+  ],
+  "label_name": "A",
+  "model_type": "lightgbm",
+  "negative_count": 59,
+  "notes": "LightGBM reference comparator (NOT the deployed model). Same seven features and temporal no-leakage discipline as the linear model.",
+  "positive_count": 121,
+  "seed": 0,
+  "selected_iteration": 8,
+  "train_size": 180,
+  "validation_scores": {
+    "auc_best": 0.6563786008230452
+  }
+}

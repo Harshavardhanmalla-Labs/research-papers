@@ -1,0 +1,89 @@
+% =====================================================================
+% Paper 4 — HygienePrio
+% IEEE TNSM (Transactions on Network and Service Management) submission scaffold.
+%
+% Template: IEEEtran, journal mode (not conference).
+%   \documentclass[journal]{IEEEtran}
+%
+% Alternate target: ACM Digital Threats: Research and Practice (DTRAP)
+%   → requires \documentclass[acmsmall]{acmart} — create a separate
+%     submission/acm/ branch if submitting to DTRAP instead.
+%
+% VERIFY template requirements against the current IEEE TNSM author guidelines
+% before final submission: https://www.comsoc.org/publications/journals/ieee-tnsm
+%
+% Reproducibility: all numeric claims trace to
+%   paper4/results/primary_results_v1/primary_results.csv (225 rows;
+%   25 eval seeds × 9 methods, frozen 2026-05-31).
+%   Run paper4/src/run_evaluation.py to reproduce.
+% =====================================================================
+\documentclass[journal]{IEEEtran}
+
+% --- Preamble -----------------------------------------------------------
+% Note: inputenc and fontenc are NOT used — tectonic runs XeTeX which
+% handles UTF-8 natively and does not need these pdfLaTeX-only packages.
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+% microtype removed — conflicts with IEEEtran journal mode under XeTeX
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{array}    % table formatting
+\usepackage{multirow}
+
+\graphicspath{{figures/}}
+
+% --- Front matter -------------------------------------------------------
+\title{HygienePrio: Cyber-Hygiene Signal Augmentation for EPSS-Weighted
+Vulnerability Prioritization}
+
+% Double-blind or single-blind depends on target venue.
+% IEEE TNSM is currently single-blind; include author block below.
+% Replace with real author info at submission:
+% Double-blind or single-blind depends on target venue.
+% IEEE TNSM is currently single-blind; include author block below.
+% Replace with real author info at submission.
+% NOTE: Do NOT use [bracketed placeholders] in \IEEEauthorblockA after \\
+%   because TeX parses \\[...] as an optional line skip argument.
+\author{%
+  \IEEEauthorblockN{Harshavardhan Malla}
+  \IEEEauthorblockA{Independent Researcher}%
+}
+
+\begin{document}
+\maketitle
+
+% --- Abstract -----------------------------------------------------------
+\begin{abstract}
+\input{sections/00_abstract.tex}
+\end{abstract}
+
+\begin{IEEEkeywords}
+vulnerability prioritization; EPSS; cyber-hygiene; patch posture;
+Active Directory; telemetry freshness; remediation scheduling;
+synthetic benchmark; reproducibility.
+\end{IEEEkeywords}
+
+% --- Body ---------------------------------------------------------------
+\input{sections/01_introduction.tex}
+\input{sections/02_background.tex}
+\input{sections/03_problem_formulation.tex}
+\input{sections/04_dataset.tex}
+\input{sections/05_methodology.tex}
+\input{sections/06_experimental_setup.tex}
+\input{sections/07_results.tex}
+\input{sections/08_discussion.tex}
+\input{sections/09_threats.tex}
+\input{sections/10_related_work.tex}
+\input{sections/11_conclusion.tex}
+
+% --- References ---------------------------------------------------------
+% Citation conversion complete: all inline citations converted to \cite{} macros.
+% BibTeX keys defined in references.bib (13 entries).
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

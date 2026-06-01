@@ -1,0 +1,16 @@
+\section{Conclusion}
+
+We proposed and implemented an open, audit-evidence-producing benchmark framework
+for context-aware vulnerability-host pair prioritization under capacity
+constraints. The evaluation demonstrates reproducible end-to-end execution across
+30 seeds and validates the artifact's inspection, scheduling, and append-only audit
+pipeline: 390 audit logs verify, scheduling stays within capacity, and the frozen
+result passes strict inspection with zero issues. The empirical results should be
+read as benchmark validation under synthetic, toy-fixture conditions with
+uncalibrated weights, not as evidence of real-world superiority; in this
+configuration the proposed model is indistinguishable from the EPSS baseline and
+does not outperform a random ordering. The primary contribution is the reproducible,
+auditable evaluation structure itself --- a falsifiable basis on which calibrated,
+production-scale studies can build. Whether context-aware prioritization yields
+operational benefit over EPSS-style baselines remains future work requiring
+calibration, robustness and sensitivity analysis, and external validation.

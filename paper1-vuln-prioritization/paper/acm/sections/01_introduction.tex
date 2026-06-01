@@ -1,0 +1,39 @@
+\section{Introduction}
+
+Public-sector endpoint fleets --- the workstations, servers, domain controllers, and
+special-purpose hosts operated by government agencies --- accumulate disclosed
+vulnerabilities faster than constrained operations teams can remediate them. The
+publication rate of Common Vulnerabilities and Exposures (CVEs) continues to grow,
+while each maintenance window admits only a bounded number of changes under
+change-advisory, blackout, and approval constraints. The practical question is
+therefore not \textit{which vulnerabilities are severe} but *which vulnerability-host
+pairs should consume the next unit of limited remediation capacity\textit{, and }whether
+that decision can be explained and reviewed afterward*.
+
+Existing signals each address part of the problem. CVSS \cite{first_cvss_v31}
+quantifies intrinsic severity but is a weak predictor of real-world exploitation
+\cite{allodi2014comparing}. EPSS \cite{jacobs2021epss} estimates exploitation likelihood
+but is asset-agnostic. The CISA KEV catalog \cite{cisa_kev} and Binding Operational
+Directive 22-01 \cite{cisa_bod2201} impose deadlines on confirmed-exploited CVEs but
+cover a small fraction of the backlog. Commercial risk-based vulnerability
+management (RBVM) products combine such signals with proprietary asset context, but
+their scoring is closed and not independently reproducible. Prior machine-learning
+prioritization research advances modeling but typically reports a single tuned
+result on private or non-reproducible data and rarely produces per-decision audit
+evidence.
+
+We do not claim a better predictor. We ask whether an open, reproducible,
+audit-evidence-producing benchmark can be built that ranks vulnerability-host pairs
+under public-sector-shaped operational constraints, and whether combining exploit
+intelligence with asset criticality and endpoint exposure improves prioritization
+over EPSS-style baselines --- treated as an open empirical question. Our
+contributions are (i) an integrated framework (feed normalization, exploit
+enrichment, synthetic endpoint telemetry, asset-criticality and local-exposure
+modeling, vulnerability-host pair construction, scoring/ranking strategies, a
+capacity-constrained scheduling simulation, and append-only hash-chained audit
+records); (ii) a deterministic, public-sector-shaped synthetic evaluation with a
+frozen 30-seed artifact and an explicit freeze/verify integrity protocol; and (iii)
+an honest empirical baseline. We state plainly that, under the current toy fixtures
+and uncalibrated weights, the proposed model is statistically indistinguishable
+from the EPSS baseline and does not outperform a random ordering. The value of the
+work is the reproducible, falsifiable evaluation structure, not a superiority claim.

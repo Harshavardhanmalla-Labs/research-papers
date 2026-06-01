@@ -1,0 +1,84 @@
+# Primary experiment runner — DRY-RUN configuration (Phase 12).
+#
+# This config exercises the *primary runner infrastructure* on a tiny,
+# guardrailed dry-run. It is NOT the primary experiment and produces NO
+# paper results. The full primary cell is documented below but intentionally
+# NOT runnable in Phase 12 (full execution is enabled in Phase 13).
+#
+# Guardrails enforced by PrimaryRunConfig / the runner:
+#   - dry_run must be true unless confirm_full_run is true;
+#   - len(seeds) may not exceed max_seeds_allowed_without_confirm without
+#     confirm_full_run;
+#   - fleet_size may not reach primary_target_fleet_size without
+#     confirm_full_run;
+#   - allow_live_fetch must be false in Phase 12 (no live feeds);
+#   - gbt_comparator may not be included unless a fitted model artifact is
+#     supplied (it is excluded here).
+#
+# Fixture-date note: as in Phase 11, dates are pinned to the bundled toy
+# fixtures (t0 = 2025-06-01; KEV/PoC events in (2025-06-01, 2025-07-01]).
+#
+# ---------------------------------------------------------------------------
+# INTENDED FUTURE FULL PRIMARY CELL (documented; NOT run in Phase 12):
+#   fleet_size: 10000
+#   primary_target_fleet_size: 10000
+#   capacity_ratio: 0.01            # => capacity = max(1, 100) = 100
+#   seeds: [1 .. 30]                # 30 seeds
+#   label: A
+#   approver_policy: A
+#   identity_config: ad_entra_default
+#   blackout_config: primary
+#   t0_start: "2025-06-01"          # monthly t0 windows through t0_end
+#   t0_end:   "2025-08-31"
+#   strategies: all Phase 5 strategies (+ gbt_comparator ONLY with a fitted
+#               model artifact)
+#   dry_run: false
+#   confirm_full_run: true          # required to leave dry-run
+#   require_local_snapshots: true   # local snapshots only; no live fetch
+# ---------------------------------------------------------------------------
+
+config_name: primary_dryrun_v1
+seed_master: 20260601
+seeds: [1]
+max_seeds_allowed_without_confirm: 1
+
+fleet_size: 250
+primary_target_fleet_size: 10000
+capacity_ratio: 0.01
+capacity_min: 1
+
+label: A
+approver_policy: A
+identity_config: ad_entra_default
+blackout_config: primary
+
+t0_start: "2025-06-01"
+t0_end: "2025-08-31"
+H_days: 30
+evaluation_end_days: 90
+data_window_start: "2025-01-01"
+data_window_end: "2026-05-31"
+
+strategies:
+  - random
+  - cvss_only
+  - epss_only
+  - kev_first
+  - cvss_x_epss
+  - cvss_plus_epss_plus_kev
+  - cve_max
+  - cve_mean
+  - cve_sum
+  - proposed_full
+  - proposed_no_criticality
+  - proposed_no_exposure
+  - oracle
+excluded_strategies:
+  - gbt_comparator
+
+output_dir: results/primary_dryrun_v1
+dry_run: true
+require_local_snapshots: false
+allow_live_fetch: false
+confirm_full_run: false
+checkpointing: true

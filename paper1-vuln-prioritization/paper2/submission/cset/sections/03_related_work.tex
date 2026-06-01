@@ -1,0 +1,20 @@
+% Auto-converted from paper2_full_draft.md §4.
+% Wording preserved; no claims added.
+\section{Related Work}
+We position this work against fifteen verified prior sources. We draw the differentiation explicitly to avoid claims of novelty in regions that prior work owns.
+
+\textbf{EPSS family.} Jacobs et al.~\cite{Jacobs2021EPSS} introduced the EPSS exploit-probability estimator in DTRAP 2021 and refined it in 2023~\cite{Jacobs2023EnhancingEPSS}; Ravalico et al.~\cite{Ravalico2025EPSSDynamics} examined EPSS temporal stability over \textasciitilde{}45,000 CVEs. We do not retrain or re-tune EPSS. We use the released v3-era EPSS scores as a feature and report EPSS-only as a baseline. Our contribution is not EPSS evaluation; we use EPSS as one of several public-feed signals.
+
+\textbf{CVSS / SSVC / scoring comparisons.} Koscinski et al.~\cite{Koscinski2025ConflictingScores} report cross-system disagreement across CVSS, SSVC, EPSS, and the Exploitability Index on 600 Microsoft CVEs across four months. SSVC v2.0~\cite{CISA2023SSVCv2} provides a stakeholder-specific decision tree. We do not re-do the cross-system disagreement comparison. We acknowledge SSVC as a non-weighted scheme outside the linear-score family we study.
+
+\textbf{Context-feature ablations.} Sherif et al.~\cite{Sherif2026KRI} ablate Key Risk Indicator (KRI) components --- threat, impact, exposure --- against CVSS / EPSS over \textasciitilde{}280,000 CVEs. Our sensitivity sweep is narrower (one public-sector-typical 31-product catalog, the EPSS v3 era, 18 monthly t0 windows, six fixed design-prior vectors); we do not learn KRI weights. We also explicitly evaluate whether within-cell seed variance dominates between-cell signal and find every axis descriptive-only under that criterion.
+
+\textbf{Capacity-constrained prioritization.} VULCON~\cite{Farris2018VULCON} frames remediation as a mixed-integer multi-objective problem with real SOC scan data and reports an exposure-reduction figure. Deep VULMAN~\cite{Hore2023DeepVulman} uses deep RL plus integer programming under fluctuating arrivals. Roytman~\cite{Roytman2024CapacityIsKing} sweeps capacity tiers across strategies on observed enterprise data. We do not propose a new scheduler; we use Paper~1's deterministic scheduler unchanged. Our capacity sensitivity is a confirmatory descriptive sweep, not a new algorithm.
+
+\textbf{Foundational case-control / EPSS roots.} Allodi \& Massacci~\cite{AllodiMassacci2014CaseControl} report classifier stabilisation around 85\% accuracy for proof-of-concept and black-market signals. Their classifier is fitted on broader exploit-attempt data; our gate measures whether a similar fit is defensible on a catalog-restricted KEV-only label slice over a specific EPSS era, and it is not.
+
+\textbf{NIST LEV.} NIST CSWP~41~\cite{MellSpring2025NISTLEV} proposes a Likely Exploited Vulnerabilities probability metric complementary to EPSS / KEV. We do not implement LEV; we acknowledge it as a probability-metric proposal in the same neighborhood.
+
+\textbf{Field surveys and recent integrations.} Jiang et al.~\cite{Jiang2025Survey} survey 82 vulnerability-prioritization studies; VulRG~\cite{VulRG2025} ranks via system-dependency graphs; VulnScore~\cite{AlqahtaniAlmukaynizi2025VulnScore} deploys a composite of human input and temporal threat intelligence; Vulnerability Management Chaining~\cite{VMChaining2025} reports integration efficiency. Our work overlaps with these in the \emph{signals used}; we differ in the \emph{failure-aware-gate framing} and in the \emph{negative feasibility finding on a catalog-restricted slice}.
+
+We do not claim a "first" in any of these regions. We do claim that the specific pairing of (multi-t0 distinct-positive-CVE gate) + (catalog-restricted public-feed slice) + (reproducible execution trail) is, to the best of a pre-registered literature search, not currently published as one bundle.

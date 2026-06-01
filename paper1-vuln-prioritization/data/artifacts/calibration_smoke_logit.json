@@ -1,0 +1,52 @@
+{
+  "clipped_features": [
+    "R",
+    "S",
+    "U"
+  ],
+  "created_at": "2026-05-27T15:49:42.438497Z",
+  "cv_metric": "average_precision",
+  "cv_scores": {
+    "0.01": 0.8494642818309861,
+    "0.1": 0.8520460622175007,
+    "1.0": 0.8574742195294295,
+    "10.0": 0.8579105197634009
+  },
+  "feature_columns": [
+    "E",
+    "K",
+    "S",
+    "C",
+    "X",
+    "U",
+    "R"
+  ],
+  "label_name": "A",
+  "model_type": "logit",
+  "negative_count": 59,
+  "notes": "L2 logistic regression, class_weight=balanced, liblinear. Negative coefficients clipped to zero; R weight reflects label association, not operational cost.",
+  "positive_count": 121,
+  "raw_coefficients": {
+    "C": 0.3687185552961905,
+    "E": 2.0055468876063642,
+    "K": 0.47983249965886365,
+    "R": -2.5065185295480155,
+    "S": -0.2335200953369129,
+    "U": -0.20956892100795907,
+    "X": 0.16694124462446164
+  },
+  "seed": 0,
+  "selected_hyperparameter": 10.0,
+  "skipped_bootstrap_samples": 0,
+  "train_size": 180,
+  "weight_ci": null,
+  "weights": {
+    "C": 0.12205023915616749,
+    "E": 0.6638599380349467,
+    "K": 0.1588302798898253,
+    "R": 0.0,
+    "S": 0.0,
+    "U": 0.0,
+    "X": 0.05525954291906045
+  }
+}
