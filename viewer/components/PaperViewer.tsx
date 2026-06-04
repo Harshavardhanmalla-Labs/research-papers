@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { BookOpen, Image, BarChart2, FolderOpen, FileText } from "lucide-react";
 import type { Paper } from "@/lib/papers";
-import { STATUS_COLORS } from "@/lib/papers";
 import clsx from "clsx";
 import ManuscriptViewer from "./ManuscriptViewer";
 import FiguresGallery    from "./FiguresGallery";
@@ -36,18 +35,20 @@ const PAPER_RAIL = [
   "border-l-teal-500",
   "border-l-violet-500",
   "border-l-rose-500",
+  "border-l-amber-500",
 ];
 const PAPER_RAIL_BG = [
   "from-sky-500/5",
   "from-teal-500/5",
   "from-violet-500/5",
   "from-rose-500/5",
+  "from-amber-500/5",
 ];
 
 export default function PaperViewer({ paper }: Props) {
   const [tab, setTab] = useState<Tab>("pdf");
 
-  const paperIdx  = ["paper1","paper2","paper3","paper4"].indexOf(paper.id);
+  const paperIdx  = ["paper1","paper2","paper3","paper4","paper5"].indexOf(paper.id);
   const railColor = PAPER_RAIL[paperIdx]  ?? PAPER_RAIL[2];
   const railBg    = PAPER_RAIL_BG[paperIdx] ?? PAPER_RAIL_BG[2];
 
@@ -69,10 +70,14 @@ export default function PaperViewer({ paper }: Props) {
               {paper.subtitle}
             </p>
           </div>
-          <span className={clsx(
-            "flex-shrink-0 mt-0.5 px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-widest",
-            STATUS_COLORS[paper.status]
-          )}>
+          <span
+            className="flex-shrink-0 mt-0.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border"
+            style={{
+              backgroundColor: "rgb(var(--accent) / 0.12)",
+              color: "rgb(var(--accent))",
+              borderColor: "rgb(var(--accent) / 0.40)",
+            }}
+          >
             {paper.statusLabel}
           </span>
         </div>

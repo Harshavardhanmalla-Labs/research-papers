@@ -1,0 +1,9 @@
+\section{Dataset and Simulation Parameters}
+
+The multi-window simulation extends the EEHDA synthetic fleet generator from Paper~4~\cite{paper4hygieneprio} with explicit fleet-state evolution between windows. The parameters in Table~\ref{tab:sim_params} are fixed in the pre-registration protocol; no parameter was tuned after observing evaluation-seed outcomes.
+
+\input{tables/tab_sim_params}
+
+Seeds: 30 total; 5 calibration (seeds 100--104), 25 evaluation (seeds 105--129). Calibration uses Window~1 data only to prevent future-data leakage. All parameters are pre-registered in \texttt{PAPER5\_PROTOCOL.md}.
+
+The simulation produces a frozen results CSV \texttt{paper5/results/primary\_full\_v1/} \texttt{temporal\_results.csv} with one row per (seed, window, method) combination at $K=50$, $100$, $250$ as columns. All claims in \S\ref{sec:results} trace to this artifact.

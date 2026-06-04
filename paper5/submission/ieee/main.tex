@@ -1,0 +1,61 @@
+% =====================================================================
+% Paper 5 — Temporal Stability of Hygiene-Augmented Vulnerability
+% Prioritization Across Rolling Maintenance Windows
+%
+% Target: IEEE Transactions on Network and Service Management (TNSM)
+% Template: IEEEtran, journal mode.
+%
+% Reproducibility: all numeric claims trace to paper5/results/ frozen
+% under the pre-registration protocol (paper5/design/PAPER5_PROTOCOL.md).
+% =====================================================================
+\documentclass[journal]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
+
+\graphicspath{{figures/}}
+
+\title{Temporal Stability of Hygiene-Augmented Vulnerability
+Prioritization Across Rolling Maintenance Windows}
+
+\author{%
+  \IEEEauthorblockN{Harshavardhan Malla}
+  \IEEEauthorblockA{Independent Researcher}%
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/00_abstract.tex}
+\end{abstract}
+
+\begin{IEEEkeywords}
+vulnerability prioritization; temporal stability; rolling maintenance
+windows; EPSS; hygiene risk score; multi-window scheduling;
+synthetic benchmark; reproducibility.
+\end{IEEEkeywords}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_background.tex}
+\input{sections/03_problem_formulation.tex}
+\input{sections/04_dataset.tex}
+\input{sections/05_methodology.tex}
+\input{sections/06_experimental_setup.tex}
+\input{sections/07_results.tex}
+\input{sections/08_discussion.tex}
+\input{sections/09_threats.tex}
+\input{sections/10_related_work.tex}
+\input{sections/11_conclusion.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

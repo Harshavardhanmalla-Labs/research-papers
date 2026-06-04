@@ -1,0 +1,16 @@
+\section{Threats to Validity}
+\label{sec:threats}
+
+The threats taxonomy follows Wohlin et al.~\cite{wohlin2012experimentation}.
+
+\textbf{Conclusion validity.} The evaluation comprises 150 window-seed observations summarised with 95\% percentile bootstrap confidence intervals (10{,}000 resamples). The EPSS decay is a deterministic property of the simulation (high-EPSS CVEs are remediated first by HygienePrio-full's policy), not a stochastic artifact, and is robust to bootstrap resampling. No null-hypothesis significance tests are reported; conclusions rely on CI overlap, consistent with Paper~4~\cite{paper4hygieneprio}.
+
+\textbf{Internal validity.} The fleet-evolution model is simplified. Real EPSS dynamics involve daily updates from threat-intelligence feeds, not a Gaussian random-walk perturbation. Real patch velocity is heterogeneous across hosts and depends on organisational factors absent from the simulation. New-CVE arrivals are modelled as Poisson(3) per window; bursty real-world arrivals could change collapse rates in either direction.
+
+A second internal-validity concern is the use of HygienePrio-full as the policy that drives fleet evolution for all methods (\S5.4). This choice avoids non-identifiability of method comparisons across diverging counterfactual fleets, but the consequence is that the comparison is conditional on the HygienePrio-driven trajectory; an EPSS-only-driven fleet would deplete different CVEs in different orders and the Window~2--6 numbers for EPSS-only would shift.
+
+\textbf{Construct validity.} The P@50 metric with binary relevance cannot capture diminishing returns when the qualifying-positive set shrinks. As fewer pairs qualify as true positives in later windows (especially under EPSS decay), P@50 becomes less informative at small positive counts. A complementary EHD-style metric that integrates remediation scheduling latency was considered during pre-registration but excluded from the primary evaluation because it would require a scheduling-simulation layer beyond the scope of the temporal-stability question; reporting it is deferred to future work (\S\ref{sec:conclusion}).
+
+The per-window recomputation of the HRS-75th-percentile threshold in the ground-truth definition creates a structural advantage for HRS-based methods: by definition, the positive set tracks the current HRS distribution. A fixed Window~1 threshold was rejected during pre-registration because it would yield trivially shrinking positive counts that make per-window P@K incomparable. The choice is documented in the protocol and is part of why claims are bounded to the synthetic evaluation context.
+
+\textbf{External validity.} The 14-day window, 15\% patch-debt reduction, and Poisson(3) new-CVE arrival rate are calibrated to DBIR~\cite{verizon2026dbir} aggregate statistics but do not capture organisational variability. Organisations with faster patching cadences, smaller backlogs, or stricter SLA-driven scheduling may see different collapse timelines. No claim is made about generalisation to real enterprise fleets in the absence of external validation on real exploitation outcome data.
