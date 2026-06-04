@@ -1,0 +1,41 @@
+\section{Methodology}
+
+\subsection{HygienePrio Scorer}
+
+The scorer is unchanged from Paper~4~\cite{paper4hygieneprio}:
+\begin{equation}
+\begin{aligned}
+S(h,c) =\;& 0.7 \cdot \mathrm{EPSS}(c) + 0.5 \cdot \mathrm{HRS}(h) \\
+          & + 0.1 \cdot \mathrm{KEV\_recency}(c) \\
+          & + 0.2 \cdot \bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+\end{aligned}
+\label{eq:scorer}
+\end{equation}
+Weights are fixed at the calibration values reported in Paper~4 and are \textit{not} re-calibrated between windows in the primary evaluation. Hypothesis H3 (\S3.4) tests whether per-window re-calibration would have helped.
+
+\subsection{Hygiene Risk Score}
+
+HRS is computed identically to Paper~4 as the weighted combination of three components:
+\begin{equation}
+\begin{aligned}
+\mathrm{HRS}(h) =\;& 0.50 \cdot \mathrm{PatchPosture}(h) \\
+                  & + 0.30 \cdot \mathrm{ADExposure}(h) \\
+                  & + 0.20 \cdot \mathrm{TelemetryFreshness}(h).
+\end{aligned}
+\end{equation}
+At each window, all three components are recomputed from the current fleet state $F_w$. Patch posture decreases for hosts whose pairs are selected and remediated; AD exposure remains stable absent group-membership changes; telemetry freshness improves for acted hosts (recovery $-0.30$) and degrades for non-acted hosts (drift $+0.08$).
+
+\subsection{Baselines}
+
+The primary evaluation compares five methods:
+\begin{itemize}
+\item \textbf{HygienePrio-full}: the scorer in Eq.~\ref{eq:scorer}.
+\item \textbf{EPSS-only}: $S(h,c) = \mathrm{EPSS}(c)$.
+\item \textbf{HRS-only}: $S(h,c) = \mathrm{HRS}(h)$.
+\item \textbf{CVSS-only}: $S(h,c) = \mathrm{CVSS}_{\mathrm{base}}(c)$~\cite{first2019cvss}.
+\item \textbf{Random}: uniform ranking with a deterministic per-(seed, window) RNG so the baseline is exactly reproducible.
+\end{itemize}
+
+\subsection{Fleet-State Evolution Policy}
+
+At each window, the top-50 pairs selected by HygienePrio-full are remediated and applied to the fleet state observed by all subsequent methods. The remediation policy is therefore fixed to HygienePrio-full's selections across windows, ensuring all five methods are scored on the same evolving backlog. This avoids the confound in which each method would generate its own counterfactual fleet trajectory and method comparisons would become non-identifiable.

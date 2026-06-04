@@ -1,0 +1,34 @@
+\section{Problem Formulation}
+
+\subsection{Multi-Window Setting}
+
+Let $F_t$ denote the fleet state at time $t$. The simulation advances through $W = 6$ consecutive bi-weekly windows. At each window $w \in \{1, \ldots, W\}$ the following steps are executed:
+
+\begin{enumerate}
+\item \textbf{Score.} Compute scores $S_w(h, c)$ for all applicable pairs $(h, c) \in V_w$ using the fleet state $F_w$.
+\item \textbf{Select.} Rank pairs descending by $S_w$; select the top-$K$ action set $A_w$.
+\item \textbf{Remediate.} Apply patches: $\mathrm{PatchDebt}(h) \leftarrow \max(0,\; \mathrm{PatchDebt}(h) - \Delta_{\mathrm{patch}})$ for acted hosts.
+\item \textbf{Disclose.} Add new CVE disclosures drawn from the NVD arrival distribution.
+\item \textbf{Update.} Refresh EPSS scores via random-walk perturbation. Accumulate telemetry staleness for non-acted hosts.
+\item \textbf{Advance.} $F_{w+1} \leftarrow$ updated fleet state.
+\end{enumerate}
+
+\subsection{Ground Truth per Window}
+
+At each window, ground truth is defined identically to Paper~4~\cite{paper4hygieneprio}: a pair $(h, c)$ is a true positive if $\mathrm{EPSS}(c) > 0.10$, $\mathrm{HRS}(h)$ exceeds the fleet's 75th percentile at window $w$, and $(h, c) \in V_w$. The threshold is recomputed at each window because the HRS distribution shifts as patches are applied; this is acknowledged as a structural feature of the evaluation (\S\ref{sec:threats}).
+
+\subsection{Metrics}
+
+\begin{itemize}
+\item \textbf{P@K} (primary): evaluated at $K \in \{50, 100, 250\}$ per window.
+\item \textbf{Temporal stability index}: standard deviation of P@50 across $W$ windows per seed (lower indicates more stable scheduling decisions).
+\item \textbf{Advantage persistence}: fraction of window-seed pairs where HygienePrio-full $>$ EPSS-only at P@50.
+\end{itemize}
+
+\subsection{Pre-Registered Hypotheses}
+
+\begin{description}
+\item[H1] HygienePrio-full maintains P@50 $>$ EPSS-only (non-overlapping BCa 95\% CIs) for at least 4 of 6 windows.
+\item[H2] The HygienePrio advantage is largest at Window~1 (before high-HRS hosts are remediated) and attenuates monotonically.
+\item[H3] Per-window re-calibration does not substantially outperform fixed-weight HygienePrio ($<$ 5 pp improvement at P@50), suggesting the initial calibration is sufficiently stable. (\textit{Rejected at evaluation}; see \S\ref{sec:results}.)
+\end{description}

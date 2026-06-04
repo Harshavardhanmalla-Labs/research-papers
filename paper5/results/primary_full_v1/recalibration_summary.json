@@ -1,0 +1,5 @@
+{
+  "max_delta_p50": 0.2128,
+  "stop_rule_threshold_pp": 0.05,
+  "recalibration_helps": true
+}

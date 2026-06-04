@@ -1,0 +1,15 @@
+\section{Background}
+
+\subsection{Rolling Maintenance Windows in Enterprise Operations}
+
+Enterprise vulnerability management operates under patch cadence constraints. CISA Binding Operational Directive 22-01~\cite{cisa2021bod2201} mandates remediation of Known Exploited Vulnerabilities~\cite{cisa2026kev} within 15 days for federal agencies. NIST SP~800-40 Rev.~4~\cite{nist2022sp80040r4} recommends risk-based patch management with documented prioritization criteria. The Verizon 2026 DBIR~\cite{verizon2026dbir} reports a 43-day mean time to patch critical vulnerabilities. These constraints define a rolling scheduling regime: at each maintenance window, a capacity-constrained team selects and remediates a bounded set of (host, CVE) pairs, and subsequent windows address the residual backlog.
+
+\subsection{EPSS Temporal Behavior}
+
+EPSS scores~\cite{jacobs2021epss} change daily as new exploit evidence emerges; a CVE's EPSS score is a rolling 30-day exploit probability estimate, and once a vulnerability is widely patched or superseded, its score typically decreases. Ravalico et al.~\cite{ravalico2025epsstemporal} examined EPSS score drift across approximately 45{,}000 CVEs, finding meaningful temporal variability over 30-day periods.
+
+More critically for prioritization than score-level drift: once the highest-EPSS CVEs are remediated from a fleet's backlog, the remaining unpatched CVEs have systematically lower EPSS scores, causing EPSS-only rankings to degrade toward random ordering on the residual backlog. This compositional effect is distinct from per-CVE score drift and is, to our knowledge, not previously characterised under explicit multi-window remediation in the open literature.
+
+\subsection{Hygiene Signal Temporal Behavior}
+
+Hygiene signals evolve on different timescales. Patch posture (the proportion of applicable CVEs unpatched on a host) decreases when patches are applied but may remain elevated for slow-patching hosts. AD exposure breadth changes only when group memberships change~\cite{cisa2022bod2301}. Telemetry freshness accumulates staleness for hosts not visited by remediation teams. These dynamics imply that hygiene signals retain discriminative power across multiple windows --- particularly for hosts that are systematically deprioritized by EPSS-only rankings and therefore accrue patch debt over time.
