@@ -33,8 +33,8 @@ export const PAPERS: Paper[] = [
     title: "Evidence-Based Vulnerability Prioritization",
     shortTitle: "VulnPrio",
     subtitle: "Exploit likelihood, healthcare data, & EPSS-weighted ranking",
-    status: "drafting",
-    statusLabel: "Drafting",
+    status: "packaging",
+    statusLabel: "Packaging",
     root: "paper1-vuln-prioritization",
     manuscript: {
       main: "paper/manuscript/paper_submission_draft.md",
@@ -63,8 +63,8 @@ export const PAPERS: Paper[] = [
     title: "When Calibration Fails",
     shortTitle: "CalibScore",
     subtitle: "Failure-aware public-feed gate for vulnerability prioritization under sparse exploit labels",
-    status: "drafting",
-    statusLabel: "Drafting",
+    status: "packaging",
+    statusLabel: "Packaging",
     root: "paper1-vuln-prioritization/paper2",
     manuscript: {
       main: "manuscript/paper2_full_draft.md",
@@ -126,8 +126,8 @@ export const PAPERS: Paper[] = [
     title: "HygienePrio: Cyber-Hygiene Signal Augmentation for EPSS-Weighted Vulnerability Prioritization",
     shortTitle: "HygienePrio",
     subtitle: "Integrating patch posture, AD exposure & telemetry freshness into exploit-weighted scoring",
-    status: "drafting",
-    statusLabel: "Drafting",
+    status: "packaging",
+    statusLabel: "Packaging",
     root: "paper4",
     manuscript: {
       main: "manuscript/paper4_draft_v0.1.md",
@@ -143,6 +143,34 @@ export const PAPERS: Paper[] = [
       primaryCSV: "results/primary_results_v1/primary_results.csv",
     },
     artifacts: ["manuscript","src","design","results"],
+  },
+  {
+    id: "paper5",
+    title: "Temporal Stability of Hygiene-Augmented Vulnerability Prioritization Across Rolling Maintenance Windows",
+    shortTitle: "HygienePrio-Temporal",
+    subtitle: "EPSS-only decays, hygiene signals persist: a six-window pre-registered evaluation",
+    status: "packaging",
+    statusLabel: "Packaging",
+    root: "paper5",
+    manuscript: {
+      main: "manuscript/paper5_draft_v0.1.md",
+      extras: [
+        { label: "Protocol", path: "design/PAPER5_PROTOCOL.md" },
+        { label: "Artifact README", path: "README.md" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_full_v1",
+      primaryCSV: "results/primary_full_v1/temporal_results.csv",
+      secondaryCSVs: [
+        { label: "Recalibration ablation", path: "results/primary_full_v1/recalibration_ablation.csv" },
+        { label: "Recalibration summary",  path: "results/primary_full_v1/recalibration_summary.json" },
+        { label: "Run manifest",           path: "results/primary_full_v1/run_manifest.json" },
+      ],
+    },
+    artifacts: ["manuscript","src","design","submission/ieee","results"],
   },
 ];
 
