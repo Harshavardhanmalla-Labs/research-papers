@@ -1,5 +1,5 @@
 "use client";
-import { BookMarked, FlaskConical, Shield, Layers, Flame } from "lucide-react";
+import { BookMarked, FlaskConical, Shield, Layers, Flame, Clock } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import { STATUS_COLORS } from "@/lib/papers";
 import clsx from "clsx";
@@ -43,6 +43,15 @@ const PAPER_META = [
     activeRing: "border-rose-500/35",
     activeShadow: "shadow-[inset_2px_0_0_0_#f43f5e,0_0_20px_rgba(244,63,94,0.10)]",
   },
+  {
+    Icon: Clock,
+    iconCls: "paper-icon-p5",            // amber → orange gradient
+    dotCls: "bg-amber-500",
+    borderCls: "border-l-amber-500",
+    activeBg: "bg-amber-500/10 dark:bg-amber-500/8",
+    activeRing: "border-amber-500/35",
+    activeShadow: "shadow-[inset_2px_0_0_0_#f59e0b,0_0_20px_rgba(245,158,11,0.10)]",
+  },
 ];
 
 const STATUS_DOT: Record<string, string> = {
@@ -73,7 +82,7 @@ export default function Sidebar({ papers, activeId, onSelect }: Props) {
             <span className="text-[13px] font-bold text-fg tracking-tight leading-none">
               Research Portal
             </span>
-            <p className="text-[10px] text-fg-4 mt-1 leading-none">4 papers · EB-1A portfolio</p>
+            <p className="text-[10px] text-fg-4 mt-1 leading-none">{papers.length} papers · EB-1A portfolio</p>
           </div>
         </div>
       </div>

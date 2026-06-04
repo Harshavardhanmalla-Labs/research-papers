@@ -1,0 +1,57 @@
+{
+  "n_windows": 6,
+  "k_values": [
+    50,
+    100,
+    250
+  ],
+  "selection_k": 50,
+  "epss_threshold": 0.1,
+  "hrs_percentile": 75,
+  "calibration_seeds": [
+    100,
+    101,
+    102,
+    103,
+    104
+  ],
+  "evaluation_seeds": [
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129
+  ],
+  "scorer_weights": {
+    "alpha": 0.7,
+    "beta": 0.5,
+    "gamma": 0.1,
+    "delta": 0.2,
+    "kev_decay_lambda": 0.05
+  },
+  "hrs_weights": {
+    "patch_posture": 0.5,
+    "ad_exposure": 0.3,
+    "telemetry_freshness": 0.2
+  }
+}

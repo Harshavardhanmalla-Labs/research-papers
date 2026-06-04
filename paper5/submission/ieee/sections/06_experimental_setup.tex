@@ -1,0 +1,29 @@
+\section{Experimental Setup}
+
+\subsection{Pre-Registration}
+
+The protocol --- including research questions, hypotheses, scoring formula, ground-truth definition, seed split, baselines, metrics, and stop rules --- was fixed before any evaluation-seed result was inspected. The full protocol is archived as \texttt{paper5/design/PAPER5\_PROTOCOL.md} and accompanies the artifact release.
+
+\subsection{Calibration Procedure}
+
+The scorer weights used in the primary evaluation are inherited verbatim from Paper~4's calibration~\cite{paper4hygieneprio}: $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$. These values were not re-fitted on Paper~5's calibration seeds for the primary evaluation; reuse of the Paper~4 calibration is a deliberate methodological choice to test whether \textit{pre-existing} HygienePrio weights remain effective under temporal evolution. The H3 ablation (\S\ref{sec:results}) separately exercises a per-window grid-search recalibration on the five calibration seeds (100--104) for comparison.
+
+\subsection{Evaluation Procedure}
+
+The Paper~5 evaluation seed range (105--129) partially overlaps Paper~4's evaluation set (100--124) but is not identical; the Window~1 mean P@50 reported here ($0.595$) is therefore on a different seed sample than the Window~1 number reported in Paper~4 ($\approx 0.509$). The two are not direct contradictions but distinct point estimates of the same population mean under the same scorer.
+
+For each evaluation seed $s \in \{105, \ldots, 129\}$ and each window $w \in \{1, \ldots, 6\}$:
+\begin{enumerate}
+\item Construct fleet state $F_w^{(s)}$ from $F_{w-1}^{(s)}$ via the evolution policy (\S5.4).
+\item Score all applicable pairs with each of the five methods.
+\item Compute P@$K$ for $K \in \{50, 100, 250\}$ using the per-window ground truth (\S3.2).
+\item Persist the (seed, window, method, K, P@K) tuple to the frozen results CSV.
+\end{enumerate}
+
+\subsection{Statistical Reporting}
+
+Confidence intervals shown in Fig.~\ref{fig:trajectory} are 95\% percentile bootstrap CIs over the 25 evaluation seeds with 10{,}000 resamples per (window, method, $K$) cell~\cite{efron1994introduction}. No null-hypothesis significance tests are reported; comparisons rely on CI overlap, consistent with Paper~4. Window-level comparisons are reported per window rather than pooled across windows because pooling would obscure the temporal decay pattern that is the paper's central finding.
+
+\subsection{Reproducibility}
+
+The simulator, scoring code, recalibration ablation, and figure generator are released under MIT licence with the artifact. From \texttt{paper5/} the command \texttt{PYTHONPATH=src python3 src/run\_temporal.py} reproduces the frozen results CSV from the fixed seeds, and \texttt{PYTHONPATH=src python3 -m paper5.recalib\_ablation} reproduces the H3 ablation in Table~\ref{tab:recalibration}. The simulator depends on Paper~4's \texttt{hygieneprio} package, located in \texttt{paper4/src} as a sibling directory.
