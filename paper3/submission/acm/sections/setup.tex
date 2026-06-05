@@ -47,10 +47,12 @@ Recall@$k$ (R@$k$), False Positive Burden (FPB $= 1 - $P@$k$), and AP stability
 A (condition, task, method) configuration is flagged as a \emph{negative result}
 ($\blacktriangleright$) if:
 \begin{equation}
-  \text{AP}(\text{method}) - \text{AP}(\text{M1}) < 0.05
-  \;\text{ \textbf{and} }\;
+\begin{aligned}
+  &\text{AP}(\text{method}) - \text{AP}(\text{M1}) < 0.05 \\
+  &\quad\textbf{and}\quad
   \text{P@}k(\text{method}) - \text{P@}k(\text{M1}) < 0.05
-  \label{eq:failure}
+\end{aligned}
+\label{eq:failure}
 \end{equation}
 in at least $\lceil 2/3 \times n_{\text{seeds}} \rceil = 2$ of 3 seeds.
 Flagged configurations are reported in full and are not filtered.

@@ -80,10 +80,12 @@ Table~\ref{tab:ablation} presents the ablation results, comparing HygienePrio-fu
   \caption{Ablation --- P@50 impact of removing each hygiene dimension (synthetic evaluation). Ablation uses fixed ground-truth labels (HRS from calibrated weights); only scorer's HRS input changes.}
   \label{tab:ablation}
   \centering
-  \begin{tabular}{>{\raggedright}p{2.8cm}
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{>{\raggedright}p{2.5cm}
                   >{\raggedright}p{2.0cm}
-                  >{\raggedright}p{1.5cm}
-                  >{\raggedright\arraybackslash}p{1.3cm}}
+                  >{\raggedright}p{1.2cm}
+                  >{\raggedright\arraybackslash}p{1.1cm}}
     \toprule
     \textbf{Condition} & \textbf{P@50 (95\%~CI)} & \textbf{Drop} & \textbf{CI overlap?} \\
     \midrule
@@ -118,9 +120,11 @@ Per the pre-registration stop rule, if HygienePrio-noInteraction achieves P@$K$ 
   \caption{Oracle-gap (\%) at $K = 50$ by method (synthetic evaluation; BCa 95\% CI)}
   \label{tab:oracle_gap}
   \centering
-  \begin{tabular}{>{\raggedright}p{2.8cm}
-                  >{\raggedright}p{2.4cm}
-                  >{\raggedright\arraybackslash}p{2.5cm}}
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{>{\raggedright}p{2.6cm}
+                  >{\raggedright}p{2.3cm}
+                  >{\raggedright\arraybackslash}p{2.4cm}}
     \toprule
     \textbf{Method} & \textbf{Oracle-gap (95\%~CI)} & \textbf{P@50 captured} \\
     \midrule
