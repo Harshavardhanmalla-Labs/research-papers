@@ -1,0 +1,48 @@
+\section{Background}
+
+\subsection{The Trajectory-Coupling Threat}
+
+Papers~5--8 of the VulnPrio sequence~\cite{paper5temporal,paper6capacity,paper7online}
+all share one acknowledged internal-validity threat. At every window of
+every cell, fleet evolution is driven by HygienePrio-full's
+top-$K$ selection. EPSS-only, HRS-only, CVSS-only, and Random are scored
+against the resulting backlog --- a backlog whose composition was
+determined by HygienePrio's selection preferences, not by their own.
+
+Each paper documented the threat but bounded its claims to the
+HygienePrio-driven trajectory. None of them measured what would happen
+under a counterfactual trajectory.
+
+\subsection{Why It Could Change the Headline Conclusion}
+
+Paper~6~\cite{paper6capacity} reported that HygienePrio-full's W6 P@50
+collapses at $K \in \{100, 200\}$ on the HygienePrio-driven trajectory
+and attributed the collapse to ``high-HRS-tail exhaustion''. The
+mechanism Paper~6 named is recursive: HygienePrio-full preferentially
+selects high-HRS-host pairs, those hosts get patched, the upper tail of
+the HRS distribution thins, and HygienePrio-full's discriminative
+signal degrades.
+
+If this mechanism is correct, then on a non-HygienePrio-driven
+trajectory --- one where the selection policy is HRS-blind ---
+HygienePrio's signal should \textit{not} collapse, because no
+mechanism would be draining the HRS upper tail. The Paper~6 headline
+H4-rejection ``HygienePrio collapses at high capacity'' would then
+require a substantial qualifier: it collapses only when HygienePrio
+itself is the policy doing the patching.
+
+\subsection{Counterfactual Trajectories and Non-Identifiability}
+
+A fully factorial ``each method drives its own trajectory'' evaluation
+introduces a non-identifiability problem: when method A drives its own
+trajectory and method B drives its own trajectory, A and B are scored
+against \textit{different} evolving backlogs with \textit{different}
+per-window positive sets. The number ``$A$'s mean P@50 at $w = 6$ on
+$T_A$'' is not directly comparable to ``$B$'s mean P@50 at $w = 6$ on
+$T_B$''. Papers~5--8 chose the HygienePrio-driven baseline specifically
+to avoid this issue.
+
+The present paper takes a different stance: we report the trajectory-stratified
+P@50 grid explicitly --- one P@50 number per (driver, scorer, window) cell ---
+and ask the operational questions in a way that respects the
+non-identifiability rather than abstracting it away.

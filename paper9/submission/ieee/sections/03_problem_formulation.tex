@@ -1,0 +1,62 @@
+\section{Problem Formulation}
+\label{sec:problem}
+
+\subsection{Setting}
+
+Inherited from Papers~4--8: the EEHDA synthetic fleet (1{,}000 users,
+830 hosts, $\sim 3{,}500$ initial (host, CVE) pairs), the HygienePrio
+scorer~\cite{paper4hygieneprio} with fixed Paper~4 weights, the
+multi-window simulator~\cite{paper5temporal} with $\lambda = 3$ Poisson
+new-CVE arrivals per window, six bi-weekly windows, and the 25-seed
+evaluation set ($s \in \{105, \ldots, 129\}$).
+
+\subsection{Trajectory-Driver Grid}
+
+The key novelty of this paper is that the \textit{driving method} ---
+the policy whose top-$K$ selection determines fleet evolution --- varies
+across runs. For each cell $K \in \{50, 200\}$ and each driving method
+$m_{\text{drive}} \in \mathcal{M} = \{\text{HP-full}, \text{EPSS-only},
+\text{HRS-only}, \text{CVSS-only}, \text{Random}\}$, we run six windows
+in which $m_{\text{drive}}$'s top-$K$ selection drives evolution. At
+each window, all five methods are scored, producing one P@50 value per
+(cell, driver, scorer, seed, window).
+
+\subsection{Ground Truth}
+
+Per-window: (EPSS $> 0.10$) $\wedge$ (HRS $>$ 75th percentile recomputed
+per window), as in Papers~5--8. The 75th-percentile threshold is computed
+on the current fleet state, which depends on the driving method's
+selection history.
+
+\subsection{Metrics}
+
+\begin{itemize}
+\item \textbf{P@50 grid:} $\mathrm{P@50}^{\mathrm{scorer}}_{K, w}(T_{\mathrm{driver}})$,
+the mean across 25 evaluation seeds.
+\item \textbf{Per-pair dominance:} $\Pr[\mathrm{P@50}^{\mathrm{HP}} >
+\mathrm{P@50}^{m}]$ per (cell, driver), where $m$ is a competing scorer.
+\item \textbf{Trajectory effect:} for each scorer, the difference
+between its mean W6 P@50 across drivers, quantifying how much of its
+apparent performance is trajectory-induced.
+\end{itemize}
+
+\subsection{Pre-Registered Hypotheses}
+
+\begin{description}
+\item[H1] HygienePrio's W6 P@50 collapse at $K = 200$ on the
+HygienePrio-driven trajectory survives on at least one non-HP trajectory
+within $\pm 0.05$: $\exists m' \neq \mathrm{HP}: |\mathrm{P@50}^{\mathrm{HP}}_{K=200, w=6}(T_{m'}) -
+\mathrm{P@50}^{\mathrm{HP}}_{K=200, w=6}(T_{\mathrm{HP}})| \leq 0.05$.
+\textit{Collapse is intrinsic, not selection-induced.}
+\item[H2] EPSS-only's W6 P@50 on its own trajectory is lower than on
+HygienePrio's trajectory at $K = 50$:
+$\mathrm{P@50}^{\mathrm{EPSS}}_{w=6}(T_{\mathrm{EPSS}}) <
+\mathrm{P@50}^{\mathrm{EPSS}}_{w=6}(T_{\mathrm{HP}})$.
+\textit{Self-driven EPSS exhausts its own tail faster.}
+\item[H3] HygienePrio per-pair dominance over EPSS-only is preserved
+on the EPSS-only trajectory: cell-fraction $(\mathrm{HP} > \mathrm{EPSS}
+\mid T_{\mathrm{EPSS}}) \geq 0.75$ at $K = 50$ and $\geq 0.50$ at $K = 200$.
+\end{description}
+
+Decision rules and stop rules are in
+\texttt{paper9/design/PAPER9\_PROTOCOL.md}.
