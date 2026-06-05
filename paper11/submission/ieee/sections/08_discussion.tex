@@ -1,0 +1,96 @@
+\section{Discussion}
+
+\subsection{Why the Pareto Curve Misses the Feasible Region}
+
+Paper~10's discussion argued the H1 success and H2 cost are
+``parameterised by $\tau$'' and form a trade-off curve. The empirical
+curve sits entirely outside the joint feasible region: at every
+$\tau$, the K=50 cost is at least $4$~pp deeper than Paper~10's
+$-2$~pp tolerance. The mechanism is structural. The detector's
+firing decision at a given window is a step function of $\tau$ via
+the inequality $|\Delta_w| \geq \tau$; in the simulated regime the
+calibration-target shifts $|\Delta_w|$ are either ``large''
+(typically $> 0.1$) or ``small'' (typically $< 0.05$), with little
+mass in between. The detector therefore behaves approximately
+binarily across the grid, and the K=50 cost is approximately
+constant across the $\tau$ values that all map to the same
+``mostly-fire'' or ``mostly-don't-fire'' regime.
+
+\subsection{What Richer Detectors Would Need to Do}
+
+The negative feasibility result motivates the next paper class. A
+detector that can reach the feasible region must decouple the K=200
+hazard-avoidance from the K=50 over-firing penalty. Three operational
+levers are available:
+
+\textbf{(i) Capacity-aware threshold.} A detector that uses different
+$\tau$ values at different capacities can in principle achieve
+hazard-avoidance at K=200 with a small $\tau$ while permitting more
+lag-1 use at K=50 with a large $\tau$. This requires the deployment
+context to expose the operating capacity to the detector.
+
+\textbf{(ii) Multi-window evidence accumulation.} CUSUM and Bayesian
+change-point detectors accumulate evidence across windows and can
+fire only when the cumulative shift exceeds a confidence threshold,
+reducing false-positive firing rates at K=50 where individual
+$|\Delta_w|$ values exceed $\tau$ but do not indicate a sustained
+shift.
+
+\textbf{(iii) Decoupled fire/strategy choice.} A detector that fires
+into multiple strategies (e.g., \textsf{lag1}, \textsf{trail3},
+\textsf{fixed}) rather than the binary lag-1/fixed choice could in
+principle find a middle weight set that mitigates the K=50 cost
+while preserving K=200 safety. Paper~8 falsified the simple trail3
+substitute at single $\tau$; the multi-substitute variant is
+distinct and untested.
+
+These three directions are mutually compatible. The pre-registration
+discipline that constrained Papers~7--11 requires that any such
+richer detector be evaluated against locked hypotheses analogous to
+those used here.
+
+\subsection{The H1 Robustness Result}
+
+The substantive H1 finding --- worst-case K=200 hazard is uniformly
+$0.0$ across the entire $\tau$ grid --- is stronger than Paper~10's
+single-$\tau$ H1 and deserves emphasis. The simple detector is
+\textit{robustly} safe at K=200: regardless of threshold choice, no
+adaptive procedure in this family produces a per-window loss at high
+capacity. This is the operationally important positive that survives
+the H3 rejection.
+
+\subsection{The Pre-Registration Sign Errors}
+
+The H2 and H4 sign reversals are an honest pre-registration mistake.
+The protocol predicted that ``larger $\tau$ fires more'' (H4) and
+that ``larger $\tau$ penalises K=50 more'' (H2), encoding an
+intuition that does not survive a moment's mathematical reflection:
+$|\Delta_w| \geq \tau$ becomes \textit{harder} to satisfy as $\tau$
+grows. The decision rules were locked in this incorrect direction
+and the data falsified them with $\rho = -0.97$ (H4) and $\rho =
++0.87$ (H2).
+
+The pre-registration discipline produces this kind of mistake from
+time to time: a locked-too-early sign assumption shows up as a
+crisp data-direction rejection. The constructive interpretation is
+that the data have falsified the protocol's stated direction and
+the corrected direction is now the substantive scientific claim.
+This is exactly the kind of negative result that the discipline is
+designed to surface honestly.
+
+\subsection{Operational Implication}
+
+For an organisation deploying HygienePrio at fixed capacity in the
+ranges studied, the calibration recipe is now operationally clear:
+\begin{itemize}
+\item At $K \leq 100$: deploy lag-1 online recalibration directly
+(Paper~7's recovery ratio $\rho \approx 1.0$).
+\item At $K \geq 200$: deploy Paper~4 fixed weights (Paper~6's
+absolute floor stands, but no calibration strategy in the
+Papers~7--11 sequence improves on it; adaptive switching avoids
+harm but does not generate additional value).
+\item Adaptive switching with $\tau \in [0.02, 0.10]$ adds
+operational complexity without reaching the joint Paper~10
+tolerances; richer detectors are required before adaptive procedures
+should be preferred to the static rule.
+\end{itemize}

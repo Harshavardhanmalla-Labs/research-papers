@@ -1,0 +1,63 @@
+\section{Introduction}
+
+Paper~10~\cite{paper10adaptive} evaluated a one-threshold magnitude
+change-point detector for online recalibration of HygienePrio's
+scorer weights at the single pre-registered $\tau = 0.05$. The
+outcome was mixed: H1 supported (no hazard at $K = 200$), H2 rejected
+($5.3$~pp penalty at $K = 50$), H3 rejected (non-monotone firing in
+capacity), H4 supported (marginal beat over static gate). Paper~10's
+discussion argued the H1 success and H2 cost are parameterised by
+$\tau$ and form a Pareto curve over the threshold axis.
+
+This paper tests that argument. We sweep $\tau \in \{0.02, 0.03,
+0.05, 0.075, 0.10\}$ on the same $K \in \{50, 100, 200\}$,
+$\lambda = 3$ grid as Paper~10 and ask four pre-registered questions:
+does the K=200 hazard re-emerge at small $\tau$ (H1); is the K=50
+cost a monotone function of $\tau$ (H2); does any $\tau$ satisfy
+both Paper~10 tolerances simultaneously (H3); is the firing fraction
+monotone in $\tau$ (H4)?
+
+\subsection{Contributions}
+
+\begin{itemize}
+\item \textbf{C1 --- A pre-registered $\tau$ sweep.} The first
+pre-registered sensitivity analysis of the Paper~10 adaptive detector
+across an order-of-magnitude $\tau$ grid; 11{,}250 frozen result rows
+plus a 90-row change-point decision log.
+
+\item \textbf{C2 --- H3 rejected: simple detector cannot reach the
+feasible region.} No $\tau$ in the swept grid simultaneously
+satisfies both Paper~10 tolerances. The K=50 cost is between $-4.1$
+and $-5.3$~pp at every $\tau$, always exceeding the $-2.0$~pp
+ceiling. The simple magnitude detector is fundamentally insufficient;
+richer detectors are necessary.
+
+\item \textbf{C3 --- H1 is robust across the $\tau$ grid.} The
+worst per-window $K = 200$ adaptive--fixed delta is exactly $0.0$ at
+every $\tau$ tested. The hazard-avoidance property of the
+detector is not specific to Paper~10's $\tau = 0.05$ choice but
+holds across an order-of-magnitude variation in the threshold ---
+a stronger H1 statement than Paper~10 reported.
+
+\item \textbf{C4 --- H2 and H4 protocol-sign reversal, honestly
+reported.} The pre-registration predicted firing fraction would be
+monotone non-decreasing in $\tau$. The data reveals the opposite:
+$\rho(\tau, \text{fire frac}) = -0.97$ ($p = 0.005$). Larger $\tau$
+requires a larger shift to trigger and therefore fires less; the
+protocol mathematically inverted the direction. H2 inherited the
+sign error. We report the rejections honestly per the protocol's
+stop rules and use the data direction as the discussion's framing.
+
+\item \textbf{C5 --- A negative operating-point result.} The
+Paper~10 question ``does an operating point exist for the simple
+detector that satisfies both tolerances?'' has a negative answer in
+this grid. The answer requires either a richer detector family
+(CUSUM, Bayesian) or relaxing one of the two Paper~10 tolerances.
+\end{itemize}
+
+\subsection{Relationship to Prior Papers}
+
+This paper is the eleventh in the VulnPrio research sequence. It
+closes the simple-detector branch opened by Paper~10 with a sharp
+negative-feasibility result and opens the richer-detector branch as
+the necessary next step.

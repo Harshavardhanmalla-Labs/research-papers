@@ -1,0 +1,34 @@
+\section{Background}
+
+\subsection{Paper 10's Mixed Outcome}
+
+Paper~10~\cite{paper10adaptive} introduced a one-threshold magnitude
+test as the simplest deployable change-point detector for online
+recalibration. At pre-registered $\tau = 0.05$ the procedure produced
+H1 supported (no hazard at $K = 200$, cell-mean delta $+0.7$~pp
+vs fixed), H2 rejected ($K = 50$ adaptive falls $5.3$~pp below
+lag-1), H3 rejected (fire fractions non-monotone in $K$), and H4
+supported (adaptive marginally beats static gate by $+0.7$~pp).
+Paper~10's discussion (\S8.3) argued the H1 success and H2 cost are
+not separable: any non-trivial adaptive procedure must, by definition,
+sometimes gate out gainful calibration, and the gating rate is
+parameterised by $\tau$.
+
+\subsection{The Hypothesised Trade-Off}
+
+The intuition Paper~10 left unverified is: smaller $\tau$ should
+fire less often, shrinking the H2 penalty at moderate capacity but
+re-introducing some H1 hazard at high capacity; larger $\tau$ should
+fire more often, eliminating H1 hazard but enlarging the H2 cost.
+The relationship should produce a Pareto curve over which an operator
+can choose an operating point.
+
+\subsection{Why a Sensitivity Sweep First}
+
+Before evaluating more sophisticated detectors (CUSUM, Bayesian),
+it is useful to know whether the simple magnitude detector --- viewed
+as a one-parameter family --- contains an operating point that
+satisfies \textit{both} Paper~10 pre-registered tolerances. If yes,
+the operating point is the deployable recipe. If no, the simple
+detector is fundamentally insufficient and a richer detector class
+is necessary.
