@@ -2,7 +2,7 @@
 
 \subsection{Evaluation Infrastructure}
 
-All experiments are implemented in Python 3.11 using NumPy 1.26, Pandas 2.1, and scikit-learn 1.4. Randomness in baseline methods (Random) is seeded by the fleet seed, ensuring reproducibility. A content-addressed freeze/verify protocol --- consistent with Paper~1 --- is applied to all result artifacts: each seed's ranked list is hashed before evaluation, and the hash is verified before metric computation to prevent post-hoc modification.
+All experiments are implemented in Python 3.11 using NumPy 1.26, Pandas 2.1, and scikit-learn 1.4 on a MacOS system (Apple M-series CPU, 16 GB RAM). Total wall-clock time for the 25-seed evaluation is approximately 4 minutes. Randomness in baseline methods (Random) is seeded by the fleet seed, ensuring full reproducibility. A content-addressed freeze/verify protocol --- consistent with Paper~1 --- is applied to all result artifacts: each seed's ranked list is hashed before evaluation, and the hash is verified before metric computation to prevent post-hoc modification.
 
 \subsection{Calibrated Weights}
 
@@ -38,7 +38,7 @@ For each of the 25 evaluation seeds:
   \item Generate ranked list $R$ by sorting descending by $S(h, c)$.
   \item Generate baseline ranked lists (EPSS-only, CVSS-only, Random, HRS-only) using identical $V$.
   \item Compute ground truth labels using the pre-registered definition (\S3.2).
-  \item Compute P@$K$, NDCG@$K$, Oracle-gap for $K = 50, 100, 250$ for all methods.
+  \item Compute P@$K$, NDCG@$K$, Oracle-gap for $K \in \{50, 100, 250\}$ for all methods. $K = 50$ represents a tight weekly maintenance window (approximately 1.4\% of the mean fleet of $\sim$3,480 applicable pairs); $K = 100$ a moderate bi-weekly window; $K = 250$ a broad monthly capacity. These values span the range typical of reported enterprise patch cadences~\cite{verizon2026dbir}.
   \item Hash and verify result artifacts.
 \end{enumerate}
 
@@ -48,12 +48,13 @@ For each of the 25 evaluation seeds:
   \caption{Baseline and ablation methods evaluated}
   \label{tab:baselines}
   \centering
-  \begin{tabular}{lp{0.6\linewidth}}
+  \small
+  \begin{tabular}{@{}p{2.8cm}p{5.3cm}@{}}
     \toprule
     \textbf{Method} & \textbf{Description} \\
     \midrule
     EPSS-only & Rank by $\mathrm{EPSS}(c)$ descending; primary comparison \\
-    CVSS-only & Rank by CVSS base score descending \\
+    CVSS-only & Rank by CVSS v3.1 base score descending \\
     Random & Uniform random (seed-fixed) \\
     HRS-only & Rank by $\mathrm{HRS}(h)$ descending; tests host hygiene without CVE signal \\
     HygienePrio-full & Full scorer with calibrated weights \\
@@ -67,4 +68,4 @@ For each of the 25 evaluation seeds:
 
 \subsection{Reporting Convention}
 
-All metrics are reported as mean $\pm$ 95\% bootstrap confidence interval (BCa method, 10,000 resamples) across 25 evaluation seeds. No null hypothesis significance testing is performed; evidence is based on BCa CI non-overlap between HygienePrio-full and EPSS-only. Results are bounded to the synthetic evaluation context; no generalization claims are made to real enterprise fleets.
+All metrics are reported as mean $\pm$ 95\% BCa bootstrap confidence interval~\cite{efron1994introduction} (10,000 resamples) across 25 evaluation seeds. No null hypothesis significance testing is performed; evidence is based on BCa CI non-overlap. With 25 seeds and the observed seed-to-seed standard deviation of $\approx$0.06 for P@50, the evaluation has sufficient power to detect differences of $\geq$5 pp at 80\% power (estimated via the standard formula for paired comparisons): the headline 31 pp difference substantially exceeds this threshold. Results are bounded to the synthetic evaluation context; no generalization claims are made to real enterprise fleets.

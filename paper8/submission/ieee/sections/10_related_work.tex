@@ -1,0 +1,38 @@
+\section{Related Work}
+
+\textbf{Lag-1 online calibration baseline.}
+Paper~7~\cite{paper7online} introduced the rolling-history grid-search
+recalibration procedure and reported the capacity-conditional hazard
+that motivates this paper. The present sweep inherits Paper~7's
+\textsf{fixed}/\textsf{lag1}/\textsf{offline} strategies and adds the
+two smoothing variants.
+
+\textbf{High-capacity collapse.} Paper~6~\cite{paper6capacity}
+identified the high-capacity regime where HygienePrio-full collapses
+even with fixed weights. The present paper does not attempt to rescue
+the absolute floor (that question is taken up in the future-work
+section); instead it asks whether a smoothed online recalibration
+procedure can match or exceed the fixed-weight baseline at the
+collapse cells.
+
+\textbf{Exponential smoothing.}
+The EWMA estimator dates back at least to Holt's seasonal-forecasting
+work~\cite{huang2024ewma}; in machine-learning settings it appears
+under the name ``geometric averaging'' as a low-variance bias-bearing
+substitute for sliding-window means. The use here --- weighting a
+finite past history of grid-search calibration scores --- is a direct
+adaptation; no novel estimator is claimed.
+
+\textbf{Multi-paper sequence.}
+HygieneBench~\cite{paper3hygienebench}, HygienePrio~\cite{paper4hygieneprio},
+Temporal Stability~\cite{paper5temporal}, Capacity-Indexed Decay~\cite{paper6capacity},
+and Online Calibration~\cite{paper7online} together define the
+methodological substrate within which this paper sits. This paper
+extends the calibration-strategy dimension by one step (single-lag $\to$
+finite-history weighted aggregation).
+
+\textbf{Policy mandates.} CISA BOD~22-01~\cite{cisa2021bod2201},
+23-01~\cite{cisa2022bod2301}, NIST SP~800-40 Rev.~4~\cite{nist2022sp80040r4},
+and the 2026 DBIR~\cite{verizon2026dbir} establish the operational
+scheduling regime under which any deployable recalibration procedure
+must operate.

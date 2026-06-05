@@ -1,0 +1,64 @@
+\section{Problem Formulation}
+\label{sec:problem}
+
+\subsection{Sweep Setting}
+
+We extend Paper~5's~\cite{paper5temporal} single-cell multi-window simulation
+to a two-dimensional sweep over remediation capacity $K$ and Poisson
+arrival rate $\lambda$. Let $F_w$ denote the fleet state at window $w \in
+\{1, \ldots, W\}$ with $W = 6$. For each cell $(K, \lambda)$ in the grid,
+each window executes:
+
+\begin{enumerate}
+\item \textbf{Score.} Compute $S_w(h, c)$ for all unpatched applicable
+pairs $(h, c) \in V_w$ using $F_w$.
+\item \textbf{Select.} Rank pairs descending; the top-$K$ action set
+$A_w$ is selected by HygienePrio-full (used as the policy that drives
+fleet evolution for \textit{all} methods scored at this window).
+\item \textbf{Remediate.} Mark pairs in $A_w$ patched; reduce host
+patch debt and recover telemetry freshness for acted hosts.
+\item \textbf{Disclose.} Draw $n \sim \mathrm{Poisson}(\lambda)$ new
+(host, CVE) rows with EPSS, CVSS, and KEV attributes sampled from the
+Paper~4~\cite{paper4hygieneprio} fixture distributions.
+\item \textbf{Update.} Random-walk perturb EPSS scores ($\sigma = 0.02$);
+accumulate telemetry staleness for non-acted hosts.
+\item \textbf{Advance.} $F_{w+1} \leftarrow$ updated state.
+\end{enumerate}
+
+\subsection{Ground Truth (per Window)}
+
+Identical to Paper~5~\cite{paper5temporal}: $(h, c)$ is a positive at
+window $w$ if $\mathrm{EPSS}(c) > 0.10$, $\mathrm{HRS}(h)$ exceeds the
+fleet's 75th percentile at $w$, and $(h, c) \in V_w$. The HRS-percentile
+threshold is recomputed per window; this is a structural choice
+inherited from Paper~5 and is restated as a threat in
+\S\ref{sec:threats}.
+
+\subsection{Metrics}
+
+\begin{itemize}
+\item \textbf{P@$K'$} (primary), with $K' \in \{50, 100, 250\}$
+metric levels reported per cell, per window, per seed. Note that $K'$
+is the metric-evaluation level, separate from the cell's capacity $K$
+that controls fleet evolution.
+\item \textbf{Decay slope.} OLS slope of P@50 versus window index
+($w = 1, \ldots, 6$), per (cell, seed, method).
+\item \textbf{W6 retention.} Cell-mean P@50 at $w = 6$ per method.
+\end{itemize}
+
+\subsection{Pre-Registered Hypotheses}
+
+\begin{description}
+\item[H1] EPSS-only mean decay slope is monotonically more negative as
+$K$ increases at every fixed $\lambda$ (Spearman $\rho \leq -0.8$).
+\item[H2] EPSS-only decay slope is monotonically less negative (closer
+to zero) as $\lambda$ increases at every fixed $K$ (Spearman $\rho \geq +0.8$).
+\item[H3] A critical ratio $K/\lambda$ exists at which the EPSS-only
+slope $\geq -0.01$ P@50/window (descriptive; no binary test).
+\item[H4] HygienePrio-full retains W6 mean P@50 $\geq 0.40$ across all
+20 cells.
+\end{description}
+
+The full pre-registration protocol, including hypotheses, decision
+rules, and stop rules, is archived at \texttt{paper6/design/PAPER6\_PROTOCOL.md}
+and accompanies the artifact release.

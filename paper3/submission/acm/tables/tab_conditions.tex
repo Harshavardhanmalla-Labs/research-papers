@@ -8,15 +8,15 @@
 \caption{Mean AP by telemetry condition (all methods and tasks).}
 \label{tab:conditions}
 \small
-\begin{tabular}{@{}lrrl@{}}
+\begin{tabular}{@{}lrr>{\raggedright\arraybackslash}p{2.8cm}@{}}
 \toprule
-Condition & Mean AP & $\Delta$AP vs C-BASE & Primary driver \\
+Condition & Mean AP & $\Delta$ vs BASE & Primary driver \\
 \midrule
-C-FRESH & 0.856 & $+$0.084 & T5 $+$0.238, T1 $+$0.101 \\
-C-MISS  & 0.845 & $+$0.073 & T5, T1 improvements dominate \\
-C-UNSUP & 0.844 & $+$0.072 & C-BASE with labels withheld \\
-C-BASE  & 0.772 & ---       & Reference condition \\
-C-STALE & 0.741 & $-$0.031 & T3 $-$0.168; staleness degrades signals \\
+C-FRESH & 0.856 & $+$0.084 & T5 $+$0.238; T1 $+$0.101 \\
+C-MISS  & 0.845 & $+$0.073 & T5, T1 dominate \\
+C-UNSUP & 0.844 & $+$0.072 & Labels withheld \\
+C-BASE  & 0.772 & ---       & Reference \\
+C-STALE & 0.741 & $-$0.031 & T3 $-$0.168; staleness \\
 \bottomrule
 \end{tabular}
 \end{table}

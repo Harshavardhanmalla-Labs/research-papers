@@ -1,0 +1,26 @@
+\begin{table}[!t]
+  \caption{Mean P@50 decay slope (per window) for EPSS-only (top) and HygienePrio-full (bottom). Negative = decay; near zero = steady.}
+  \label{tab:slopes}
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lccccc}
+    \toprule
+    & \multicolumn{5}{c}{Capacity $K$} \\
+    \cmidrule(lr){2-6}
+    $\lambda$ & 10 & 25 & 50 & 100 & 200 \\
+    \midrule
+    \multicolumn{6}{l}{\textit{EPSS-only}} \\
+    1 & -0.038 & -0.047 & -0.051 & -0.043 & -0.035 \\
+    3 & -0.039 & -0.048 & -0.052 & -0.044 & -0.032 \\
+    6 & -0.035 & -0.046 & -0.051 & -0.042 & -0.030 \\
+    12 & -0.036 & -0.047 & -0.051 & -0.043 & -0.025 \\
+    \midrule
+    \multicolumn{6}{l}{\textit{HygienePrio-full}} \\
+    1 & -0.010 & +0.001 & -0.019 & -0.055 & -0.113 \\
+    3 & -0.009 & -0.001 & -0.017 & -0.058 & -0.109 \\
+    6 & -0.006 & -0.001 & -0.019 & -0.054 & -0.105 \\
+    12 & -0.012 & +0.000 & -0.012 & -0.055 & -0.098 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

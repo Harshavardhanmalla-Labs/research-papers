@@ -11,8 +11,8 @@ Let $K$ be the remediation capacity: the number of (host, CVE) pairs that a team
 A pair $(h, c)$ is a \emph{true positive} (also referred to as a high-priority pair) if all of the following hold (pre-registered definition):
 
 \begin{enumerate}
-  \item $\mathrm{EPSS}(c) > 0.10$ --- the CVE has non-trivial exploit likelihood.
-  \item $\mathrm{HRS}(h) >$ fleet 75th percentile --- the host is in the bottom quartile of hygiene posture.
+  \item $\mathrm{EPSS}(c) > 0.10$ --- the CVE has non-trivial exploit likelihood. This threshold corresponds approximately to the 85th--90th percentile of the EPSS score distribution~\cite{jacobs2021epss}, separating CVEs with meaningful exploitation probability from the long tail with near-zero scores.
+  \item $\mathrm{HRS}(h) >$ fleet 75th percentile --- the host is in the bottom quartile of hygiene posture. The 75th percentile is chosen as a pre-registered conservative boundary that identifies genuine hygiene outliers while avoiding sensitivity to the exact threshold value for the large majority of pairs.
   \item $(h, c) \in V$ --- the CVE is applicable to the host.
 \end{enumerate}
 
@@ -38,4 +38,4 @@ where $\mathrm{DCG}@K = \sum_{i=1}^{K} \mathrm{rel}_i / \log_2(i+1)$, $\mathrm{r
 \[
   \mathrm{Oracle\text{-}gap}(\text{method}, K) = \frac{P@K_{\mathrm{oracle}} - P@K_{\mathrm{method}}}{P@K_{\mathrm{oracle}}} \times 100
 \]
-where $P@K_{\mathrm{oracle}}$ is the P@$K$ of an oracle ranker that places all true positives first. Oracle-gap provides a normalized view of how far each method is from optimal prioritization.
+where $P@K_{\mathrm{oracle}}$ is the P@$K$ of an oracle ranker that places all true positives first. Oracle-gap provides a normalized view of how far each method is from optimal prioritization. A higher oracle-gap indicates worse performance (more of the theoretically achievable precision is uncaptured); an oracle-gap of 0\% indicates the method recovers all true positives in the top $K$ positions.
