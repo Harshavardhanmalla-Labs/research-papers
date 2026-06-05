@@ -1,0 +1,33 @@
+\section{Related Work}
+
+\textbf{Single-$\tau$ baseline and Pareto-curve closure.}
+Paper~10~\cite{paper10adaptive} introduced the magnitude detector;
+Paper~11~\cite{paper11tau} mapped the H1/H2 Pareto curve across
+$\tau$ and demonstrated the curve does not intersect the joint
+feasibility region. This paper takes the next step Paper~11
+explicitly named: a per-K threshold vector.
+
+\textbf{Static gating.} A static $K \leq 100 \to$ lag1; $K \geq 200
+\to$ fixed gate was introduced in Paper~10 as a baseline control
+without per-window decision-making. The present paper shows it is a
+feasible operating point that the capacity-aware detector approximates
+rather than improves on.
+
+\textbf{Change-point detection.} CUSUM~\cite{page1954cusum} and
+Bayesian online detectors are the natural next steps. They differ
+from the magnitude detector by accumulating evidence across multiple
+windows rather than firing on a single inter-window shift, which
+could in principle break the K=200 collapse documented here.
+
+\textbf{Multi-paper sequence.} HygieneBench (Paper~3)~\cite{paper3hygienebench},
+HygienePrio (Paper~4)~\cite{paper4hygieneprio}, Temporal Stability
+(Paper~5)~\cite{paper5temporal}, Capacity-Indexed Decay
+(Paper~6)~\cite{paper6capacity}, Online Calibration (Paper~7)~\cite{paper7online},
+Multi-History Calibration (Paper~8)~\cite{paper8multi},
+Self-Trajectory (Paper~9)~\cite{paper9selftraj}, Adaptive
+Recalibration (Paper~10), and Threshold Sensitivity (Paper~11)
+define the methodological substrate.
+
+\textbf{Policy mandates.} CISA BOD~22-01~\cite{cisa2021bod2201},
+23-01~\cite{cisa2022bod2301}, NIST SP~800-40~\cite{nist2022sp80040r4},
+2026 DBIR~\cite{verizon2026dbir}.

@@ -1,0 +1,49 @@
+Paper~11~\cite{paper11tau} swept the threshold $\tau$ of Paper~10's
+simple magnitude change-point detector~\cite{paper10adaptive} across
+$\{0.02, \ldots, 0.10\}$ and reported a negative feasibility result:
+no $\tau$ in the grid simultaneously satisfied both Paper~10
+pre-registered tolerances. Paper~11 named capacity-aware thresholding
+as the simplest of three remaining detector candidates. This paper
+evaluates it with a pre-registered locked $\tau_K = \{50: 0.20,
+100: 0.05, 200: 0.02\}$ vector on a 2{,}700-row sweep.
+
+\textbf{H1 supported (the central positive finding).} The capacity-aware
+detector reaches the joint feasibility region: the worst per-window
+K=200 cap\_aware--fixed delta is $0.0$, the cell-mean K=50
+cap\_aware--lag1 delta is exactly $0.0$ (the $\tau_{50}=0.20$ never
+fires, so cap\_aware = lag1 at every K=50 window), and the cell-mean
+K=100 cap\_aware--lag1 delta is $-0.004$ (well within the $-0.02$
+tolerance). \textbf{This is the first procedure in the Papers~7--12
+sequence that simultaneously satisfies all three Paper~10/Paper~11
+pre-registered tolerances.}
+
+\textbf{H3 supported.} The firing fraction is perfectly monotone in
+K: $0\%, 40\%, 100\%$ at $K = 50, 100, 200$. The $\tau_K$ vector
+operationalises the capacity-conditional intuition exactly: at K=50
+the threshold is large enough that the magnitude detector never fires;
+at K=200 the threshold is small enough that it fires every post-W1
+window.
+
+\textbf{H2 rejected at one cell-window.} At $K=200, w=4$ the
+cap\_aware fires (using $\tau_{200}=0.02$) while the
+Paper~10-default adaptive05 does not (cp\_delta $= -0.020$, just
+below $0.05$). That single window costs cap\_aware $-3.4$~pp
+relative to adaptive05 because the unfired lag-1 fit at that window
+happens to be beneficial.
+
+\textbf{H4 rejected.} At K=200, cap\_aware and gated produce
+identical cell means ($0.2664$ each) because the
+$\tau_{200}=0.02$ fires at every post-W1 window, reverting cap\_aware
+to fixed weights --- the same decision the static gate makes
+unconditionally at K=200. The benefit of the per-window detector
+collapses to the static gate at this capacity.
+
+The honest operational conclusion: \textbf{capacity-aware thresholding
+reaches the feasibility region, but does so by approximating the
+static gate at the two capacity extremes}. At K=200 it equals gated
+exactly; at K=50 it equals lag-1 exactly (no fire). The only
+substantive per-window decision is at K=100, where cap\_aware loses
+$0.4$~pp on average relative to lag-1. A practitioner can deploy
+the static gate (no detector, no per-window decision) without losing
+operationally meaningful accuracy in this grid. The capacity-aware
+detector validates the gate as feasible; it does not improve on it.

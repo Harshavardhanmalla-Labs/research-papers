@@ -1,0 +1,47 @@
+\section{Methodology}
+
+\subsection{Scorer (Inherited)}
+
+\begin{equation}
+\begin{aligned}
+S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
+          & + \gamma\,\mathrm{KEV\_recency}(c) \\
+          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+\end{aligned}
+\label{eq:hp}
+\end{equation}
+
+\subsection{Capacity-Aware Detector}
+
+At window $w \geq 2$, the detector computes $|\Delta_w|$ (Paper 10
+\S5.2) and compares against the per-$K$ threshold:
+\begin{equation}
+\textsf{cap\_aware fires at } w \iff |\Delta_w| \geq \tau_K.
+\end{equation}
+The threshold vector $\tau_K = \{50: 0.20, 100: 0.05, 200: 0.02\}$
+is locked before any capacity-aware-detector P@50 is inspected.
+
+The intuition is operational: at K=50 lag-1 recalibration is
+beneficial (Paper 7: $\rho \approx 1.0$), so a large $\tau_{50}$
+keeps the detector quiet and lag-1 used; at K=200 lag-1 is harmful
+(Paper 7: $\rho \approx -0.66$), so a small $\tau_{200}$ makes the
+detector fire often and revert to fixed; K=100 is intermediate.
+
+\subsection{Justification of the $\tau_K$ Choice}
+
+$\tau_{50} = 0.20$ is twice Paper~11's largest sweep value (0.10),
+where the Paper~11 K=50 fire fraction was already 40\%. A doubling
+should reduce this to near zero. $\tau_{200} = 0.02$ is Paper~11's
+smallest sweep value, at which the K=200 fire fraction was 80\%
+(the maximum across the Paper~11 grid). $\tau_{100} = 0.05$ is the
+Paper~10 default and the midpoint of Paper~11's grid.
+
+These three values were chosen by inspection of Paper~11's
+\textit{calibration-seed} change-point decision log; the
+evaluation-seed P@50 values for the cap\_aware strategy were not
+inspected before locking.
+
+\subsection{Selection Policy}
+
+Fleet evolution is driven by HygienePrio-full under \textsf{fixed}
+weights at every window for every strategy, as in Papers~7--11.

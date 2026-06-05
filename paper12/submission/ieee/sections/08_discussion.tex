@@ -1,0 +1,87 @@
+\section{Discussion}
+
+\subsection{Feasibility Achieved, but by a Trivial Equivalence}
+
+The pre-registration framed H1 as the central question: can a richer
+detector class (capacity-aware) reach the joint feasibility region
+that Paper~11 showed the simple single-$\tau$ family cannot? The
+answer is technically yes --- but the H4 rejection reveals that the
+detector achieves feasibility by collapsing to the static gate at
+both capacity extremes. At K=50 the large $\tau_{50}$ produces zero
+fires, so cap\_aware = lag-1 = gated at that capacity. At K=200 the
+small $\tau_{200}$ produces 100\% fires, so cap\_aware = fixed = gated
+at that capacity.
+
+The substantive contribution is therefore methodological rather
+than algorithmic: \textbf{capacity-aware thresholding validates the
+static gate as a feasible operating point}. The static gate was
+not previously pre-registered as a feasibility candidate; this paper
+pins it down by showing that a per-window detector with reasonable
+$\tau_K$ choices reduces to it.
+
+\subsection{Why the K=100 Window Fails to Matter}
+
+The intermediate capacity K=100 is the only cell where cap\_aware
+differs from the static gate. The Paper~10 default $\tau = 0.05$
+fires at 40\% of post-W1 windows; cap\_aware fires the same 40\%
+because $\tau_{100} = 0.05$ in the pre-registered vector. cap\_aware
+loses $-0.4$~pp to lag-1 at K=100 on cell-mean; the static gate uses
+lag-1 unconditionally at K=100 and therefore matches lag-1 exactly.
+
+The K=100 intervention is operationally meaningless: $-0.4$~pp falls
+well within the bootstrap noise band for this cell. A
+detector-justified procedure at K=100 would need to demonstrate a
+material per-window gain, which the data do not provide.
+
+\subsection{Implications for the Detector Family}
+
+The negative H4 result generalises beyond cap\_aware. Any detector
+that fires aggressively enough to avoid the K=200 lag-1 hazard
+necessarily reverts to fixed at every K=200 window (because the
+hazard is per-window and recovers only with a complete revert). The
+detector therefore produces the same K=200 decisions as the static
+gate. Improvements over the static gate must come from K $\in$ regimes
+where the detector fires selectively rather than uniformly --- and
+the data in this grid suggest the K=100 regime is too quiet for
+selective firing to matter and the K=50 regime is too clear-cut
+(lag-1 always helps) for selective firing to be useful.
+
+The H4 rejection is therefore a result about the detector family,
+not about $\tau_K = \{50: 0.20, 100: 0.05, 200: 0.02\}$ specifically.
+A different $\tau_K$ vector would shift the K=100 firing rate up or
+down, but the K=200 and K=50 collapses would remain.
+
+\subsection{Where Richer Detectors Might Help}
+
+The CUSUM and Bayesian detector classes Paper~11 named could in
+principle break the K=200 collapse by firing only when cumulative
+evidence indicates a sustained shift. If the K=200 W4 window's
+$|\Delta| = 0.020$ is a noise excursion that a CUSUM detector would
+recognise as low-confidence, the detector could refrain from
+reverting to fixed at that window and capture the same $+3.4$~pp
+benefit that adaptive05 captured by not firing. This would shift
+the cap\_aware K=200 cell mean above the static gate's $0.2664$.
+
+Whether real CUSUM or Bayesian detectors achieve this is a future
+work question. The pre-registration discipline that constrained
+Papers~7--12 requires that such richer detectors be pre-specified
+with locked hyperparameters and decision rules before evaluation.
+
+\subsection{Operational Implication}
+
+The deployable recipe in the studied regime is sharper than Paper~11
+concluded:
+\begin{itemize}
+\item \textbf{Use the static gate.} At $K \leq 100$, deploy lag-1
+recalibration; at $K \geq 200$, deploy fixed Paper~4 weights. No
+detector, no per-window decision.
+\item The capacity-aware detector at the pre-registered $\tau_K$
+vector adds operational complexity (a per-window magnitude test)
+without producing operationally meaningful gain over the static gate.
+\item Adaptive procedures should be preferred only when a richer
+detector (CUSUM, Bayesian) has been shown to improve on the static
+gate at K=200 in a pre-registered evaluation. The simple
+magnitude detector --- whether single-$\tau$ (Paper~10) or
+capacity-aware (this paper) --- does not clear that bar in the
+studied grid.
+\end{itemize}
