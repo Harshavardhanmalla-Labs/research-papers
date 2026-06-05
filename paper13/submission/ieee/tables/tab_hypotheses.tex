@@ -1,0 +1,17 @@
+\begin{table}[!t]
+  \caption{Pre-registered hypothesis outcomes.}
+  \label{tab:hypotheses}
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}p{0.5cm}p{4.7cm}p{2.1cm}@{}}
+    \toprule
+    \textbf{ID} & \textbf{Decision rule} & \textbf{Outcome} \\
+    \midrule
+    H1 & joint feasibility region reached & Rejected \\
+    H2 & cusum $\geq$ gated $+0.01$ at $K=200$ & Rejected ($\Delta=+0.009$) \\
+    H3 & cusum fires less than cap\_aware at $K=200$ & Supported \\
+    H4 & cusum $\geq$ cap\_aware $-0.01$ at $K=200$ & Supported \\
+    \bottomrule
+  \end{tabular}
+\end{table}

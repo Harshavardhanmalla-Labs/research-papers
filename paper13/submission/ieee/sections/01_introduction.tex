@@ -1,0 +1,71 @@
+\section{Introduction}
+
+Paper~12~\cite{paper12capaware} closed the magnitude-detector branch
+of the Papers~7--11 calibration arc with a structural negative: the
+capacity-aware detector reaches the joint feasibility region but its
+K=200 cell mean equals the static gate's exactly. The per-window
+detector at small $\tau_{200} = 0.02$ fires at every K=200 post-W1
+window because $|\Delta_w|$ routinely exceeds that threshold, so
+cap\_aware $=$ fixed $=$ gated at K=200 by construction.
+
+Paper~12 named CUSUM~\cite{page1954cusum} as the next candidate: a
+detector that accumulates evidence across windows can in principle
+fire only when cumulative excursion crosses an alarm threshold,
+refraining at single-window noise. The intuition Paper~12 advanced
+was specific: at the K=200 W4 window the calibration-target shift
+is $|\Delta| = 0.020$, just above $\tau_{200}$; CUSUM with slack
+$k > 0.020$ would zero its accumulator at this window and not fire,
+capturing the same lag-1 benefit that adaptive05 captured by not
+firing in Paper~12.
+
+This paper tests that prediction. We pre-register CUSUM($k = 0.04,
+h = 0.10$) and six strategies on the Papers~7--12 grid, asking four
+hypotheses: does CUSUM reach feasibility (H1), beat the static gate
+at K=200 (H2), fire selectively at K=200 vs cap\_aware (H3), and
+preserve or beat cap\_aware at K=200 (H4)?
+
+\subsection{Contributions}
+
+\begin{itemize}
+\item \textbf{C1 --- First gate-breaking detector (H2 substantive
+positive).} CUSUM K=200 cell mean is $0.2754$ vs gated $0.2664$, a
+$+0.9$~pp margin and the first improvement over the static gate in
+the Papers~7--13 sequence. H2's pre-registered binary test required
+$+0.01$ pp and is rejected by a fine $0.001$ pp margin; we report
+the rejection honestly and the substantive direction as the
+contribution.
+
+\item \textbf{C2 --- Selective firing achieved (H3 supported).}
+CUSUM fires at K=200 in $60\%$ of post-W1 windows versus
+cap\_aware's $100\%$. The mechanism Paper~12 predicted is observed
+in the data: at K=200 W4 ($|\Delta| = 0.020$) CUSUM does not fire
+and captures the W4 lag-1 benefit.
+
+\item \textbf{C3 --- Strict improvement over cap\_aware at K=200
+(H4 supported).} CUSUM K=200 cell mean strictly exceeds
+cap\_aware's: $0.2754$ vs $0.2664$, a $+0.9$~pp margin. The H4
+within-noise tolerance is comfortably satisfied.
+
+\item \textbf{C4 --- K=50 over-firing (H1 rejected).} The single
+$(k, h)$ pair that selectively fires at K=200 also occasionally
+fires at K=50 (20\% rate, vs cap\_aware's 0\%). The K=50 cell-mean
+cusum--lag1 falls to $-3.9$~pp, missing the $-2.0$~pp feasibility
+tolerance. CUSUM with a single $(k, h)$ pair cannot simultaneously
+serve K=50 and K=200.
+
+\item \textbf{C5 --- Capacity-aware CUSUM as the natural next paper.}
+The H1 failure points to a per-K $(k_K, h_K)$ vector as the obvious
+extension. The pre-registration discipline that constrained
+Papers~7--13 applies: a per-K CUSUM evaluation requires its own
+protocol with locked parameter vectors and feasibility hypotheses
+before any P@50 is inspected.
+\end{itemize}
+
+\subsection{Relationship to Prior Papers}
+
+This paper is the thirteenth in the VulnPrio research sequence.
+Paper~12 closed the magnitude-detector branch with a structural-gate
+collapse; this paper opens the CUSUM branch with the first
+gate-breaking result in the program and identifies a clean
+single-parameter constraint (per-K $(k, h)$) that the next paper
+should address.

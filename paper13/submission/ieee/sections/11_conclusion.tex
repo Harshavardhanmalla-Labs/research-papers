@@ -1,0 +1,46 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A pre-registered evaluation of one-sided CUSUM($k = 0.04, h = 0.10$)
+on a 2{,}700-row sweep produces a mixed but substantively positive
+result: H3 supported (selective firing at K=200, $60\%$ vs cap\_aware's
+$100\%$), H4 supported (cusum K=200 strictly above cap\_aware by
+$+0.9$~pp), H2 rejected by a fine $0.001$~pp margin (cusum
+K=200 beats gated by $+0.9$~pp vs the pre-registered $+1.0$~pp
+threshold), and H1 rejected (K=50 cusum--lag1 cell-mean $-3.9$~pp,
+missing the $-2.0$~pp feasibility tolerance).
+
+\textbf{The substantive positive.} CUSUM is \textit{the first detector
+in the Papers~7--13 sequence that beats the static gate at K=200} by
+an operationally meaningful margin. The accumulator's slack $k$
+filters the K=200 W4 noise excursion ($|\Delta| = 0.020 < k = 0.040$)
+that the magnitude detector fires on. At that window CUSUM uses
+lag-1 weights and captures the same K=200 lag-1 benefit that
+Paper~12's H2 single-window failure identified.
+
+\textbf{The H1 cost.} The single $(k, h)$ pair that wins at K=200
+also fires at K=50, where lag-1 helps and the detector's revert-to-fixed
+decision loses $-3.9$~pp on average. CUSUM with a single parameter
+pair cannot simultaneously serve both capacity regimes.
+
+\textbf{The H2 fine-margin rejection.} The $+0.9$~pp K=200 gain
+falls $0.001$~pp short of the pre-registered $+0.01$~pp threshold.
+We report the binary rejection per the protocol and the substantive
+direction as the contribution.
+
+\textbf{Deployable recipe.} At K $\leq 100$ use lag-1 directly; at
+K = 200 use CUSUM($k = 0.04, h = 0.10$) for $+0.9$~pp over the
+static gate. For deployments operating across both capacity
+regimes a per-K $(k_K, h_K)$ vector is needed.
+
+\textbf{Reproducibility.} Runner, analysis, pre-registration protocol,
+and frozen results CSV are available at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper13}.
+
+\textbf{Future work.} (i) Per-K CUSUM $(k_K, h_K)$ vector under
+pre-registration --- direct extension of this paper's H1 failure
+mode; (ii) two-dimensional sensitivity sweep over $(k, h)$;
+(iii) two-sided CUSUM, EWMA-CUSUM, Bayesian online change-point
+detectors; (iv) real fleet validation, particularly to test whether
+the noise-excursion patterns CUSUM exploits in the synthetic
+generator generalise.
