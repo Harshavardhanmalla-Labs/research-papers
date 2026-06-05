@@ -1,52 +1,47 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-A pre-registered evaluation of rolling-history online calibration for
-hygiene-augmented vulnerability prioritization across three capacity
-levels, six windows, three calibration strategies, and 25 evaluation
-seeds produces 1{,}350 result rows that revise the operational
-recommendation implied by Paper~5's offline-peek ablation.
+A six-experiment pre-registered evaluation of online recalibration
+for HygienePrio produces 22{,}500 frozen result rows, 27 locked
+hypotheses, and a single sharpened deployable recipe. The
+contribution is the cumulative arc, not any single experiment.
 
-\textbf{First}, at moderate capacity ($K \leq 100$), the deployable
-lag-1 rolling-history grid search recovers essentially all of the
-offline-peek gain (cell-mean recovery ratio $\rho = 1.04$ at
-$K = 50$, $\rho = 0.99$ at $K = 100$). At $K = 50, w = 2$ the procedure
-adds $+19.7$~pp over fixed Paper~4 weights, against the offline
-ceiling of $+21.3$~pp. Deployable online recalibration is operationally
-viable in this regime.
+\textbf{What the program closes.}
+E1 establishes lag-1 as a deployable substitute that recovers the
+Paper~5 offline-peek ceiling at $K \leq 100$ ($\rho \approx 1.0$)
+but harms performance at $K = 200$ ($\rho = -0.66$). E2 falsifies
+the smoothing prior --- EWMA-3 and trail-3 amplify the K=200 hazard
+rather than reversing it. E3 introduces the magnitude detector,
+avoids the K=200 hazard at a K=50 cost, and is the first procedure
+to beat the static gate at K=200 by $+0.7$~pp. E4 proves no single
+$\tau$ can reach the joint feasibility region. E5 reaches feasibility
+with a per-K $\tau_K$ vector but collapses to the static gate.
+E6 introduces CUSUM, breaks the static-gate collapse at K=200 by
+$+0.9$~pp, and exposes the K=50 over-firing as the next failure
+mode.
 
-\textbf{Second}, at high capacity ($K = 200$), lag-1 rolling-history
-online recalibration \textit{harms} performance: $-5.9$ to
-$-7.8$~pp at W2--W3. The cell-mean recovery ratio is negative
-($\rho = -0.66$). The fleet state shifts faster than the lag can
-track, and the weights inferred from the previous window do not
-generalise to the current window. The pre-registered hypotheses H1
-and H3 are rejected; the rejection is reported as the headline
-contribution rather than smoothed.
+\textbf{The deployable recipe.}
+At $K \leq 100$ deploy lag-1 online recalibration directly.
+At $K = 200$ deploy CUSUM($k = 0.04, h = 0.10$) for $+0.9$~pp
+over the static gate. For mixed-capacity deployments a per-K
+$(k_K, h_K)$ CUSUM vector under pre-registration is the natural
+successor. The recipe is capacity-conditional and bounded to the
+synthetic evaluation context; external validation on real fleet
+telemetry with longitudinal exploitation outcome data is required
+before any production deployment.
 
-\textbf{Third}, the pre-registered hypothesis that online cannot
-exceed the offline-peek ceiling (H2) is also rejected, in the
-opposite direction from what was anticipated. At several late-window
-cell-window points the lag-1 procedure beats the offline-peek
-ceiling by $+1$ to $+3$~pp; the offline strategy appears to overfit
-its five-seed calibration sample, and the one-window lag acts as
-an implicit regulariser.
-
-The operational summary is conditional: deploy rolling-history online
-recalibration only when the per-window distributional change is small
-relative to the lag the recalibration window imposes. At high
-capacity, the deployment is a net hazard; either keep fixed Paper~4
-weights or develop a longer-history calibration procedure --- both
-of which are out of this paper's scope.
-
-\textbf{Reproducibility.} The runner, analysis script, pre-registration
-protocol, and frozen 1{,}350-row results CSV are available at
+\textbf{Reproducibility.} All six experiments are independently
+reproducible from their pre-registered seed lists. The
+\texttt{paper7/experiments/0[1-6]\_*/} directories ship the
+per-experiment protocol, runner, frozen results CSV, analysis
+script, and figures. The consolidated artifact is available at
 \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper7}.
 
-\textbf{Future work.} (i) Multi-window-history EWMA or rolling-mean
-calibration to test whether longer-history smoothing reverses the
-$K = 200$ hazard; (ii) closed-loop calibration in which the selection
-policy is also recalibrated, separating scoring weights from selection
-weights; (iii) external validation on real fleet telemetry, where the
-fixed Paper~4 weights themselves would be re-fit on real exploitation
-event logs before this online-vs-fixed comparison is meaningful.
+\textbf{Future work.} (i) Per-K CUSUM $(k_K, h_K)$ vector under
+pre-registration --- direct H1.E6 fix. (ii) Two-sided CUSUM,
+EWMA-CUSUM, Bayesian online change-point detectors. (iii)
+Sensitivity sweeps over the CUSUM $(k, h)$ landscape and the EWMA
+$\alpha$ axis. (iv) Closed-loop calibration where the selection
+policy is also recalibrated, addressing the selection-policy
+coupling threat that all six experiments inherit. (v) Real fleet
+validation with longitudinal exploitation outcome data.

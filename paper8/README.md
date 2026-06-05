@@ -1,57 +1,67 @@
-# Paper 8 — Multi-Window-History Calibration
+# Paper 9 — Self-Trajectory Evaluation
 
-Does EWMA / trailing-mean smoothing reverse Paper 7's high-capacity
-hazard for online recalibration of HygienePrio? Pre-registered answer:
-**no — smoothing makes the hazard worse.**
+Is HygienePrio's capacity-driven collapse intrinsic or
+selection-policy-induced? Pre-registered answer: **selection-induced.**
 
 **Target venue:** IEEE TNSM
 
 ## Headline findings (honest, pre-registered)
 
-Cell-mean recovery ratios ($w \geq 2$):
+At K=200, W=6 mean P@50 for **HygienePrio-full** as scorer:
+- HP-driven (Paper 6 baseline): **0.075** (collapse)
+- HRS-driven: **0.713**
+- CVSS-driven: **0.701**
+- Random-driven: **0.706**
+- EPSS-driven: 0.008
 
-| K   | lag1 (Paper 7) | trail3 | ewma3 |
-|-----|----------------|--------|-------|
-|  50 | +1.04          | (sim)  | +0.53 |
-| 100 | +0.99          | (sim)  | −1.37 |
-| 200 | −0.66          | (sim)  | −0.94 |
+**The "collapse" is a closed-loop artefact of HP scoring AND
+driving simultaneously.** Under any HRS-blind driver, HP holds
+~0.70 at K=200.
 
-- **All 4 pre-registered hypotheses rejected.**
-- Smoothing **degrades** moderate-capacity recovery and amplifies
-  high-capacity hazard.
-- Mechanism: under fast distributional shift, older calibration
-  windows are misleading; bias term dominates variance reduction.
-- Operational rule: use shortest possible history; turn off
-  recalibration entirely at high capacity.
+Additional findings:
+- **EPSS-self-driven at K=200 is the deepest sink** — every scorer's
+  W6 P@50 collapses to ~0 (positive set itself is exhausted).
+- **HP per-pair dominance over EPSS**: 1.000 under HRS/CVSS/Random
+  drivers at K=200; 0.800 under HP-self; 0.393 under EPSS-self.
+- **All three pre-registered hypotheses rejected** in interestingly
+  different ways.
 
 ## Reproduce
 
-From `paper8/`:
+From `paper9/`:
 ```bash
-PYTHONPATH=src python3 src/run_multi_history.py    # 2,250-row sweep
-PYTHONPATH=src python3 src/analyze.py              # H1–H4 + tables
-PYTHONPATH=src python3 src/make_figures.py         # 2 figures
+PYTHONPATH=src python3 src/run_self_traj.py    # 7,500-row sweep
+PYTHONPATH=src python3 src/analyze.py          # H1-H3 + tables
+PYTHONPATH=src python3 src/make_figures.py     # 2 figures
 ```
 
 ## Layout
 
 ```
-paper8/
-├── design/PAPER8_PROTOCOL.md
+paper9/
+├── design/PAPER9_PROTOCOL.md         # pre-registration (locked 2026-06-05)
 ├── src/
-│   ├── paper8/multi_history.py    # 5-strategy evaluator
-│   ├── run_multi_history.py
+│   ├── paper9/self_traj.py           # 5-driver x 5-scorer evaluator
+│   ├── run_self_traj.py
 │   ├── analyze.py
 │   └── make_figures.py
 ├── results/primary_v1/
-│   ├── multi_history_results.csv  # 2,250 rows
-│   ├── cell_window_means.csv
+│   ├── self_traj_results.csv         # 7,500 rows, frozen
+│   ├── cell_means.csv
 │   ├── hypothesis_summary.json
 │   └── run_manifest.json
-└── submission/ieee/               # 7 pages, clean compile
+└── submission/ieee/                  # 8 pages, clean compile
     ├── main.tex / main.pdf
     ├── references.bib
     ├── sections/ (12 files)
     ├── tables/ (3 files)
     └── figures/ (2 PDFs)
 ```
+
+## Scientific significance
+
+Retroactively reframes Papers 5-8's headline numbers. HygienePrio's
+absolute floor at high capacity is intact whenever the deploying
+organisation does not also use HygienePrio for selection — i.e., the
+collapse is operationally controllable by decoupling scoring from
+queue-driving.

@@ -1,23 +1,21 @@
 \begin{table}[!t]
-  \caption{Paper~8 cell grid and strategy set.}
+  \caption{Paper~9 trajectory-driver grid (locked).}
   \label{tab:grid}
   \centering
   \small
   \setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}p{2.6cm}p{4.9cm}@{}}
+  \begin{tabular}{@{}p{2.5cm}p{5.0cm}@{}}
     \toprule
     \textbf{Axis} & \textbf{Values} \\
     \midrule
-    Capacity $K$ & $\{50, 100, 200\}$ \\
+    Capacity $K$ & $\{50, 200\}$ \\
     Arrival rate $\lambda$ & 3 (fixed) \\
     Windows $W$ & 6 \\
-    Strategies & fixed, lag1, trail3, ewma3, offline \\
+    Driver methods & HP-full, EPSS, HRS, CVSS, Rand \\
+    Scoring methods & same set, evaluated per window \\
     Eval seeds & 25 (105--129) \\
-    Calib seeds & 5 (100--104) \\
-    EWMA $\alpha$ & 0.6 (pre-registered) \\
-    Trailing history & 3 windows \\
     \midrule
-    Total rows & 2{,}250 \\
+    Total rows & 7{,}500 \\
     \bottomrule
   \end{tabular}
 \end{table}

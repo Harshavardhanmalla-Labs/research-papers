@@ -1,128 +1,131 @@
-# Paper 7 — Pre-Registration Protocol
+# Paper 7 — Pre-Registration Protocol (Consolidated)
 
-**Working title:** Rolling-History Online Calibration for Hygiene-Augmented
-Vulnerability Prioritization: Closing the Fixed-Weight Gap Without
-Future-Data Leakage
+**Working title:** Online Recalibration for Hygiene-Augmented Vulnerability
+Prioritization: A Pre-Registered Comparison of Six Procedures
 
-**Authors:** Harshavardhan Malla
+**Author:** Harshavardhan Malla
 **Target venue:** IEEE Transactions on Network and Service Management (TNSM)
-**Date locked:** 2026-06-04 (before any online-calibration result was inspected)
-**Builds on:** Paper 4 (HygienePrio scorer + EEHDA generator), Paper 5
-(multi-window simulator + offline recalibration ablation), Paper 6
-(capacity-arrival sweep + W6 collapse finding at high K).
+**First-experiment lock date:** 2026-06-04 (E1 lag-1 protocol)
+**Last-experiment lock date:** 2026-06-05 (E6 CUSUM protocol)
+**Builds on:** Paper 4 (HygienePrio scorer), Paper 5 (multi-window simulator),
+Paper 6 ((K, λ) sweep showing K=200 absolute collapse).
 
 ---
 
 ## 1. Motivation
 
-Paper 5's H3 ablation showed that grid-searching scorer weights at each
-window on the calibration seeds' *current-window* state and applying the
-fitted weights to the evaluation seeds at the *same* window adds up to
-$+21.3$ pp at W2 over Paper 4's fixed weights. That ablation uses
-\textit{future-window} state for calibration: at the moment a real operations
-team has to choose weights for window $w$, they have not yet observed
-window-$w$ data. Paper 5's H3 result is therefore an offline ceiling, not
-a deployable procedure.
+Paper 5's H3 ablation showed that grid-searching scorer weights on the
+calibration seeds at the same window being scored (an offline-peek
+procedure) lifts Precision@50 by up to +21.3 pp at W2 over the fixed
+Paper 4 weights at the canonical (K=50, λ=3) operating point.
+Paper 5 noted the procedure is not deployable: real operations
+teams cannot peek into the current window when scoring it.
 
-Paper 6 documented a parallel finding: at high capacity ($K \in \{100, 200\}$),
-HygienePrio-full's absolute W6 P@50 collapses alongside EPSS-only, with
-the worst cell ($K=200, \lambda=1$) producing $0.062$. A natural question
-is whether \textit{rolling-history online calibration} ---refitting weights
-each window using only past windows of the calibration seeds---
-recovers any portion of the offline-peek gain, and in particular whether
-it rescues HygienePrio at the high-capacity cells.
+Paper 6 showed that at high capacity (K ∈ {100, 200}) HygienePrio's
+absolute floor collapses regardless of scoring weights. The question
+this paper asks is whether any deployable recalibration procedure can
+(a) approach Paper 5's offline ceiling at moderate capacity and
+(b) avoid the K=200 absolute collapse at high capacity.
 
-## 2. Research questions
+We evaluate six procedures in a pre-registered sequence, each one
+designed to address the failure mode identified by the previous one:
 
-- **RQ1.** Does rolling-history online calibration beat the fixed Paper~4
-  weights at every window?
-- **RQ2.** Does rolling-history online calibration approach the offline-peek
-  ceiling (Paper~5 H3)?
-- **RQ3.** Does online calibration rescue HygienePrio-full at the
-  high-capacity cells where Paper~6 reported collapse?
+**E1 — Lag-1 online (Paper 7 original protocol).** Refit on
+calibration seeds at window w−1; apply at window w. Deployable.
 
-## 3. Calibration strategies (locked)
+**E2 — Multi-window smoothing.** EWMA-3 and trailing-mean-3 over
+the calibration-seed history. Addresses E1 K=200 hazard?
 
-Three strategies are compared at every (cell, window):
+**E3 — Single-τ adaptive change-point.** Magnitude detector on the
+calibration-target shift |Δ_w|; revert to fixed weights when fired.
 
-| Tag | Strategy | At window $w$, calibration data = ... |
-|-----|----------|----------------------------------------|
-| `fixed` | Paper~4 weights, never refit | none |
-| `online` | Rolling-history grid search | calibration seeds at window $w-1$ only |
-| `offline` | Paper~5 H3 peek calibration | calibration seeds at window $w$ |
+**E4 — τ sensitivity sweep.** Sweeps τ over {0.02, 0.03, 0.05, 0.075,
+0.10} to characterise the H1/H2 Pareto frontier of E3.
 
-At W1, both `online` and `offline` reduce to `fixed` because no history
-is available. From W2 onward they diverge: `online` uses the *previous*
-window's calibration-seed state (no leakage), `offline` uses the *current*
-window's calibration-seed state (peeks at the window it is scoring).
+**E5 — Capacity-aware τ vector.** Pre-registered τ_K = {50: 0.20,
+100: 0.05, 200: 0.02}. Addresses E4 negative feasibility result.
 
-The grid is identical to Paper~5 §H3:
-$\alpha \in \{0.5, 0.7, 0.9\}$, $\beta \in \{0.3, 0.5, 0.7\}$,
-$\gamma \in \{0.0, 0.1, 0.2\}$, $\delta \in \{0.0, 0.1, 0.2, 0.3\}$
-(108 grid points).
+**E6 — One-sided CUSUM.** Accumulator detector with pre-registered
+(k=0.04, h=0.10). Addresses E5 static-gate collapse at K=200.
 
-## 4. Hypotheses
+## 2. Pre-registered hypotheses (per experiment)
 
-| ID | Statement | Decision rule |
-|----|-----------|---------------|
-| H1 | Online $\geq$ fixed at every window, every cell. | Supported if all (cell, window) $\Delta_{\text{online}-\text{fixed}} \geq -0.01$ (i.e. online never loses by more than 1 pp). |
-| H2 | Online $\leq$ offline at every window. | Supported if all (cell, window) $\Delta_{\text{online}-\text{offline}} \leq +0.01$. |
-| H3 | At high-capacity cells ($K \in \{100, 200\}$), online recovers $\geq 5$ pp of the offline-fixed gap at W4 or later. | Supported if for at least one $w \in \{4,5,6\}$ and one $K \in \{100, 200\}$, $(\text{online} - \text{fixed}) \geq 0.5 \cdot (\text{offline} - \text{fixed})$ and absolute online gain $\geq 0.05$. |
+The full hypothesis ledger is below; each was locked before the
+corresponding experiment's evaluation seeds were inspected. Hypotheses
+H1.x belong to experiment x, etc.
 
-**Stop rules:**
-- If H1 is rejected on more than three cell-window pairs, the abstract is
-  rewritten to qualify the deployability claim before any operational
-  recommendation is drafted.
-- If H3 is rejected, the rescue claim is dropped and the paper reports
-  the negative result as the headline contribution.
+**E1 (lag-1) — locked 2026-06-04:**
+- H1.E1: Online ≥ fixed at every (cell, window) within 1 pp.
+- H2.E1: Online ≤ offline (Paper 5 H3 ceiling) at every (cell, window).
+- H3.E1: Online recovers ≥50% of offline gap at K∈{100,200}, w∈{4,5,6}.
 
-## 5. Cell grid
+**E2 (smoothing) — locked 2026-06-04:**
+- H1.E2: EWMA-3 ≥ fixed at K=200 every w (no hazard).
+- H2.E2: |EWMA-3 − lag-1| ≤ 2 pp at K∈{50,100}.
+- H3.E2: |EWMA-3 − trail3| ≤ 2 pp everywhere.
+- H4.E2: EWMA-3 K=200 recovery ratio ≥ 0.5.
 
-Three capacity levels at the Paper~6-canonical arrival rate:
-$K \in \{50, 100, 200\}$, $\lambda = 3$. Three cells x six windows x
-three calibration strategies x 25 evaluation seeds. Total rows: $1{,}350$
-(rows are per-seed per-cell per-window per-strategy).
+**E3 (single-τ adaptive) — locked 2026-06-04:**
+- H1.E3: Adaptive ≥ fixed at K=200 every w.
+- H2.E3: |Adaptive − lag-1| ≤ 2 pp at K∈{50,100}.
+- H3.E3: Adaptive rescues high-K cells.
+- H4.E3: Adaptive K=200 cell mean ≥ gated cell mean.
 
-The high-capacity cells ($K = 100, 200$) are exactly Paper~6's H4-rejected
-collapse cells; the low-capacity cell ($K = 50$) anchors against Paper~5's
-canonical setting.
+**E4 (τ sweep) — locked 2026-06-04:**
+- H1.E4: Worst K=200 hazard monotone non-decreasing in τ.
+- H2.E4: K=50 cost monotone non-increasing in τ.
+- H3.E4: ∃τ satisfying both Paper-5/E3 tolerances.
+- H4.E4: Fire fraction monotone non-decreasing in τ.
 
-## 6. Metrics
+**E5 (capacity-aware) — locked 2026-06-04:**
+- H1.E5: Capacity-aware reaches joint feasibility region.
+- H2.E5: Capacity-aware ≥ adaptive05 within 1 pp.
+- H3.E5: Fire fraction monotone in K (Spearman ≥ 0.8).
+- H4.E5: Capacity-aware ≥ gated K=200 by +0.01.
 
-- **P@50** per (cell, seed, window, strategy), primary.
-- **Online recovery ratio**:
-  $(\text{online}_{w} - \text{fixed}_{w}) / (\text{offline}_{w} - \text{fixed}_{w})$
-  reported per (cell, window) when $(\text{offline} - \text{fixed}) > 0.01$.
+**E6 (CUSUM) — locked 2026-06-05:**
+- H1.E6: CUSUM reaches joint feasibility region.
+- H2.E6: CUSUM K=200 ≥ gated K=200 by +0.01.
+- H3.E6: CUSUM K=200 fires < cap_aware K=200.
+- H4.E6: CUSUM K=200 ≥ cap_aware K=200 − 0.01.
 
-## 7. Statistical reporting
+## 3. Shared experimental setup
 
-- 95\% percentile bootstrap CIs with 10{,}000 resamples for cell-mean
-  point estimates~\cite{efron1994introduction}.
-- No null-hypothesis significance tests.
-- All numerical claims trace to `paper7/results/primary_v1/online_calib_results.csv`.
+- EEHDA synthetic fleet (Paper 4)
+- Paper 5 multi-window simulator, 6 windows
+- Capacity K ∈ {50, 100, 200}; arrival rate λ = 3 (E1, E3–E6); E2 holds same
+- Calibration seeds 100–104 (5 seeds); evaluation seeds 105–129 (25 seeds)
+- Selection policy: HygienePrio-full under fixed weights drives the
+  fleet trajectory for ALL strategies; isolates the recalibration
+  decision from the selection decision
+- Grid for weight search: 108-point (α, β, γ, δ) lattice from Paper 5
+- Reporting: 95% percentile bootstrap CIs (10,000 resamples)
 
-## 8. Reproducibility
+## 4. Frozen artifacts
 
-The runner is `paper7/src/run_online_calib.py`. From `paper7/`:
+Per-experiment frozen CSVs in `paper7/experiments/0X_*/results/` are
+the canonical evidence for every numerical claim in the manuscript.
+
+## 5. Stop rules
+
+For each experiment: if Hk.Ex is rejected, the corresponding
+subsection in §7 is rewritten honestly to qualify the claim before
+the discussion is drafted, and the next experiment's protocol is
+locked accordingly.
+
+## 6. Reproducibility
+
+Each experiment ships with its own `src/` and CLI runner:
 ```
-PYTHONPATH=src python3 src/run_online_calib.py
+PYTHONPATH=experiments/01_lag1_src python3 experiments/01_lag1_src/run_temporal.py
+PYTHONPATH=experiments/02_smoothing/src python3 experiments/02_smoothing/src/run_multi_history.py
+... (one per experiment)
 ```
-The runner reuses Paper 5's window simulator and Paper 4's scorer
-package via `sys.path` injection.
 
-## 9. Out of scope
+## 7. Certification
 
-- Online learning approaches other than grid-search-on-rolling-history
-  (gradient-based, Bayesian, contextual bandits) are excluded.
-- Real fleet data: not used. All claims bounded to synthetic.
-- Sweeping $\lambda$: held at 3 to keep scope tractable; $\lambda$
-  sensitivity is a follow-up.
+Each per-experiment protocol was locked before that experiment's
+evaluation-seed P@50 was inspected. Any deviation is reported in
+the corresponding subsection of §7.
 
-## 10. Author certification
-
-I certify that the cell grid, calibration strategies, hypotheses,
-decision rules, and stop rules above were fixed before any online-calibration
-result was computed. Any deviation discovered during execution will be
-reported in a "Pre-registration deviations" subsection of the manuscript.
-
-Signed: Harshavardhan Malla, 2026-06-04.
+Signed: Harshavardhan Malla, 2026-06-04 / 2026-06-05.

@@ -1,0 +1,71 @@
+\section{Introduction}
+
+Paper~7~\cite{paper7online} identified a capacity-dependent hazard
+in lag-1 rolling-history online recalibration of the HygienePrio
+vulnerability prioritization scorer. At moderate capacity
+($K \in \{50, 100\}$, $\lambda = 3$) the procedure recovers the
+offline-peek calibration ceiling (cell-mean recovery ratios
+$1.04$ and $0.99$); at high capacity ($K = 200$) the procedure
+\textit{harms} performance by $-5.9$ to $-7.8$~pp in early windows
+and produces a negative cell-mean recovery ratio of $-0.66$. Paper~7
+attributed the hazard to a too-short calibration history relative to
+the per-window distributional shift rate and explicitly named
+multi-window-history smoothing as the candidate fix.
+
+This paper tests that fix. The pre-registered protocol
+(\texttt{paper8/design/PAPER8\_PROTOCOL.md}, locked 2026-06-04 before
+any multi-history-calibration result was computed) defines five
+calibration strategies and a 2{,}250-row evaluation:
+$3 \text{ cells} \times 5 \text{ strategies} \times 25 \text{ seeds}
+\times 6 \text{ windows}$. The four pre-registered hypotheses
+ask whether EWMA-3 reverses the hazard at $K = 200$ (H1), preserves
+moderate-capacity recovery (H2), agrees with the equal-weight
+trail3 variant (H3), and achieves substantial offline-ceiling
+recovery (H4).
+
+\textbf{All four hypotheses are rejected, and the direction of
+rejection is the contribution.} Multi-window smoothing does not
+reverse the lag-1 hazard at high capacity; it amplifies it. EWMA-3's
+cell-mean recovery ratio is $-1.37$ at $K = 100$ (vs lag-1's $+0.99$),
+$-0.94$ at $K = 200$ (vs lag-1's $-0.66$), and $0.53$ at $K = 50$
+(vs lag-1's $1.04$). Smoothing degrades all three regimes.
+
+\subsection{Contributions}
+
+\begin{itemize}
+\item \textbf{C1 --- Falsification of the smoothing-helps prior.} The
+naive prior --- ``a longer calibration history reduces variance and
+therefore helps'' --- is falsified by a pre-registered experiment.
+EWMA-3 underperforms lag-1 at every cell.
+
+\item \textbf{C2 --- A monotone effect.} Recovery ratio decreases
+with history length: \textsf{lag1} $>$ \textsf{trail3} $\approx$
+\textsf{ewma3} at every $K$. The rate of distributional shift in
+the simulated bi-weekly regime exceeds the rate at which a
+finite-history estimator can adapt; adding history makes the
+calibration target less, not more, predictive of the next window.
+
+\item \textbf{C3 --- Cross-cell uniformity.} The smoothing penalty
+appears at $K = 50$ where lag-1 already worked, at $K = 100$ where
+lag-1 worked but the absolute floor was degraded, and at $K = 200$
+where lag-1 was already harmful. There is no capacity regime in
+the studied grid in which EWMA-3 is preferable to lag-1.
+
+\item \textbf{C4 --- Sharpened operational recommendation.} Deployable
+online recalibration in this setting should use the \textit{shortest}
+possible history (lag-1 at most) and should be turned off entirely
+at high capacity. The recommendation reverses Paper~7's implicit
+``future work will fix this with smoothing'' framing.
+\end{itemize}
+
+\subsection{Relationship to Prior Papers}
+
+This paper is the eighth in the VulnPrio research sequence. Paper~7
+identified the high-capacity hazard and proposed smoothing as the
+fix; this paper falsifies the proposed fix. The result is an
+honest course-correction: the hazard requires a different class of
+solution (adaptive change-point detection, Bayesian forgetting,
+or accepting fixed weights at high capacity) than simple history
+averaging. Identifying this is itself a contribution: the question
+``does smoothing help?'' was the natural and obvious follow-up,
+and the answer in this synthetic regime is decisively no.
