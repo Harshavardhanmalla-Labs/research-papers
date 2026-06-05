@@ -1,0 +1,81 @@
+\section{Introduction}
+
+Paper~5's~\cite{paper5temporal} H3 ablation produced a striking result:
+grid-searching scorer weights on five calibration seeds at the same
+window being scored, then applying those weights to 25 evaluation
+seeds at that window, adds up to $+21.3$~pp of Precision@50 over the
+fixed Paper~4 weights at the canonical $(K = 50, \lambda = 3)$ cell.
+The paper noted, accurately, that this procedure peeks at the window
+it is scoring and is therefore an offline upper bound, not a deployable
+recipe.
+
+This paper evaluates the simplest deployable substitute. At each
+scoring window $w$ we grid-search on calibration-seed data at window
+$w - 1$, then apply the fitted weights to the evaluation seeds at
+window $w$. This is rolling-history online calibration with a
+one-window lag, the weakest form of strictly online learning. Two
+operational questions follow:
+
+\textbf{Q1.} How much of the offline-peek gain survives the lag?
+
+\textbf{Q2.} Does online recalibration rescue HygienePrio at the
+high-capacity cells where Paper~6~\cite{paper6capacity} reported W6
+collapse to mean P@50 $\leq 0.12$?
+
+We pre-registered three hypotheses corresponding to these questions
+and a third operational-safety check; ran a 1{,}350-row evaluation
+spanning $K \in \{50, 100, 200\}$, $\lambda = 3$, six windows, and
+three calibration strategies (\textsf{fixed}, \textsf{online},
+\textsf{offline}); and report below that all three pre-registered
+hypotheses are rejected in interestingly different ways.
+
+\subsection{Contributions}
+
+\begin{itemize}
+\item \textbf{C1 --- A pre-registered evaluation of deployable
+recalibration.} The first end-to-end pre-registered comparison of
+rolling-history online recalibration against fixed-weight scoring and
+offline-peek calibration for hygiene-augmented vulnerability
+prioritization. 1{,}350-row frozen result set.
+
+\item \textbf{C2 --- Capacity-dependent rescue.} At moderate capacity
+($K \in \{50, 100\}$) online recalibration recovers essentially all of
+the offline-peek gain (per-cell recovery ratio $1.04$ and $0.99$). At
+$K = 50$ the W2 gain is $+19.7$~pp, nearly matching the offline ceiling
+of $+21.3$~pp. The deployable procedure is operationally effective in
+this regime.
+
+\item \textbf{C3 --- High-capacity hazard (H1 and H3 rejected).} At
+$K = 200$, online recalibration \textit{harms} performance relative
+to fixed weights, losing $-5.9$ to $-7.8$~pp at W2--W3 because the
+fleet state shifts faster than a one-window lag can track. Pre-registered
+H1 (``online never loses to fixed by more than $1$~pp'') is rejected at
+two cell-window pairs; H3 (``online rescues high-capacity collapse'')
+is rejected because the W4--W6 recovery does not meet the
+$\geq 0.5$ recovery threshold and the W2--W3 hazard dominates the
+cell-mean.
+
+\item \textbf{C4 --- Online beats offline-peek in some windows (H2
+rejected).} At $K = 50, w = 5$ and a few other late-window points,
+online ($0.580$) exceeds offline-peek ($0.550$). The five-seed
+offline grid search overfits the calibration set; the one-window
+lag acts as an implicit regulariser. H2 is therefore rejected by
+the data, in the opposite direction from what naive intuition
+predicts.
+
+\item \textbf{C5 --- Operational recommendation.} Rolling-history
+online recalibration should be deployed only when fleet state shifts
+slowly relative to the lag the recalibration window imposes. At high
+capacity, the deployment is a net hazard.
+\end{itemize}
+
+\subsection{Relationship to Prior Papers}
+
+Paper~5~\cite{paper5temporal} established the multi-window simulator
+and reported the offline-peek H3 ceiling. Paper~6~\cite{paper6capacity}
+swept capacity and arrival rate and identified the high-capacity
+collapse zone for HygienePrio-full at fixed weights. This paper sits
+at the intersection: it asks whether a deployable recalibration
+procedure can close Paper~5's H3 gap and rescue Paper~6's H4 collapse.
+The answer is regime-conditional: yes at moderate capacity, no (and
+in fact harmful) at high capacity.

@@ -1,0 +1,79 @@
+\section{Methodology}
+
+\subsection{Scorers}
+
+All five scorers are inherited verbatim from Paper~4~\cite{paper4hygieneprio}
+and Paper~5~\cite{paper5temporal} with fixed calibrated weights:
+\begin{equation}
+\begin{aligned}
+S_{\mathrm{HP}}(h,c) =\;& 0.7\,\mathrm{EPSS}(c) + 0.5\,\mathrm{HRS}(h) \\
+                       & + 0.1\,\mathrm{KEV\_recency}(c) \\
+                       & + 0.2\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr),
+\end{aligned}
+\label{eq:hp}
+\end{equation}
+\begin{equation}
+\begin{aligned}
+\mathrm{HRS}(h) =\;& 0.50\,\mathrm{PatchPosture}(h) \\
+                  & + 0.30\,\mathrm{ADExposure}(h) \\
+                  & + 0.20\,\mathrm{TelFresh}(h).
+\end{aligned}
+\end{equation}
+Baselines are EPSS-only ($S = \mathrm{EPSS}(c)$), HRS-only
+($S = \mathrm{HRS}(h)$), CVSS-only ($S = \mathrm{CVSS}_{\mathrm{base}}(c)$~\cite{first2019cvss}),
+and Random (seed-deterministic uniform ranking).
+
+\subsection{Fleet-State Evolution}
+
+The window-$w$ fleet $F_w$ is advanced to $F_{w+1}$ in four steps:
+\begin{enumerate}
+\item \textbf{Remediate.} The top-$K$ pairs selected by HygienePrio-full
+are marked patched. PatchPosture is recomputed.
+\item \textbf{Disclose.} Draw $n_w \sim \mathrm{Poisson}(\lambda)$ new
+(host, CVE) rows. Each row is attached to a random host drawn uniformly
+from the fleet, with EPSS, CVSS, and KEV attributes sampled from the
+Paper~4~\cite{paper4hygieneprio} fixture distributions.
+\item \textbf{EPSS update.} Apply $\mathcal{N}(0, 0.02^2)$ random-walk
+perturbation to EPSS scores of all surviving unpatched pairs; clip to
+$[10^{-4}, 1]$.
+\item \textbf{Telemetry update.} For acted hosts, decrement staleness
+days by $9.0$ (recovery $-0.30$). For non-acted hosts, increment by
+$2.4$ (drift $+0.08$), capped at 60~days.
+\end{enumerate}
+RNG seeds are derived from \texttt{(seed, window\_index)} so each
+window is independently reproducible.
+
+\subsection{Selection Policy}
+
+HygienePrio-full's top-$K$ pairs drive fleet evolution at \textit{every}
+window of every cell, for \textit{every} method evaluated at that window.
+Each method is scored on the same evolving backlog; comparisons are
+therefore conditional on the HygienePrio-driven trajectory. This avoids
+the non-identifiability problem in which an EPSS-only-driven fleet and
+a HygienePrio-driven fleet would evolve to different residual backlogs,
+making subsequent method comparisons un-attributable. The choice and its
+consequence are documented as an internal-validity threat in
+\S\ref{sec:threats}.
+
+\subsection{Decay Slope}
+
+For each (cell, seed, method), we fit an ordinary least-squares line to
+the six per-window P@50 values $(w, p_w)$, $w = 1, \ldots, 6$, and
+record the slope $\hat\beta$. Negative slope indicates degrading
+precision; $|\hat\beta|$ measures decay rate in units of P@50 per
+window. Cell-level slope is reported as the mean of per-seed slopes with
+a 95\% percentile bootstrap CI (10{,}000 resamples).
+
+\subsection{Hypothesis Tests}
+
+\textbf{H1 and H2.} For EPSS-only, we report Spearman $\rho$ between
+slope and $K$ at each fixed $\lambda$ (H1) and between slope and
+$\lambda$ at each fixed $K$ (H2)~\cite{spearman1904}. The pre-registered
+threshold for ``monotone'' is $|\rho| \geq 0.8$.
+
+\textbf{H3.} We compute the maximum $K/\lambda$ ratio at which the cell
+slope satisfies $\hat\beta \geq -0.01$ and report it descriptively as
+the steady-state boundary.
+
+\textbf{H4.} We report W6 mean P@50 for HygienePrio-full at every cell
+and check that all 20 cells satisfy mean $\geq 0.40$.

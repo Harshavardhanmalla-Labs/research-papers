@@ -1,0 +1,39 @@
+Paper~5 reported that EPSS-only vulnerability prioritization decays from
+mean Precision@50 of $0.331$ at maintenance Window~1 to $0.034$ at Window~6
+on the synthetic EEHDA fleet at a single capacity-arrival operating point
+($K = 50$ pairs/window, $\lambda = 3$ new CVEs/window). This paper sweeps
+the two-dimensional grid $K \in \{10, 25, 50, 100, 200\}$ and
+$\lambda \in \{1, 3, 6, 12\}$ over six bi-weekly windows on the 25
+evaluation seeds inherited from Paper~5, producing 15{,}000 pre-registered
+result rows.
+
+Three pre-registered findings are reported honestly. \textbf{First}, EPSS-only
+exhibits a negative decay slope in all 20 cells (mean slope range
+$-0.013$ to $-0.064$ P@50/window); no $(K, \lambda)$ combination in the
+grid produces steady-state EPSS performance, so the pre-registered ratio
+hypothesis (H3) reduces to a descriptive bound. \textbf{Second}, the
+predicted monotone scaling of EPSS decay with $K$ at fixed $\lambda$ (H1)
+and with $\lambda$ at fixed $K$ (H2) is rejected: Spearman correlations
+fall well below the pre-registered $|\rho| \geq 0.8$ threshold across
+most slices, indicating that the underlying composition dynamics are
+non-monotone in the synthetic regime studied. \textbf{Third, and most
+importantly, the pre-registered claim that HygienePrio-full retains
+W6 P@50 $\geq 0.40$ across all cells (H4) is rejected.} At
+$K \in \{100, 200\}$ HygienePrio-full collapses alongside EPSS-only,
+falling to $0.062$ at the most aggressive cell ($K = 200, \lambda = 1$).
+The mechanism is symmetric to EPSS decay: high-throughput remediation
+exhausts the high-HRS tail of the fleet, after which HygienePrio's host-level
+signal becomes near-uninformative.
+
+The robustness claim that survives is per-pair: HygienePrio-full
+outperforms EPSS-only at P@50 in $96.0\%$ of all (cell, seed, window)
+triples ($2{,}881/3{,}000$), with per-cell dominance never below
+$76.7\%$. The operational implication, in contrast to Paper~5's
+single-cell conclusion, is that hygiene-augmented scoring is a
+strict improvement over EPSS-only across all capacity regimes studied,
+but the absolute P@50 floor it provides degrades at high capacity in
+the same way exploit-likelihood scoring does. All claims are bounded to
+the synthetic evaluation context; external validation on real fleet
+telemetry with longitudinal exploitation outcome data is required before
+any deployment recommendation, and is itself a stronger requirement
+than Paper~5 implied.

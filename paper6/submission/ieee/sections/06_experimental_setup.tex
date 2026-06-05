@@ -1,0 +1,67 @@
+\section{Experimental Setup}
+
+\subsection{Pre-Registration}
+
+The protocol --- including research questions, $(K, \lambda)$ grid,
+hypotheses, statistical decision rules, and stop rules --- was fixed
+before any sweep result was inspected. The full protocol is archived as
+\texttt{paper6/design/PAPER6\_PROTOCOL.md} and accompanies the artifact
+release.
+
+\subsection{Calibration Procedure}
+
+No calibration is performed in this study. Scorer weights
+$(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$ and HRS
+weights $(0.5, 0.3, 0.2)$ are inherited verbatim from
+Paper~4~\cite{paper4hygieneprio}. This is intentional: the question is
+how a \textit{fixed} HygienePrio configuration behaves across operating
+regimes, not whether per-cell re-fitting could rescue it. Paper~5's H3
+ablation already established that per-window recalibration improves
+P@50 by up to $+21$~pp at fixed $(K, \lambda)$; the present sweep
+isolates the regime-sensitivity question.
+
+\subsection{Sweep Execution}
+
+For each (cell, seed, window):
+\begin{enumerate}
+\item Generate the Window-1 EEHDA fleet from the seed; this is
+identical across cells because the cell-defining parameters affect only
+the evolution, not the initial state.
+\item Score all unpatched applicable pairs with each of the five methods.
+\item Compute P@50, P@100, P@250 from the per-window ground-truth
+labels (\S\ref{sec:problem}).
+\item Persist one row per (cell, seed, window, method) to
+\texttt{sweep\_results.csv}.
+\item Advance the fleet using HygienePrio-full's top-$K$ pairs and a
+Poisson$(\lambda)$ new-CVE disclosure draw.
+\end{enumerate}
+
+Total: 5 capacity levels $\times$ 4 arrival rates $\times$ 25 seeds
+$\times$ 6 windows $\times$ 5 methods $= 15{,}000$ rows.
+
+\subsection{Statistical Reporting}
+
+Cell-level point estimates are means across the 25 evaluation seeds.
+95\% confidence intervals are percentile bootstrap with 10{,}000
+resamples~\cite{efron1994introduction}. Decay slopes are OLS-fit per
+(cell, seed, method) and then aggregated as the per-seed mean with a
+95\% percentile bootstrap CI. Spearman correlations for H1 and H2 are
+computed on cell-mean slopes (5 points per slice for H1, 4 points per
+slice for H2)~\cite{spearman1904}.
+
+No null-hypothesis significance tests are reported; comparisons rely on
+CI overlap and the pre-registered Spearman thresholds.
+
+\subsection{Reproducibility}
+
+The sweep driver, analysis script, and figure generator are released
+under the MIT licence with the artifact. From \texttt{paper6/}:
+{\small\begin{verbatim}
+PYTHONPATH=src python3 src/run_sweep.py
+PYTHONPATH=src python3 src/analyze_sweep.py
+PYTHONPATH=src python3 src/make_figures.py
+\end{verbatim}}
+The driver re-uses Paper~5's \texttt{window\_sim} and Paper~4's
+\texttt{hygieneprio} packages via \texttt{sys.path} injection (no
+code copy). Determinism is inherited from Paper~5's per-(seed, window,
+step) RNG seeding.

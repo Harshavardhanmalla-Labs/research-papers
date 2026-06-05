@@ -8,15 +8,15 @@
   correlations; they do not imply detection of any specific technique.}
 \label{tab:taxonomy}
 \small
-\begin{tabular}{@{}llll@{}}
+\begin{tabular}{@{}>{\raggedright}p{2.4cm}lp{2.6cm}l@{}}
 \toprule
 Class & Code & ATT\&CK enabling condition & Tasks \\
 \midrule
 Stale privileged account       & AH-01 & Valid Accounts: Domain (T1078.002)    & T1 \\
-Privilege escalation drift     & AH-02 & Valid Accounts, Domain Policy Mod.    & T7 \\
+Privilege escalation drift     & AH-02 & Valid Accounts; Domain Policy Mod.    & T7 \\
 Group membership drift         & AH-03 & Domain Policy Modification (T1484)    & T2 \\
 Dormant account reactivation   & AH-04 & Valid Accounts: Domain (T1078.002)    & T6 \\
-Impossible/unusual login       & AH-05 & Valid Accounts, Lateral Movement      & T1,T3 \\
+Impossible/unusual login       & AH-05 & Valid Accounts; Lateral Movement      & T1,T3 \\
 Endpoint--identity risk corr.  & AH-06 & Exploit Public-Facing App             & T3 \\
 Patch noncompliance cluster    & AH-07 & Exploit Public-Facing App (T1190)     & T5 \\
 KEV exposure aging             & AH-08 & Exploit Public-Facing App (T1190)     & T5 \\

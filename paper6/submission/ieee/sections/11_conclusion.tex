@@ -1,0 +1,50 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A pre-registered two-dimensional sweep over remediation capacity $K$
+and CVE arrival rate $\lambda$, evaluated on 25 seeds across six
+maintenance windows and five prioritization methods, produces 15{,}000
+result rows that revise Paper~5's single-cell conclusion in three
+places.
+
+\textbf{First}, EPSS-only Precision@50 decays in every cell of the
+grid (slope $-0.013$ to $-0.064$ P@50/window). No cell studied
+reaches steady state.
+
+\textbf{Second}, the pre-registered monotonicity hypotheses (H1, H2)
+are rejected: Spearman correlations between cell-mean slope and the
+swept axes fall well short of the $|\rho| \geq 0.8$ threshold and
+frequently carry the wrong sign. The underlying dynamics are
+non-monotone in the synthetic regime studied, and we report this honestly
+rather than smoothing.
+
+\textbf{Third, and most importantly, the pre-registered claim that
+HygienePrio-full retains a high absolute floor across all cells (H4)
+is rejected.} At $K \in \{100, 200\}$, HygienePrio-full's W6 mean
+P@50 collapses to $\{0.32, 0.07\}$ on average --- not because hygiene
+signals fail to discriminate but because high-throughput remediation
+exhausts the high-HRS tail of the fleet, leaving the residual backlog
+with little discriminative structure for any host-level signal to
+recover.
+
+The robustness claim that survives the sweep is per-pair: across all
+3{,}000 (cell, seed, window) comparisons, HygienePrio-full outperforms
+EPSS-only at P@50 in $96.0\%$ of pairs (minimum per-cell $76.7\%$).
+Hygiene augmentation is a strict improvement over EPSS-only across
+the studied regimes, but is not a guarantee of high absolute scheduling
+quality at high capacity. Future external comparison work --- including
+the in-progress Paper~5 follow-ups on online recalibration and
+multi-window optimisation --- should report results across $(K, \lambda)$
+cells rather than at one operating point.
+
+\textbf{Reproducibility.} The sweep driver, analysis script, pre-registration
+protocol, and frozen 15{,}000-row results CSV are available at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper6}.
+
+\textbf{Future work.} The most important next steps are (i) a fully
+factorial ``each method drives its own trajectory'' sweep to separate
+intrinsic EPSS decay from selection-policy coupling, (ii) external
+validation on real fleet telemetry where exploitation-event logs
+replace HRS as ground truth, and (iii) integration with non-greedy
+multi-window scheduling that explicitly models the $(K, \lambda)$
+capacity-arrival balance as a planning input.

@@ -1,0 +1,77 @@
+\section{Introduction}
+
+Single-cell evaluations of vulnerability prioritization methods report
+performance at one operating point: one remediation capacity, one CVE
+arrival rate, one window cadence. Paper~5~\cite{paper5temporal} extended
+single-window evaluation~\cite{paper4hygieneprio} to six rolling windows
+at a fixed cell ($K = 50, \lambda = 3$) and showed that EPSS-only
+Precision@50 decays from $0.331$ to $0.034$ as the high-EPSS tail of
+the backlog is exhausted by capacity-constrained remediation. That study
+left two operational questions unresolved:
+
+\textbf{Q1.} How does decay depend on capacity $K$? Faster remediation
+should drain the high-EPSS tail faster --- but does the relationship
+scale monotonically?
+
+\textbf{Q2.} How does new-CVE arrival rate $\lambda$ replenish the high-EPSS
+tail? Above some critical $\lambda$, decay should slow or stall.
+
+Both matter operationally: an organisation with $K = 200, \lambda = 12$
+sits in a very different regime from one with $K = 25, \lambda = 1$, and
+Paper~5's single-cell result cannot tell either organisation what to expect.
+
+This paper sweeps a pre-registered 5$\times$4 grid of $(K, \lambda)$
+on the 25 evaluation seeds inherited from Paper~5, generating 15{,}000
+result rows under the same EEHDA fleet model. We report three
+findings honestly against the pre-registration.
+
+\subsection{Contributions}
+
+\begin{itemize}
+\item \textbf{C1 --- Two-dimensional capacity-arrival sweep.} A
+pre-registered grid of 20 $(K, \lambda)$ cells on the EEHDA fleet,
+extending Paper~5's single-cell simulator with explicit cell-level
+control of capacity and Poisson arrival rate; 15{,}000 frozen result rows.
+
+\item \textbf{C2 --- Universal EPSS decay across the grid.} EPSS-only
+decay slope is strictly negative in all 20 cells (range $-0.013$ to
+$-0.064$ P@50/window). The pre-registered ratio hypothesis H3 fails to
+identify a steady-state cell within the grid; we report this descriptively
+rather than as a binary claim.
+
+\item \textbf{C3 --- Predicted monotonicity rejected.} Spearman
+correlations for the predicted monotone scaling of EPSS decay with $K$
+(H1) and $\lambda$ (H2) fall below the pre-registered $|\rho| \geq 0.8$
+threshold across most slices. The underlying compositional dynamics
+are non-monotone in the synthetic regime studied; we report the
+non-monotonicities directly rather than smoothing them.
+
+\item \textbf{C4 --- HygienePrio also collapses at high capacity.}
+The pre-registered claim that HygienePrio-full retains W6 P@50
+$\geq 0.40$ across all cells (H4) is \textit{rejected}. At $K = 200$,
+HygienePrio-full falls to a W6 mean of $0.062$ ($\lambda = 1$). The
+mechanism is symmetric to EPSS-only's collapse: high-throughput
+remediation exhausts the high-HRS tail, after which the hygiene
+signal carries little additional information.
+
+\item \textbf{C5 --- Per-pair dominance survives.} HygienePrio-full
+outperforms EPSS-only at P@50 in $96.0\%$ of all (cell, seed, window)
+triples ($2{,}881$/$3{,}000$). Minimum per-cell dominance is $76.7\%$.
+Hygiene augmentation is a strict improvement over EPSS-only in the
+regimes studied, but is not a guarantee of absolute scheduling quality
+at the high-capacity end.
+\end{itemize}
+
+\subsection{Relationship to Prior Papers}
+
+This paper is the sixth in the VulnPrio research sequence. Paper~1~\cite{paper1vulnprio}
+reported a null result for CVE-level augmentation at one window.
+Paper~3~\cite{paper3hygienebench} demonstrated discriminative structure
+in hygiene signals. Paper~4~\cite{paper4hygieneprio} integrated those
+signals into the HygienePrio scorer and showed $\approx 31$~pp Precision@50
+improvement over EPSS-only at one window. Paper~5~\cite{paper5temporal}
+showed the gap is robust across six windows at one cell. The present
+paper sweeps the cell-defining parameters and finds that the absolute
+P@50 of \textit{both} methods is regime-dependent, with HygienePrio's
+absolute floor failing at high capacity --- while its relative
+advantage over EPSS-only is preserved across the grid.

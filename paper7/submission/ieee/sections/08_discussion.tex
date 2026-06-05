@@ -1,0 +1,79 @@
+\section{Discussion}
+
+\subsection{What the Sweep Resolves}
+
+Paper~5 left a gap between an unrealisable upper bound (offline-peek
+H3, $+21.3$~pp at W2) and a realisable baseline (fixed Paper~4
+weights). The present sweep populates that gap with a deployable
+procedure and shows that at moderate capacity, the lag-1 rolling-history
+grid search closes essentially all of it (recovery ratio $\rho = 1.04$
+at $K = 50$, $\rho = 0.99$ at $K = 100$). The deployability concern
+that motivated this paper is operationally resolved in the moderate-capacity
+regime.
+
+\subsection{Why High Capacity Inverts the Sign}
+
+The K = 200 inversion is the most surprising result. The mechanism is
+the same compositional dynamic that drives the Paper~6 H4 collapse:
+at high capacity, a single window remediates a substantial fraction
+of the high-EPSS, high-HRS tail, so the
+\textit{effective scoring problem} at window $w$ is structurally
+different from the scoring problem at window $w - 1$. Weights tuned
+on window $w - 1$'s residual backlog are tuned for a different
+distribution than the one they will be applied to. The lag is too
+long for the rate of change.
+
+This generalises: \textbf{rolling-history online calibration is
+trustworthy only when the rate of distributional change between
+consecutive calibration windows is small relative to the rate of
+change within a window.} At $K = 50$ the per-window change is
+small and the lag is well-absorbed; at $K = 200$ the per-window
+change is large and the lag is destructive.
+
+\subsection{Why Online Can Beat Offline-Peek}
+
+The H2 rejection direction --- online $>$ offline at several late-window
+points --- has a clean explanation. The offline-peek strategy grid-searches
+on five calibration seeds at the \textit{same} window, then applies the
+selected weights to 25 evaluation seeds at the same window. With only
+five seeds and 108 grid points, overfitting is possible: the selected
+weights are tuned to noise in the five-seed sample. The online strategy
+selects on a different (window-$w-1$) sample; if the distribution shift
+is small (low-capacity regime), the lag-1 sample acts as a held-out
+validation set and the selected weights generalise better to the 25
+evaluation seeds. The phenomenon is a small-sample regularisation
+artifact; it does not contradict the offline ceiling concept, but it
+shows that ``offline-peek with limited calibration seeds'' is not a
+strict upper bound on what a leak-free procedure can achieve.
+
+\subsection{Operational Recommendations}
+
+The headline operational summary is conditional:
+\begin{itemize}
+\item At moderate capacity ($K \leq 100$ on the simulated bi-weekly
+cadence), \textbf{deploy} rolling-history online recalibration. Recovery
+of the offline ceiling is essentially complete; the absolute P@50 gain
+over fixed weights is $+3$ to $+20$~pp depending on window.
+\item At high capacity ($K \geq 200$), \textbf{do not deploy} naive
+rolling-history online recalibration. The lag-1 grid search introduces
+$-6$ to $-8$~pp losses in early windows. A team operating at this
+capacity should either (i) keep fixed Paper~4 weights, (ii) lengthen
+the calibration window (e.g., use a rolling \textit{multi}-window
+EWMA), or (iii) recalibrate offline between deployment cycles and
+freeze weights within a deployment.
+\item Independent of capacity, the small-sample overfitting visible
+at K = 50 W5 argues for a larger calibration set than five seeds
+when offline grid search is the procedure of record.
+\end{itemize}
+
+\subsection{Relationship to the Research Sequence}
+
+Paper~4~\cite{paper4hygieneprio} established that hygiene augmentation
+helps at a single window. Paper~5~\cite{paper5temporal} showed the
+help persists across windows and identified the offline H3 ceiling.
+Paper~6~\cite{paper6capacity} swept $(K, \lambda)$ and found
+absolute collapse at high $K$. This paper closes the loop: the
+deployable recalibration procedure that Paper~5 implicitly motivated
+works in the regimes Paper~6 said HygienePrio held up in, and fails
+in the regimes Paper~6 said it collapsed in. The fixed-weight result
+is regime-robust; the recalibration procedure is regime-conditional.

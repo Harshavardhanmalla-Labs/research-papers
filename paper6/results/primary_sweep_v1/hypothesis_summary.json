@@ -1,0 +1,120 @@
+{
+  "n_rows": 15000,
+  "n_cells": 20,
+  "n_seeds": 25,
+  "H1": {
+    "per_lambda": {
+      "1.0": {
+        "rho": 0.3,
+        "p": 0.6238376647810728,
+        "supported": false
+      },
+      "3.0": {
+        "rho": 0.3,
+        "p": 0.6238376647810728,
+        "supported": false
+      },
+      "6.0": {
+        "rho": 0.3,
+        "p": 0.6238376647810728,
+        "supported": false
+      },
+      "12.0": {
+        "rho": 0.3,
+        "p": 0.6238376647810728,
+        "supported": false
+      }
+    },
+    "supported_all_lambdas": false
+  },
+  "H2": {
+    "per_K": {
+      "10": {
+        "rho": 0.6000000000000001,
+        "p": 0.3999999999999999,
+        "supported": false
+      },
+      "25": {
+        "rho": 0.6000000000000001,
+        "p": 0.3999999999999999,
+        "supported": false
+      },
+      "50": {
+        "rho": -0.39999999999999997,
+        "p": 0.6,
+        "supported": false
+      },
+      "100": {
+        "rho": 0.0,
+        "p": 1.0,
+        "supported": false
+      },
+      "200": {
+        "rho": 1.0,
+        "p": 0.0,
+        "supported": true
+      }
+    },
+    "supported_all_Ks": false
+  },
+  "H3": {
+    "min_K_over_lambda_steady": null,
+    "steady_cells": []
+  },
+  "H4": {
+    "hp_w6_min": 0.06160000000000001,
+    "hp_w6_min_cell": {
+      "cell_K": 200,
+      "cell_lambda": 1.0
+    },
+    "supported": false,
+    "failures": [
+      {
+        "cell_K": 100,
+        "cell_lambda": 1.0,
+        "w6_mean": 0.32799999999999996
+      },
+      {
+        "cell_K": 100,
+        "cell_lambda": 3.0,
+        "w6_mean": 0.3152
+      },
+      {
+        "cell_K": 100,
+        "cell_lambda": 6.0,
+        "w6_mean": 0.33440000000000003
+      },
+      {
+        "cell_K": 100,
+        "cell_lambda": 12.0,
+        "w6_mean": 0.3224000000000001
+      },
+      {
+        "cell_K": 200,
+        "cell_lambda": 1.0,
+        "w6_mean": 0.06160000000000001
+      },
+      {
+        "cell_K": 200,
+        "cell_lambda": 3.0,
+        "w6_mean": 0.07519999999999999
+      },
+      {
+        "cell_K": 200,
+        "cell_lambda": 6.0,
+        "w6_mean": 0.0872
+      },
+      {
+        "cell_K": 200,
+        "cell_lambda": 12.0,
+        "w6_mean": 0.11600000000000002
+      }
+    ]
+  },
+  "persistence": {
+    "min_cell_frac": 0.7666666666666667,
+    "total_dom": 2881,
+    "total_pairs": 3000,
+    "overall_frac": 0.9603333333333334
+  }
+}

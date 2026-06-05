@@ -1,0 +1,68 @@
+\section{Methodology}
+
+\subsection{Scorer (Inherited)}
+
+The HygienePrio scorer and HRS components are inherited verbatim from
+Paper~4~\cite{paper4hygieneprio}:
+\begin{equation}
+\begin{aligned}
+S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
+          & + \gamma\,\mathrm{KEV\_recency}(c) \\
+          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+\end{aligned}
+\label{eq:hp}
+\end{equation}
+HRS is the weighted combination of PatchPosture (0.50), ADExposure
+(0.30), and TelemetryFreshness (0.20) defined in Paper~4. Only the
+four scorer weights $(\alpha, \beta, \gamma, \delta)$ are subject to
+re-calibration in this paper; HRS weights are not.
+
+\subsection{Rolling-History Grid Search}
+
+At window $w \geq 2$ the \textsf{online} strategy executes:
+\begin{enumerate}
+\item For each of the 108 grid points
+$(\alpha, \beta, \gamma, \delta) \in \{0.5, 0.7, 0.9\} \times
+\{0.3, 0.5, 0.7\} \times \{0.0, 0.1, 0.2\} \times \{0.0, 0.1, 0.2, 0.3\}$:
+\begin{enumerate}
+\item For each of the five calibration seeds, score the seed's
+\textit{window~$w-1$} pairs using the candidate weights and compute P@50
+against that seed's window-$w-1$ ground truth.
+\item Take the mean P@50 across the five seeds.
+\end{enumerate}
+\item Select the grid point with the highest mean P@50; ties are broken
+by lexicographic order. These weights become the \textsf{online} weights
+for window $w$.
+\item Apply the selected weights to each of the 25 evaluation seeds at
+\textit{window~$w$} and record the seed's P@50.
+\end{enumerate}
+
+The \textsf{offline} strategy is identical except that the calibration
+data at step~1 is the \textit{window~$w$} state (i.e., the strategy
+peeks at the window it is scoring). The \textsf{fixed} strategy skips
+calibration entirely and uses the Paper~4 weights every window.
+
+\subsection{Fleet-State Evolution}
+
+Fleet evolution is driven by HygienePrio-full's top-$K$ selection under
+the \textsf{fixed} weights at every window, identical across strategies.
+This isolates the recalibration decision from the trajectory-generation
+decision: all three strategies see exactly the same evolving fleet, so
+any difference in P@50 is attributable to scoring weights alone. The
+choice and its threat-to-validity consequence are restated in
+\S\ref{sec:threats}.
+
+\subsection{Online Recovery Ratio}
+
+For each (cell, window) with $w \geq 2$ and a positive offline-fixed
+gap, we report the recovery ratio:
+\begin{equation}
+\rho_{K, w} = \frac{\text{P@50}^{\mathrm{online}}_{K, w} - \text{P@50}^{\mathrm{fixed}}_{K, w}}
+                   {\text{P@50}^{\mathrm{offline}}_{K, w} - \text{P@50}^{\mathrm{fixed}}_{K, w}}.
+\end{equation}
+$\rho \approx 1$ indicates that online recalibration achieves the
+offline-peek ceiling without leaking future data. $\rho \approx 0$
+indicates that online recalibration provides no benefit over the
+fixed-weight baseline. Values above 1 indicate online beats the
+ceiling --- possible when the offline-peek weights overfit a small
+calibration set.
