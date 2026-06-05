@@ -1,0 +1,24 @@
+\begin{table}[!t]
+  \caption{Paper~13 cell grid and strategy set.}
+  \label{tab:grid}
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}p{2.6cm}p{4.9cm}@{}}
+    \toprule
+    \textbf{Axis} & \textbf{Values} \\
+    \midrule
+    Capacity $K$ & $\{50, 100, 200\}$ \\
+    Arrival rate $\lambda$ & 3 (fixed) \\
+    Windows $W$ & 6 \\
+    Strategies & fixed, lag1, cap\_aware, cusum, gated, offline \\
+    Eval seeds & 25 (105--129) \\
+    Calib seeds & 5 (100--104) \\
+    CUSUM slack $k$ & 0.04 (pre-registered) \\
+    CUSUM threshold $h$ & 0.10 (pre-registered) \\
+    cap\_aware $\tau_K$ & $\{50{:}0.20,\ 100{:}0.05,\ 200{:}0.02\}$ \\
+    \midrule
+    Total rows & 2{,}700 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

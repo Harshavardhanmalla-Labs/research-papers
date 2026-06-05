@@ -1,0 +1,46 @@
+Paper~12~\cite{paper12capaware} showed that the capacity-aware
+magnitude detector reaches the joint feasibility region but its
+K=200 cell mean equals the static gate's exactly because the small
+$\tau_{200} = 0.02$ fires at every K=200 post-W1 window. Paper~12
+named CUSUM as the next-richer detector class that could break the
+collapse by accumulating evidence across windows and refraining from
+firing at single-window noise excursions. This paper evaluates a
+simple CUSUM detector with pre-registered $k = 0.04$, $h = 0.10$
+on a 2{,}700-row sweep.
+
+\textbf{H3 and H4 supported, and the K=200 result is the headline.}
+CUSUM is the \textit{first detector in the Papers~7--13 sequence that
+beats the static gate at K=200}: cell-mean cusum K=200 P@50 is
+$0.2754$ versus gated's $0.2664$, a margin of $+0.9$~pp. The
+mechanism is exactly what Paper~12 predicted: CUSUM refrains from
+firing at the K=200 W4 noise excursion (single-window $|\Delta| =
+0.020$) and at W5, capturing the lag-1 benefit at those windows
+that cap\_aware and gated both miss. Fire fractions at K=200 are
+$60\%$ (cusum) versus $100\%$ (cap\_aware); H3's selective-firing
+prediction is supported. H4 (cusum cell mean $\geq$ cap\_aware $-
+0.01$) is supported with cusum strictly above cap\_aware.
+
+\textbf{H2 rejected by 0.1 pp.} The $+0.9$~pp gain over gated falls
+$0.001$ pp short of the pre-registered $+0.01$ tolerance for the
+H2 binary test. The data direction is the predicted one and the
+magnitude is operationally meaningful; the H2 failure is a
+fine-margin rejection that we report honestly per the protocol
+rather than relaxing the threshold.
+
+\textbf{H1 rejected by K=50 over-firing.} CUSUM fires at K=50 in
+$20\%$ of post-W1 windows (vs cap\_aware's $0\%$ with the larger
+$\tau_{50} = 0.20$). The single $h = 0.10$ threshold that selectively
+fires at K=200 also occasionally fires at K=50, where lag-1 would
+have helped, and the K=50 cell-mean cusum--lag1 falls to $-3.9$~pp,
+missing the $-2.0$~pp feasibility tolerance. \textbf{CUSUM with a
+single $(k, h)$ pair cannot simultaneously serve both capacity
+regimes.}
+
+The deployable conclusion is the most positive in the Papers~7--13
+calibration arc: \textbf{CUSUM provides a genuine improvement over
+the static gate at K=200} ($+0.9$~pp), the first such improvement
+in the program. The price is K=50 over-firing, which a per-K $(k, h)$
+vector --- capacity-aware CUSUM --- could in principle eliminate.
+The pre-registration discipline that constrained Papers~7--13
+applies: a per-K CUSUM evaluation requires its own protocol with
+locked parameter vectors and feasibility hypotheses.

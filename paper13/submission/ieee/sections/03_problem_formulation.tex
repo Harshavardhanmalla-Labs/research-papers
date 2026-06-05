@@ -1,0 +1,45 @@
+\section{Problem Formulation}
+\label{sec:problem}
+
+\subsection{Setting (Inherited)}
+
+EEHDA synthetic fleet, scorer Eq.~(\ref{eq:hp}), multi-window
+simulator, $K \in \{50, 100, 200\}$, $\lambda = 3$, six windows,
+25 evaluation seeds, 5 calibration seeds. Inherited from
+Papers~4--12.
+
+\subsection{Six Strategies}
+
+\begin{description}
+\item[\textsf{fixed}] Paper 4 weights, no refit.
+\item[\textsf{lag1}] Paper 7 baseline lag-1 grid search.
+\item[\textsf{cap\_aware}] Paper 12 capacity-aware ($\tau_K = \{50:
+0.20, 100: 0.05, 200: 0.02\}$), included as a control.
+\item[\textsf{cusum}] CUSUM($k = 0.04, h = 0.10$) over $|\Delta_w|$.
+\item[\textsf{gated}] Static rule ($K \leq 100 \to$ lag1; $K \geq
+200 \to$ fixed).
+\item[\textsf{offline}] Paper 7 ceiling at window $w$.
+\end{description}
+
+\subsection{Pre-Registered Hypotheses}
+
+\begin{description}
+\item[H1] \textsf{cusum} reaches the joint feasibility region:
+worst K=200 cusum--fix $\geq -0.01$, cell-mean K=50 cusum--lag1
+$\geq -0.02$, cell-mean K=100 cusum--lag1 $\geq -0.02$.
+\item[H2] \textsf{cusum} K=200 cell-mean $\geq$ \textsf{gated}
+K=200 cell-mean $+ 0.01$. \textit{CUSUM beats the static gate at
+the high-capacity extreme by an operationally meaningful margin.}
+\item[H3] \textsf{cusum} K=200 fire fraction $<$ \textsf{cap\_aware}
+K=200 fire fraction (selective firing).
+\item[H4] \textsf{cusum} K=200 cell-mean $\geq$ \textsf{cap\_aware}
+K=200 cell-mean $- 0.01$ (CUSUM does not lose meaningfully relative
+to the cap\_aware control).
+\end{description}
+
+\subsection{Stop Rules}
+
+If H2 is rejected, the abstract leads with ``CUSUM also collapses to
+static gate'' before the discussion is drafted. If H1 is rejected,
+feasibility precedence applies and the abstract leads with the
+infeasibility rather than the H2 improvement claim.

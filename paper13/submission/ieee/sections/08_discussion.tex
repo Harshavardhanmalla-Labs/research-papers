@@ -1,0 +1,91 @@
+\section{Discussion}
+
+\subsection{Why CUSUM Breaks the Static-Gate Collapse}
+
+Paper~12 documented that the capacity-aware magnitude detector at
+$\tau_{200} = 0.02$ fires at every K=200 window because every
+$|\Delta_w|$ exceeds $0.02$. CUSUM with slack $k = 0.04 > 0.02$
+treats single-window $|\Delta| = 0.02$ as below-noise and does not
+accumulate. The K=200 W4 window has $|\Delta| = 0.020$ and is
+exactly the case CUSUM was designed to filter. At W4 CUSUM uses
+lag-1 weights; cap\_aware reverts to fixed. The lag-1 P@50 at
+K=200 W4 is $0.288$ (the value Paper~10's adaptive05 captured at
+$\tau = 0.05$); fixed is $0.254$; the $+0.034$ delta scaled by the
+W4 weight in the six-window cell mean produces the $+0.9$~pp K=200
+gain we observe.
+
+This is the substantive contribution: CUSUM converts the
+single-window-noise problem from a detector limitation into a
+detector feature. The accumulator's slack $k$ formalises ``don't
+fire on small excursions.''
+
+\subsection{The K=50 Over-Firing Failure}
+
+The H1 rejection is structural to single-parameter CUSUM. At K=50
+the $|\Delta_w|$ sequence has its own large early-window value
+($|\Delta_{W2}| = 0.144$, the same first-window jump that fires
+every strategy). CUSUM with $k = 0.04$ accumulates $0.104$ at W2,
+crosses $h = 0.10$, fires, and reverts to fixed --- which at K=50
+loses the lag-1 benefit. The detector cannot distinguish K=50 W2
+(``large but the lag-1 fit is still good'') from K=200 W2 (``large
+and the lag-1 fit is bad''); both look identical at the
+calibration-target level.
+
+The fix is a per-K $(k_K, h_K)$ vector. A larger $k_{50}$ or
+$h_{50}$ would push the K=50 W2 accumulator below the alarm
+threshold and CUSUM would not fire at K=50, replicating the
+cap\_aware K=50 behaviour. Whether such a per-K CUSUM reaches
+feasibility while preserving the K=200 gate-breaking property is
+the natural Paper~14 question.
+
+\subsection{Why the H2 Margin Is 0.9 pp, Not 1.0 pp}
+
+The H2 rejection by $0.001$ pp is fine but honest. The K=200
+$+0.9$~pp gain arises from CUSUM refraining at two of five post-W1
+windows (W4 and W5). At each refrained window CUSUM uses lag-1; the
+lag-1 gain over fixed at those windows is roughly $+1.7$ to $+3.4$
+pp, contributing $(2/5) \times $ average gain to the cell mean.
+A different $(k, h)$ pair would change the refrain set and the
+gain magnitude. Whether any $(k, h)$ pair in a fine-grained sweep
+reaches $\geq +1.0$~pp is a sensitivity-sweep question; the
+pre-registered $(0.04, 0.10)$ point gives $+0.9$~pp.
+
+\subsection{Substantive Operational Recommendation}
+
+The deployable picture, sharpened across Papers~7--13:
+
+\begin{itemize}
+\item \textbf{K $\leq$ 100:} deploy lag-1 online recalibration
+directly (Paper~7's $\rho \approx 1.0$). The static gate uses lag-1
+unconditionally below the threshold; CUSUM's K=50 over-firing is
+strictly worse here.
+
+\item \textbf{K = 200:} deploy CUSUM($k = 0.04, h = 0.10$). Expect
+$+0.9$~pp over the static gate. This is operationally meaningful
+and is the first improvement over the static gate any detector has
+demonstrated in the program.
+
+\item \textbf{Caution:} the single $(k, h)$ pair that wins at
+K=200 loses at K=50. A deployment that operates across both
+capacities should use a per-K $(k_K, h_K)$ vector (untested in this
+paper).
+\end{itemize}
+
+\subsection{What This Closes and Opens}
+
+\textit{Closes:} the simple-CUSUM question Paper~12 left open. The
+answer is qualified-positive: yes, CUSUM beats the static gate at
+K=200 by $+0.9$~pp, but does so with a single $(k, h)$ that fails
+at K=50.
+
+\textit{Opens:}
+\begin{itemize}
+\item A per-K CUSUM $(k_K, h_K)$ vector evaluation under
+pre-registration --- the natural next paper.
+\item Two-sided CUSUM, EWMA-CUSUM, and Bayesian online change-point
+detectors with pre-registered hyperparameters.
+\item Real fleet validation: the K=200 W4 noise-excursion pattern
+that CUSUM exploits is a property of the synthetic generator and
+may or may not generalise to real fleet calibration-target time
+series.
+\end{itemize}

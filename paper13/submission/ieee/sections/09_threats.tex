@@ -1,0 +1,39 @@
+\section{Threats to Validity}
+\label{sec:threats}
+
+\textbf{Conclusion validity.} The H2 rejection margin ($+0.0090$
+vs $+0.01$ pre-registered) is within the 95\% bootstrap CI for the
+cell-mean comparison. We report the binary rejection per the
+protocol and the substantive direction in the abstract.
+
+\textbf{Internal validity.}
+
+\textit{(i) CUSUM $(k, h)$ is pre-registered.} The $(0.04, 0.10)$
+values were locked before any cusum P@50 was inspected. They were
+chosen by inspection of Paper~11's calibration-seed cp\_delta
+distribution: $k = 0.04$ is half the typical K=50 |Delta|; $h =
+0.10$ is the largest single-$\tau$ Paper~11 swept. A different
+$(k, h)$ pair would shift the K=200 gain and K=50 cost in
+correlated ways; the present paper measures one point on this
+two-parameter family.
+
+\textit{(ii) Single $\lambda$ and capacity grid.} As in
+Papers~7--12. Different $\lambda$ would shift the per-window
+$|\Delta_w|$ distribution and re-locate the CUSUM operating point.
+
+\textit{(iii) Selection-policy coupling.} Inherited from Papers~7--12.
+
+\textbf{Construct validity.} CUSUM's accumulator state persists
+across windows within a cell; the strategy's behaviour is therefore
+\textit{path-dependent} in a way that single-window detectors are
+not. The K=200 gain depends on the specific pattern of
+$|\Delta_w|$ values, including the W4 noise excursion that the
+synthetic generator produces. A real fleet with a different
+calibration-target time series would produce different fire
+decisions; the qualitative claim (CUSUM filters single-window noise)
+is more robust than the specific $+0.9$~pp gain magnitude.
+
+\textbf{External validity.} EEHDA synthetic priors inherited from
+Papers~4--12. The K=200 W4 noise excursion is a property of the
+fleet evolution model; real fleet calibration-target excursions
+may have different temporal structure.
