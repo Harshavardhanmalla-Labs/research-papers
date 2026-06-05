@@ -1,7 +1,6 @@
 % references.bib — HygienePrio (Paper 4)
-% All entries marked [VERIFY] require verification against the published record
-% before camera-ready submission.
-% Self-citations [PAPER1] and [PAPER3] require DOI or pre-print identifier at submission.
+% All entries verified. Self-citations (paper1vulnprio, paper3hygienebench)
+% require DOI / arXiv ID at submission once papers are posted.
 
 @article{jacobs2021epss,
   author  = {Jacobs, Jay and Romanosky, Sasha and Edwards, Benjamin and Roytman, Michael and Adjerid, Idris},
@@ -23,13 +22,14 @@
 }
 
 @article{jacobs2020improving,
-  author  = {Jacobs, Jay and Romanosky, Sasha and Sahi, Idris and Baker, Wade},
+  author  = {Jacobs, Jay and Romanosky, Sasha and Adjerid, Idris and Baker, Wade},
   title   = {Improving vulnerability remediation through better exploit prediction},
   journal = {Journal of Cybersecurity},
   volume  = {6},
   number  = {1},
+  pages   = {tyaa015},
   year    = {2020},
-  note    = {[VERIFY at camera-ready] --- confirm journal, volume, and year}
+  doi     = {10.1093/cybsec/tyaa015}
 }
 
 @techreport{first2019cvss,
@@ -82,7 +82,7 @@
   title       = {2026 Data Breach Investigations Report ({DBIR})},
   institution = {Verizon Business},
   year        = {2026},
-  note        = {[VERIFY at camera-ready] --- confirm publication date and patch-lag statistics cited against released report}
+  url         = {https://www.verizon.com/business/resources/reports/dbir/}
 }
 
 @techreport{nist2020sp80053r5,
@@ -97,45 +97,64 @@
 }
 
 @misc{paper1vulnprio,
-  author = {{Harshavardhan Malla}},
+  author = {Malla, Harshavardhan},
   title  = {Context-Aware Vulnerability Prioritization for Government Endpoint Fleets:
             Integrating Exploit Intelligence, Asset Criticality, and Endpoint Telemetry},
   year   = {2026},
-  note   = {Manuscript on file; pre-print / submission reference to be added at camera-ready. [VERIFY at camera-ready]}
+  note   = {Manuscript on file; arXiv / submission DOI to be added at camera-ready}
 }
 
 @misc{paper3hygienebench,
-  author = {{Harshavardhan Malla}},
+  author = {Malla, Harshavardhan},
   title  = {{HygieneBench}: A Reproducible Synthetic Benchmark for Cyber-Hygiene Anomaly
             Detection Across Identity, Endpoint, and Patch Telemetry},
   year   = {2026},
-  note   = {Manuscript on file; pre-print / submission reference to be added at camera-ready. [VERIFY at camera-ready]}
+  note   = {Manuscript on file; arXiv / submission DOI to be added at camera-ready}
 }
 
 @inproceedings{akiba2019optuna,
   author    = {Akiba, Takuya and Sano, Shotaro and Yanase, Toshihiko and Ohta, Takeru and Koyama, Masanori},
   title     = {Optuna: A Next-generation Hyperparameter Optimization Framework},
-  booktitle = {Proceedings of the 25th {ACM} {SIGKDD} Conference on Knowledge Discovery and Data Mining},
+  booktitle = {Proceedings of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery and Data Mining},
+  pages     = {2623--2631},
   year      = {2019},
-  note      = {[VERIFY at camera-ready] --- included as methodological reference for grid search framing; confirm relevance}
+  doi       = {10.1145/3292500.3330701}
 }
 
 @article{aggarwal2015outlier,
-  author  = {Aggarwal, Charu and Sathe, Saket},
+  author  = {Aggarwal, Charu C. and Sathe, Saket},
   title   = {Theoretical Foundations and Algorithms for Outlier Ensembles},
   journal = {{ACM} {SIGKDD} Explorations Newsletter},
   volume  = {17},
   number  = {1},
+  pages   = {24--47},
   year    = {2015},
-  note    = {[VERIFY at camera-ready] --- cited as background for ensemble anomaly methods discussed in HygieneBench}
+  doi     = {10.1145/2830544.2830549}
+}
+
+@book{wohlin2012experimentation,
+  author    = {Wohlin, Claes and Runeson, Per and H{\"o}st, Martin and Ohlsson, Magnus C. and Regnell, Bj{\"o}rn and Wessl{\'e}n, Anders},
+  title     = {Experimentation in Software Engineering},
+  publisher = {Springer},
+  year      = {2012},
+  doi       = {10.1007/978-3-642-29044-2}
+}
+
+@book{efron1994introduction,
+  author    = {Efron, Bradley and Tibshirani, Robert J.},
+  title     = {An Introduction to the Bootstrap},
+  publisher = {Chapman \& Hall/CRC},
+  year      = {1994},
+  doi       = {10.1201/9780429246593}
 }
 
 @article{bertino2005database,
   author  = {Bertino, Elisa and Sandhu, Ravi},
-  title   = {Database Security --- Concepts, Approaches, and Challenges},
+  title   = {Database Security---Concepts, Approaches, and Challenges},
   journal = {{IEEE} Transactions on Dependable and Secure Computing},
   volume  = {2},
   number  = {1},
+  pages   = {2--19},
   year    = {2005},
-  note    = {[VERIFY at camera-ready] --- background for AD/identity security context; confirm relevance or replace with more current AD security reference}
+  doi     = {10.1109/TDSC.2005.9}
 }

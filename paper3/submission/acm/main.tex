@@ -14,9 +14,9 @@
 % official acmart.cls before compiling for submission.
 % ============================================================================
 
-% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
-% Replace the next line with: \documentclass[sigconf,anonymous]{acmart}
-\documentclass[sigconf]{acmart}
+% Double-blind submission mode (anonymous=true removes author info)
+% Switch to \documentclass[sigconf]{acmart} at camera-ready
+\documentclass[sigconf,anonymous]{acmart}
 
 % ---- ACM metadata (fill before submission) ---------------------------------
 \acmConference[CCS AISec '26]{ACM CCS Workshop on Artificial Intelligence and Security}{November 2026}{Salt Lake City, UT, USA}
@@ -26,6 +26,7 @@
 
 % ---- Packages --------------------------------------------------------------
 \usepackage{booktabs}    % \toprule, \midrule, \bottomrule in tables
+\usepackage{array}       % >{\raggedright} column specifiers
 \usepackage{multirow}
 \usepackage{url}
 \usepackage{hyperref}
@@ -33,6 +34,7 @@
 \usepackage{amsmath}
 \usepackage{xspace}
 \usepackage{enumitem}    % \begin{itemize}[leftmargin=*] in contribution list
+\emergencystretch=2em    % reduces overfull hbox in dense citation paragraphs
 
 % ---- Macros ----------------------------------------------------------------
 \newcommand{\hygienebench}{\textsc{HygieneBench}\xspace}

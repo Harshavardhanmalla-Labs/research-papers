@@ -1,0 +1,109 @@
+\section{Results}
+\label{sec:results}
+
+All claims in this section trace to
+\texttt{paper7/results/primary\_v1/online\_calib\_results.csv}
+(1{,}350 rows) and the derived
+\texttt{hypothesis\_summary.json} and
+\texttt{cell\_window\_means.csv}.
+
+\input{tables/tab_main}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig1_strategy_trajectories.pdf}
+\caption{Mean P@50 trajectories across six windows for the three
+calibration strategies at $K \in \{50, 100, 200\}$, $\lambda = 3$.
+Online (green) tracks offline (orange) at $K = 50, 100$ but
+\textit{loses} to fixed (grey) at $K = 200, w \in \{2, 3\}$.}
+\label{fig:trajectories}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig2_gain_bars.pdf}
+\caption{Per-(K, window) absolute P@50 gain over fixed weights for
+online (green) and offline (orange) calibration. Negative online
+bars at $K=200, w \in \{2, 3\}$ are the H1 failures.}
+\label{fig:bars}
+\end{figure}
+
+\subsection{K = 50: Online Matches the Offline Ceiling}
+
+At the canonical Paper~5 cell, the fixed-weight HygienePrio-full
+W2 mean P@50 is $0.544$. Offline-peek calibration lifts this to
+$0.757$ ($+21.3$~pp, matching Paper~5's H3 number). \textbf{Online
+recalibration with a one-window lag reaches $0.741$ ($+19.7$~pp), a
+$92.5\%$ recovery of the offline gain without future-data leakage.}
+The cell-mean recovery ratio across $w \geq 2$ is $\rho = 1.04$,
+i.e., online matches or slightly exceeds the offline ceiling on
+average.
+
+By W5, online ($0.580$) exceeds offline-peek ($0.550$) outright.
+This direction-of-effect is the opposite of the H2 prediction; the
+five-seed offline grid search appears to overfit, while the
+one-window lag's implicit regularisation generalises better.
+
+\subsection{K = 100: Online Recovers the Bulk of the Gain}
+
+At $K = 100$ the fixed-weight HygienePrio-full W6 has already fallen
+to $0.315$ (the Paper~6 H4-collapse zone). Online recalibration lifts
+this to $0.355$ ($+4.0$~pp) at W6 and to $0.547$ ($+3.0$~pp) at W3.
+The cell-mean recovery ratio is $\rho = 0.99$ across $w \geq 2$ ---
+online essentially matches the offline ceiling. The absolute floor
+is improved but not restored to the Paper~5 regime; online
+recalibration is a useful add-on at $K = 100$ but does not rescue
+the cell from the Paper~6 collapse pattern.
+
+\subsection{K = 200: Online Harms Performance}
+
+At $K = 200$ the picture inverts. The fixed-weight HygienePrio-full
+W2 mean is $0.518$; online \textit{drops} it to $0.458$ ($-5.9$~pp).
+At W3, fixed is $0.346$ and online falls to $0.269$ ($-7.8$~pp).
+Offline-peek at the same windows produces $+3.8$ and $+4.9$~pp,
+showing that better weights for those windows do exist --- they
+simply cannot be inferred from the previous window's calibration
+state. By W4 online recovers a small positive gain ($+3.4$~pp); by
+W6 the residual backlog is so depleted that all three strategies
+collapse to the same $0.075$ (no calibration choice can rescue an
+exhausted backlog).
+
+The cell-mean recovery ratio across $w \geq 2$ is $\rho = -0.66$.
+Online recalibration is a net hazard at this capacity.
+
+\subsection{Hypothesis Outcomes}
+
+\input{tables/tab_hypotheses}
+
+\textbf{H1 (online $\geq$ fixed).} Rejected. Two cell-window pairs
+($K=200$, $w \in \{2, 3\}$) fail the $-0.01$ threshold with losses of
+$-5.9$ and $-7.8$~pp.
+
+\textbf{H2 (online $\leq$ offline).} Rejected. Two cell-window pairs
+($K=50$, $w \in \{4, 5\}$; $K=100$, $w \in \{3, 6\}$ also show
+positive deltas of $+1$ to $+3$~pp, the most prominent at $K = 50,
+w = 5$ where online ($0.580$) exceeds offline ($0.550$) by $+3.0$~pp.
+
+\textbf{H3 (online rescues high-capacity collapse).} Rejected.
+At $K = 100, w \in \{4, 5\}$ online gain is below the $5$~pp absolute
+threshold. At $K = 200, w \in \{4, 5, 6\}$ the W2--W3 hazard means
+the late-window cell-mean recovery ratio is negative.
+
+\subsection{Per-Pair Sign Test}
+
+For each (cell, seed, window) triple with $w \geq 2$ we record the
+sign of $(\text{online} - \text{fixed})$. At $K = 50$, online beats
+fixed on $112/125$ ($89.6\%$) of post-W1 triples. At $K = 100$, the
+fraction is $87/125$ ($69.6\%$). At $K = 200$, the fraction is
+$57/125$ ($45.6\%$): online is roughly a coin flip versus fixed at
+this capacity. The aggregate sign-test fraction across all cells and
+windows is $256/375$ ($68.3\%$), consistent with the per-cell
+recovery-ratio summary.
+
+\subsection{Pre-Registration Deviations}
+
+None. The strategy definitions, hypotheses, decision rules, and stop
+rules from the protocol were applied verbatim. The H1, H2, and H3
+rejections were reported as observed; the abstract was rewritten
+after H1 rejection to qualify the deployability claim before the
+discussion was drafted, in compliance with the protocol's stop rule.

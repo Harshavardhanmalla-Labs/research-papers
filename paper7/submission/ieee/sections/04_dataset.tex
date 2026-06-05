@@ -1,0 +1,19 @@
+\section{Dataset and Cell Grid}
+
+All evaluations use the EEHDA synthetic fleet generator from
+Paper~4~\cite{paper4hygieneprio} with structural priors and per-window
+evolution dynamics identical to Paper~5~\cite{paper5temporal} and
+Paper~6~\cite{paper6capacity}. The only cell-defining parameters that
+vary in this study are capacity $K \in \{50, 100, 200\}$ at fixed
+$\lambda = 3$.
+
+The seed split is identical to Paper~5: five calibration seeds
+(100--104) for weight-fitting only, twenty-five evaluation seeds
+(105--129) for reporting. Calibration seeds are never used for
+performance reporting; evaluation seeds are never used for weight
+fitting under any strategy.
+
+For each (cell, strategy) the run produces one P@50 value per (seed,
+window). Total rows: $3 \times 3 \times 25 \times 6 = 1{,}350$.
+
+\input{tables/tab_grid}

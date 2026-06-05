@@ -1,0 +1,128 @@
+\section{Results}
+\label{sec:results}
+
+All numerical claims in this section trace to
+\texttt{paper6/results/primary\_sweep\_v1/sweep\_results.csv} (15{,}000 rows)
+and the derived
+\texttt{cell\_summary.csv} and
+\texttt{hypothesis\_summary.json}. Three frozen tables and three frozen
+figures are reported.
+
+\subsection{Universal EPSS Decay}
+
+\input{tables/tab_decay_slopes}
+
+Table~\ref{tab:slopes} and Fig.~\ref{fig:slopes} show the per-cell mean
+P@50 decay slope. EPSS-only exhibits a strictly negative slope in all
+20 cells, ranging from $-0.013$ (at $K = 10, \lambda = 1$) to $-0.064$
+(at $K = 200, \lambda = 1$). No cell in the grid produces a steady-state
+EPSS regime (slope $\geq -0.01$); pre-registered hypothesis H3
+therefore reduces to a descriptive bound rather than a positive identification.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig1_slope_heatmap.pdf}
+\caption{EPSS-only decay slope (mean P@50/window) across the $(K, \lambda)$
+grid. All 20 cells are negative; the most aggressive decay sits at high
+capacity / low arrival ($K = 200, \lambda = 1$).}
+\label{fig:slopes}
+\end{figure}
+
+\subsection{Predicted Monotonicity Rejected (H1, H2)}
+
+The pre-registered prediction was that EPSS decay slope would scale
+monotonically more-negative with $K$ at every fixed $\lambda$ (H1) and
+monotonically less-negative with $\lambda$ at every fixed $K$ (H2), with
+Spearman $|\rho| \geq 0.8$ required for ``supported''.
+
+For H1, Spearman$(K, \mathrm{slope})$ at fixed $\lambda$ yields
+$\rho = 0.30$ at every $\lambda \in \{1, 3, 6, 12\}$ --- well below the
+$-0.8$ threshold required, and of the \textit{wrong sign}. The
+non-monotonicity is visible in Table~\ref{tab:slopes}: at $\lambda = 1$,
+slopes are $-0.038$ ($K = 10$), $-0.047$ ($K = 25$), $-0.063$ ($K = 50$),
+$-0.044$ ($K = 100$), $-0.064$ ($K = 200$) --- not monotone.
+
+For H2, Spearman$(\lambda, \mathrm{slope})$ at fixed $K$ yields
+$\rho \in \{0.6, 0.6, -0.4, 0.0, 1.0\}$ for $K \in \{10, 25, 50, 100, 200\}$;
+only $K = 200$ meets the threshold. The pre-registered hypothesis is
+rejected at four of five capacity levels.
+
+The honest interpretation is that the (K, $\lambda$) interaction in the
+synthetic regime studied is not a clean monotone scaling. Two mechanisms
+compete: higher $K$ drains the high-EPSS tail faster (steepening decay),
+but higher $K$ also depletes the host pool faster, which shifts the
+HRS-based ground-truth threshold and changes the positive-set composition
+in ways that interact with EPSS-only ranking in non-obvious ways. The
+sweep captures the net effect rather than rationalising it.
+
+\subsection{HygienePrio Also Collapses (H4 Rejected)}
+
+\input{tables/tab_w6_retention}
+
+Table~\ref{tab:w6} and Fig.~\ref{fig:retention} report W6 mean P@50 per
+cell for HygienePrio-full and EPSS-only. At $K \leq 50$, HygienePrio-full
+holds $\geq 0.499$ at every cell --- the regime Paper~5~\cite{paper5temporal}
+reported. At $K = 100$, HygienePrio-full's W6 P@50 sits in
+$[0.315, 0.334]$ across $\lambda$; at $K = 200$, it falls to $[0.062, 0.116]$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig2_w6_retention.pdf}
+\caption{HygienePrio-full Window-6 mean P@50 across the $(K, \lambda)$
+grid. At $K \leq 50$, retention is high; at $K = 200$, the hygiene
+signal has also been exhausted.}
+\label{fig:retention}
+\end{figure}
+
+The pre-registered hypothesis H4 (W6 mean P@50 $\geq 0.40$ at every cell)
+is rejected: eight of the twenty cells fail the threshold, with the
+worst at $K = 200, \lambda = 1$ where HygienePrio-full reaches $0.062$.
+The mechanism is symmetric to EPSS-only's compositional decay: when
+remediation capacity greatly exceeds new-CVE arrival, the
+high-HRS-host portion of the residual backlog is depleted, the
+recomputed-per-window HRS distribution flattens, and the binary
+ground-truth condition is satisfied by an increasingly small
+positive set with no discriminative structure that HRS or HygienePrio
+can recover.
+
+\subsection{Per-Pair Dominance Persists}
+
+Across the full 15{,}000-row sweep, HygienePrio-full outperforms
+EPSS-only at P@50 in \textbf{2{,}881 of 3{,}000 (cell, seed, window)
+comparisons (96.0\%)}. The minimum per-cell dominance fraction is
+$76.7\%$. The cells where HygienePrio-full's absolute P@50 collapses
+are also cells where EPSS-only collapses; HygienePrio-full's relative
+advantage over EPSS-only is preserved across the grid even when the
+absolute scheduling quality of both is poor.
+
+\subsection{Corner Trajectories}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig3_corner_traj.pdf}
+\caption{Mean P@50 trajectories at the four corner cells of the
+$(K, \lambda)$ grid. At $K=10$ (top row), HygienePrio-full holds near
+$0.55$ across windows while EPSS-only decays toward $\sim 0.14$.
+At $K=200$ (bottom row), HygienePrio-full also collapses, decaying
+to $\sim 0.06$--$0.12$.}
+\label{fig:corners}
+\end{figure}
+
+Fig.~\ref{fig:corners} shows P@50 trajectories at the four corner
+cells. The top row ($K = 10$) reproduces Paper~5's qualitative pattern:
+HygienePrio-full is stable, EPSS-only decays, HRS-only and CVSS-only
+sit between. The bottom row ($K = 200$) shows the previously
+unreported collapse pattern: at the highest capacity, all hygiene-
+and exploit-likelihood-based methods decay together toward the
+random floor.
+
+\subsection{Hypothesis Outcome Summary}
+
+\input{tables/tab_hypotheses}
+
+\subsection{Pre-Registration Deviations}
+
+None. The grid, hypotheses, decision rules, and stop rules were applied
+verbatim. Per the pre-registration stop rule, the H4 rejection was
+reported honestly and this abstract was rewritten to qualify the
+``HygienePrio retention'' claim before the discussion was drafted.

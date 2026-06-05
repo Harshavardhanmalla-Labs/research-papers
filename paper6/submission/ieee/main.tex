@@ -1,0 +1,62 @@
+% =====================================================================
+% Paper 6 — Capacity-Indexed Decay of Exploit-Likelihood Vulnerability
+% Prioritization: A Two-Dimensional Sweep over Remediation Capacity and
+% CVE Arrival Rate.
+%
+% Target: IEEE Transactions on Network and Service Management (TNSM)
+% Template: IEEEtran, journal mode.
+%
+% Reproducibility: all numeric claims trace to
+%   paper6/results/primary_sweep_v1/sweep_results.csv
+%   (15,000 rows; 20 cells x 25 seeds x 6 windows x 5 methods).
+% =====================================================================
+\documentclass[journal]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
+
+\graphicspath{{figures/}}
+
+\title{Capacity-Indexed Decay of Exploit-Likelihood
+Vulnerability Prioritization}
+
+\author{%
+  \IEEEauthorblockN{Harshavardhan Malla}
+  \IEEEauthorblockA{Independent Researcher}%
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/00_abstract.tex}
+\end{abstract}
+
+\begin{IEEEkeywords}
+vulnerability prioritization; EPSS; remediation capacity; CVE arrival rate;
+multi-window scheduling; sensitivity sweep; reproducibility.
+\end{IEEEkeywords}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_background.tex}
+\input{sections/03_problem_formulation.tex}
+\input{sections/04_dataset.tex}
+\input{sections/05_methodology.tex}
+\input{sections/06_experimental_setup.tex}
+\input{sections/07_results.tex}
+\input{sections/08_discussion.tex}
+\input{sections/09_threats.tex}
+\input{sections/10_related_work.tex}
+\input{sections/11_conclusion.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

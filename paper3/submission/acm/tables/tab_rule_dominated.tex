@@ -8,15 +8,15 @@
 \caption{Rule-dominated tasks (rule AP $\geq$ best-ML AP in majority of configs).}
 \label{tab:rule_dominated}
 \small
-\begin{tabular}{@{}lrl@{}}
+\begin{tabular}{@{}lr>{\raggedright\arraybackslash}p{3.5cm}@{}}
 \toprule
-Task & Mean AP (all) & Notes \\
+Task & Mean AP & Notes \\
 \midrule
-T1 --- Stale privileged accounts & 0.937 & AP$\approx$1.0 under all conditions \\
-T3 --- Endpoint--identity corr.  & 0.736 & Largest staleness sensitivity: C-STALE $-$0.168 \\
-T4 --- Telemetry coverage gaps   & 0.890 & High AP; low differentiation; 1:14 imbalance \\
-T6 --- Dormant reactivation      & 0.832 & AP$\approx$1.0 most methods; M8 exception (0.490) \\
-T7 --- Escalation drift          & 0.822 & Extreme imbalance; AP$\approx$1.0; ceiling effect \\
+T1 Stale priv.\ accounts & 0.937 & AP$\approx$1.0 under all conditions \\
+T3 Endpoint--identity    & 0.736 & C-STALE sensitivity: $-$0.168 \\
+T4 Telemetry gaps        & 0.890 & High AP; 1:14 imbalance \\
+T6 Dormant reactivation  & 0.832 & AP$\approx$1.0; M8 exception (0.490) \\
+T7 Escalation drift      & 0.822 & Extreme imbalance; ceiling effect \\
 \bottomrule
 \end{tabular}
 \end{table}

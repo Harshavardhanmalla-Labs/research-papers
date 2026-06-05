@@ -1,0 +1,29 @@
+\section{Dataset and Sweep Grid}
+
+\subsection{Synthetic Fleet}
+
+All evaluations use the EEHDA synthetic fleet generator from
+Paper~4~\cite{paper4hygieneprio}, identical in structural priors to
+Papers~4 and~5: 1{,}000 users, 830 hosts, $\sim$3{,}500 (host, CVE) pairs
+at window~1, drawn from DBIR-calibrated patch lag and NVD-calibrated CVSS
+distributions with $\sim$12\% of CVEs at $\mathrm{EPSS} > 0.10$ and $\sim$8\%
+KEV prevalence. New CVE disclosures at $w > 1$ are drawn from the same
+fixture distributions.
+
+\subsection{Sweep Grid}
+
+\input{tables/tab_grid}
+
+The grid spans 20 cells. Cells differ \textit{only} in $(K, \lambda)$;
+all other simulation parameters (patch debt reduction $\Delta_{\mathrm{patch}} =
+0.15$, EPSS random-walk $\sigma = 0.02$, telemetry drift $+0.08$/window,
+recovery $-0.30$, KEV prevalence $0.08$, calibrated HRS and scorer
+weights) inherit from Paper~5's pre-registration verbatim.
+
+\subsection{Seed Protocol}
+
+The 25 evaluation seeds (105--129) are identical to Paper~5's evaluation
+set, enabling per-seed paired comparisons across cells. The five
+calibration seeds (100--104) are not used in this study because no
+weight re-fitting is performed --- the Paper~4 calibrated weights are
+used at every cell.

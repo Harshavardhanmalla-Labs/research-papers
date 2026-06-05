@@ -1,0 +1,42 @@
+\section{Background}
+
+\subsection{Offline vs Online Calibration}
+
+A scorer is \textit{offline-calibrated} when its weights are fit on data
+that includes or post-dates the period it is applied to; it is
+\textit{online-calibrated} when its weights are fit using only information
+available before the prediction time. The distinction matters because
+deployable procedures cannot peek into the future. Paper~5's H3
+ablation~\cite{paper5temporal} computed per-window weights by grid search
+on the calibration seeds' \textit{same-window} state --- an offline-peek
+procedure that establishes an upper bound on what real-time recalibration
+could achieve, but is not itself deployable.
+
+\subsection{Rolling-History Cross-Validation}
+
+In rolling-history calibration, at each scoring window $w$ the weights
+used are fit on data from windows $\{1, \ldots, w-1\}$ of a held-out
+calibration set; window $w$ data is never inspected at training time.
+This pattern is standard in time-series cross-validation and is the
+weakest form of \textit{strictly online} learning: it uses only past
+observations and is therefore a valid stand-in for a real-time
+operational deployment.
+
+\subsection{Why High-Capacity Cells Matter Most}
+
+Paper~6~\cite{paper6capacity} documented that HygienePrio-full's
+absolute W6 P@50 collapses at $K \in \{100, 200\}$ even though its
+per-pair relative advantage over EPSS-only is preserved. The natural
+follow-up question --- can online recalibration rescue HygienePrio at
+high capacity? --- is operationally important because organisations
+with large patching teams sit precisely in the cells where the
+fixed-weight procedure collapses.
+
+\subsection{Policy Mandates}
+
+CISA BOD~22-01~\cite{cisa2021bod2201} and 23-01~\cite{cisa2022bod2301}
+together with NIST SP~800-40 Rev.~4~\cite{nist2022sp80040r4} define the
+operational scheduling regime under which any recalibration procedure
+must work. The procedure must be deployable, must not depend on
+future-window data, and must be auditable --- conditions that the
+rolling-history grid search satisfies and offline-peek does not.

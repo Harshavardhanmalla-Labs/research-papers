@@ -27,7 +27,21 @@ The baseline \texttt{epss\_only} central-cell mean EHD is $\approx$3.32\,$\times
 
 These are descriptive observations relative to EPSS. Although several $\Delta$EHD magnitudes exceed the 5,000-hd meaningful-effect threshold, the descriptive-language guardrail applies throughout: magnitudes are not interpreted as quality claims. No claim is made that any context-aware prior is meaningfully better than EPSS at this label sparsity (see post-run variance analysis below). Paired BCa CIs are the primary inferential quantity.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/fig_delta_ehd_vs_epss_by_strategy}
+  \caption{Paired-seed $\Delta$EHD relative to \texttt{epss\_only} per strategy (mean $\pm$ BCa 95\% CI, 30 seeds). All baseline strategies (\texttt{cvss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) fall within the noise floor. Fixed-prior context-aware priors show larger descriptive differences but remain in the descriptive-only zone per the post-run variance criterion.}
+  \label{fig:delta_ehd}
+\end{figure}
+
 \subsection{Weight-family sensitivity}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/fig_weight_family_sensitivity_delta_ehd}
+  \caption{Weight-family sensitivity: $\Delta$EHD across six fixed design-prior vectors relative to \texttt{epss\_only} (mean $\pm$ BCa 95\% CI, 30 seeds). Vector differences are descriptive observations; the post-run variance criterion demotes all axes to descriptive-only.}
+  \label{fig:weight_family}
+\end{figure}
 
 Fifteen pairwise comparisons across the six fixed-prior vectors are recorded. Differences in mean EHD across vectors are observed but are not interpreted as a quality ordering; the vectors are design priors, not evidence-based estimates.
 
