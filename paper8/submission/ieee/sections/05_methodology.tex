@@ -1,67 +1,62 @@
 \section{Methodology}
 
-\subsection{Scorer (Inherited)}
+\subsection{Scorers (Inherited)}
 
-The HygienePrio scorer Eq.~(\ref{eq:hp}) and HRS components are
-inherited verbatim from Paper~4~\cite{paper4hygieneprio} and used in
-Papers~5--7:
+All five scorers are inherited verbatim from Paper~4~\cite{paper4hygieneprio}
+with the fixed Paper~4 calibrated weights:
 \begin{equation}
 \begin{aligned}
-S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
-          & + \gamma\,\mathrm{KEV\_recency}(c) \\
-          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+S_{\mathrm{HP}}(h,c) =\;& 0.7\,\mathrm{EPSS}(c) + 0.5\,\mathrm{HRS}(h) \\
+                       & + 0.1\,\mathrm{KEV\_recency}(c) \\
+                       & + 0.2\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
 \end{aligned}
-\label{eq:hp}
 \end{equation}
-HRS combines patch posture (0.50), AD exposure (0.30), and telemetry
-freshness (0.20). Only the four scorer weights $(\alpha, \beta, \gamma,
-\delta)$ are subject to recalibration.
+Baselines are EPSS-only ($S = \mathrm{EPSS}(c)$), HRS-only ($S = \mathrm{HRS}(h)$),
+CVSS-only ($S = \mathrm{CVSS}_{\mathrm{base}}(c)$), and Random
+(seed-deterministic uniform ranking). We deliberately use Paper~4
+fixed weights and not Paper~7/8 online recalibration: the question
+in this paper is about \textit{trajectory effects} under a held-constant
+scorer, not about calibration.
 
-\subsection{Multi-History Grid Search}
+\subsection{Driver-Stratified Fleet Evolution}
 
-At window $w \geq 2$ and for a calibration strategy with history set
-$H \subseteq \{1, \ldots, w-1\}$ and per-window weights $\{w_i\}_{i \in H}$:
+For each (cell $K$, driver $m_{\text{drive}}$, seed $s$):
 \begin{enumerate}
-\item For each of the 108 grid points $g = (\alpha, \beta, \gamma,
-\delta)$:
+\item Initialise fleet from EEHDA generator at seed $s$.
+\item For each window $w = 1, \ldots, 6$:
 \begin{enumerate}
-\item For each $i \in H$, compute the mean P@50 across the five
-calibration seeds at window $i$ when scored with weights $g$.
-\item Take the weighted mean across history windows
-$\bar{p}(g) = \sum_{i \in H} w_i\, p_i(g) / \sum_i w_i$.
+\item Compute $(\text{pairs}_w, \text{HRS}_w)$ from current state;
+label per the per-window ground truth definition.
+\item For each scoring method $m_{\text{score}} \in \mathcal{M}$:
+rank pairs, compute P@50, record one row.
+\item If $w < 6$: select $m_{\text{drive}}$'s top-$K$ pairs, apply
+remediation, disclose Poisson$(\lambda)$ new CVEs, random-walk EPSS,
+update telemetry. (Step uses RNG seeded by $(s, w)$ for reproducibility.)
 \end{enumerate}
-\item Select $g^\star = \arg\max_g \bar{p}(g)$; ties broken lexicographically.
-\item Apply $g^\star$ to each of the 25 evaluation seeds at window $w$
-and record the seed's P@50.
 \end{enumerate}
 
-\textsf{lag1}, \textsf{trail3}, and \textsf{ewma3} instantiate this
-with different $(H, \{w_i\})$:
+The selection step at $w$ uses only the driver's weights; the scoring
+step at $w$ records all five methods' performance against the
+ground-truth labels for the current state.
 
-\begin{itemize}
-\item \textsf{lag1}: $H = \{w-1\}$, single uniform weight.
-\item \textsf{trail3}: $H = \{\max(1, w-3), \ldots, w-1\}$, equal weights.
-\item \textsf{ewma3}: $H = \{\max(1, w-3), \ldots, w-1\}$, geometric
-weights $w_i = 0.6^{(w-1)-i}$ so the most recent past window receives
-weight $0.6^0 = 1$ and older windows receive $0.6, 0.36, \ldots$.
-\end{itemize}
+\subsection{Trajectory Effect Quantification}
 
-\subsection{Fleet-State Evolution}
-
-Identical to Paper~7: HygienePrio-full under \textsf{fixed} weights
-drives the top-$K$ selection at every window, producing the same
-trajectory for all strategies. The calibration strategy affects only
-the scoring weights, not the fleet evolution. The selection-policy
-coupling threat is restated in \S\ref{sec:threats}.
-
-\subsection{Recovery Ratio}
-
-For each (cell, window) with $w \geq 2$ and a positive offline-fixed
-gap, we report:
+For each scoring method $m$, the per-cell W6 trajectory effect is
 \begin{equation}
-\rho_{K, w}^{\text{ewma}} =
-\frac{\text{P@50}^{\textsf{ewma3}}_{K, w} - \text{P@50}^{\textsf{fixed}}_{K, w}}
-     {\text{P@50}^{\textsf{offline}}_{K, w} - \text{P@50}^{\textsf{fixed}}_{K, w}}.
+\Delta^{\mathrm{traj}}_m(K) = \max_{m'} \mathrm{P@50}^m_{w=6, K}(T_{m'})
+                          - \min_{m'} \mathrm{P@50}^m_{w=6, K}(T_{m'}).
 \end{equation}
-$\rho \approx 1$ matches the offline ceiling; $\rho < 0$ is a hazard.
-The cell-mean across $w \geq 2$ is $\bar\rho_K^{\text{ewma}}$.
+A large $\Delta^{\mathrm{traj}}_m$ means method $m$'s W6 performance
+depends substantially on which method drives the trajectory; a small
+$\Delta^{\mathrm{traj}}_m$ means $m$'s performance is intrinsic.
+
+\subsection{Per-Pair Dominance Under Counterfactual Trajectory}
+
+For each (cell, driver), the per-pair dominance of HP-full over EPSS-only
+is
+$\Pr[\mathrm{P@50}^{\mathrm{HP}}_{s, w} > \mathrm{P@50}^{\mathrm{EPSS}}_{s, w} \mid
+T_{m_{\mathrm{drive}}}, K]$,
+computed over the 150 (seed, window) pairs. Paper~6 reported this
+fraction was 0.960 on the HP-driven trajectory at canonical cells; the
+present paper tests whether the fraction survives on the EPSS-only
+trajectory.

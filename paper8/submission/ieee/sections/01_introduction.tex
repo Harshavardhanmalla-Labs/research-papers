@@ -1,71 +1,87 @@
 \section{Introduction}
 
-Paper~7~\cite{paper7online} identified a capacity-dependent hazard
-in lag-1 rolling-history online recalibration of the HygienePrio
-vulnerability prioritization scorer. At moderate capacity
-($K \in \{50, 100\}$, $\lambda = 3$) the procedure recovers the
-offline-peek calibration ceiling (cell-mean recovery ratios
-$1.04$ and $0.99$); at high capacity ($K = 200$) the procedure
-\textit{harms} performance by $-5.9$ to $-7.8$~pp in early windows
-and produces a negative cell-mean recovery ratio of $-0.66$. Paper~7
-attributed the hazard to a too-short calibration history relative to
-the per-window distributional shift rate and explicitly named
-multi-window-history smoothing as the candidate fix.
+Papers~5--8 of the VulnPrio research sequence all bound their findings
+to a single trajectory regime --- the one in which HygienePrio-full's
+top-$K$ selection drives fleet evolution at every window. The choice was
+deliberate and pre-registered: when each method drives its own
+counterfactual trajectory, the resulting per-method residual backlogs
+differ, the per-window positive sets are computed against different
+states, and direct cross-method P@50 comparisons become
+non-identifiable. The HygienePrio-driven trajectory was the
+identifiability-preserving compromise.
 
-This paper tests that fix. The pre-registered protocol
-(\texttt{paper8/design/PAPER8\_PROTOCOL.md}, locked 2026-06-04 before
-any multi-history-calibration result was computed) defines five
-calibration strategies and a 2{,}250-row evaluation:
-$3 \text{ cells} \times 5 \text{ strategies} \times 25 \text{ seeds}
-\times 6 \text{ windows}$. The four pre-registered hypotheses
-ask whether EWMA-3 reverses the hazard at $K = 200$ (H1), preserves
-moderate-capacity recovery (H2), agrees with the equal-weight
-trail3 variant (H3), and achieves substantial offline-ceiling
-recovery (H4).
+Paper~6~\cite{paper6capacity} additionally reported that HygienePrio-full's
+W6 P@50 collapses at $K \in \{100, 200\}$ on this baseline trajectory and
+named the mechanism ``high-HRS-tail exhaustion'': HygienePrio-full
+preferentially remediates high-HRS hosts, those hosts exit the upper
+HRS tail, and HygienePrio's discriminative signal degrades. The
+mechanism is, by construction, induced by HygienePrio's own selection.
 
-\textbf{All four hypotheses are rejected, and the direction of
-rejection is the contribution.} Multi-window smoothing does not
-reverse the lag-1 hazard at high capacity; it amplifies it. EWMA-3's
-cell-mean recovery ratio is $-1.37$ at $K = 100$ (vs lag-1's $+0.99$),
-$-0.94$ at $K = 200$ (vs lag-1's $-0.66$), and $0.53$ at $K = 50$
-(vs lag-1's $1.04$). Smoothing degrades all three regimes.
+This paper asks the inevitable follow-up. \textit{If the collapse is
+induced by HygienePrio's selection draining the HRS tail, what happens
+when a different method drives the trajectory?} A capacity-$K = 200$
+deployment that uses HygienePrio for scoring but, say, CVSS-only for
+selection (or vice versa) does not exhibit the recursive
+HRS-tail-exhaustion mechanism. The Paper~6 collapse should not appear.
+
+We pre-registered three hypotheses
+(\texttt{paper9/design/PAPER9\_PROTOCOL.md}, locked 2026-06-05 before
+any self-trajectory result was inspected) and ran a 7{,}500-row
+evaluation that fills in all five trajectory-driver columns of the
+P@50 grid at $K \in \{50, 200\}$, $\lambda = 3$. The results retroactively
+reframe Papers~5--8.
 
 \subsection{Contributions}
 
 \begin{itemize}
-\item \textbf{C1 --- Falsification of the smoothing-helps prior.} The
-naive prior --- ``a longer calibration history reduces variance and
-therefore helps'' --- is falsified by a pre-registered experiment.
-EWMA-3 underperforms lag-1 at every cell.
+\item \textbf{C1 --- Trajectory grid.} The first pre-registered
+trajectory-stratified evaluation of HygienePrio: 5 driver methods
+$\times$ 5 scoring methods $\times$ 2 cells $\times$ 25 seeds
+$\times$ 6 windows = 7{,}500 rows.
 
-\item \textbf{C2 --- A monotone effect.} Recovery ratio decreases
-with history length: \textsf{lag1} $>$ \textsf{trail3} $\approx$
-\textsf{ewma3} at every $K$. The rate of distributional shift in
-the simulated bi-weekly regime exceeds the rate at which a
-finite-history estimator can adapt; adding history makes the
-calibration target less, not more, predictive of the next window.
+\item \textbf{C2 --- The collapse is selection-induced.} Paper~6's
+W6 P@50 collapse of HygienePrio-full from $\sim 0.5$ at $K = 50$ to
+$0.062$--$0.075$ at $K = 200$ is reproduced under the
+HygienePrio-driven trajectory. Under any HRS-blind driver ---
+CVSS-only, HRS-only, or Random --- HygienePrio's W6 P@50 at $K = 200$
+sits between $0.701$ and $0.713$. The collapse mechanism is recursive,
+not intrinsic.
 
-\item \textbf{C3 --- Cross-cell uniformity.} The smoothing penalty
-appears at $K = 50$ where lag-1 already worked, at $K = 100$ where
-lag-1 worked but the absolute floor was degraded, and at $K = 200$
-where lag-1 was already harmful. There is no capacity regime in
-the studied grid in which EWMA-3 is preferable to lag-1.
+\item \textbf{C3 --- EPSS-self-driven is the deepest sink.} At
+$K = 200$ under EPSS-only-driven trajectory, every scorer's W6 P@50
+collapses to $0.001$--$0.012$. EPSS-only's selection so aggressively
+remediates the high-EPSS tail that the binary ground-truth positive
+set is itself exhausted by W6. The trajectory effect is shared by
+EPSS-only and HygienePrio-full but for a different mechanism.
 
-\item \textbf{C4 --- Sharpened operational recommendation.} Deployable
-online recalibration in this setting should use the \textit{shortest}
-possible history (lag-1 at most) and should be turned off entirely
-at high capacity. The recommendation reverses Paper~7's implicit
-``future work will fix this with smoothing'' framing.
+\item \textbf{C4 --- Per-pair dominance is trajectory-conditional.}
+At $K = 50$, HygienePrio-full $>$ EPSS-only on $100\%$ of (seed,
+window) pairs under every non-trivial driver. At $K = 200$ under
+EPSS-only's own driver, the fraction collapses to $0.393$
+(where both methods are near zero together). At $K = 200$ under
+HRS-only, CVSS-only, or Random drivers, the fraction is $1.000$.
+Paper~5's headline $96\%$ statistic is preserved at moderate
+capacity and at HRS-blind drivers; it does not survive at the
+EPSS-self-driven high-capacity corner.
+
+\item \textbf{C5 --- Sharpened operational reading.} HygienePrio's
+absolute floor at high capacity is intact whenever the deploying
+organisation does not also use HygienePrio's selection policy.
+The Paper~6 H4 collapse is a property of recursive deployment
+(score-and-drive simultaneously), not of hygiene-augmented scoring
+as a method. A team using HygienePrio for scoring should expect
+the high absolute P@50 reported in Paper~5--7 across capacity
+regimes, provided some other policy drives the patching queue.
 \end{itemize}
 
 \subsection{Relationship to Prior Papers}
 
-This paper is the eighth in the VulnPrio research sequence. Paper~7
-identified the high-capacity hazard and proposed smoothing as the
-fix; this paper falsifies the proposed fix. The result is an
-honest course-correction: the hazard requires a different class of
-solution (adaptive change-point detection, Bayesian forgetting,
-or accepting fixed weights at high capacity) than simple history
-averaging. Identifying this is itself a contribution: the question
-``does smoothing help?'' was the natural and obvious follow-up,
-and the answer in this synthetic regime is decisively no.
+This paper is the ninth in the VulnPrio sequence. Papers~5--8
+identified a number of regime-specific findings (temporal stability,
+capacity-induced collapse, deployable calibration, smoothing
+falsification); the present paper shows that the most prominent of
+those findings --- Paper~6's H4 high-capacity collapse --- is partly
+a closed-loop artefact. The other findings (Paper~5 per-pair dominance,
+Paper~7's lag-1 calibration in moderate-$K$, Paper~8's smoothing
+penalty) are unchanged but should be cited together with the
+trajectory column they were measured on.

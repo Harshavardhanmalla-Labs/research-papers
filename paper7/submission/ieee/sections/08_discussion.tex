@@ -1,79 +1,130 @@
 \section{Discussion}
 
-\subsection{What the Sweep Resolves}
+\subsection{The Cumulative Arc}
 
-Paper~5 left a gap between an unrealisable upper bound (offline-peek
-H3, $+21.3$~pp at W2) and a realisable baseline (fixed Paper~4
-weights). The present sweep populates that gap with a deployable
-procedure and shows that at moderate capacity, the lag-1 rolling-history
-grid search closes essentially all of it (recovery ratio $\rho = 1.04$
-at $K = 50$, $\rho = 0.99$ at $K = 100$). The deployability concern
-that motivated this paper is operationally resolved in the moderate-capacity
-regime.
+The six experiments form a coherent chain of pre-registered
+rejections that drive the experimental design. E1 lag-1 fails at
+K=200 and the natural smoothing fix (E2) is falsified. E3
+introduces change-point gating and avoids the K=200 hazard at
+moderate K=50 cost; E4 shows no single magnitude threshold can
+reach the joint feasibility region. E5 reaches feasibility via a
+per-K vector but does so by approximating the static gate, with no
+K=200 improvement. E6 introduces CUSUM, breaks the static-gate
+collapse at K=200 with a $+0.9$~pp gain, and exposes the
+single-parameter K=50 over-firing as the new failure mode.
 
-\subsection{Why High Capacity Inverts the Sign}
+This is not a series of separate findings; it is a single
+research question --- ``what is the deployable recalibration
+recipe?'' --- evaluated through a pre-registered sequence in which
+each next protocol's choice is justified by the previous protocol's
+rejection.
 
-The K = 200 inversion is the most surprising result. The mechanism is
-the same compositional dynamic that drives the Paper~6 H4 collapse:
-at high capacity, a single window remediates a substantial fraction
-of the high-EPSS, high-HRS tail, so the
-\textit{effective scoring problem} at window $w$ is structurally
-different from the scoring problem at window $w - 1$. Weights tuned
-on window $w - 1$'s residual backlog are tuned for a different
-distribution than the one they will be applied to. The lag is too
-long for the rate of change.
+\subsection{Why Smoothing Fails (E2)}
 
-This generalises: \textbf{rolling-history online calibration is
-trustworthy only when the rate of distributional change between
-consecutive calibration windows is small relative to the rate of
-change within a window.} At $K = 50$ the per-window change is
-small and the lag is well-absorbed; at $K = 200$ the per-window
-change is large and the lag is destructive.
+The naive prior was that averaging the lag-1 calibration target
+across multiple past windows would reduce variance and recover
+some K=200 lag-1 benefit. The data falsifies the prior cleanly:
+EWMA-3 produces $\rho = -0.94$ at K=200, worse than lag-1's
+$-0.66$. The mechanism is bias-variance trade-off under
+distributional shift. At high capacity a single window remediates
+$\sim 8\%$ of the unpatched backlog and preferentially the
+high-EPSS pairs, so the residual distribution at window $w$ is
+materially different from $w - 3, w - 2, w - 1$. Averaging
+introduces bias from older states; the bias dominates the variance
+reduction. The result rules out simple history-based smoothing in
+the studied regime.
 
-\subsection{Why Online Can Beat Offline-Peek}
+\subsection{Why a Single $\tau$ Cannot Reach Feasibility (E3, E4)}
 
-The H2 rejection direction --- online $>$ offline at several late-window
-points --- has a clean explanation. The offline-peek strategy grid-searches
-on five calibration seeds at the \textit{same} window, then applies the
-selected weights to 25 evaluation seeds at the same window. With only
-five seeds and 108 grid points, overfitting is possible: the selected
-weights are tuned to noise in the five-seed sample. The online strategy
-selects on a different (window-$w-1$) sample; if the distribution shift
-is small (low-capacity regime), the lag-1 sample acts as a held-out
-validation set and the selected weights generalise better to the 25
-evaluation seeds. The phenomenon is a small-sample regularisation
-artifact; it does not contradict the offline ceiling concept, but it
-shows that ``offline-peek with limited calibration seeds'' is not a
-strict upper bound on what a leak-free procedure can achieve.
+The single-magnitude detector at one $\tau$ value has a
+one-parameter family of fire patterns. E3 at $\tau = 0.05$
+satisfies the K=200 hazard tolerance (H1.E3) but fires too eagerly
+at K=50 (H2.E3 cost $-5.3$~pp). E4 sweeps $\tau$ and shows the
+Pareto curve sits entirely outside the joint feasibility region
+defined by Paper~5/E3's two tolerances. The K=50 cost is uniformly
+$\geq 4$~pp.
 
-\subsection{Operational Recommendations}
+The structural reason: at the studied bi-weekly cadence, the
+per-window $|\Delta_w|$ values are bimodal --- either "large"
+(typically $> 0.10$) or "small" (typically $< 0.05$), with little
+mass between. A single threshold therefore behaves approximately
+binarily, and the K=50 cost is approximately constant across all
+$\tau$ values that map to the same "mostly-fire" or
+"mostly-don't-fire" regime.
 
-The headline operational summary is conditional:
+\subsection{The Capacity-Aware Collapse (E5)}
+
+The per-K threshold vector $\tau_K = \{0.20, 0.05, 0.02\}$ reaches
+the joint feasibility region: the large $\tau_{50}$ never fires,
+the small $\tau_{200}$ fires every window. The two extremes
+collapse to lag-1 and fixed respectively, matching the static gate
+exactly. At K=100 the detector intervenes 40\% of the time and
+loses $0.4$~pp on average to lag-1 --- within bootstrap noise.
+
+The substantive interpretation is that the magnitude detector
+family cannot improve on the static gate without a richer
+firing rule, because matching the static gate's K=200 decisions
+requires firing at every K=200 window, and matching its K=50
+decisions requires never firing at K=50.
+
+\subsection{The CUSUM Win (E6)}
+
+CUSUM accumulates evidence across windows and refrains from firing
+on single-window noise excursions. At K=200, the $w = 4$ window has
+$|\Delta_4| = 0.020 < k = 0.04$, so the accumulator stays at $0$
+and CUSUM uses the lag-1 fit at W4. The lag-1 fit at K=200 W4 is
+beneficial (the same $+3.4$~pp benefit that adaptive05 captured by
+not firing in E3); CUSUM captures it without firing. The W5 and
+intermediate windows similarly avoid the gate's revert-to-fixed
+decision when cumulative evidence is below $h$.
+
+The $+0.9$~pp K=200 gain over the static gate is the only
+operationally meaningful improvement in the six-experiment sequence.
+The single-parameter K=50 over-firing failure (H1.E6) is the
+natural next problem; a per-K $(k_K, h_K)$ CUSUM vector under
+pre-registration is the obvious follow-up paper.
+
+\subsection{Operational Recipe}
+
+Sharpened across all six experiments:
 \begin{itemize}
-\item At moderate capacity ($K \leq 100$ on the simulated bi-weekly
-cadence), \textbf{deploy} rolling-history online recalibration. Recovery
-of the offline ceiling is essentially complete; the absolute P@50 gain
-over fixed weights is $+3$ to $+20$~pp depending on window.
-\item At high capacity ($K \geq 200$), \textbf{do not deploy} naive
-rolling-history online recalibration. The lag-1 grid search introduces
-$-6$ to $-8$~pp losses in early windows. A team operating at this
-capacity should either (i) keep fixed Paper~4 weights, (ii) lengthen
-the calibration window (e.g., use a rolling \textit{multi}-window
-EWMA), or (iii) recalibrate offline between deployment cycles and
-freeze weights within a deployment.
-\item Independent of capacity, the small-sample overfitting visible
-at K = 50 W5 argues for a larger calibration set than five seeds
-when offline grid search is the procedure of record.
+\item \textbf{$K \leq 100$:} deploy lag-1 online recalibration
+directly (E1, $\rho \approx 1.0$). No detector, no gate. The
+calibration arc reduces to the simple ``refit on the previous
+window'' recipe at these capacities.
+\item \textbf{$K = 200$:} deploy CUSUM($k = 0.04, h = 0.10$) (E6,
+$+0.9$~pp over the static gate). This is the only operationally
+meaningful gain over the static gate in the program.
+\item \textbf{Mixed-capacity deployments:} use a per-K CUSUM
+$(k_K, h_K)$ vector (untested in this paper, identified as Future
+work).
 \end{itemize}
 
-\subsection{Relationship to the Research Sequence}
+\subsection{The Honest Negatives Are the Contribution}
 
-Paper~4~\cite{paper4hygieneprio} established that hygiene augmentation
-helps at a single window. Paper~5~\cite{paper5temporal} showed the
-help persists across windows and identified the offline H3 ceiling.
-Paper~6~\cite{paper6capacity} swept $(K, \lambda)$ and found
-absolute collapse at high $K$. This paper closes the loop: the
-deployable recalibration procedure that Paper~5 implicitly motivated
-works in the regimes Paper~6 said HygienePrio held up in, and fails
-in the regimes Paper~6 said it collapsed in. The fixed-weight result
-is regime-robust; the recalibration procedure is regime-conditional.
+The pre-registered rejections in Table~\ref{tab:hypothesis_ledger}
+are not failures of the work; they are the work. Each rejection
+constrains the next experiment's design choice. The cumulative
+finding is that the deployable-recalibration question has a
+\textit{capacity-conditional} answer: lag-1 below the gate
+threshold, CUSUM above it, no universal procedure across the
+studied grid. Reporting this honestly under pre-registration
+discipline is what distinguishes the work from a tuning exercise.
+
+\subsection{What This Closes and Opens}
+
+\textit{Closes:} the single-detector deployability question for the
+magnitude and CUSUM families. The K=200 hazard problem identified
+in E1 is solved by CUSUM (E6) at a $+0.9$~pp margin over the static
+gate; the smoothing alternative (E2) is falsified; the
+single-$\tau$ family is provably infeasible (E4); the capacity-aware
+$\tau$ family collapses to the gate (E5).
+
+\textit{Opens:} (i) per-K CUSUM $(k_K, h_K)$ vector under
+pre-registration --- the direct H1.E6 fix; (ii) two-sided CUSUM,
+EWMA-CUSUM, Bayesian online change-point detectors; (iii) real
+fleet validation, particularly to test whether the noise-excursion
+patterns CUSUM exploits in the synthetic generator generalise;
+(iv) closed-loop calibration where the selection policy is also
+recalibrated, addressing the selection-policy coupling threat that
+all six experiments inherit.

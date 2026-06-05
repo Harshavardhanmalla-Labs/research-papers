@@ -1,19 +1,35 @@
-\section{Dataset and Cell Grid}
+\section{Dataset and Sweep Grid}
 
-All evaluations use the EEHDA synthetic fleet generator from
-Paper~4~\cite{paper4hygieneprio} with structural priors and per-window
-evolution dynamics identical to Paper~5~\cite{paper5temporal} and
-Paper~6~\cite{paper6capacity}. The only cell-defining parameters that
-vary in this study are capacity $K \in \{50, 100, 200\}$ at fixed
-$\lambda = 3$.
+\subsection{Synthetic Fleet}
 
-The seed split is identical to Paper~5: five calibration seeds
-(100--104) for weight-fitting only, twenty-five evaluation seeds
-(105--129) for reporting. Calibration seeds are never used for
-performance reporting; evaluation seeds are never used for weight
-fitting under any strategy.
+All experiments use the EEHDA synthetic fleet generator from
+Paper~4~\cite{paper4hygieneprio}: 1{,}000 users, 830 hosts, $\sim
+3{,}500$ (host, CVE) pairs at Window~1, DBIR-calibrated patch lags,
+NVD-calibrated CVSS distribution, $\sim$12\% of CVEs with
+EPSS~$> 0.10$, $\sim$8\% KEV prevalence. New CVE disclosures at
+$w > 1$ are drawn from the same fixture distributions.
 
-For each (cell, strategy) the run produces one P@50 value per (seed,
-window). Total rows: $3 \times 3 \times 25 \times 6 = 1{,}350$.
+\subsection{Seed Split}
 
-\input{tables/tab_grid}
+The split is identical to Paper~5~\cite{paper5temporal} and is
+shared across all six experiments: 5 calibration seeds (100--104)
+for weight-fitting only, 25 evaluation seeds (105--129) for
+reporting. No evaluation seed is ever used for fitting.
+
+\subsection{Per-Experiment Coverage}
+
+\input{tables/tab_experiment_coverage}
+
+Total: 6 experiments, 19{,}500 frozen P@50 rows, plus per-experiment
+change-point decision logs where applicable.
+
+\subsection{Selection Policy}
+
+In every experiment, HygienePrio-full under \textit{fixed} Paper~4
+weights drives the top-$K$ selection at every window. The
+calibration strategy under evaluation affects the scoring weights
+only, not the fleet evolution. All strategies in any experiment see
+the same evolving backlog, isolating the recalibration decision.
+Selection-policy coupling is restated as an internal-validity threat
+in \S\ref{sec:threats}; the cross-method trajectory question is
+addressed separately by Paper~9~\cite{paper9selftraj}.

@@ -1,27 +1,16 @@
 {
   "capacity_grid": [
     50,
-    100,
     200
   ],
   "lambda": 3.0,
   "n_windows": 6,
-  "strategies": [
-    "fixed",
-    "lag1",
-    "trail3",
-    "ewma3",
-    "offline"
-  ],
-  "ewma_alpha": 0.6,
-  "trailing_history": 3,
-  "grid_size": 108,
-  "calibration_seeds": [
-    100,
-    101,
-    102,
-    103,
-    104
+  "methods": [
+    "HygienePrio-full",
+    "EPSS-only",
+    "HRS-only",
+    "CVSS-only",
+    "Random"
   ],
   "evaluation_seeds": [
     105,
@@ -50,5 +39,5 @@
     128,
     129
   ],
-  "n_rows": 2250
+  "n_rows": 7500
 }

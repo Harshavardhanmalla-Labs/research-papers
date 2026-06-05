@@ -1,42 +1,71 @@
 \section{Background}
 
-\subsection{Offline vs Online Calibration}
+\subsection{Offline-Peek Calibration as Upper Bound}
 
-A scorer is \textit{offline-calibrated} when its weights are fit on data
-that includes or post-dates the period it is applied to; it is
-\textit{online-calibrated} when its weights are fit using only information
-available before the prediction time. The distinction matters because
-deployable procedures cannot peek into the future. Paper~5's H3
-ablation~\cite{paper5temporal} computed per-window weights by grid search
-on the calibration seeds' \textit{same-window} state --- an offline-peek
-procedure that establishes an upper bound on what real-time recalibration
-could achieve, but is not itself deployable.
+Paper~5~\cite{paper5temporal} introduced an offline-peek calibration
+ablation as a methodological control: at each window $w$, grid-search
+the scorer weights $(\alpha, \beta, \gamma, \delta)$ on the
+calibration seeds at \textit{window~$w$ state} to maximise mean P@50,
+then apply the fitted weights to the evaluation seeds at the same
+window~$w$. The procedure peeks at the window it is scoring; it
+establishes an upper bound on what any deployable procedure could
+achieve, but it is not itself deployable.
 
-\subsection{Rolling-History Cross-Validation}
+The K=50, $\lambda=3$ cell-mean improvement from offline-peek over
+fixed weights was $+21.3$~pp at W2 and remained positive through W4.
+Whether this margin survives the lag a deployable procedure must
+impose is the question this paper asks.
 
-In rolling-history calibration, at each scoring window $w$ the weights
-used are fit on data from windows $\{1, \ldots, w-1\}$ of a held-out
-calibration set; window $w$ data is never inspected at training time.
-This pattern is standard in time-series cross-validation and is the
-weakest form of \textit{strictly online} learning: it uses only past
-observations and is therefore a valid stand-in for a real-time
-operational deployment.
+\subsection{Rolling-History Calibration}
 
-\subsection{Why High-Capacity Cells Matter Most}
+The simplest deployable substitute uses only past observations: at
+window $w$, fit weights on calibration-seed data at windows
+$\{1, \ldots, w-1\}$. The narrowest such procedure --- lag-1 --- uses
+only window $w-1$. Longer histories (multi-window smoothing) trade
+variance for bias under distributional shift. The pre-registration
+discipline applied throughout this paper locks the procedural
+parameters before evaluation.
 
-Paper~6~\cite{paper6capacity} documented that HygienePrio-full's
-absolute W6 P@50 collapses at $K \in \{100, 200\}$ even though its
-per-pair relative advantage over EPSS-only is preserved. The natural
-follow-up question --- can online recalibration rescue HygienePrio at
-high capacity? --- is operationally important because organisations
-with large patching teams sit precisely in the cells where the
-fixed-weight procedure collapses.
+\subsection{Change-Point Detection}
+
+When the distribution shifts faster than the calibration history can
+track, a richer alternative is to detect the shift directly and gate
+the recalibration decision. The simplest detector is a magnitude test
+on the calibration-target shift $|\Delta_w|$; the classical alternative
+is CUSUM~\cite{page1954cusum}, which accumulates positive deviations
+and fires when the accumulator crosses a threshold $h$. Both
+classes are evaluated here under pre-registered parameter locks.
+
+\subsection{Capacity-Conditional Operation}
+
+Paper~6~\cite{paper6capacity} documented that HygienePrio's absolute
+P@50 floor collapses at $K \in \{100, 200\}$ under the simulated
+bi-weekly cadence. The collapse is a property of the residual
+backlog at high capacity, not of the scoring weights, and bounds
+the maximum value any recalibration procedure can deliver at those
+capacities. The capacity-conditional structure motivates the
+per-K parameter vectors evaluated in E5 and the per-K conclusion in
+the deployable recipe.
+
+\subsection{Selection-Policy Coupling}
+
+A separate methodological concern is that, under the multi-window
+fleet-evolution policy that Papers~5--6 use, the selection policy
+that drives the fleet trajectory affects the residual backlog that
+later methods are scored against. Paper~9~\cite{paper9selftraj}
+quantified this coupling and showed it can re-attribute the K=200
+absolute collapse from an intrinsic scoring property to a
+selection-policy artifact. The present paper inherits the
+fixed-trajectory convention (HygienePrio-full under fixed weights
+drives the fleet for all strategies in every experiment) and bounds
+its claims accordingly; selection-policy coupling is restated as an
+internal-validity threat in \S\ref{sec:threats}.
 
 \subsection{Policy Mandates}
 
-CISA BOD~22-01~\cite{cisa2021bod2201} and 23-01~\cite{cisa2022bod2301}
-together with NIST SP~800-40 Rev.~4~\cite{nist2022sp80040r4} define the
-operational scheduling regime under which any recalibration procedure
-must work. The procedure must be deployable, must not depend on
-future-window data, and must be auditable --- conditions that the
-rolling-history grid search satisfies and offline-peek does not.
+CISA BOD 22-01~\cite{cisa2021bod2201} and 23-01~\cite{cisa2022bod2301}
+together with NIST SP 800-40 Rev.~4~\cite{nist2022sp80040r4} define
+the operational rolling-window scheduling regime under which any
+recalibration procedure must operate. The CUSUM and capacity-aware
+$\tau$ detectors evaluated here are auditable in a way that
+gradient-based and Bayesian alternatives are not.

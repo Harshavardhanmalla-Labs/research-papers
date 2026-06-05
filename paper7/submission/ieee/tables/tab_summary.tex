@@ -1,0 +1,23 @@
+\begin{table}[!t]
+  \caption{Cross-experiment K=200 summary. Cell-mean P@50 over
+  $w \geq 2$. The static gate (deployable baseline) is the comparison.}
+  \label{tab:summary}
+  \centering
+  \small
+  \setlength{\tabcolsep}{5pt}
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}p{4.0cm}cr@{}}
+    \toprule
+    \textbf{Procedure} & \textbf{K=200 cell mean} & \textbf{vs gated} \\
+    \midrule
+    fixed (Paper 4 weights)          & 0.241 & $-2.3$ pp \\
+    offline-peek (Paper 5 H3, not deployable) & 0.270 & $+0.4$ pp \\
+    lag1 (E1)                        & 0.222 & $-4.2$ pp \\
+    EWMA-3 (E2)                      & 0.211 & $-5.3$ pp \\
+    adaptive05 (E3)                  & 0.273 & $+0.7$ pp \\
+    capacity-aware $\tau_K$ (E5)     & 0.266 & $\pm 0.0$ pp \\
+    gated (static gate)              & 0.266 & --- \\
+    \textbf{CUSUM} (E6)              & \textbf{0.275} & \textbf{$+0.9$ pp} \\
+    \bottomrule
+  \end{tabular}
+\end{table}

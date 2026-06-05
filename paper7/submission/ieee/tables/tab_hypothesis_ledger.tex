@@ -1,0 +1,43 @@
+\begin{table*}[!t]
+  \caption{Hypothesis ledger across the six experiments. Each
+  row reports the locked decision rule and the observed outcome.}
+  \label{tab:hypothesis_ledger}
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}llp{7.2cm}p{4.2cm}@{}}
+    \toprule
+    \textbf{Exp} & \textbf{ID} & \textbf{Decision rule} & \textbf{Outcome} \\
+    \midrule
+    E1 & H1 & lag1 $\geq$ fixed at every (cell, w) within 1 pp & Rejected (K=200 W2/W3 fail by $-5.9, -7.8$ pp) \\
+    E1 & H2 & lag1 $\leq$ offline at every (cell, w) within 1 pp & Rejected (online beats offline at late windows) \\
+    E1 & H3 & lag1 recovers $\geq$ 50\% gap at K$\in\{100,200\}$, w$\in\{4,5,6\}$ & Rejected \\
+    \midrule
+    E2 & H1 & EWMA-3 $\geq$ fixed at K=200 every w (within $-0.01$) & Rejected (2 windows fail) \\
+    E2 & H2 & $|$EWMA-3 $-$ lag1$|\leq 0.02$ at K$\in\{50,100\}$ & Rejected (EWMA worse than lag1) \\
+    E2 & H3 & $|$EWMA-3 $-$ trail3$|\leq 0.02$ everywhere & Rejected (1 large failure) \\
+    E2 & H4 & K=200 EWMA-3 recovery $\bar\rho \geq 0.5$ & Rejected ($\bar\rho = -0.94$) \\
+    \midrule
+    E3 & H1 & adaptive $\geq$ fixed at every w, K=200 (within $-0.01$) & \textbf{Supported} \\
+    E3 & H2 & $|$adaptive $-$ lag1$|\leq 0.02$ at K$\in\{50,100\}$ & Rejected (K=50 $-5.3$ pp) \\
+    E3 & H3 & Spearman$(K, $ fire$) \geq +0.8$ & Rejected ($\rho = 0.5$) \\
+    E3 & H4 & adaptive K=200 $\geq$ gated K=200 & \textbf{Supported} (margin $+0.7$ pp) \\
+    \midrule
+    E4 & H1 & worst K=200 hazard monotone non-decreasing in $\tau$ & Rejected (Spearman NaN; substantively K=200 hazard uniformly 0) \\
+    E4 & H2 & K=50 cost monotone non-increasing in $\tau$ & Rejected ($\rho = +0.87$, wrong-sign) \\
+    E4 & H3 & $\exists\,\tau$ satisfying both Paper 5 / E3 tolerances & \textbf{Rejected --- central negative result} \\
+    E4 & H4 & fire fraction monotone non-decreasing in $\tau$ & Rejected ($\rho = -0.97$, wrong-sign) \\
+    \midrule
+    E5 & H1 & joint feasibility region reached & \textbf{Supported} (first in program) \\
+    E5 & H2 & cap $\geq$ adaptive05 within $+0.01$ & Rejected (1 window) \\
+    E5 & H3 & Spearman$(K, $ fire$) \geq +0.8$ & \textbf{Supported} ($\rho = 1.0$) \\
+    E5 & H4 & cap K=200 $\geq$ gated K=200 by $+0.01$ & Rejected (cap = gated to 4 decimals) \\
+    \midrule
+    E6 & H1 & joint feasibility region reached & Rejected (K=50 over-fires, $-3.9$ pp) \\
+    E6 & H2 & cusum K=200 $\geq$ gated $+0.01$ & Rejected by 0.001 pp (substantive direction: \textbf{supported}) \\
+    E6 & H3 & cusum fires less than cap\_aware at K=200 & \textbf{Supported} (60\% vs 100\%) \\
+    E6 & H4 & cusum K=200 $\geq$ cap K=200 $-0.01$ & \textbf{Supported} ($+0.9$ pp) \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
