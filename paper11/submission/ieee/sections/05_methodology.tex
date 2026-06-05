@@ -1,0 +1,46 @@
+\section{Methodology}
+
+\subsection{Scorer and Adaptive Procedure (Inherited)}
+
+The HygienePrio scorer Eq.~(\ref{eq:hp}) and HRS components are
+inherited verbatim from Paper~4~\cite{paper4hygieneprio}. The adaptive
+change-point procedure is identical to Paper~10~\cite{paper10adaptive}
+except $\tau$ is now a swept parameter:
+
+\begin{equation}
+\begin{aligned}
+S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
+          & + \gamma\,\mathrm{KEV\_recency}(c) \\
+          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+\end{aligned}
+\label{eq:hp}
+\end{equation}
+
+At window $w \geq 2$ the detector computes the calibration-target
+shift $\Delta_w$ (Paper~10~\S5.2) and fires if $|\Delta_w| \geq \tau$.
+On fire, \textsf{adaptive}$(\tau)$ uses \textsf{fixed} weights;
+otherwise it uses the lag-1-fit weights. \textsf{lag1},
+\textsf{offline}, and \textsf{gated} are unchanged.
+
+\subsection{Efficiency Observation}
+
+$\Delta_w$, the lag-1-fit weights, and the offline-peek weights are
+all $\tau$-independent. We compute them once per (cell, window) and
+reuse them across all five $\tau$ values, so the per-$\tau$ marginal
+cost is only the per-strategy re-scoring of the 25 evaluation seeds
+at each window (much cheaper than the 108-point grid search).
+The total runtime is therefore approximately the same as Paper~10's
+single-$\tau$ run.
+
+\subsection{Per-$\tau$ Metrics}
+
+For each $\tau \in$ grid:
+\begin{itemize}
+\item Worst per-window $\Delta^{\textsf{adaptive}-\textsf{fixed}}_{K=200}$:
+the minimum over $w \in \{2, \ldots, 6\}$ of the cell-mean delta.
+\item Cell-mean $\Delta^{\textsf{adaptive}-\textsf{lag1}}_{K=50}$:
+mean over $w \geq 2$.
+\item Firing fraction per cell: fraction of post-W1 windows where
+the detector fired.
+\item Cell-mean P@50 per (cell, strategy) for all five strategies.
+\end{itemize}

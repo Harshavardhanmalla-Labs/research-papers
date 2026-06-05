@@ -1,0 +1,43 @@
+\section{Threats to Validity}
+\label{sec:threats}
+
+\textbf{Conclusion validity.} The Spearman correlations underlying
+H1, H2, and H4 are computed on five $\tau$ values. The small sample
+limits statistical power, and the pre-registered $|\rho| \geq 0.8$
+threshold is met or missed by point estimates rather than strong
+inferential claims. We report the per-$\tau$ point values directly
+to enable independent assessment.
+
+\textbf{Internal validity.}
+
+\textit{(i) $\tau$ grid is finite and pre-registered.} The H3
+``operating point exists'' claim is bounded to the five $\tau$ values
+in the grid. A denser grid could expose an operating point that the
+sparse grid misses, but the protocol locked the grid before any
+result was inspected and we do not augment it post hoc.
+
+\textit{(ii) Selection-policy coupling.} As in Papers~7--10, the
+fleet trajectory is driven by HygienePrio-full under \textsf{fixed}
+weights. All strategies share this trajectory; the adaptive
+procedure does not co-evolve the selection policy with its own
+weights. Paper~9~\cite{paper9selftraj} addressed the cross-method
+trajectory question; the present paper inherits the fixed-trajectory
+convention and bounds claims accordingly.
+
+\textit{(iii) Detector simplicity inherited from Paper~10.} The
+one-threshold magnitude test is the simplest detector; richer
+detectors (CUSUM, Bayesian) might produce different Pareto curves
+that this sweep cannot characterise.
+
+\textbf{Construct validity.} ``Worst per-window delta'' uses the
+minimum over $w \in \{2, \ldots, 6\}$ of the cell-mean. At high
+capacity the W2 window typically has the largest pure-fixed/pure-lag1
+spread and dominates the worst-delta statistic; this is intentional
+because W2 is the first window where the detector is operational.
+
+\textbf{External validity.} The $\tau$ grid is calibrated to the
+synthetic regime studied. A real fleet's per-window calibration-target
+shift distribution would re-locate the Pareto curve along the
+$\tau$ axis. The qualitative finding --- whether the Pareto curve
+contains an operating point that satisfies both Paper~10 tolerances ---
+is more robust than the specific $\tau^\star$ value (if any).

@@ -1,0 +1,45 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A pre-registered sweep over $\tau \in \{0.02, 0.03, 0.05, 0.075,
+0.10\}$ across 11{,}250 result rows produces a sharp negative
+feasibility result: \textbf{no $\tau$ in the studied grid
+simultaneously satisfies Paper~10's two pre-registered tolerances.}
+The K=50 adaptive--lag1 cost is between $-4.1$ and $-5.3$~pp at
+every $\tau$, always exceeding the $-2.0$~pp ceiling; the K=200
+worst-case adaptive--fixed delta is uniformly $0.0$. The simple
+magnitude detector is fundamentally insufficient for the joint
+feasible region.
+
+The H1 finding is stronger than Paper~10 reported: the K=200
+hazard is uniformly avoided across an order-of-magnitude $\tau$
+range, not merely at the specific $\tau = 0.05$ Paper~10 used.
+
+The H2 and H4 hypothesis directions were pre-registered with the
+wrong sign; the data report Spearman correlations of opposite sign
+to the protocol's prediction ($\rho_{H4} = -0.97$, $\rho_{H2} =
++0.87$). The honest interpretation is that ``larger $\tau$ fires
+less, not more,'' and that the K=50 cost shrinks with $\tau$, not
+grows. The pre-registration discipline correctly surfaces this
+mathematical sign error as a falsified prediction rather than
+allowing post-hoc correction.
+
+\textbf{The deployable conclusion:} simple adaptive switching adds
+operational complexity without reaching Paper~10's joint feasibility
+region across the studied $\tau$ range. For deployments with stable
+capacity, the static rule (lag-1 if $K \leq 100$, fixed if
+$K \geq 200$) is sufficient and adaptive procedures should be
+preferred only when a richer detector --- capacity-aware
+threshold, CUSUM, or Bayesian online change-point --- has been
+evaluated under pre-registration.
+
+\textbf{Reproducibility.} Runner, analysis, pre-registration protocol,
+and frozen 11{,}250-row results CSV are available at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper11}.
+
+\textbf{Future work.} (i) Capacity-aware-threshold detector with
+$\tau_K$ pre-registered per capacity; (ii) CUSUM~\cite{page1954cusum}
+detector with pre-registered accumulator parameters; (iii) Bayesian
+online change-point detector; (iv) sensitivity sweep over the
+calibration grid coarseness; (v) real fleet validation with
+longitudinal exploitation outcome data.
