@@ -1,0 +1,51 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A pre-registered evaluation of the simplest plausible change-point
+detector --- a one-threshold magnitude test on calibration-target
+P@50 shift --- against four baselines (fixed, lag1, gated,
+offline-peek) across 2{,}250 result rows produces a mixed
+pre-registered outcome: H1 supported, H4 supported, H2 rejected,
+H3 rejected.
+
+\textbf{The supported result.} Adaptive switching is the first
+procedure in the Papers~7--8--10 sequence that does not harm
+performance at $K = 200$: cell-mean delta vs fixed is $+0.7$~pp
+and no individual window incurs a loss exceeding the pre-registered
+tolerance. The detector identifies windows where lag-1 calibration
+would be mis-aligned with the current distribution and gates them
+to the Paper~4 fixed weights.
+
+\textbf{The principled cost.} At $K = 50$ the detector fires in
+three of five post-W1 windows and the cell mean falls $5.3$~pp
+below lag-1's, because every fire reverts to fixed when lag-1
+would have done better. The H2 rejection is structural: any
+non-trivial adaptive procedure with a finite threshold will
+sometimes gate out gainful calibration.
+
+\textbf{The static gate is competitive.} A static
+capacity-conditional gate ($K \leq 100 \to$ lag1, $K \geq 200 \to$
+fixed) sits within $+0.7$~pp of the adaptive procedure at $K = 200$.
+For deployment regimes where capacity is stable and known, the
+static gate suffices; for regimes with variable capacity, the
+adaptive procedure adds per-window value.
+
+\textbf{The non-monotonic firing pattern.} Spearman$(K,$ fire
+fraction$) = +0.5$, below the pre-registered $+0.8$ threshold. The
+detector responds to per-window calibration-target shifts that are
+not cleanly capacity-indexed --- $K = 100$ has the lowest firing
+fraction. Capacity is a proxy, not a determinant.
+
+\textbf{Reproducibility.} Runner, analysis, pre-registration protocol,
+and frozen 2{,}250-row results CSV are available at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper10}.
+
+\textbf{Future work.} (i) Threshold sensitivity sweep over $\tau$ to
+map the H1/H2 Pareto frontier; (ii) CUSUM~\cite{page1954cusum} or
+Bayesian online change-point detector with pre-registered
+hyperparameters; (iii) capacity-aware detector that conditions on
+$K$ explicitly; (iv) real fleet validation with longitudinal
+exploitation outcome data; (v) integration with Paper~9's
+self-trajectory evaluation to test whether adaptive switching also
+mitigates the selection-policy coupling that Paper~9 identified as
+the dominant driver of Paper~6's headline collapse.
