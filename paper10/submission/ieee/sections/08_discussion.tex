@@ -1,0 +1,92 @@
+\section{Discussion}
+
+\subsection{Why Adaptive Solves the K=200 Hazard}
+
+The Paper~7 K=200 hazard arose from forcing the procedure to use
+lag-1-fit weights in every window, including windows where the
+calibration-target shift was too large for the lag-1 fit to
+generalise. The adaptive detector identifies those windows directly
+through the magnitude of the calibration-target shift and gates lag-1
+out of them. At $K = 200$ this gating fires four of five times --- the
+detector and the capacity-conditional reality agree at this capacity.
+
+Paper~8's smoothers attempted the opposite intervention: keep using
+fitted weights but draw them from a longer history. That made the
+problem worse because longer history brings in more mis-aligned
+calibration targets. The adaptive detector instead acknowledges
+when the fit is mis-aligned and falls back to a known-safe baseline.
+The asymmetry is the contribution.
+
+\subsection{Why H3 Fails: Capacity Is a Proxy, Not the Cause}
+
+The pre-registration assumed firing fraction would scale with
+capacity. The actual driver is the magnitude of the per-window
+calibration-target shift, which depends on $K$ \textit{and} the
+specific window's compositional dynamics. At $K = 100$, the
+window-to-window shifts happen to be modest at W3, W4, W6;
+the calibration-target trajectory is locally smooth there. At
+$K = 200$, every window after W2 has a meaningful shift because
+remediation depletes more of the high-priority tail per window.
+Capacity is a reasonable proxy for shift magnitude but not a clean
+determinant.
+
+\subsection{H2 as the Principled Cost of H1}
+
+The H2 rejection should not be read as a failure of the procedure.
+A non-trivial adaptive procedure must, by definition, sometimes
+revert to the safe baseline when the recalibration would have
+helped. The cost of H1 (no hazard at high $K$) and the cost of H2
+(some lost gain at moderate $K$) are not separable; they are
+parameterised by the threshold $\tau$. A smaller $\tau$ would fire
+less often, reduce the H2 penalty at $K \in \{50, 100\}$, and
+re-introduce part of the H1 hazard at $K = 200$. A larger $\tau$
+would fire more often and amplify the H2 penalty without further
+helping H1.
+
+The pre-registered $\tau = 0.05$ was chosen as the smallest round
+threshold below which calibration-target shifts can be argued to be
+noise. The H1 success and H2 cost at this threshold are the result
+the data deliver.
+
+\subsection{Adaptive vs Static Gate}
+
+H4 is the most operationally interesting result. The static
+capacity-conditional gate ($K \leq 100 \to \textsf{lag1}$, $K \geq
+200 \to \textsf{fixed}$) requires no per-window decision and no
+detector. The adaptive procedure beats it at $K = 200$ by only
+$+0.7$~pp, which is within the bootstrap confidence band at most
+windows.
+
+A practitioner who knows their fleet's per-window capacity is stable
+and falls below $K = 100$ can deploy lag-1 directly without any
+detector; if above $K \approx 100$ they can deploy fixed weights
+without any detector. The adaptive procedure adds value primarily
+when capacity is variable across deployment cycles --- for example,
+a team whose patching capacity drops during change-window-restricted
+periods and rises during regular operations.
+
+\subsection{What This Result Closes and Opens}
+
+\textit{Closes:} the question of whether \textit{simple} adaptive
+switching can solve the Paper~7 + Paper~8 hazard. The answer is
+qualified-yes: H1 is supported, but at the cost of H2 and with only
+marginal improvement over a static gate.
+
+\textit{Opens:}
+\begin{itemize}
+\item \textbf{Threshold sensitivity.} A sweep over $\tau$ would map
+the H1/H2 trade-off curve; the $\tau = 0.05$ point is one operating
+point on a Pareto frontier.
+\item \textbf{CUSUM and Bayesian detectors.} A CUSUM
+detector~\cite{page1954cusum} that accumulates evidence across
+windows might fire more selectively than the one-threshold magnitude
+test, reducing the H2 cost.
+\item \textbf{Capacity-aware detector.} A detector that conditions on
+$K$ explicitly --- e.g., separate $\tau$ per capacity --- could
+recover H3 monotonicity by construction at the cost of additional
+pre-registration discipline.
+\end{itemize}
+
+These are deferred. The contribution of this paper is the negative
+boundary: the \textit{simplest} adaptive detector solves H1 but
+incurs H2 and produces a non-monotone firing pattern.

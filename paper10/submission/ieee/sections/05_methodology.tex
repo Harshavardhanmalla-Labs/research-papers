@@ -1,0 +1,73 @@
+\section{Methodology}
+
+\subsection{Scorer (Inherited)}
+
+The HygienePrio scorer~\cite{paper4hygieneprio} is inherited
+verbatim:
+\begin{equation}
+\begin{aligned}
+S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
+          & + \gamma\,\mathrm{KEV\_recency}(c) \\
+          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+\end{aligned}
+\label{eq:hp}
+\end{equation}
+HRS combines patch posture (0.50), AD exposure (0.30), telemetry
+freshness (0.20). Only the four scorer weights are subject to
+recalibration.
+
+\subsection{Change-Point Detector}
+
+At window $w \geq 2$, the detector executes:
+
+\begin{enumerate}
+\item Fit candidate lag-1 weights by grid search to maximise mean
+P@50 on the five calibration seeds at window $w - 1$. Record the
+fitted weights $g^{\textsf{lag1}}_w$ and the maximum mean
+$p^{\text{cal}}_{w-1}(g^{\textsf{lag1}}_w)$.
+\item Compute a backward reference $p^{\text{ref}}_w$:
+  \begin{itemize}
+  \item If $w = 2$: $p^{\text{ref}}_w$ = mean P@50 of the
+  \textit{fixed} Paper~4 weights at calibration seeds' window
+  $w - 1$.
+  \item Otherwise: $p^{\text{ref}}_w$ = mean P@50 of $g^{\textsf{lag1}}_w$
+  applied to calibration seeds' window $w - 2$.
+  \end{itemize}
+\item Compute $\Delta_w = p^{\text{cal}}_{w-1}(g^{\textsf{lag1}}_w)
+- p^{\text{ref}}_w$.
+\item \textbf{Fire} the change-point if $|\Delta_w| \geq \tau$
+($\tau = 0.05$, pre-registered).
+\end{enumerate}
+
+The intuition is that $|\Delta_w|$ measures the rate at which the
+lag-1-fit weights' calibration-target P@50 has shifted between two
+consecutive past windows. A large shift indicates that the
+distribution at $w - 1$ is meaningfully different from the
+distribution at $w - 2$, so the lag-1 fit is likely to be poorly
+generalised to $w$ as well.
+
+\subsection{Strategy Decision Rule}
+
+At each window $w$:
+\begin{itemize}
+\item \textsf{adaptive} weights = $g^{\textsf{lag1}}_w$ if the
+detector did not fire, else Paper~4 \textsf{fixed} weights.
+\item \textsf{gated} weights = $g^{\textsf{lag1}}_w$ if $K \leq 100$,
+else Paper~4 \textsf{fixed} weights. The gated decision is
+independent of the detector and of the window.
+\end{itemize}
+
+\subsection{Fleet-State Evolution}
+
+Identical to Papers~7 and~8: HygienePrio-full under \textsf{fixed}
+weights drives the fleet top-$K$ selection at every window for every
+strategy, so all five strategies score against the same evolving
+backlog. Selection-policy coupling is restated as a threat in
+\S\ref{sec:threats}.
+
+\subsection{Logged Quantities}
+
+Per (cell, window) the run logs: $\Delta_w$, the fire decision, the
+fitted $g^{\textsf{lag1}}_w$, and the
+\textsf{adaptive}/\textsf{gated}/\textsf{offline} weights chosen.
+Per (cell, seed, window, strategy) the run logs the resulting P@50.
