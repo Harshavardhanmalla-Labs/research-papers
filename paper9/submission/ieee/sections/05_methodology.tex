@@ -1,0 +1,62 @@
+\section{Methodology}
+
+\subsection{Scorers (Inherited)}
+
+All five scorers are inherited verbatim from Paper~4~\cite{paper4hygieneprio}
+with the fixed Paper~4 calibrated weights:
+\begin{equation}
+\begin{aligned}
+S_{\mathrm{HP}}(h,c) =\;& 0.7\,\mathrm{EPSS}(c) + 0.5\,\mathrm{HRS}(h) \\
+                       & + 0.1\,\mathrm{KEV\_recency}(c) \\
+                       & + 0.2\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+\end{aligned}
+\end{equation}
+Baselines are EPSS-only ($S = \mathrm{EPSS}(c)$), HRS-only ($S = \mathrm{HRS}(h)$),
+CVSS-only ($S = \mathrm{CVSS}_{\mathrm{base}}(c)$), and Random
+(seed-deterministic uniform ranking). We deliberately use Paper~4
+fixed weights and not Paper~7/8 online recalibration: the question
+in this paper is about \textit{trajectory effects} under a held-constant
+scorer, not about calibration.
+
+\subsection{Driver-Stratified Fleet Evolution}
+
+For each (cell $K$, driver $m_{\text{drive}}$, seed $s$):
+\begin{enumerate}
+\item Initialise fleet from EEHDA generator at seed $s$.
+\item For each window $w = 1, \ldots, 6$:
+\begin{enumerate}
+\item Compute $(\text{pairs}_w, \text{HRS}_w)$ from current state;
+label per the per-window ground truth definition.
+\item For each scoring method $m_{\text{score}} \in \mathcal{M}$:
+rank pairs, compute P@50, record one row.
+\item If $w < 6$: select $m_{\text{drive}}$'s top-$K$ pairs, apply
+remediation, disclose Poisson$(\lambda)$ new CVEs, random-walk EPSS,
+update telemetry. (Step uses RNG seeded by $(s, w)$ for reproducibility.)
+\end{enumerate}
+\end{enumerate}
+
+The selection step at $w$ uses only the driver's weights; the scoring
+step at $w$ records all five methods' performance against the
+ground-truth labels for the current state.
+
+\subsection{Trajectory Effect Quantification}
+
+For each scoring method $m$, the per-cell W6 trajectory effect is
+\begin{equation}
+\Delta^{\mathrm{traj}}_m(K) = \max_{m'} \mathrm{P@50}^m_{w=6, K}(T_{m'})
+                          - \min_{m'} \mathrm{P@50}^m_{w=6, K}(T_{m'}).
+\end{equation}
+A large $\Delta^{\mathrm{traj}}_m$ means method $m$'s W6 performance
+depends substantially on which method drives the trajectory; a small
+$\Delta^{\mathrm{traj}}_m$ means $m$'s performance is intrinsic.
+
+\subsection{Per-Pair Dominance Under Counterfactual Trajectory}
+
+For each (cell, driver), the per-pair dominance of HP-full over EPSS-only
+is
+$\Pr[\mathrm{P@50}^{\mathrm{HP}}_{s, w} > \mathrm{P@50}^{\mathrm{EPSS}}_{s, w} \mid
+T_{m_{\mathrm{drive}}}, K]$,
+computed over the 150 (seed, window) pairs. Paper~6 reported this
+fraction was 0.960 on the HP-driven trajectory at canonical cells; the
+present paper tests whether the fraction survives on the EPSS-only
+trajectory.
