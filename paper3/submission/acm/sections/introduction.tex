@@ -16,13 +16,14 @@ invisible to behavioral analytics requiring recent baselines.
 
 Despite the operational importance of hygiene-state monitoring, the anomaly-detection
 research community lacks a dedicated public benchmark for this problem. Existing
-benchmarks---the LANL Unified Host and Network Dataset~\cite{kent2015lanl}, CERT
-Insider Threat datasets~\cite{glasser2013cert}, CICIDS~\cite{sharafaldin2018cicids},
-and attack-emulation repositories such as Mordor/Security
-Datasets~\cite{rodriguez2019mordor}---provide rich telemetry for network intrusion
-or insider-threat detection but do not model identity hygiene state, patch posture,
-vulnerability exposure, or telemetry freshness and missingness as first-class
-evaluation axes. Commercial platforms (Microsoft Defender for Identity, Splunk UBA,
+benchmarks---the LANL Unified Host and Network Dataset~\cite{kent2015lanl},
+CERT Insider Threat datasets~\cite{glasser2013cert},
+CICIDS~\cite{sharafaldin2018cicids},
+and attack-emulation repositories such as
+Mordor/Security Datasets~\cite{rodriguez2019mordor}---provide rich telemetry for
+network intrusion or insider-threat detection but do not model identity hygiene
+state, patch posture, vulnerability exposure, or telemetry freshness as first-class
+evaluation axes. Commercial platforms (Microsoft Defender for Identity, Splunk~UBA,
 Exabeam) address related detection problems but are closed and do not release
 benchmark datasets.
 

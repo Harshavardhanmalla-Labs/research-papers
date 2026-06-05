@@ -8,18 +8,18 @@
   reported as N/A).}
 \label{tab:methods}
 \small
-\begin{tabular}{@{}lllp{3.2cm}@{}}
+\begin{tabular}{@{}ll>{\raggedright}p{2.4cm}>{\raggedright\arraybackslash}p{2.8cm}@{}}
 \toprule
 ID & Name & Type & Notes \\
 \midrule
-M1 & Rule baseline    & Task-specific rules    & No training; per-task feature thresholds \\
+M1 & Rule baseline    & Task-specific rules    & No training; per-task thresholds \\
 M2 & Hybrid scorer    & Weighted combination   & Identity + endpoint + vuln + freshness \\
-M3 & Isolation Forest & Ensemble               & 200 trees, contamination=0.02 \\
+M3 & Isolation Forest & Ensemble               & 200 trees, contam.=0.02 \\
 M4 & LOF              & Density-based          & $k$=20 neighbors, novelty mode \\
 M5 & OCSVM            & Kernel-based           & $\nu$=0.05, RBF kernel \\
-M6 & Linear-AE        & Reconstruction error   & PCA-based (latent dim=8); approx.\ of neural AE \\
-M7 & Temporal z-score & Statistical            & Population z-score on task temporal features \\
-M8 & Graph-IF         & Graph + ensemble       & networkx bipartite features + IF; approx.\ of DOMINANT \\
+M6 & Linear-AE        & Reconstruction error   & PCA (latent dim=8); approx.\ neural AE \\
+M7 & Temporal z-score & Statistical            & Population z-score, temporal features \\
+M8 & Graph-IF         & Graph + ensemble       & Bipartite features + IF; approx.\ DOMINANT \\
 \bottomrule
 \end{tabular}
 \end{table}

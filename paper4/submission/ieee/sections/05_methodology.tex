@@ -32,7 +32,7 @@ $\mathrm{KEV\_recency}(c)$ assigns higher priority to CVEs recently added to the
 
 \noindent where $d_{\mathrm{kev}}(c)$ is days since KEV catalog entry for CVE $c$.
 
-The decay constant $\lambda = 0.05$ is fixed at the pre-registration default (corresponding to a half-life of approximately 14 days --- matching the CISA BOD 23-01 asset discovery cadence). The sensitivity of results to $\lambda$ is explored informally but not reported as a separate ablation condition.
+The decay constant $\lambda = 0.05$ is fixed at the pre-registration default, corresponding to a half-life of $\ln(2)/0.05 \approx 14$ days. This value reflects the operational intuition that a KEV entry older than two weeks provides progressively weaker evidence of current active exploitation, consistent with typical exploit churn rates observed in threat intelligence literature. Because approximately 92\% of fixture pairs have $\mathrm{KEV\_recency}(c) = 0$ (non-KEV CVEs), the $\lambda$ choice has limited impact on the overall results; a formal ablation over $\lambda$ is deferred.
 
 For CVEs not in KEV (approximately 92\% of the fixture), $\mathrm{KEV\_recency}(c) = 0$, and those pairs are prioritized on EPSS and HRS alone. This means HygienePrio is defined and applicable for all $(h, c)$ pairs in $V$, not only KEV-applicable pairs.
 

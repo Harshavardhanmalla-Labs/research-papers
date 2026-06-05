@@ -1,0 +1,57 @@
+\section{Problem Formulation}
+\label{sec:problem}
+
+\subsection{Setting (Inherited)}
+
+The synthetic EEHDA fleet, scorer (\S5.1), HRS components, and
+multi-window simulator are inherited from Papers~4--7. Capacity
+$K \in \{50, 100, 200\}$ and arrival rate $\lambda = 3$ are fixed
+to match Paper~7's evaluation; the only quantity varied in this
+paper is the calibration strategy.
+
+\subsection{Five Calibration Strategies}
+
+At window $w$, the scorer uses weights $(\alpha, \beta, \gamma, \delta)$
+determined by:
+
+\begin{description}
+\item[\textsf{fixed}] Paper~4 weights at every window. No refit.
+\item[\textsf{lag1}] At $w = 1$, weights are \textsf{fixed}; at
+$w \geq 2$, grid-search to maximise mean P@50 on the five calibration
+seeds at window $w - 1$. (Paper~7 baseline.)
+\item[\textsf{trail3}] At $w = 1$, weights are \textsf{fixed}; at
+$w \geq 2$, grid-search to maximise the equal-weight mean of
+per-window mean P@50 across windows $\max(1, w - 3), \ldots, w - 1$.
+At $w = 2$ this reduces to \textsf{lag1}; at $w \geq 4$ this averages
+exactly three past windows.
+\item[\textsf{ewma3}] Same set of past windows as \textsf{trail3} but
+with geometric weights $\alpha^i$, $i = 0, 1, 2, \ldots$ counting back
+from the most recent past window. Pre-registered $\alpha = 0.6$.
+\item[\textsf{offline}] Peek at window $w$ on the calibration seeds.
+(Upper-bound ceiling.)
+\end{description}
+
+The grid is identical to Paper~7 (108 points).
+
+\subsection{Ground Truth and Metric}
+
+Inherited from Papers~5--7: (EPSS $> 0.10$) $\wedge$ (HRS $>$ 75th
+percentile recomputed per window), P@50 measured against the resulting
+positive set.
+
+\subsection{Pre-Registered Hypotheses}
+
+\begin{description}
+\item[H1] At $K = 200$, \textsf{ewma3} mean P@50 $\geq$ \textsf{fixed}
+at every $w \geq 2$ (within $-0.01$ tolerance). \textit{No hazard at
+high capacity.}
+\item[H2] At $K \in \{50, 100\}$, $|\textsf{ewma3} - \textsf{lag1}|
+\leq 0.02$ at every $w \geq 2$. \textit{Smoothing does not break
+moderate-capacity recovery.}
+\item[H3] $|\textsf{ewma3} - \textsf{trail3}| \leq 0.02$ at every
+cell-window. \textit{Smoothing-strategy choice is second-order.}
+\item[H4] At $K = 200$, EWMA-3 cell-mean recovery ratio $\bar\rho
+\geq 0.5$. \textit{EWMA achieves substantial offline-ceiling recovery.}
+\end{description}
+
+Decision rules and stop rules are in \texttt{paper8/design/PAPER8\_PROTOCOL.md}.

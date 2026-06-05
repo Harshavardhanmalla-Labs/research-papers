@@ -1,0 +1,46 @@
+\section{Background}
+
+\subsection{Capacity-Constrained Patch Scheduling}
+
+Enterprise vulnerability remediation operates under a hard capacity
+constraint: a finite team can patch a finite number of (host, CVE) pairs
+per maintenance window. CISA Binding Operational Directive 22-01~\cite{cisa2021bod2201}
+mandates 15-day remediation of Known Exploited Vulnerabilities for federal
+agencies; NIST SP~800-40 Rev.~4~\cite{nist2022sp80040r4} recommends risk-based
+patch management with documented capacity allocation. In practice the
+capacity $K$ ---the number of (host, CVE) pairs remediated per window---
+is bounded by patching personnel, change-window length, and rollback risk
+budgets, and varies by an order of magnitude across organisations.
+
+\subsection{CVE Arrival as Backlog Replenishment}
+
+New CVEs are disclosed continuously: the National Vulnerability Database
+publishes new entries daily, and individual organisations see their backlog
+grow as scanners surface previously unindexed exposures. The arrival rate
+of new \textit{actionable} CVEs per maintenance window ---denoted $\lambda$
+in this paper--- depends on fleet size, scanner coverage, and the upstream
+CVE disclosure rate. The 2026 DBIR~\cite{verizon2026dbir} reports vulnerability
+exploitation as the leading initial-access vector, underscoring the
+operational importance of the rate at which actionable disclosures
+accumulate.
+
+\subsection{The Capacity-Versus-Arrival Race}
+
+The interaction $(K, \lambda)$ defines a regime: when $K$ greatly exceeds
+$\lambda$, the backlog is drained faster than it is replenished, and the
+high-EPSS tail of the residual backlog shrinks over time. When $\lambda$
+matches or exceeds $K$, the backlog is in steady state and the EPSS
+distribution of unpatched pairs remains approximately stationary. Paper~5~\cite{paper5temporal}
+demonstrated EPSS-only decay in the single regime $(K=50, \lambda=3)$ but
+did not characterise the boundary between drain and steady state. This
+paper sweeps both axes to map that boundary.
+
+\subsection{EPSS Score Dynamics}
+
+EPSS scores~\cite{jacobs2021epss} are a per-CVE rolling 30-day exploit
+probability. Ravalico et al.~\cite{ravalico2025epsstemporal} characterised
+per-CVE EPSS drift; their study is complementary to ours --- they measure
+the per-CVE score random walk; we measure how prioritisation effectiveness
+degrades through compositional change of the residual backlog. The two
+effects are independent: the compositional collapse documented here would
+occur even with perfectly stable per-CVE EPSS values.

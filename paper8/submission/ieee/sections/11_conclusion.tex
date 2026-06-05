@@ -1,0 +1,48 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A pre-registered 2{,}250-row evaluation of multi-window-history
+calibration --- EWMA-3 and trailing-mean-3 --- against the Paper~7
+lag-1 baseline produces four hypothesis rejections and one clean
+finding.
+
+\textbf{The clean finding}: multi-window smoothing does not rescue
+the high-capacity hazard documented in Paper~7. At $K = 200$, EWMA-3's
+cell-mean recovery ratio is $-0.94$, worse than \textsf{lag1}'s
+$-0.66$. At $K = 100$ where \textsf{lag1} recovered the offline
+ceiling ($\rho = +0.99$), EWMA-3 produces $\rho = -1.37$ ---
+substantial reverse. At $K = 50$ where \textsf{lag1} matched the
+ceiling, EWMA-3 falls to half of it.
+
+\textbf{The mechanism}: under fast per-window distributional shift,
+older calibration windows are systematically less representative of
+the target window than the most recent past window. Averaging across
+multiple past windows reduces calibration-target variance but
+introduces bias from those older states, and the bias dominates.
+The result is monotone in history length: \textsf{lag1} $>$
+\textsf{trail3} $\approx$ EWMA-3 at every cell.
+
+\textbf{The sharpened recommendation}: deployable online
+recalibration in the simulated bi-weekly regime should use the
+shortest possible history (lag-1 at most), and should be turned off
+entirely at high capacity. Future adaptive procedures
+(change-point detection, forgetting-factor Bayesian update,
+capacity-conditional gating) need to be developed and
+pre-registered to address the regimes Paper~7 + Paper~8 together
+identify as untouched by simple history-based smoothers.
+
+\textbf{Reproducibility.} The runner, analysis, pre-registration
+protocol, and frozen 2{,}250-row results CSV are available at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper8}.
+
+\textbf{Future work.} (i) Change-point-aware recalibration: detect
+distributional shifts and reset the history window. (ii) Adaptive
+$\alpha$ EWMA: tune the forgetting factor online to match the
+detected shift rate. (iii) Real fleet validation: re-establish the
+fixed-weight baseline on real exploitation-event data before any of
+this paper's findings about online procedures are taken to a
+deployment recommendation. (iv) Sensitivity sweep over $\alpha$ and
+trailing-history length $H$: the present paper held both at
+pre-registered values; a follow-up could map the $(\alpha, H)$
+landscape and identify whether there is any choice for which the
+smoothing-helps regime can be reached.
