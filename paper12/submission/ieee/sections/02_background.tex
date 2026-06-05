@@ -1,0 +1,42 @@
+\section{Background}
+
+\subsection{Paper 11's Negative Feasibility Result}
+
+Paper~11~\cite{paper11tau} swept the threshold $\tau$ of the Paper~10
+adaptive detector~\cite{paper10adaptive} over five values
+$\{0.02, 0.03, 0.05, 0.075, 0.10\}$ and found no $\tau$ in the grid
+simultaneously satisfies both Paper~10 pre-registered tolerances: at
+every $\tau$, the K=50 cell-mean adaptive--lag1 delta was between
+$-0.041$ and $-0.053$ pp, missing the Paper~10 $-0.02$~pp ceiling.
+The K=200 worst-case was uniformly $0.0$ but the K=50 floor was
+too high.
+
+Paper~11's discussion identified three richer detector families as
+candidates for reaching the feasibility region: (i) capacity-aware
+thresholding, (ii) CUSUM, (iii) Bayesian online change-point. The
+present paper evaluates the simplest of these: a single per-K $\tau$
+vector locked before evaluation.
+
+\subsection{Why Capacity-Aware First}
+
+Capacity-aware thresholding is the simplest of the three candidate
+families. It requires only that the deployment know the operating
+capacity --- a quantity already exposed by every patch-management
+system. CUSUM and Bayesian detectors require accumulator state and
+prior-distribution choices respectively, both of which would expand
+the pre-registration surface.
+
+\subsection{Mechanism}
+
+At each window the detector compares the magnitude of the
+calibration-target shift $|\Delta_w|$ against $\tau$ and fires if
+the threshold is crossed; on fire, the strategy reverts to Paper~4
+fixed weights. Paper~11 showed that for a single $\tau$ applied at
+all capacities, the firing fraction at K=50 was always too high
+because the shifts at that capacity routinely crossed even
+$\tau = 0.10$.
+
+A larger $\tau_{50}$ would suppress those false fires; a smaller
+$\tau_{200}$ would preserve aggressive firing at high capacity. The
+question is whether a single such locked vector can reach the joint
+feasibility region.

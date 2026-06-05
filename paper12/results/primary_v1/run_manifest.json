@@ -1,0 +1,60 @@
+{
+  "tau_by_K": {
+    "50": 0.2,
+    "100": 0.05,
+    "200": 0.02
+  },
+  "tau_adaptive05": 0.05,
+  "capacity_grid": [
+    50,
+    100,
+    200
+  ],
+  "lambda": 3.0,
+  "n_windows": 6,
+  "gated_K_threshold": 100,
+  "strategies": [
+    "fixed",
+    "lag1",
+    "adaptive05",
+    "cap_aware",
+    "gated",
+    "offline"
+  ],
+  "grid_size": 108,
+  "calibration_seeds": [
+    100,
+    101,
+    102,
+    103,
+    104
+  ],
+  "evaluation_seeds": [
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129
+  ],
+  "n_rows": 2700
+}
