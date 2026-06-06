@@ -2,7 +2,7 @@
 """
 merge_portfolio.py — Build EB1A_Research_Portfolio_Malla_2026.pdf
 
-Merges: exhibit_cover.pdf + Paper 1 + Paper 2 + Paper 3 + Paper 4
+Merges: exhibit_cover.pdf + Papers 1, 2, 3, 4, 5, 6, 7, 8, 9
 
 Usage:
     python3 eb1a_portfolio/merge_portfolio.py
@@ -11,7 +11,6 @@ Usage:
 Requires: pypdf (pip install pypdf)
 """
 
-import os
 import sys
 from pathlib import Path
 
@@ -24,11 +23,16 @@ except ImportError:
 ROOT = Path(__file__).parent.parent  # Research Papers/
 
 COMPONENTS = [
-    (ROOT / "eb1a_portfolio" / "exhibit_cover.pdf",                                         "Cover (11 pp)"),
-    (ROOT / "paper1-vuln-prioritization" / "paper" / "submission" / "ieee" / "main.pdf",   "Paper 1 — VulnPrio (8 pp)"),
-    (ROOT / "paper1-vuln-prioritization" / "paper2" / "submission" / "cset" / "main.pdf",  "Paper 2 — CalibScore (8 pp)"),
-    (ROOT / "paper3" / "submission" / "acm" / "main.pdf",                                  "Paper 3 — HygieneBench (7 pp)"),
-    (ROOT / "paper4" / "submission" / "ieee" / "main.pdf",                                 "Paper 4 — HygienePrio (11 pp)"),
+    (ROOT / "eb1a_portfolio" / "exhibit_cover.pdf",                                         "Cover"),
+    (ROOT / "paper1-vuln-prioritization" / "paper" / "submission" / "ieee" / "main.pdf",   "Paper 1 — VulnPrio"),
+    (ROOT / "paper1-vuln-prioritization" / "paper2" / "submission" / "cset" / "main.pdf",  "Paper 2 — CalibScore"),
+    (ROOT / "paper3" / "submission" / "acm" / "main.pdf",                                  "Paper 3 — HygieneBench"),
+    (ROOT / "paper4" / "submission" / "ieee" / "main.pdf",                                 "Paper 4 — HygienePrio"),
+    (ROOT / "paper5" / "submission" / "ieee" / "main.pdf",                                 "Paper 5 — Temporal Stability"),
+    (ROOT / "paper6" / "submission" / "ieee" / "main.pdf",                                 "Paper 6 — Capacity-Indexed Decay"),
+    (ROOT / "paper7" / "submission" / "ieee" / "main.pdf",                                 "Paper 7 — Online Recalibration (Lag-1)"),
+    (ROOT / "paper8" / "submission" / "ieee" / "main.pdf",                                 "Paper 8 — Multi-History Smoothing"),
+    (ROOT / "paper9" / "submission" / "ieee" / "main.pdf",                                 "Paper 9 — Self-Trajectory Evaluation"),
 ]
 
 OUTPUT = ROOT / "eb1a_portfolio" / "EB1A_Research_Portfolio_Malla_2026.pdf"

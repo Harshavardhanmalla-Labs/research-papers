@@ -44,7 +44,8 @@ capacity regime where lag-1 is competitive.
 \textbf{(iii) Capacity-conditional deployment.} At high capacity,
 turn the recalibrator off and accept the fixed Paper~4 weights,
 incurring the Paper~6 absolute-floor collapse rather than the
-deeper Paper~7 + Paper~8 calibration hazard. This is the simplest
+deeper calibration hazard documented in Paper~7 and reproduced
+under smoothing here. This is the simplest
 deployable rule that follows from the present rejection pattern.
 
 \subsection{Operational Implications}
@@ -53,7 +54,7 @@ Sharpened from Paper~7:
 \begin{itemize}
 \item Deploy lag-1 online recalibration only at $K \leq 100$ on the
 simulated bi-weekly cadence. The Paper~7 K=200 hazard is real, and
-Paper~8 shows that smoothing does not rescue it.
+the present paper shows that smoothing does not rescue it.
 \item Do not deploy any multi-window-history smoother (EWMA-3,
 trail3, or by extension longer-history variants without an adaptive
 forgetting mechanism) on this calibration grid in any regime studied.
