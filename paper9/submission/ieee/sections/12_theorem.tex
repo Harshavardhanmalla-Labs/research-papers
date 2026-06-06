@@ -125,17 +125,77 @@ policy is mathematically guaranteed to exhaust its own signal in finite
 time; a foreign-driven policy is bounded only by the foreign driver's
 exhaustion rate of the labelling tail, which can be slower or non-existent.
 
+\subsection{Corollaries}
+
+The theorem has three corollaries that strengthen its operational reach.
+
+\begin{corollary}[Random Policy Escape]
+\label{cor:random}
+If $S$ is the random ranking baseline, then $A_w(S; K)$ is a uniform
+random sample of $V_w$, the enrichment assumption A1 is violated by
+construction, and $P_w(S; K) = \mathbb{P}[\phi = 1 \mid V_w]$ for all $w$.
+Random ranking does not exhibit signal exhaustion.
+\end{corollary}
+
+\begin{corollary}[$\epsilon$-Greedy Policies Slow Convergence]
+\label{cor:egreedy}
+For $\epsilon \in (0, 1)$, consider the mixed policy $S_\epsilon$ that
+selects each window's top-$K$ from $S$ with probability $1-\epsilon$
+and uniformly at random from $V_w$ with probability $\epsilon$. Then
+the convergence rate of Theorem~\ref{thm:exhaustion} is slowed by a
+factor of $1/(1-\epsilon)$. \emph{Proof:} the expected
+positive-mass drain per window becomes $(1-\epsilon) \alpha K
++ \epsilon \mathbb{P}[\phi=1 \mid V_w] K$, which approaches the random
+baseline as $\epsilon \to 1$. The signal-exhaustion regime is
+asymptotically equivalent but reached in $w^\star_\epsilon =
+w^\star / (1-\epsilon)$ windows. \hfill$\square$
+\end{corollary}
+
+\begin{corollary}[High Arrival Rates Break the Theorem]
+\label{cor:high_arrival}
+If A2 is violated ($n_w \geq K$) and A3 is violated in the same
+direction ($\rho^{\mathcal{D}}(S) \geq \alpha$), the net change in
+positive mass within $T_w$ becomes non-negative and the theorem does
+not apply. Empirically, this regime corresponds to a fleet whose
+new-CVE arrival rate exceeds its remediation rate while preserving
+the upper-tail composition --- i.e., a disclosure process biased
+toward exactly the signals the policy uses to rank. In the simulated
+$\lambda = 12, K = 10$ cell of Paper~6, this condition is approached
+but not crossed; in real fleets it would correspond to a denial-of-service
+attack on the prioritization system (deliberate publication of many
+high-EPSS CVEs targeting the defender's fleet topology).
+\end{corollary}
+
+\begin{corollary}[Online Calibration Cannot Escape the Bound]
+\label{cor:calibration}
+If $S$ is replaced at each window by a re-calibrated $S_w$ trained on
+a held-out calibration set whose backlog $V_w^{\text{cal}}$ also evolves
+under the same closed-loop policy, then $S_w$'s discriminative target
+is the same evolving distribution as $S$'s; the calibration procedure
+cannot move the labelling threshold $\tau$ faster than the
+positive-mass drain rate. Online recalibration therefore inherits
+Theorem~\ref{thm:exhaustion}'s convergence bound asymptotically.
+\emph{This explains Paper~7's empirical finding that lag-1 online
+recalibration cannot rescue K=200 collapse}~\cite{paper5temporal}:
+the calibration target is itself exhausted by the closed-loop policy.
+The only structural way to escape the bound is to make the labelling
+function depend on signals \emph{outside} the policy's discriminative
+set --- which is exactly what self-trajectory decoupling accomplishes.
+\end{corollary}
+
 \subsection{Scope and Limitations}
 
 The theorem assumes deterministic scoring, bounded new-disclosure rate,
 and a labelling predicate positively correlated with $S$ on the upper
-tail. It does not cover:
+tail. The four corollaries above cover the randomised, $\epsilon$-mixed,
+high-arrival, and online-recalibrated extensions. The theorem does
+not cover:
 \begin{itemize}
-\item Randomised or epsilon-greedy scoring policies, which may avoid
-A1 by construction.
 \item Disclosure processes that adversarially refill $S$'s upper tail
 faster than $K$ (Assumption A3 fails). The 2026 DBIR's $\sim$43-day mean
-patch-to-disclosure cycle suggests this is unlikely in practice.
+patch-to-disclosure cycle suggests this is unlikely in practice
+outside the deliberate adversarial-disclosure scenario of
+Corollary~\ref{cor:high_arrival}.
 \item Reinforcement-learning policies whose scoring updates between
 windows, which require a different bound for the update-cycle dynamics.
 \end{itemize}

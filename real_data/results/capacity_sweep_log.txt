@@ -1,0 +1,26 @@
+Real-distribution capacity sweep: 3x3 cells x 25 seeds x 6 windows x 5 methods
+[1/9] K=50 lambda=1.0
+[2/9] K=50 lambda=3.0
+[3/9] K=50 lambda=12.0
+[4/9] K=100 lambda=1.0
+[5/9] K=100 lambda=3.0
+[6/9] K=100 lambda=12.0
+[7/9] K=200 lambda=1.0
+[8/9] K=200 lambda=3.0
+[9/9] K=200 lambda=12.0
+
+Wrote 6750 rows + summary
+
+Overall HP > EPSS persistence (real dist): 10.0%
+  Synthetic Paper 6 baseline: 96.0%
+
+HP-full W6 P@50 per cell:
+  K50_L1: HP=0.101  EPSS=0.114  HRS=0.000
+  K50_L3: HP=0.094  EPSS=0.117  HRS=0.001
+  K50_L12: HP=0.106  EPSS=0.121  HRS=0.001
+  K100_L1: HP=0.041  EPSS=0.041  HRS=0.000
+  K100_L3: HP=0.046  EPSS=0.046  HRS=0.001
+  K100_L12: HP=0.045  EPSS=0.045  HRS=0.001
+  K200_L1: HP=0.010  EPSS=0.010  HRS=0.001
+  K200_L3: HP=0.014  EPSS=0.014  HRS=0.000
+  K200_L12: HP=0.021  EPSS=0.021  HRS=0.002

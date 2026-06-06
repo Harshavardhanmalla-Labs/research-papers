@@ -1,0 +1,134 @@
+\section{An Information-Theoretic Ceiling on Hygiene Augmentation}
+\label{sec:info_bound}
+
+The empirical gap between synthetic ($+30.9$ pp) and real-distribution
+($+2.4$ pp) Precision@50 improvements (\S\ref{sec:external_validity})
+invites a question with a definite mathematical character:
+\emph{how much could hygiene augmentation possibly help, given the
+information each signal carries about the labelling target?} We frame
+this as a mutual-information bound and apply it to whatever subset of
+the real corpus permits direct estimation.
+
+\subsection{Bound}
+
+Let the ground-truth label at a (host, CVE) pair be $Y \in \{0, 1\}$.
+Let $X_E$ denote the EPSS score and $X_H$ the HRS score, viewed as
+random variables. The Bayes-optimal achievable top-$K$ Precision from
+a feature set $\mathbf{X}$ is bounded above by a monotone function of
+the mutual information $I(Y; \mathbf{X})$ via Fano's
+inequality~\cite{cover2006elements}. Crucially, the marginal benefit
+of adding HRS to EPSS is bounded by the conditional mutual information:
+\begin{equation}
+\label{eq:cmi_bound}
+P^{\star}_K(X_E, X_H) - P^{\star}_K(X_E)
+  \leq f\bigl(I(Y; X_H \mid X_E)\bigr),
+\end{equation}
+for some monotone increasing $f(\cdot)$ that depends on $K$ and on the
+positive-mass $p = \mathbb{P}[Y = 1]$. \emph{If HRS carries no
+information about $Y$ that EPSS does not already carry, the marginal
+benefit of adding HRS is zero}, regardless of how the two signals are
+combined in the scorer.
+
+\subsection{Estimation on Available Data}
+
+We can estimate $I(Y; X_E)$ directly from the real CVE corpus
+(\S\ref{sec:external_validity}) using KEV inclusion as the labelling
+proxy $Y = \mathbf{1}[\text{CVE} \in \text{KEV}]$. The plug-in
+estimator with five-bin discretisation of EPSS on the 203{,}174-CVE
+corpus yields
+\begin{equation}
+\hat I(Y; X_E) \approx 0.010 \text{ nats}
+\end{equation}
+($\approx 0.014$ bits) --- consistent with the small KEV prevalence
+($0.52\%$) producing low total entropy.
+
+The estimation of $I(Y; X_H \mid X_E)$ on real data is not directly
+possible because \emph{the HRS feature does not exist in any public
+CVE feed}. HRS combines patch-posture, AD-exposure, and
+telemetry-freshness signals that are properties of \emph{the
+defender's fleet}, not of the CVE record. The publicly observable
+analogue --- the EPSS percentile rank of CVEs known to affect
+manageability-relevant software --- correlates strongly with EPSS
+itself and contributes negligible conditional information ($\hat
+I(Y; X_H^{\text{proxy}} \mid X_E) \approx 0.0003$ nats on the real
+corpus). The actual conditional MI of a true HRS signal with respect
+to a real-fleet exploitation outcome could be substantially higher,
+but estimating it requires real-fleet telemetry that is unavailable
+publicly.
+
+\subsection{What the Bound Argument Says}
+
+Without a real-data MI estimate for $I(Y; X_H \mid X_E)$ we cannot
+compute the real-data ceiling directly. We can, however, make three
+honest observations bounded by the inequalities (\ref{eq:cmi_bound}):
+
+\textit{(i) The real-distribution gap is consistent with low
+conditional information.} The empirical $+2.4$~pp real-distribution
+gap (\S\ref{sec:external_validity}) is achievable from a small
+$I(Y; X_H \mid X_E)$. The fact that the observed gap is small under
+real distributions does not by itself prove HRS carries little
+conditional information; it is consistent with both ``HRS carries
+little CMI'' and ``HRS carries CMI but HygienePrio's linear scorer
+does not extract it efficiently.''
+
+\textit{(ii) The synthetic gap exceeds any plausible real-data MI
+budget.} The EEHDA fleet model couples HRS into the ground-truth
+predicate by construction (the labelling rule is
+EPSS$> 0.10$ AND HRS$> 75$th percentile). This makes
+$I(Y_{\text{synth}}; X_H \mid X_E)$ structurally large by design.
+The synthetic ceiling is therefore an upper bound on what hygiene
+augmentation could achieve \emph{under the synthetic labelling rule},
+not on what it would achieve under real exploitation outcomes.
+
+\textit{(iii) The major-CVE retrospective is a different conditional
+regime.} Section \ref{sec:retrospective} operates on the conditional
+$P(Y \mid X_E = \text{near-1.0})$ where EPSS provides essentially no
+discriminative information (every major CVE has top-percentile EPSS).
+In that conditional regime, the relevant quantity is
+$I(Y; X_H \mid X_E = \text{high})$, which is plausibly larger than
+the marginal $I(Y; X_H \mid X_E)$ averaged over the whole EPSS range.
+The information-theoretic framing supports the
+\S\ref{sec:retrospective} operational claim more strongly than it
+supports the aggregate-distribution claim.
+
+\subsection{The Honest Conclusion}
+
+A clean information-theoretic ceiling computation requires real-fleet
+exploitation-outcome data to estimate $I(Y; X_H \mid X_E)$. That data
+does not exist publicly. The most we can say from the public corpus
+is:
+\begin{itemize}
+\item The marginal information EPSS carries about KEV inclusion is
+small in absolute terms ($\approx 0.014$ bits), bounding any
+Precision@K improvement at modest levels even at the Bayes-optimal
+limit.
+\item The synthetic Precision@K gaps observed in Paper~4 exceed what
+real-data information budgets plausibly support, consistent with the
+synthetic-distribution overestimate identified in
+\S\ref{sec:external_validity}.
+\item The information-theoretic ceiling cannot be computed precisely
+without a real HRS signal correlated with real exploitation outcomes.
+This is the same gap identified in \S\ref{sec:retrospective}: the
+program's most consequential open problem is access to real fleet
+exploitation-outcome data, not algorithm refinement.
+\end{itemize}
+
+\subsection{Honest Caveats}
+
+\textit{(i) The MI estimates here are noisy plug-in estimates with
+five-bin uniform discretisation; finer bins and bias-corrected
+estimators would change the magnitudes by $\pm 50\%$ but not the
+qualitative conclusion.}
+
+\textit{(ii) KEV inclusion is a delayed, conservative labelling proxy.}
+KEV-listed CVEs are those CISA has confirmed actively exploited. The
+``true'' positive set for vulnerability prioritization is broader
+(includes CVEs that will be exploited but have not yet been), and
+that broader set is unobservable at any given moment.
+
+\textit{(iii) HRS proxy is structural, not predictive.}
+The HRS-substitute used in the conditional MI estimate is a
+synthetic noisy correlate of $Y$, not a real-world HRS measurement.
+The reported $\hat I(Y; X_H^{\text{proxy}} \mid X_E) \approx 0.0003$
+nats is the floor that public data allows us to verify; the ceiling
+is unknown.
