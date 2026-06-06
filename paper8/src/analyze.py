@@ -1,4 +1,4 @@
-"""Analyse Paper 9 self_traj_results.csv: trajectory effects + hypotheses."""
+"""Analyse Paper 8 multi-history results: hypothesis outcomes + LaTeX tables."""
 from __future__ import annotations
 import json
 from pathlib import Path
@@ -12,146 +12,87 @@ TABLES.mkdir(parents=True, exist_ok=True)
 
 
 def main() -> None:
-    df = pd.read_csv(RESULTS / "self_traj_results.csv")
+    df = pd.read_csv(RESULTS / "multi_history_results.csv")
     print(f"Loaded {len(df)} rows.")
 
-    # Per-(K, driver, scorer, window) cell mean
-    means = df.groupby(["cell_K", "driver", "scorer", "window"])["p_at_50"].mean().reset_index()
-    means.to_csv(RESULTS / "cell_means.csv", index=False)
+    means = df.groupby(["cell_K", "window", "strategy"])["p_at_50"].mean().unstack("strategy").reset_index()
+    means.to_csv(RESULTS / "cell_window_means.csv", index=False)
 
-    # W6 grid: rows=scorer, cols=driver, per K
-    K200_w6 = means[(means.cell_K == 200) & (means.window == 6)].pivot(
-        index="scorer", columns="driver", values="p_at_50")
-    K50_w6 = means[(means.cell_K == 50) & (means.window == 6)].pivot(
-        index="scorer", columns="driver", values="p_at_50")
+    # Compute deltas
+    means["d_ewma_fix"] = means["ewma3"] - means["fixed"]
+    means["d_ewma_lag1"] = means["ewma3"] - means["lag1"]
+    means["d_ewma_trail"] = means["ewma3"] - means["trail3"]
+    means["d_off_fix"] = means["offline"] - means["fixed"]
+    means["rho_ewma"] = np.where(
+        means["d_off_fix"] > 0.01, means["d_ewma_fix"] / means["d_off_fix"], np.nan)
+    means["d_lag1_fix"] = means["lag1"] - means["fixed"]
+    means["rho_lag1"] = np.where(
+        means["d_off_fix"] > 0.01, means["d_lag1_fix"] / means["d_off_fix"], np.nan)
 
-    print("=== K=50 W6 P@50 grid (rows=scorer, cols=driver) ===")
-    print(K50_w6.round(3))
-    print()
-    print("=== K=200 W6 P@50 grid (rows=scorer, cols=driver) ===")
-    print(K200_w6.round(3))
+    # H1: at K=200, ewma3 >= fixed at every w>=2 (delta >= -0.01)
+    k200 = means[(means.cell_K == 200) & (means.window >= 2)]
+    h1_fail = k200[k200["d_ewma_fix"] < -0.01]
+    H1 = bool(len(h1_fail) == 0)
 
-    # Trajectory effect per scorer (W6 P@50 max - min across drivers)
-    traj_K50 = (K50_w6.max(axis=1) - K50_w6.min(axis=1)).round(3)
-    traj_K200 = (K200_w6.max(axis=1) - K200_w6.min(axis=1)).round(3)
+    # H2: at K in {50,100}, |ewma3 - lag1| <= 0.02 at every w>=2
+    mod = means[(means.cell_K.isin([50, 100])) & (means.window >= 2)]
+    h2_fail = mod[mod["d_ewma_lag1"].abs() > 0.02]
+    H2 = bool(len(h2_fail) == 0)
 
-    # H1: HP-full W6 on T_{m'} within 0.05 of T_{HP} for at least one m'
-    hp_w6_K200 = K200_w6.loc["HygienePrio-full"]
-    hp_self_K200 = float(hp_w6_K200["HygienePrio-full"])
-    hp_other_K200 = {k: float(v) for k, v in hp_w6_K200.items() if k != "HygienePrio-full"}
-    h1_within = {k: abs(v - hp_self_K200) <= 0.05 for k, v in hp_other_K200.items()}
-    H1 = any(h1_within.values())
+    # H3: |ewma3 - trail3| <= 0.02 everywhere
+    h3_fail = means[(means.window >= 2) & (means["d_ewma_trail"].abs() > 0.02)]
+    H3 = bool(len(h3_fail) == 0)
 
-    # H2: EPSS W6 on T_EPSS < EPSS W6 on T_HP at K=50
-    epss_w6_K50_T_epss = float(K50_w6.loc["EPSS-only", "EPSS-only"])
-    epss_w6_K50_T_hp = float(K50_w6.loc["EPSS-only", "HygienePrio-full"])
-    H2 = epss_w6_K50_T_epss < epss_w6_K50_T_hp
+    # H4: K=200 cell-mean rho_ewma across w>=2 >= 0.5
+    rho_k200 = means[(means.cell_K == 200) & (means.window >= 2)]["rho_ewma"].mean()
+    H4 = bool(rho_k200 >= 0.5)
 
-    # H3: per-pair dominance HP > EPSS under T_EPSS
-    def per_pair_dom(K: int, driver: str) -> float:
-        sub = df[(df.cell_K == K) & (df.driver == driver)]
-        # group by (seed, window), check if HP > EPSS
-        pivot = sub.pivot_table(index=["seed", "window"], columns="scorer",
-                                 values="p_at_50", aggfunc="first")
-        return float((pivot["HygienePrio-full"] > pivot["EPSS-only"]).mean())
-
-    dom_K50_Tepss = per_pair_dom(50, "EPSS-only")
-    dom_K200_Tepss = per_pair_dom(200, "EPSS-only")
-    H3 = (dom_K50_Tepss >= 0.75) and (dom_K200_Tepss >= 0.50)
-
-    # Also compute dominance across all (K, driver) for the table
-    dom_table = {}
-    for K in (50, 200):
-        for d in ("HygienePrio-full", "EPSS-only", "HRS-only", "CVSS-only", "Random"):
-            dom_table[(K, d)] = per_pair_dom(K, d)
+    rho_per_cell = means[means.window >= 2].groupby("cell_K")[["rho_ewma", "rho_lag1"]].mean()
 
     summary = {
         "n_rows": int(len(df)),
-        "H1_collapse_intrinsic": {
-            "supported": bool(H1),
-            "HP_W6_T_HP_K200": hp_self_K200,
-            "HP_W6_T_other_K200": hp_other_K200,
-            "within_005_per_driver": h1_within,
-        },
-        "H2_EPSS_self_decay_K50": {
-            "supported": bool(H2),
-            "EPSS_W6_T_EPSS_K50": epss_w6_K50_T_epss,
-            "EPSS_W6_T_HP_K50": epss_w6_K50_T_hp,
-        },
-        "H3_HP_dominates_under_T_EPSS": {
-            "supported": bool(H3),
-            "dom_K50_T_EPSS": dom_K50_Tepss,
-            "dom_K200_T_EPSS": dom_K200_Tepss,
-        },
-        "W6_trajectory_effect_per_scorer_K50": traj_K50.to_dict(),
-        "W6_trajectory_effect_per_scorer_K200": traj_K200.to_dict(),
-        "HP_per_pair_dominance_table": {f"K{k}__{d}": v for (k, d), v in dom_table.items()},
-        "W6_grid_K50": K50_w6.round(4).to_dict(),
-        "W6_grid_K200": K200_w6.round(4).to_dict(),
+        "H1_ewma_no_hazard_K200": {"supported": H1, "n_failures": int(len(h1_fail)),
+                                    "failures": h1_fail.to_dict("records")},
+        "H2_ewma_matches_lag1_modK": {"supported": H2, "n_failures": int(len(h2_fail)),
+                                       "failures": h2_fail.to_dict("records")},
+        "H3_ewma_matches_trail3": {"supported": H3, "n_failures": int(len(h3_fail)),
+                                    "failures": h3_fail.to_dict("records")},
+        "H4_ewma_recovery_K200": {"supported": H4, "rho_K200_mean": float(rho_k200)},
+        "recovery_per_cell": rho_per_cell.round(3).to_dict(),
+        "cell_window_means": means.round(4).to_dict("records"),
     }
     with open(RESULTS / "hypothesis_summary.json", "w") as f:
         json.dump(summary, f, indent=2, default=float)
 
-    # LaTeX table 1: W6 grids (K=50 and K=200 stacked)
-    drivers = ["HygienePrio-full", "EPSS-only", "HRS-only", "CVSS-only", "Random"]
-    short = {"HygienePrio-full": "HP", "EPSS-only": "EPSS", "HRS-only": "HRS",
-             "CVSS-only": "CVSS", "Random": "Rand"}
+    # tab_main: per (K, window) all 5 strategies
     lines = [
         "\\begin{table*}[!t]",
-        "  \\caption{Window-6 mean P@50 per (scoring method, driving method) cell. Rows = scoring method, columns = trajectory-driving method. Diagonals (italics) are each method's self-trajectory P@50; HP-full column shows the Papers~5--8 baseline.}",
-        "  \\label{tab:w6grid}",
+        "  \\caption{Mean P@50 per (capacity $K$, window) for all five calibration strategies. EWMA and trail3 are the multi-history smoothers introduced in this paper; offline is the Paper~7 ceiling.}",
+        "  \\label{tab:main}",
         "  \\centering",
         "  \\small",
         "  \\setlength{\\tabcolsep}{5pt}",
-        "  \\begin{tabular}{l " + "c" * len(drivers) + " c}",
+        "  \\begin{tabular}{cc ccccc cc}",
         "    \\toprule",
-        "    \\textbf{scorer} \\textbackslash{} \\textbf{driver}",
-        "    & " + " & ".join(short[d] for d in drivers) + " & range \\\\",
+        "    $K$ & W & fixed & lag1 & trail3 & ewma3 & offline & $\\Delta_{\\mathrm{ewma\\!-\\!fix}}$ & $\\rho_{\\mathrm{ewma}}$ \\\\",
         "    \\midrule",
-        "    \\multicolumn{" + str(len(drivers) + 2) + "}{l}{\\textit{K = 50}} \\\\",
     ]
-    for s in drivers:
-        row_vals = K50_w6.loc[s]
-        rng = row_vals.max() - row_vals.min()
-        cells = []
-        for d in drivers:
-            v = float(row_vals[d])
-            cells.append(f"\\textit{{{v:.3f}}}" if d == s else f"{v:.3f}")
-        lines.append(f"    {short[s]} & " + " & ".join(cells) + f" & {rng:.3f} \\\\")
-    lines.append("    \\midrule")
-    lines.append("    \\multicolumn{" + str(len(drivers) + 2) + "}{l}{\\textit{K = 200}} \\\\")
-    for s in drivers:
-        row_vals = K200_w6.loc[s]
-        rng = row_vals.max() - row_vals.min()
-        cells = []
-        for d in drivers:
-            v = float(row_vals[d])
-            cells.append(f"\\textit{{{v:.3f}}}" if d == s else f"{v:.3f}")
-        lines.append(f"    {short[s]} & " + " & ".join(cells) + f" & {rng:.3f} \\\\")
+    for K in [50, 100, 200]:
+        sub = means[means.cell_K == K].sort_values("window")
+        for _, r in sub.iterrows():
+            rho_str = f"{r['rho_ewma']:.2f}" if pd.notna(r['rho_ewma']) else "---"
+            lines.append(
+                f"    {int(r['cell_K'])} & {int(r['window'])} & "
+                f"{r['fixed']:.3f} & {r['lag1']:.3f} & {r['trail3']:.3f} & "
+                f"{r['ewma3']:.3f} & {r['offline']:.3f} & "
+                f"{r['d_ewma_fix']:+.3f} & {rho_str} \\\\"
+            )
+        lines.append("    \\midrule")
+    lines = lines[:-1]
     lines += ["    \\bottomrule", "  \\end{tabular}", "\\end{table*}"]
-    (TABLES / "tab_w6grid.tex").write_text("\n".join(lines) + "\n")
+    (TABLES / "tab_main.tex").write_text("\n".join(lines) + "\n")
 
-    # LaTeX table 2: HP per-pair dominance over EPSS across (K, driver)
-    lines = [
-        "\\begin{table}[!t]",
-        "  \\caption{Per-pair dominance fraction $\\Pr[\\mathrm{HP}>\\mathrm{EPSS}]$ over 150 (seed, window) pairs per (K, driver).}",
-        "  \\label{tab:dom}",
-        "  \\centering",
-        "  \\small",
-        "  \\setlength{\\tabcolsep}{5pt}",
-        "  \\begin{tabular}{lcc}",
-        "    \\toprule",
-        "    driver & $K=50$ & $K=200$ \\\\",
-        "    \\midrule",
-    ]
-    for d in drivers:
-        v50 = dom_table[(50, d)]
-        v200 = dom_table[(200, d)]
-        lines.append(f"    {short[d]} & {v50:.3f} & {v200:.3f} \\\\")
-    lines += ["    \\bottomrule", "  \\end{tabular}", "\\end{table}"]
-    (TABLES / "tab_dom.tex").write_text("\n".join(lines) + "\n")
-
-    # LaTeX table 3: hypothesis outcomes
+    # tab_hypotheses
     lines = [
         "\\begin{table}[!t]",
         "  \\caption{Pre-registered hypothesis outcomes.}",
@@ -159,21 +100,21 @@ def main() -> None:
         "  \\centering",
         "  \\small",
         "  \\setlength{\\tabcolsep}{4pt}",
-        "  \\begin{tabular}{@{}p{0.5cm}p{4.8cm}p{2.2cm}@{}}",
+        "  \\begin{tabular}{@{}p{0.5cm}p{5.0cm}p{1.8cm}@{}}",
         "    \\toprule",
         "    \\textbf{ID} & \\textbf{Decision rule} & \\textbf{Outcome} \\\\",
         "    \\midrule",
-        f"    H1 & HP W6 collapse at $K=200$ within $\\pm 0.05$ on $\\geq 1$ non-HP driver & {'Supported' if H1 else 'Rejected'} \\\\",
-        f"    H2 & EPSS W6 on $T_{{\\mathrm{{EPSS}}}}<$ on $T_{{\\mathrm{{HP}}}}$ at $K=50$ & {'Supported' if H2 else 'Rejected'} \\\\",
-        f"    H3 & $\\Pr[\\mathrm{{HP}}>\\mathrm{{EPSS}}]\\geq\\{{0.75,0.50\\}}$ under $T_{{\\mathrm{{EPSS}}}}$ & {'Supported' if H3 else 'Rejected'} \\\\",
+        f"    H1 & EWMA-3 $\\geq$ fixed at every $w\\geq 2$, $K=200$ (within $-0.01$) & {'Supported' if H1 else f'Rejected ({len(h1_fail)})'} \\\\",
+        f"    H2 & $|$EWMA-3 $-$ lag1$|\\leq 0.02$, $K\\in\\{{50,100\\}}$ & {'Supported' if H2 else f'Rejected ({len(h2_fail)})'} \\\\",
+        f"    H3 & $|$EWMA-3 $-$ trail3$|\\leq 0.02$ everywhere & {'Supported' if H3 else f'Rejected ({len(h3_fail)})'} \\\\",
+        f"    H4 & $\\bar\\rho^{{\\mathrm{{ewma}}}}_{{K=200}}\\geq 0.5$ & {'Supported' if H4 else f'Rejected ({rho_k200:.2f})'} \\\\",
         "    \\bottomrule",
         "  \\end{tabular}",
         "\\end{table}",
     ]
     (TABLES / "tab_hypotheses.tex").write_text("\n".join(lines) + "\n")
 
-    print(json.dumps({k: v for k, v in summary.items()
-                      if k not in ("W6_grid_K50", "W6_grid_K200")},
+    print(json.dumps({k: v for k, v in summary.items() if k not in ("cell_window_means",)},
                      indent=2, default=float))
 
 

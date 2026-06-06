@@ -1,10 +1,13 @@
 % =====================================================================
-% Paper 7 (Consolidated) — Online Recalibration for Hygiene-Augmented
-% Vulnerability Prioritization: A Pre-Registered Comparison of Six
-% Procedures.
+% Paper 7 — Rolling-History Online Calibration for Hygiene-Augmented
+% Vulnerability Prioritization
 %
-% Target: IEEE Transactions on Network and Service Management (TNSM).
-% Six experiments (E1-E6) frozen in paper7/experiments/0[1-6]_*/results/.
+% Target: IEEE Transactions on Network and Service Management (TNSM)
+% Template: IEEEtran, journal mode.
+%
+% Reproducibility: all numeric claims trace to
+%   paper7/results/primary_v1/online_calib_results.csv
+%   (1,350 rows; 3 cells x 25 seeds x 6 windows x 3 strategies).
 % =====================================================================
 \documentclass[journal]{IEEEtran}
 
@@ -20,8 +23,8 @@
 
 \graphicspath{{figures/}}
 
-\title{Online Recalibration for Hygiene-Augmented Vulnerability
-Prioritization: A Pre-Registered Comparison of Six Procedures}
+\title{Rolling-History Online Calibration for Hygiene-Augmented
+Vulnerability Prioritization}
 
 \author{%
   \IEEEauthorblockN{Harshavardhan Malla}
@@ -36,9 +39,8 @@ Prioritization: A Pre-Registered Comparison of Six Procedures}
 \end{abstract}
 
 \begin{IEEEkeywords}
-vulnerability prioritization; online calibration; change-point
-detection; CUSUM; capacity-aware threshold; multi-window scheduling;
-pre-registration; reproducibility.
+vulnerability prioritization; online calibration; rolling-history learning;
+EPSS; hygiene risk score; pre-registration; reproducibility.
 \end{IEEEkeywords}
 
 \input{sections/01_introduction.tex}

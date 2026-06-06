@@ -1,110 +1,81 @@
 \section{Introduction}
 
-Hygiene-augmented vulnerability prioritization is a deployment, not a
-demonstration. The HygienePrio scorer~\cite{paper4hygieneprio} adds
-approximately 31~pp of Precision@50 over EPSS-only ranking at a single
-window, and Paper~5~\cite{paper5temporal} showed the per-pair advantage
-persists across six rolling maintenance windows. But Paper~5 also
-identified that the \textit{absolute} P@50 produced by the
-fixed-Paper-4-weights scorer is regime-dependent, and an
-offline-peek calibration ablation could add up to $+21.3$~pp at the
-W2 window of the canonical $(K=50, \lambda=3)$ cell. The peek
-procedure is not deployable. The question this paper answers is:
-can any deployable recalibration procedure recover the peek
-ceiling, and if so, in which capacity regime?
+Paper~5's~\cite{paper5temporal} H3 ablation produced a striking result:
+grid-searching scorer weights on five calibration seeds at the same
+window being scored, then applying those weights to 25 evaluation
+seeds at that window, adds up to $+21.3$~pp of Precision@50 over the
+fixed Paper~4 weights at the canonical $(K = 50, \lambda = 3)$ cell.
+The paper noted, accurately, that this procedure peeks at the window
+it is scoring and is therefore an offline upper bound, not a deployable
+recipe.
 
-We attack the question in pre-registered increments. Six experiments,
-each addressing the failure mode the previous one exposes, are
-locked-and-evaluated in sequence:
+This paper evaluates the simplest deployable substitute. At each
+scoring window $w$ we grid-search on calibration-seed data at window
+$w - 1$, then apply the fitted weights to the evaluation seeds at
+window $w$. This is rolling-history online calibration with a
+one-window lag, the weakest form of strictly online learning. Two
+operational questions follow:
 
-\begin{itemize}
-\item \textbf{E1.} Lag-1 rolling-history grid search --- the simplest
-deployable substitute for the offline peek.
-\item \textbf{E2.} Multi-window smoothing (EWMA-3, trailing-mean-3)
-to address E1's failure mode.
-\item \textbf{E3.} Magnitude-based change-point detection with a
-single threshold $\tau$ to switch between lag-1 and fixed.
-\item \textbf{E4.} Threshold-sensitivity sweep over $\tau$ to map
-the H1/H2 Pareto frontier of E3.
-\item \textbf{E5.} Capacity-aware $\tau$ vector $\tau_K$, locked from
-inspection of E4's calibration-seed log.
-\item \textbf{E6.} One-sided CUSUM with pre-registered $(k, h)$ to
-address E5's structural-collapse property.
-\end{itemize}
+\textbf{Q1.} How much of the offline-peek gain survives the lag?
 
-Each experiment is governed by its own pre-registration document
-(archived in \texttt{paper7/experiments/0X\_*/PROTOCOL.md}); 27
-hypotheses are locked across the six experiments and reported
-honestly here. The full hypothesis-outcome ledger is in
-Table~\ref{tab:hypothesis_ledger}.
+\textbf{Q2.} Does online recalibration rescue HygienePrio at the
+high-capacity cells where Paper~6~\cite{paper6capacity} reported W6
+collapse to mean P@50 $\leq 0.12$?
+
+We pre-registered three hypotheses corresponding to these questions
+and a third operational-safety check; ran a 1{,}350-row evaluation
+spanning $K \in \{50, 100, 200\}$, $\lambda = 3$, six windows, and
+three calibration strategies (\textsf{fixed}, \textsf{online},
+\textsf{offline}); and report below that all three pre-registered
+hypotheses are rejected in interestingly different ways.
 
 \subsection{Contributions}
 
 \begin{itemize}
-\item \textbf{C1 --- A six-experiment pre-registered map of the
-deployable-calibration design space.} 27 locked hypotheses, 6
-sequential frozen evaluations on the EEHDA fleet, 19{,}500
-result rows total. Each experiment's pre-registration was locked
-before its evaluation-seed P@50 was inspected; each rejection is
-reported per the protocol's stop rules.
+\item \textbf{C1 --- A pre-registered evaluation of deployable
+recalibration.} The first end-to-end pre-registered comparison of
+rolling-history online recalibration against fixed-weight scoring and
+offline-peek calibration for hygiene-augmented vulnerability
+prioritization. 1{,}350-row frozen result set.
 
-\item \textbf{C2 --- Lag-1 works at moderate capacity but harms at
-high capacity (E1).} Cell-mean recovery ratio of the offline ceiling
-is $\rho \in \{1.04, 0.99\}$ at $K \in \{50, 100\}$ and
-$\rho = -0.66$ at $K = 200$. The capacity-conditional hazard is the
-substantive finding that drives the rest of the program.
+\item \textbf{C2 --- Capacity-dependent rescue.} At moderate capacity
+($K \in \{50, 100\}$) online recalibration recovers essentially all of
+the offline-peek gain (per-cell recovery ratio $1.04$ and $0.99$). At
+$K = 50$ the W2 gain is $+19.7$~pp, nearly matching the offline ceiling
+of $+21.3$~pp. The deployable procedure is operationally effective in
+this regime.
 
-\item \textbf{C3 --- Multi-window smoothing falsifies the
-variance-reduction prior (E2).} EWMA-3 and trailing-mean-3
-\textit{worsen} the K=200 hazard ($\rho = -0.94$ for EWMA-3 vs
-$\rho = -0.66$ for lag-1) because older calibration windows are
-mis-aligned with the current window in a fast-shift regime.
-``More history reduces variance and helps'' is wrong in this regime.
+\item \textbf{C3 --- High-capacity hazard (H1 and H3 rejected).} At
+$K = 200$, online recalibration \textit{harms} performance relative
+to fixed weights, losing $-5.9$ to $-7.8$~pp at W2--W3 because the
+fleet state shifts faster than a one-window lag can track. Pre-registered
+H1 (``online never loses to fixed by more than $1$~pp'') is rejected at
+two cell-window pairs; H3 (``online rescues high-capacity collapse'')
+is rejected because the W4--W6 recovery does not meet the
+$\geq 0.5$ recovery threshold and the W2--W3 hazard dominates the
+cell-mean.
 
-\item \textbf{C4 --- Single-$\tau$ magnitude detector cannot reach
-joint feasibility (E3, E4).} A single threshold $\tau$ that avoids
-the K=200 hazard also fires at K=50 where lag-1 helps; the swept
-Pareto curve sits entirely outside the joint feasibility region
-defined by Papers~5/10's two tolerances.
+\item \textbf{C4 --- Online beats offline-peek in some windows (H2
+rejected).} At $K = 50, w = 5$ and a few other late-window points,
+online ($0.580$) exceeds offline-peek ($0.550$). The five-seed
+offline grid search overfits the calibration set; the one-window
+lag acts as an implicit regulariser. H2 is therefore rejected by
+the data, in the opposite direction from what naive intuition
+predicts.
 
-\item \textbf{C5 --- Capacity-aware $\tau$ reaches feasibility but
-collapses to the static gate (E5).} A per-K $\tau_K$ vector with
-$\tau_{200} = 0.02$ satisfies all three pre-registered tolerances,
-but its K=200 cell mean equals the static gate's cell mean exactly
-($0.2664$ to four decimal places) because the small $\tau_{200}$
-fires at every post-W1 K=200 window. The per-window detector
-contributes nothing beyond the static gate at the high-capacity
-extreme.
-
-\item \textbf{C6 --- CUSUM is the first detector to beat the static
-gate (E6).} A one-sided CUSUM with $k = 0.04$, $h = 0.10$ filters
-single-window noise excursions (notably the $K=200, w=4$ excursion
-where $|\Delta| = 0.020 < k$) and uses the lag-1 fit at those
-windows. K=200 cell-mean P@50 = $0.2754$, beating the static gate's
-$0.2664$ by $+0.9$~pp. This is \textit{the only operationally
-meaningful gain over the static gate in the six-experiment sequence};
-the H2.E6 binary test rejects by a fine 0.001~pp margin, which we
-report honestly. CUSUM with a single $(k, h)$ pair over-fires at
-K=50 ($-3.9$~pp cell-mean cost), the natural target of a
-capacity-aware CUSUM successor.
-
-\item \textbf{C7 --- Capacity-conditional deployable recipe.}
-At $K \leq 100$ deploy lag-1 (E1, $\rho \approx 1.0$). At $K = 200$
-deploy CUSUM (E6, $+0.9$~pp over the static gate). For variable
-capacity across deployment cycles, a per-K $(k_K, h_K)$ CUSUM
-vector is the natural successor and is left as future work under
-pre-registration discipline.
+\item \textbf{C5 --- Operational recommendation.} Rolling-history
+online recalibration should be deployed only when fleet state shifts
+slowly relative to the lag the recalibration window imposes. At high
+capacity, the deployment is a net hazard.
 \end{itemize}
 
 \subsection{Relationship to Prior Papers}
 
-This paper sits between Paper~5~\cite{paper5temporal} (temporal
-stability at fixed weights), Paper~6~\cite{paper6capacity} (capacity
-sweep that identified the K=200 collapse), and the methodological
-self-trajectory paper~\cite{paper9selftraj} (which addresses the
-selection-policy coupling threat that all six experiments here
-inherit). The present paper takes the K=200 absolute-floor problem
-that Paper~6 identified and asks whether deployable online
-recalibration can recover the offline ceiling. The honest answer
-unifying all six experiments is: yes at moderate capacity; only
-CUSUM-class detectors at high capacity, and only marginally.
+Paper~5~\cite{paper5temporal} established the multi-window simulator
+and reported the offline-peek H3 ceiling. Paper~6~\cite{paper6capacity}
+swept capacity and arrival rate and identified the high-capacity
+collapse zone for HygienePrio-full at fixed weights. This paper sits
+at the intersection: it asks whether a deployable recalibration
+procedure can close Paper~5's H3 gap and rescue Paper~6's H4 collapse.
+The answer is regime-conditional: yes at moderate capacity, no (and
+in fact harmful) at high capacity.

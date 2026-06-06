@@ -1,75 +1,68 @@
 \section{Methodology}
 
-\subsection{Grid Search}
+\subsection{Scorer (Inherited)}
 
-Every experiment that fits weights does so via a 108-point grid
-search over $(\alpha, \beta, \gamma, \delta) \in \{0.5, 0.7, 0.9\}
-\times \{0.3, 0.5, 0.7\} \times \{0.0, 0.1, 0.2\} \times \{0.0, 0.1,
-0.2, 0.3\}$, identical to Paper~5's recalibration ablation.
+The HygienePrio scorer and HRS components are inherited verbatim from
+Paper~4~\cite{paper4hygieneprio}:
+\begin{equation}
+\begin{aligned}
+S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
+          & + \gamma\,\mathrm{KEV\_recency}(c) \\
+          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+\end{aligned}
+\label{eq:hp}
+\end{equation}
+HRS is the weighted combination of PatchPosture (0.50), ADExposure
+(0.30), and TelemetryFreshness (0.20) defined in Paper~4. Only the
+four scorer weights $(\alpha, \beta, \gamma, \delta)$ are subject to
+re-calibration in this paper; HRS weights are not.
 
-\subsection{Per-Experiment Procedures}
+\subsection{Rolling-History Grid Search}
 
-\textbf{E1 lag-1.} At $w \geq 2$, the grid search is performed on
-the calibration seeds at window $w - 1$ to maximise mean P@50.
+At window $w \geq 2$ the \textsf{online} strategy executes:
+\begin{enumerate}
+\item For each of the 108 grid points
+$(\alpha, \beta, \gamma, \delta) \in \{0.5, 0.7, 0.9\} \times
+\{0.3, 0.5, 0.7\} \times \{0.0, 0.1, 0.2\} \times \{0.0, 0.1, 0.2, 0.3\}$:
+\begin{enumerate}
+\item For each of the five calibration seeds, score the seed's
+\textit{window~$w-1$} pairs using the candidate weights and compute P@50
+against that seed's window-$w-1$ ground truth.
+\item Take the mean P@50 across the five seeds.
+\end{enumerate}
+\item Select the grid point with the highest mean P@50; ties are broken
+by lexicographic order. These weights become the \textsf{online} weights
+for window $w$.
+\item Apply the selected weights to each of the 25 evaluation seeds at
+\textit{window~$w$} and record the seed's P@50.
+\end{enumerate}
 
-\textbf{E2 smoothing.} The fitting objective generalises to:
-$\bar p(g) = \sum_{i \in H} w_i\,p_i(g) / \sum_i w_i$
-where $H \subseteq \{1, \ldots, w-1\}$ and $w_i$ are pre-registered
-weights. For \textsf{trail3}: $H = \{\max(1, w-3), \ldots, w-1\}$,
-equal weights. For \textsf{ewma3}: same $H$, geometric weights
-$\alpha^i$ with $\alpha = 0.6$.
+The \textsf{offline} strategy is identical except that the calibration
+data at step~1 is the \textit{window~$w$} state (i.e., the strategy
+peeks at the window it is scoring). The \textsf{fixed} strategy skips
+calibration entirely and uses the Paper~4 weights every window.
 
-\textbf{E3 adaptive ($\tau = 0.05$).} Compute the calibration-target
-shift $\Delta_w = p^{\text{cal}}_{w-1}(g^{\textsf{lag1}}_w) -
-p^{\text{ref}}_w$, where $p^{\text{ref}}_w$ is the same lag-1-fit
-applied to window $w - 2$ ($w \geq 3$) or fixed-weight calibration
-P@50 at $w - 1$ ($w = 2$). Fire if $|\Delta_w| \geq \tau$. On fire,
-revert to Paper~4 fixed weights; otherwise apply $g^{\textsf{lag1}}_w$.
+\subsection{Fleet-State Evolution}
 
-\textbf{E4 $\tau$ sweep.} Same as E3 with
-$\tau \in \{0.02, 0.03, 0.05, 0.075, 0.10\}$. $\Delta_w$, the
-lag-1-fit weights, and the offline-peek weights are
-$\tau$-independent, so they are computed once per (cell, window)
-and reused across $\tau$ values.
+Fleet evolution is driven by HygienePrio-full's top-$K$ selection under
+the \textsf{fixed} weights at every window, identical across strategies.
+This isolates the recalibration decision from the trajectory-generation
+decision: all three strategies see exactly the same evolving fleet, so
+any difference in P@50 is attributable to scoring weights alone. The
+choice and its threat-to-validity consequence are restated in
+\S\ref{sec:threats}.
 
-\textbf{E5 capacity-aware $\tau$.} Same E3 procedure but with
-$\tau_K = \{50: 0.20, 100: 0.05, 200: 0.02\}$ instead of a single
-$\tau$. The vector is locked from inspection of E4's
-calibration-seed change-point decision log only --- no evaluation-seed
-inspection.
+\subsection{Online Recovery Ratio}
 
-\textbf{E6 CUSUM.} Accumulator $C_w = \max(0, C_{w-1} + |\Delta_w|
-- k)$ with $C_1 = 0$. On fire ($C_w \geq h$), revert to fixed
-weights for window $w$ and reset $C_w = 0$. Otherwise apply the
-lag-1-fit weights. Pre-registered $k = 0.04$, $h = 0.10$.
-
-\subsection{Comparators}
-
-Every experiment includes \textsf{fixed} (Paper~4 weights) and
-\textsf{offline-peek} (Paper~5 H3 ceiling, peek at the current
-window's calibration state). E3--E6 additionally include
-\textsf{gated} (static $K \leq 100 \to$ lag1; $K \geq 200 \to$
-fixed) as a non-adaptive control. The static gate has no
-per-window decision and serves as the deployable baseline that
-any adaptive procedure must beat.
-
-\subsection{Selection-Policy Convention}
-
-HygienePrio-full under fixed weights drives the top-$K$ selection
-at every window for every strategy in every experiment. The
-recalibration decision affects the scoring weights only; the fleet
-trajectory is shared. This isolates the recalibration decision from
-the trajectory-generation decision; the trade-off is that the
-adaptive procedures are evaluated against a trajectory their own
-weights did not produce.
-
-\subsection{Reporting Convention}
-
-Cell-mean point estimates are means across 25 evaluation seeds.
-95\% confidence intervals are percentile bootstrap with 10{,}000
-resamples~\cite{efron1994introduction}. Spearman correlations
-underlying H1.E4, H2.E4, H3.E5, H4.E4 are computed on small samples
-(3 or 5 points) and are reported as point estimates rather than
-strong inferential claims. No null-hypothesis significance tests
-are reported; hypothesis decisions follow the pre-registered
-tolerance thresholds.
+For each (cell, window) with $w \geq 2$ and a positive offline-fixed
+gap, we report the recovery ratio:
+\begin{equation}
+\rho_{K, w} = \frac{\text{P@50}^{\mathrm{online}}_{K, w} - \text{P@50}^{\mathrm{fixed}}_{K, w}}
+                   {\text{P@50}^{\mathrm{offline}}_{K, w} - \text{P@50}^{\mathrm{fixed}}_{K, w}}.
+\end{equation}
+$\rho \approx 1$ indicates that online recalibration achieves the
+offline-peek ceiling without leaking future data. $\rho \approx 0$
+indicates that online recalibration provides no benefit over the
+fixed-weight baseline. Values above 1 indicate online beats the
+ceiling --- possible when the offline-peek weights overfit a small
+calibration set.

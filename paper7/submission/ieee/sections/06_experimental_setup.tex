@@ -1,48 +1,43 @@
 \section{Experimental Setup}
 
-\subsection{Pre-Registration Discipline}
+\subsection{Pre-Registration}
 
-Each experiment was governed by a pre-registration document
-(\texttt{paper7/experiments/0X\_*/PROTOCOL.md}) that locked the
-procedure parameters, the hypothesis set, the decision rules, and
-the stop rules \textit{before} the corresponding evaluation-seed
-P@50 was inspected. The protocols and their lock dates are:
+The cell grid, calibration strategies, hypotheses H1--H3, decision rules,
+and stop rules in \texttt{paper7/design/PAPER7\_PROTOCOL.md} were locked
+on 2026-06-04 before any online-calibration result was computed.
 
-All six protocols are archived under
-\texttt{paper7/experiments/0[1-6]\_*/} (locked dates: E1--E5
-2026-06-04; E6 2026-06-05).
+\subsection{Execution Order}
 
-The sequence in which the protocols were locked matches the
-narrative order: each later experiment's protocol was finalised
-\textit{after} the previous experiment's evaluation rejected one or
-more of its hypotheses. The honest contribution of this paper is
-the chain of pre-registered rejections that drove the experimental
-design.
-
-\subsection{Per-Experiment Execution}
-
-For each $K \in \{50, 100, 200\}$: cache per-window
-$(\text{pairs}_w, \text{HRS}_w)$ states for the calibration and
-evaluation seeds under fixed-weight HygienePrio-full trajectory;
-per window, fit \textsf{lag1} and \textsf{offline} weights and
-compute the experiment's procedure-specific decisions; score all 25
-evaluation seeds at each window with each strategy's resulting
-weights; persist one P@50 row per (seed, window, strategy).
+For each cell $K \in \{50, 100, 200\}$:
+\begin{enumerate}
+\item Cache per-window $(\text{pairs}_w, \text{HRS}_w)$ states for all
+five calibration seeds (driving evolution with fixed-weight HygienePrio-full).
+\item Cache per-window states for all twenty-five evaluation seeds
+(same trajectory policy).
+\item For each window $w = 1, \ldots, 6$, determine the
+\textsf{fixed}, \textsf{online}, and \textsf{offline} weights as in
+\S5.2, then score every evaluation seed at window $w$ with each
+strategy's weights.
+\end{enumerate}
 
 \subsection{Statistical Reporting}
 
-95\% percentile bootstrap CIs (10{,}000 resamples). Spearman tests
-on small samples are reported as point estimates. Hypothesis
-decisions follow pre-registered tolerance thresholds; no
-NHST is reported.
+Cell-mean point estimates are means across the 25 evaluation seeds.
+95\% confidence intervals are percentile bootstrap with 10{,}000
+resamples~\cite{efron1994introduction}. No null-hypothesis significance
+tests are reported; H1--H3 decision rules are applied as stated in the
+protocol.
 
 \subsection{Reproducibility}
 
-Each experiment is independently reproducible from its frozen seed
-list via the runner in its own \texttt{src/} subdirectory. The
-per-experiment README files document the invocation; all six
-runners follow the pattern \texttt{PYTHONPATH=src python3 src/run\_*.py}.
-
-Each runner re-uses Paper~5's window simulator and Paper~4's scorer
-via \texttt{sys.path} injection; no code duplication. Determinism
-is inherited from the per-(seed, window, step) RNG seeding.
+The runner and analysis are released under MIT licence with the artifact.
+From \texttt{paper7/}:
+{\small\begin{verbatim}
+PYTHONPATH=src python3 src/run_online_calib.py
+PYTHONPATH=src python3 src/analyze.py
+PYTHONPATH=src python3 src/make_figures.py
+\end{verbatim}}
+The runner re-uses Paper~5's \texttt{window\_sim} and Paper~4's
+\texttt{hygieneprio} packages via \texttt{sys.path} injection (no
+code duplication). Determinism is inherited from Paper~5's per-(seed,
+window, step) RNG seeding.

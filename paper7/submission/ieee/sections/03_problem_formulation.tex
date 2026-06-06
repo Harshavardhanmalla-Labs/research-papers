@@ -1,69 +1,54 @@
 \section{Problem Formulation}
 \label{sec:problem}
 
-\subsection{Setting (Inherited)}
+\subsection{Setting}
 
-EEHDA synthetic fleet (Paper~4)~\cite{paper4hygieneprio}, Paper~5
-multi-window simulator~\cite{paper5temporal}, capacity $K$ pairs
-remediated per window, $\lambda$ Poisson new-CVE arrivals per window,
-$W = 6$ windows. The HygienePrio scorer and HRS components are
-inherited verbatim:
-\begin{equation}
-\begin{aligned}
-S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
-          & + \gamma\,\mathrm{KEV\_recency}(c) \\
-          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
-\end{aligned}
-\label{eq:hp}
-\end{equation}
-Only the four scorer weights are subject to recalibration; HRS
-weights are not.
+We inherit Paper~5's~\cite{paper5temporal} multi-window simulation
+($W = 6$ bi-weekly windows on the EEHDA fleet) and Paper~6's~\cite{paper6capacity}
+$(K, \lambda)$ parameterisation. The cell-defining parameters are
+fixed at $\lambda = 3$ Poisson new-CVE arrivals per window, and
+$K \in \{50, 100, 200\}$. The HygienePrio scorer Eq.~(\ref{eq:hp}) and
+HRS components are inherited verbatim from Paper~4~\cite{paper4hygieneprio};
+the only quantity that varies across strategies in this paper is the
+scorer weights $(\alpha, \beta, \gamma, \delta)$.
 
-\subsection{Six Pre-Registered Experiments}
+\subsection{Three Calibration Strategies}
 
-Each experiment locks a procedure and a hypothesis set before any
-evaluation-seed P@50 is inspected:
+For each cell and each window $w$, we evaluate three strategies:
 
-\textbf{E1 --- Lag-1 online.} At $w \geq 2$, grid-search weights on
-calibration seeds at $w - 1$; apply at $w$. Comparators: \textsf{fixed},
-\textsf{offline-peek} (Paper 5 H3 ceiling).
+\begin{description}
+\item[\textsf{fixed}] Weights remain at the Paper~4 calibrated values
+$(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$ at every
+window. No refitting.
+\item[\textsf{online}] At $w = 1$, weights are \textsf{fixed}.
+At $w \geq 2$, grid-search the scorer weights to maximise mean P@50 on
+the five calibration seeds at \textit{window~$w-1$ state} --- the
+strictly past observation. Apply the fitted weights to the 25
+evaluation seeds at \textit{window~$w$}.
+\item[\textsf{offline}] At $w = 1$, weights are \textsf{fixed}.
+At $w \geq 2$, grid-search at the calibration seeds' \textit{window~$w$
+state} (peek) and apply to the evaluation seeds at the same window. This
+replicates Paper~5's H3 procedure and acts as an upper-bound ceiling.
+\end{description}
 
-\textbf{E2 --- Multi-window smoothing.} Same grid-search but
-aggregated across multiple past windows: \textsf{trail3} (equal
-weights over $\max(1, w-3)..w-1$); \textsf{ewma3} (geometric weights,
-$\alpha = 0.6$). Comparators add \textsf{lag1}.
+The grid is identical to Paper~5~\cite{paper5temporal} (108 points across
+$\alpha, \beta, \gamma, \delta$).
 
-\textbf{E3 --- Single-$\tau$ adaptive.} At $w \geq 2$, compute the
-calibration-target shift $\Delta_w$ on the lag-1-fit weights between
-two consecutive past windows. Fire if $|\Delta_w| \geq \tau$
-($\tau = 0.05$). On fire, revert to fixed weights for window $w$;
-otherwise use the lag-1-fit weights. Comparator: static gate
-($K \leq 100 \to$ lag1; $K \geq 200 \to$ fixed).
+\subsection{Ground Truth and Metric}
 
-\textbf{E4 --- $\tau$ sensitivity sweep.} E3 with
-$\tau \in \{0.02, 0.03, 0.05, 0.075, 0.10\}$. Reports H1/H2 Pareto
-curve.
-
-\textbf{E5 --- Capacity-aware $\tau$.} Same detector as E3 but with
-a pre-registered per-K threshold vector $\tau_K = \{50: 0.20,
-100: 0.05, 200: 0.02\}$ locked from inspection of E4 calibration-seed
-shift distribution.
-
-\textbf{E6 --- One-sided CUSUM.} Accumulator $C_w = \max(0, C_{w-1}
-+ |\Delta_w| - k)$ with $C_1 = 0$. Fire if $C_w \geq h$, then reset.
-Pre-registered $k = 0.04$, $h = 0.10$.
-
-\subsection{Ground Truth and Primary Metric}
-
-Inherited from Papers~5--6: a pair $(h, c)$ is a positive at
-window $w$ if EPSS$(c) > 0.10$, HRS$(h)$ exceeds the fleet's 75th
-percentile at $w$, and $(h, c) \in V_w$. The HRS threshold is
-recomputed per window. P@50 is the primary metric.
+Ground truth, per-window HRS-threshold recomputation, and Precision@50
+metric are identical to Papers~5 and~6 and are not restated here.
 
 \subsection{Pre-Registered Hypotheses}
 
-The full ledger of 27 hypotheses (4--5 per experiment) is in
-Table~\ref{tab:hypothesis_ledger}, page~\pageref{tab:hypothesis_ledger}.
-Each hypothesis was locked before the corresponding experiment's
-evaluation-seed P@50 was inspected; per-experiment decision rules
-and stop rules are archived in the per-experiment protocol files.
+\begin{description}
+\item[H1] Online $\geq$ fixed at every (cell, window) pair --- online
+should never be worse than fixed by more than $1$~pp.
+\item[H2] Online $\leq$ offline at every (cell, window) pair --- online
+should not exceed the offline-peek ceiling by more than $1$~pp.
+\item[H3] At high-capacity cells ($K \in \{100, 200\}$), online
+recovers at least 50\% of the (offline $-$ fixed) gap for at least one
+window $w \in \{4, 5, 6\}$, with absolute gain $\geq 5$~pp.
+\end{description}
+
+Decision rules and stop rules are in \texttt{paper7/design/PAPER7\_PROTOCOL.md}.

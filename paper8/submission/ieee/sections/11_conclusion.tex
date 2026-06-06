@@ -1,57 +1,48 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-A pre-registered 7{,}500-row self-trajectory evaluation of the five
-HygienePrio-family prioritization methods at $K \in \{50, 200\}$,
-$\lambda = 3$, $W = 6$, on the 25 evaluation seeds inherited from
-Papers~5--8, produces three findings that retroactively reframe the
-research sequence.
+A pre-registered 2{,}250-row evaluation of multi-window-history
+calibration --- EWMA-3 and trailing-mean-3 --- against the Paper~7
+lag-1 baseline produces four hypothesis rejections and one clean
+finding.
 
-\textbf{First}, Paper~6's headline ``HygienePrio collapses at high
-capacity'' is rejected as an intrinsic property of hygiene-augmented
-scoring. At $K = 200, w = 6$, HygienePrio-full's mean P@50 is $0.075$
-on its own trajectory but $0.701$ on CVSS-driven, $0.713$ on
-HRS-driven, and $0.706$ on Random-driven trajectories. The collapse
-is a recursive-deployment artefact: HygienePrio's own selection
-preferentially drains the HRS upper tail that HygienePrio's score
-depends on.
+\textbf{The clean finding}: multi-window smoothing does not rescue
+the high-capacity hazard documented in Paper~7. At $K = 200$, EWMA-3's
+cell-mean recovery ratio is $-0.94$, worse than \textsf{lag1}'s
+$-0.66$. At $K = 100$ where \textsf{lag1} recovered the offline
+ceiling ($\rho = +0.99$), EWMA-3 produces $\rho = -1.37$ ---
+substantial reverse. At $K = 50$ where \textsf{lag1} matched the
+ceiling, EWMA-3 falls to half of it.
 
-\textbf{Second}, EPSS-only's selection at $K = 200$ produces a literal
-zero W6 P@50 for every scorer (range $0.001$--$0.012$). The
-ground-truth positive set is structurally exhausted by EPSS-only's
-aggressive remediation of the high-EPSS tail. EPSS-self-driven at
-high capacity is the deepest sink in the studied grid.
+\textbf{The mechanism}: under fast per-window distributional shift,
+older calibration windows are systematically less representative of
+the target window than the most recent past window. Averaging across
+multiple past windows reduces calibration-target variance but
+introduces bias from those older states, and the bias dominates.
+The result is monotone in history length: \textsf{lag1} $>$
+\textsf{trail3} $\approx$ EWMA-3 at every cell.
 
-\textbf{Third}, HygienePrio's per-pair dominance over EPSS-only is
-trajectory-conditional. At K=50 it is $1.000$ under every driver;
-at K=200 it is $1.000$ under HRS, CVSS, and Random drivers, $0.800$
-under HP's own driver, and $0.393$ under EPSS-only's driver
-(where both methods collapse together). Paper~5's $96\%$ headline
-statistic is preserved at moderate capacity and under HRS-blind
-drivers --- the regimes most relevant to actual deployment.
+\textbf{The sharpened recommendation}: deployable online
+recalibration in the simulated bi-weekly regime should use the
+shortest possible history (lag-1 at most), and should be turned off
+entirely at high capacity. Future adaptive procedures
+(change-point detection, forgetting-factor Bayesian update,
+capacity-conditional gating) need to be developed and
+pre-registered to address the regimes Paper~7 + Paper~8 together
+identify as untouched by simple history-based smoothers.
 
-The operational reading is sharper than Papers~5--8 allowed:
-HygienePrio is a strict improvement over EPSS-only across the
-studied regimes whenever the deploying organisation does not let
-HygienePrio also drive the patching queue at high capacity. The
-Paper~6 H4 collapse is a known closed-loop hazard, not a property
-of the scoring method itself, and is operationally controllable by
-decoupling scoring from selection.
+\textbf{Reproducibility.} The runner, analysis, pre-registration
+protocol, and frozen 2{,}250-row results CSV are available at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper8}.
 
-\textbf{Reproducibility.} The runner, analysis script, pre-registration
-protocol, and frozen 7{,}500-row results CSV are available at
-\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper9}.
-
-\textbf{Future work.}
-\textit{(i)} A pre-registered re-test of Paper~6's H4 hypothesis under
-the qualified statement ``on every cell, on at least one non-HP
-driver''. Doing this rigorously requires a fresh seed set to avoid
-HARKing on the present data.
-\textit{(ii)} Trajectory effects on calibration: do Paper~7's lag-1
-recovery ratio and Paper~8's smoothing penalty change under non-HP
-drivers? Both papers measured under T\_HP only.
-\textit{(iii)} External validation on real fleet telemetry with
-longitudinal exploitation outcome data.
-\textit{(iv)} A cross-trajectory evaluation in which the scorer
-\textit{also} predicts the next-window driver, modelling a fully
-adaptive closed-loop policy rather than two static ones.
+\textbf{Future work.} (i) Change-point-aware recalibration: detect
+distributional shifts and reset the history window. (ii) Adaptive
+$\alpha$ EWMA: tune the forgetting factor online to match the
+detected shift rate. (iii) Real fleet validation: re-establish the
+fixed-weight baseline on real exploitation-event data before any of
+this paper's findings about online procedures are taken to a
+deployment recommendation. (iv) Sensitivity sweep over $\alpha$ and
+trailing-history length $H$: the present paper held both at
+pre-registered values; a follow-up could map the $(\alpha, H)$
+landscape and identify whether there is any choice for which the
+smoothing-helps regime can be reached.
