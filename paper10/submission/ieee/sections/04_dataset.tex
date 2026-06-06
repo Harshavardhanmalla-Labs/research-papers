@@ -1,0 +1,23 @@
+\section{Dataset and Cell Grid}
+\label{sec:dataset}
+
+AutoHeal is evaluated on the EEHDA synthetic fleet
+generator~\cite{paper4hygieneprio} with per-CVE attributes drawn from
+the frozen real EPSS/KEV corpus
+(\texttt{real\_data/processed/cve\_corpus\_for\_sampling.csv}). This
+combines the synthetic-fleet topology of Papers 3--9 with the
+real CVE attribute distribution introduced in
+Paper~4~\S\ref{sec:external_validity}.
+
+\input{tables/tab_grid}
+
+The seed split, $\lambda = 3$ Poisson new-CVE arrival rate, and
+the 25 evaluation seeds (105--129) are inherited from Papers 5--9 so
+that AutoHeal's evaluation is directly comparable to prior results.
+Twelve windows correspond to 28 days of bi-weekly cycles, allowing
+the safety bounds and MTTR metrics to develop across multiple
+remediation rounds.
+
+Three strategies (AutoHeal, Human-in-loop, Fixed-policy) at three
+capacities $\times$ 12 windows $\times$ 25 seeds = $2{,}700$ frozen
+window-seed rows.
