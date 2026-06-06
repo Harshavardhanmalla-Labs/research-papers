@@ -212,7 +212,7 @@ Rolling-History Online Calibration for Hygiene-Augmented Vulnerability Prioritiz
 IEEE TNSM
 
 ### Status
-Submission-ready: 9 pages, compiles cleanly, 130 KB.
+Submission-ready: 7 pages, compiles cleanly, 130 KB.
 
 ### Technical Summary
 
@@ -352,19 +352,19 @@ Requires: Tectonic (`brew install tectonic` on macOS) or MacTeX (macOS) or MiKTe
 | Exhibit | Type | Paper | Pages |
 |---|---|---|---|
 | Exhibit A | Research paper | Paper 1 (VulnPrio) | 8 |
-| Exhibit B | Research paper | Paper 2 (CalibScore) | 8 |
+| Exhibit B | Research paper | Paper 2 (CalibScore) | 7 |
 | Exhibit C | Research paper | Paper 3 (HygieneBench, ACM AISec) | 7 |
 | Exhibit D | Research paper | Paper 4 (HygienePrio, IEEE TNSM) | 14 |
 | Exhibit E | Research paper | Paper 5 (Temporal Stability, IEEE TNSM) | 8 |
 | Exhibit F | Research paper | Paper 6 (Capacity-Indexed Decay, IEEE TNSM) | 8 |
-| Exhibit G | Research paper | Paper 7 (Rolling-History Lag-1, IEEE TNSM) | 9 |
+| Exhibit G | Research paper | Paper 7 (Rolling-History Lag-1, IEEE TNSM) | 7 |
 | Exhibit H | Research paper | Paper 8 (Multi-History Smoothing, IEEE TNSM) | 7 |
 | Exhibit I | Research paper | Paper 9 (Self-Trajectory Evaluation, IEEE TNSM) | 8 |
 | Pre-reg ledger | Pre-registration | ~35 locked hypotheses across the program, archived in each paper's `design/` directory |
 | Frozen data | Benchmark data | ~25,500 Precision@K rows across all nine papers' `results/` directories (+ ~18,900 supplementary rows in `paper7/experiments/`) |
 | Code | Code artifacts | Synthetic EEHDA generator + per-paper analysis scripts under MIT licence |
 
-**Total submission pages: 77** (9 papers averaging ~8.5 pages each).
+**Total submission pages: 74** (9 papers averaging ~8.2 pages each).
 
 ---
 
