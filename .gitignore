@@ -43,3 +43,8 @@ venv/
 # Secrets
 .env
 *.pem
+
+# Build artifacts
+paper3/dist/
+paper3/build/
+paper3/*.egg-info/

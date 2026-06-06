@@ -1,0 +1,23 @@
+{
+  "source": {
+    "epss": "https://epss.empiricalsecurity.com/epss_scores-current.csv.gz",
+    "kev": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+  },
+  "snapshot_date": "2026-06-05",
+  "epss_total_cves": 338274,
+  "kev_total_entries": 1612,
+  "corpus_filter": "year >= 2020",
+  "corpus_size": 203174,
+  "real_epss_dist": {
+    "mean": 0.020410562867296016,
+    "median": 0.00164,
+    "p99": 0.691655599999997,
+    "frac_above_0.10": 0.03642690501737427,
+    "frac_above_0.50": 0.013722228237865081
+  },
+  "real_kev_prevalence": 0.005222124878183232,
+  "synth_for_comparison": {
+    "frac_above_0.10": 0.12,
+    "kev_prevalence": 0.08
+  }
+}

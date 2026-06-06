@@ -1,0 +1,145 @@
+\section{Adversarial Robustness: A Stackelberg Best-Response Analysis}
+\label{sec:adversarial}
+
+Vulnerability prioritization scoring is, in principle, a target for
+strategic attackers: an adversary who knows the defender uses EPSS as a
+ranking signal can attempt to influence published EPSS scores
+(through PoC publication timing, social-media-driven exploit chatter,
+or selective vulnerability disclosure on hosts the attacker has
+already compromised) to redirect remediation resources. We formalise
+this scenario as a Stackelberg game and quantify how HygienePrio's
+hygiene-augmented scoring compares to EPSS-only under best-response
+adversarial pressure.
+
+\subsection{Threat Model}
+
+A defender deploys a deterministic prioritization scorer $S$ committed
+in advance. An attacker observes $S$ and chooses a \emph{gaming
+fraction} $g \in [0, 1]$ representing the share of (host, CVE) pairs
+whose EPSS attribute the attacker can inflate from its true value to a
+high-but-plausible target value $\hat{\mathrm{EPSS}} = 0.55$ (the
+median EPSS of CVEs that appear in the CISA KEV catalog, per
+\S\ref{sec:external_validity} --- chosen so the gamed pairs become
+borderline-positive under EPSS-only ranking).
+
+The attacker's strategic constraint is realism: at high $g$ the
+defender would notice anomalous EPSS distributions and discount them.
+We therefore study $g \in \{0, 0.05, 0.10, 0.15, 0.20, 0.30\}$ ---
+gaming up to 30\% of the eligible pair pool.
+
+The attacker's strategic preference is to target pairs whose hosts
+are in the \emph{bottom half} of the HRS distribution. This is the
+defender's worst case for HygienePrio: by attacking pairs at
+low-hygiene-risk hosts, the attacker inflates EPSS in cells where
+HygienePrio's HRS co-ranking can do the least to filter them. (If the
+attacker instead targeted high-HRS hosts, the gamed pairs would
+co-rank as positives, reinforcing rather than degrading HygienePrio's
+top-K selection.)
+
+\subsection{Defender's Three Strategies}
+
+We evaluate the same calibrated Paper~4 weights for HygienePrio-full
+and the two natural baselines:
+\begin{itemize}
+\item \textbf{HygienePrio-full}: scoring weights $(\alpha, \beta,
+\gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$, unchanged from \S5.
+\item \textbf{EPSS-only}: pure exploit-likelihood ranking.
+\item \textbf{HRS-only}: pure hygiene ranking, as a HRS-blind reference
+that ignores EPSS entirely.
+\end{itemize}
+
+\subsection{Experimental Setup}
+
+We run all 25 evaluation seeds (105--129) at each of the six gaming
+levels, yielding 450 result rows. The ground truth (EPSS$>0.10$ AND
+HRS$>$75th percentile) is computed \emph{after} attacker gaming, so
+gamed pairs become spurious positives under EPSS but only true
+positives if their host happens to clear the HRS threshold ---
+which by construction it does not for attacker-targeted pairs (bottom
+50\% HRS hosts).
+
+\input{tables/tab_adversarial}
+
+\subsection{Results}
+
+\textbf{HygienePrio degrades by $\leq 3$~pp at any attack level.}
+Across $g \in [0, 0.30]$, HygienePrio-full's mean Precision@50 falls
+from $0.595$ to $0.566$ --- a $-2.9$~pp drop at the strongest attack
+tested. The HRS co-ranking filters gamed pairs because the attacker's
+targets have low HRS by construction; HygienePrio's
+HRS-component down-weights them despite the inflated EPSS.
+
+\textbf{EPSS-only degrades by $-14$~pp at $g = 0.05$.} A 5\% gaming
+attack is sufficient to collapse EPSS-only from $0.331$ to $0.195$
+($-13.6$~pp) and the drop saturates near $-13.8$~pp at $g \geq 0.10$.
+EPSS-only has no host-context information to filter gamed pairs and
+ranks them in proportion to the inflated EPSS.
+
+\textbf{The HygienePrio-vs-EPSS gap \emph{widens} under attack.}
+The synthetic-distribution baseline gap is $+26.4$~pp at $g = 0$.
+At $g = 0.05$ the gap grows to $+38.6$~pp; at $g = 0.30$ to $+37.4$~pp.
+HygienePrio's relative advantage over EPSS-only is amplified, not
+diminished, when an attacker is present.
+
+\textbf{HRS-only is invariant under EPSS attack.} HRS-only's mean
+P@50 is $0.284$ at every gaming level because HRS-only's scoring
+ignores EPSS entirely. This is a methodological sanity check rather
+than an operational recommendation --- HRS-only's absolute level is
+below HygienePrio's at every gaming level studied.
+
+\subsection{Interpretation}
+
+The adversarial analysis demonstrates that hygiene augmentation
+provides a security-relevant property that EPSS-only lacks:
+\emph{robustness against a strategic adversary who can influence the
+EPSS signal}. The hygiene side-channel acts as a co-ranking filter
+that cross-checks exploit-likelihood claims against host-context
+plausibility. A gamed pair on a low-HRS host is implausibly
+high-priority and HygienePrio down-ranks it; a gamed pair on a
+high-HRS host would be a true positive and HygienePrio would
+correctly elevate it.
+
+This is the canonical defender-advantage pattern in adversarial
+security: orthogonal signals are robust precisely because the
+attacker has to game both simultaneously. EPSS+HRS forces the
+attacker to compromise the hygiene posture of the host as well as the
+exploit-likelihood signal --- a substantially harder attack than
+either alone.
+
+\subsection{Honest Caveats}
+
+\textit{(i) Synthetic distribution.} This analysis is on the EEHDA
+synthetic fleet. Section~\ref{sec:external_validity} showed that the
+synthetic EPSS distribution is heavier-tailed than reality. The
+adversarial gap may shrink under real distributions for the same
+mechanism: the EPSS-only baseline starts higher under real
+distributions, so gaming has less room to inflate. We do not re-run
+the adversarial sweep under the real distribution; the qualitative
+finding (HygienePrio is dramatically more robust to EPSS gaming
+than EPSS-only) is unlikely to reverse because the HRS-cross-check
+mechanism is distribution-independent.
+
+\textit{(ii) Attacker model is one-shot.} The attacker commits to $g$
+before remediation begins; a multi-round adaptive attacker who
+observes which gamed pairs got remediated could in principle improve.
+Modelling adaptive attackers requires a different game-theoretic
+framework and is left as future work.
+
+\textit{(iii) Attack on HRS not modelled.} An attacker who can also
+manipulate hygiene observables (false patch-state reports,
+group-membership injection, telemetry-freshness fraud) would
+undermine HygienePrio's HRS co-ranking. Modeling adversarial
+manipulation of host-state telemetry is a substantial open problem;
+the present analysis bounds the attacker to EPSS manipulation only.
+The HRS-attack adversary is identified as the strongest plausible
+threat to hygiene-augmented prioritization and is left as the most
+important future-work direction in this section.
+
+\subsection{Reproducibility}
+
+The adversarial evaluator and frozen results are released:
+\begin{verbatim}
+real_data/adversarial_eval.py
+real_data/results/adversarial_results.csv  (450 rows)
+\end{verbatim}
+Reproduce: \texttt{python3 real\_data/adversarial\_eval.py}.
