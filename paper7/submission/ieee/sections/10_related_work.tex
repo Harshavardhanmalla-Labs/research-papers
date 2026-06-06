@@ -1,54 +1,48 @@
 \section{Related Work}
 
-\textbf{Offline-peek baseline.} Paper~5~\cite{paper5temporal}
-established the offline-peek H3 ablation that this paper uses as
-the upper-bound comparator across all six experiments.
+\textbf{Offline-peek calibration baseline.} Paper~5~\cite{paper5temporal}
+established the offline-peek H3 ablation that this paper uses as a
+ceiling. That study reported the gain ($+21.3$~pp at W2 on $K=50,
+\lambda=3$) but explicitly noted the procedure was not deployable.
+The present paper closes that loop by evaluating a deployable
+substitute.
 
-\textbf{Capacity-conditional performance.}
+\textbf{Capacity-dependent prioritization performance.}
 Paper~6~\cite{paper6capacity} identified $K \in \{100, 200\}$ as
-the regime where fixed-weight HygienePrio-full's absolute P@50
-floor collapses. The present paper takes that collapse as the
-problem statement and evaluates whether any deployable
-recalibration procedure mitigates it.
+the regime where fixed-weight HygienePrio-full collapses at W6.
+The present paper inherits that finding as the motivation for
+H3 and reports that lag-1 online recalibration does not rescue
+the collapse and in fact worsens it transiently at $K = 200$.
 
-\textbf{EPSS dynamics.} Jacobs et al.~\cite{jacobs2021epss,
-jacobs2020improving} demonstrated the per-CVE exploit-likelihood
-scoring framework that the HygienePrio scorer integrates. Ravalico
+\textbf{EPSS dynamics.} Jacobs et al.~\cite{jacobs2021epss,jacobs2020improving}
+demonstrated the per-CVE exploit-likelihood scoring framework and
+its single-window advantage over CVSS. Ravalico
 et al.~\cite{ravalico2025epsstemporal} studied per-CVE EPSS score
-drift; neither study addresses online recalibration of the
-\textit{integrating} scorer's weights.
+drift. Neither study addresses the question of whether the scorer
+\textit{integrating} EPSS with other signals should be recalibrated
+online; the present paper is, to our knowledge, the first
+pre-registered evaluation of that question.
 
-\textbf{Change-point detection.} CUSUM~\cite{page1954cusum} is the
-classical one-sided change-point detector. Two-sided CUSUM,
-EWMA-CUSUM, Bayesian online change-point detection, and the
-recent literature on adaptive concept-drift detection are out of
-scope for this paper, which evaluates the simplest-deployable end
-of the detector design space under pre-registration.
+\textbf{Online learning for security signals.} Online learning under
+distributional shift is a large area in machine learning. The
+specific question here --- whether to deploy a deterministic
+grid-search recalibration with a one-window lag in a synthetic
+patch-management context --- is methodologically narrow but
+operationally important; it does not depend on the literature's
+more sophisticated machinery and so we do not survey it in depth.
 
-\textbf{Online learning for security signals.} Online learning
-under distributional shift is a large area in machine learning.
-The narrow question here --- deployability of a magnitude or
-CUSUM detector applied to an integrating vulnerability-prioritization
-scorer with calibration-grid weight fitting --- does not require
-the literature's more sophisticated machinery and is not
-surveyed in depth.
+\textbf{Cyber-hygiene benchmarking.} HygieneBench~\cite{paper3hygienebench}
+established discriminative structure in hygiene signals;
+HygienePrio~\cite{paper4hygieneprio} integrated them into a single-window
+scorer; Paper~5 added the temporal dimension; Paper~6 added the
+capacity-arrival dimension; this paper adds the recalibration-strategy
+dimension. The cumulative result is a five-paper map of where
+hygiene-augmented prioritization works, where it collapses, and
+which deployable interventions help.
 
-\textbf{Self-trajectory evaluation.}
-Paper~9~\cite{paper9selftraj} addresses the cross-method
-trajectory-coupling concern that the present paper inherits as
-an internal-validity threat. The two papers are complementary:
-Paper~9 quantifies the bias the fixed-trajectory convention
-introduces; the present paper conditions on that convention to
-isolate the recalibration decision.
-
-\textbf{HygieneBench and HygienePrio foundations.}
-HygieneBench (Paper~3)~\cite{paper3hygienebench},
-HygienePrio (Paper~4)~\cite{paper4hygieneprio}, and Temporal
-Stability (Paper~5)~\cite{paper5temporal} provide the scorer,
-simulator, and seed split that all six experiments here inherit.
-
-\textbf{Policy mandates.} CISA BOD~22-01~\cite{cisa2021bod2201},
-23-01~\cite{cisa2022bod2301}, NIST SP~800-40
-Rev.~4~\cite{nist2022sp80040r4}, and the 2026
-DBIR~\cite{verizon2026dbir} define the operational rolling-window
-scheduling regime under which the procedures must operate.
+\textbf{Policy mandates.} CISA BOD~22-01~\cite{cisa2021bod2201} and
+23-01~\cite{cisa2022bod2301} along with NIST
+SP~800-40 Rev.~4~\cite{nist2022sp80040r4} define the operational
+scheduling regime within which any recalibration procedure must
+operate; the rolling-history grid search studied here is auditable
+in a way that gradient-based or Bayesian alternatives are not.

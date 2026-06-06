@@ -2,126 +2,120 @@
 \label{sec:results}
 
 All claims trace to
-\texttt{paper9/results/primary\_v1/self\_traj\_results.csv} (7{,}500
-rows) and
-\texttt{hypothesis\_summary.json}.
+\texttt{paper8/results/primary\_v1/multi\_history\_results.csv}
+(2{,}250 rows) and the derived
+\texttt{hypothesis\_summary.json} and \texttt{cell\_window\_means.csv}.
 
-\input{tables/tab_w6grid}
+\input{tables/tab_main}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{fig1_hp_under_drivers.pdf}
-\caption{HygienePrio-full mean P@50 trajectories under each of the
-five driving methods at $K = 50$ (left) and $K = 200$ (right). At
-$K = 200$, the HP-driven trajectory (green) drops to $\sim 0.075$ by
-W6 while every non-HP-and-non-EPSS driver holds HygienePrio above
-$0.70$.}
-\label{fig:hp_drivers}
+\includegraphics[width=\columnwidth]{fig1_strategy_trajectories.pdf}
+\caption{Mean P@50 trajectories for all five calibration strategies at
+$K \in \{50, 100, 200\}$, $\lambda = 3$. EWMA-3 (orange) and trail3 (purple)
+fall below lag-1 (green) at every $K$.}
+\label{fig:trajectories}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{fig2_w6_heatmap.pdf}
-\caption{$K = 200$, $w = 6$ mean P@50 grid. Rows are scoring methods,
-columns are drivers. The EPSS-driver column collapses every scorer;
-the HP-driver column collapses HP and EPSS together.}
-\label{fig:w6heat}
+\includegraphics[width=\columnwidth]{fig2_recovery_ratio.pdf}
+\caption{Cell-mean recovery ratio $\bar\rho$ across $w \geq 2$ per
+strategy. Dashed line at $\bar\rho = 0.5$ marks the pre-registered
+H4 threshold; EWMA-3 sits well below it at every $K$.}
+\label{fig:rho}
 \end{figure}
 
-\subsection{The K=200 HygienePrio Collapse is Selection-Induced (H1 Rejected)}
+\subsection{Cell-Mean Recovery Ratios}
 
-The K=200, W6 row of Table~\ref{tab:w6grid} for the HygienePrio-full
-scorer reads, by driver: $0.701$ (CVSS), $0.008$ (EPSS), $0.713$ (HRS),
-$0.075$ (HP), $0.706$ (Random). The diagonal (HP scored on HP-driven
-trajectory) reproduces Paper~6's $0.075$ collapse. On any non-HP and
-non-EPSS driver, HygienePrio-full's W6 mean is between $0.701$ and
-$0.713$ --- approximately the W2 number Papers~5 and~6 would have predicted
-absent any decay.
-
-The pre-registered H1 threshold required at least one non-HP driver to
-land within $\pm 0.05$ of the HP-self number. The non-HP drivers
-differ from the HP-self number by $0.626$ (CVSS), $0.638$ (HRS),
-$0.631$ (Random), and $-0.067$ (EPSS, in the opposite direction).
-\textbf{H1 is decisively rejected.} The Paper~6 collapse mechanism is
-selection-induced; it does not appear on counterfactual trajectories.
-
-\subsection{EPSS-Self-Driven is the Deepest Sink}
-
-The K=200, EPSS-driver column of Table~\ref{tab:w6grid} reads
-near-zero for every scorer: HP $0.008$, EPSS $0.012$, HRS $0.002$,
-CVSS $0.001$, Random $0.000$. The mechanism, distinct from but
-analogous to the HP-driver mechanism, is that EPSS-only's selection
-preferentially remediates the highest-EPSS pairs regardless of host
-state. By W6 of K=200, the EPSS $> 0.10$ threshold (Condition~1 of
-the ground truth) is satisfied by an essentially empty subset of the
-residual backlog. \textbf{The positive set itself is exhausted}; no
-scorer can recover P@50 against an empty positive set.
-
-\subsection{H2 Rejected in Reverse Direction}
-
-The pre-registered H2 predicted that EPSS-only's W6 P@50 on its own
-trajectory would be lower than on the HP-driven trajectory at K=50,
-reasoning that self-driven EPSS would exhaust its own high-EPSS tail
-faster. The data show the opposite. At K=50:
-EPSS-only on $T_{\mathrm{EPSS}}$ has W6 P@50 = $0.366$;
-EPSS-only on $T_{\mathrm{HP}}$ has W6 P@50 = $0.034$.
-EPSS-only's W6 score is \textit{ten times higher} on its own trajectory
-than on the HP-driven trajectory. The mechanism is symmetric to C1:
-when HygienePrio drives, HygienePrio's selection biases the residual
-backlog \textit{against} EPSS-only's signal (it preferentially patches
-high-EPSS items that are also on high-HRS hosts, leaving lower-EPSS
-items behind that are exactly what EPSS-only would have prioritised).
-Self-driven EPSS keeps its own high-EPSS bias intact through the
-window-1 selection but does not drain it faster than HP-driven.
-\textbf{H2 is rejected in the opposite direction of the pre-registration.}
-
-\subsection{HP Per-Pair Dominance Over EPSS is Trajectory-Conditional}
-
-\input{tables/tab_dom}
-
-Table~\ref{tab:dom} reports the per-pair dominance fraction
-$\Pr[\mathrm{P@50}^{\mathrm{HP}} > \mathrm{P@50}^{\mathrm{EPSS}}]$ over
-the 150 (seed, window) pairs per (cell, driver). At K=50, the fraction
-is $1.000$ under every driver. At K=200 the picture is
-trajectory-conditional: $1.000$ under HRS-only, CVSS-only, and Random;
-$0.800$ under HygienePrio-full (Paper~6's regime, slightly lower than
-Paper~6's $0.960$ because we are at $\lambda=3$ here rather than $\lambda=1$);
-$0.393$ under EPSS-only --- where both HP and EPSS are near zero.
-\textbf{H3 is rejected at K=200 under $T_{\mathrm{EPSS}}$.}
-
-\subsection{Trajectory Effects Per Scorer}
-
-The W6 trajectory-effect range $\Delta^{\mathrm{traj}}_m$
-(max P@50 across drivers minus min) quantifies how trajectory-sensitive
-each scorer is.
+The summary statistic across $w \geq 2$ per cell:
 
 \begin{center}
 \small
-\begin{tabular}{lcc}
+\begin{tabular}{ccc}
 \toprule
-scorer & $\Delta^{\mathrm{traj}}_m(K=50)$ & $\Delta^{\mathrm{traj}}_m(K=200)$ \\
+$K$ & $\bar\rho^{\textsf{lag1}}$ & $\bar\rho^{\textsf{ewma3}}$ \\
 \midrule
-HP-full   & 0.242 & 0.705 \\
-EPSS-only & 0.375 & 0.610 \\
-HRS-only  & 0.286 & 0.318 \\
-CVSS-only & 0.068 & 0.178 \\
-Random    & 0.086 & 0.187 \\
+50  & $+1.04$ & $+0.53$ \\
+100 & $+0.99$ & $-1.37$ \\
+200 & $-0.66$ & $-0.94$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-At K=200, HP-full and EPSS-only have the largest trajectory-effect
-ranges --- both depend on signals (HRS tail / EPSS tail) that are
-preferentially drained by their own self-selection. CVSS-only and
-Random have the smallest --- they do not preferentially drain the
-ground-truth-relevant tails of their own signal.
+EWMA-3 underperforms \textsf{lag1} at every cell. At $K = 50$ the
+gap is $-0.51$ in recovery-ratio units; at $K = 100$ the gap is
+$-2.36$, the largest single-cell delta in the table; at $K = 200$ the
+gap is $-0.28$. The naive prediction ``smoothing helps at high
+capacity, hurts mildly at low capacity'' is contradicted in both directions.
+
+\subsection{Per-Window Detail}
+
+\textbf{$K = 50$.} EWMA-3 matches \textsf{lag1} at W2 and W3 but
+falls below it at W4--W6 by $0.6$--$2.6$~pp. The mechanism is that
+the W4 calibration target for EWMA-3 includes W1, W2, and W3 of the
+calibration seeds, whose distributions have shifted by W4. The
+\textsf{lag1} W4 calibration target uses only the W3 calibration
+state, which is closer to the W4 evaluation state.
+
+\textbf{$K = 100$.} The gap widens. At W3 \textsf{lag1} adds
+$+3.0$~pp over \textsf{fixed}; EWMA-3 \textit{loses} $-0.3$~pp.
+By W6, \textsf{lag1} gains $+4.0$~pp while EWMA-3 holds essentially
+zero ($+0.0$~pp). The H2 cell ($K = 100, w = 5$) is also where
+\textsf{ewma3} and \textsf{trail3} diverge by $+10.6$~pp ---
+the only window in the entire sweep where the smoothing-strategy
+choice is first-order.
+
+\textbf{$K = 200$.} Both \textsf{lag1} and EWMA-3 are hazardous,
+but EWMA-3 worse: at W2, \textsf{lag1} loses $-5.9$~pp, EWMA-3
+loses $-6.0$~pp; at W3, \textsf{lag1} loses $-7.8$~pp, EWMA-3 loses
+$-8.0$~pp. The point estimates are very close, but the average over
+$w \geq 2$ tilts further negative for EWMA-3 because the W4--W6
+recovery present in \textsf{lag1} (positive deltas) is dampened in
+EWMA-3.
 
 \subsection{Hypothesis Outcomes}
 
 \input{tables/tab_hypotheses}
 
+All four pre-registered hypotheses are rejected.
+
+\textbf{H1 (EWMA-3 $\geq$ fixed at $K = 200$).} Rejected. Two
+window failures at $w \in \{2, 3\}$ with deltas of $-6.0$ and
+$-8.0$~pp.
+
+\textbf{H2 (EWMA-3 matches \textsf{lag1} at moderate capacity).}
+Rejected. Five cell-window failures across $K \in \{50, 100\}$ with
+$|\Delta| > 0.02$. The signs are negative (EWMA-3 worse than
+\textsf{lag1}) in all five.
+
+\textbf{H3 (EWMA-3 matches \textsf{trail3}).} Rejected at one
+cell-window ($K = 100, w = 5$). The single failure is large
+($+10.6$~pp) and reflects a specific grid-search disagreement at
+that window; otherwise the smoothing-strategy choice between EWMA
+and trail3 is consistently second-order.
+
+\textbf{H4 (EWMA-3 recovery $\geq 0.5$ at $K = 200$).} Rejected.
+Cell-mean recovery ratio is $-0.94$, negative rather than $\geq 0.5$.
+
+\subsection{Smoothing-Penalty Mechanism}
+
+The per-cell pattern is monotone in history length:
+\textsf{lag1} $>$ \textsf{trail3} $\approx$ \textsf{ewma3} at every
+$K$. The pre-registered EWMA $\alpha = 0.6$ effectively averages
+$\approx 2.5$ past windows; the equal-weight \textsf{trail3} averages
+exactly 3. Both bring older calibration-seed states into the
+fitting target, and at the simulated bi-weekly cadence those older
+states are systematically less representative of the current window
+than the most recent past window alone. The H3 single failure at
+$K = 100, w = 5$ is the exception that confirms the rule: at that
+window the grid-search optimum was on a flat region and the
+$\alpha = 0.6$ weighting moved EWMA's selection to a different local
+optimum than trail3's equal weighting.
+
 \subsection{Pre-Registration Deviations}
 
-None. Decision rules and stop rules were applied verbatim. The abstract
-was rewritten after H1 rejection in compliance with the protocol's
-stop rule before the discussion was drafted.
+None. Strategy definitions, hypotheses, decision rules, and stop
+rules were applied verbatim. The abstract was rewritten after H1
+rejection in compliance with the protocol's stop rule before the
+discussion was drafted.

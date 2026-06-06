@@ -1,9 +1,9 @@
 % =====================================================================
-% Paper 9 — Self-Trajectory Evaluation
+% Paper 8 — Multi-Window-History Calibration
 %
 % Target: IEEE Transactions on Network and Service Management (TNSM)
 % Reproducibility: all numeric claims trace to
-%   paper9/results/primary_v1/self_traj_results.csv (7,500 rows).
+%   paper8/results/primary_v1/multi_history_results.csv
 % =====================================================================
 \documentclass[journal]{IEEEtran}
 
@@ -19,8 +19,8 @@
 
 \graphicspath{{figures/}}
 
-\title{Self-Trajectory Evaluation: Is HygienePrio's Capacity-Driven
-Collapse Intrinsic or Selection-Policy-Induced?}
+\title{Multi-Window-History Calibration: Does Smoothing Reverse the
+High-Capacity Hazard of Lag-1 Online Recalibration?}
 
 \author{%
   \IEEEauthorblockN{Harshavardhan Malla}
@@ -35,8 +35,8 @@ Collapse Intrinsic or Selection-Policy-Induced?}
 \end{abstract}
 
 \begin{IEEEkeywords}
-vulnerability prioritization; selection policy; counterfactual trajectory;
-identifiability; HygienePrio; pre-registration; reproducibility.
+vulnerability prioritization; online calibration; EWMA; trailing-mean;
+smoothing; high-capacity hazard; pre-registration; reproducibility.
 \end{IEEEkeywords}
 
 \input{sections/01_introduction.tex}

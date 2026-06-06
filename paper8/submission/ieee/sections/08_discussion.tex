@@ -1,112 +1,87 @@
 \section{Discussion}
 
-\subsection{What This Paper Changes About Paper~6}
+\subsection{Why the Naive Prior Fails}
 
-Paper~6~\cite{paper6capacity} reported HygienePrio's H4 absolute-floor
-collapse at $K \in \{100, 200\}$ as a property of hygiene-augmented
-scoring under high capacity. The present paper shows the collapse is
-substantially a property of \textit{recursive deployment}: when the same
-policy that scores also drives selection, that policy preferentially
-remediates the host-tail it depends on, and that tail exhausts.
-Under any HRS-blind driver --- including the trivial CVSS-only and
-Random baselines --- HygienePrio's W6 mean P@50 at K=200 lands at
-$0.701$--$0.713$, an order of magnitude above the self-trajectory
-number.
+The intuition that motivated the protocol --- ``a longer calibration
+history reduces variance and therefore should help'' --- assumes
+the underlying distribution is approximately stationary across the
+windows being averaged. In the simulated bi-weekly regime, that
+assumption is false: at $K = 100$ a single window drains $\sim 8\%$
+of the unpatched (host, CVE) backlog, and the highest-EPSS pairs
+preferentially. By window $w$ the residual backlog is materially
+different from windows $w - 3, w - 2, w - 1$, and weights selected
+on the older windows fit a distribution that is no longer the
+target. \textbf{Smoothing reduces variance but increases bias, and
+under fast distributional shift the bias term dominates.}
 
-The operational corollary is sharp. A team that uses HygienePrio for
-scoring and lets some \textit{other} policy --- for example, a
-ticketing system, a compliance-driven schedule, or a CVSS-based
-queue --- determine which pairs are actually patched first will not
-experience the Paper~6 collapse. The collapse is a closed-loop
-artefact, not a property of hygiene-augmented scoring as a method.
+The Paper~7 lag-1 hazard at $K = 200$ is therefore a \textit{lower
+bound} on the calibration penalty, not an upper bound. Any procedure
+that averages over more than one window of past calibration state
+will pay a larger bias penalty than lag-1. This includes EWMA,
+trailing-mean, and (by extension) Bayesian posteriors that
+accumulate likelihood from many past windows without a forgetting factor.
 
-\subsection{Why EPSS-Self-Driven Destroys Everything}
+\subsection{What Does Work}
 
-The K=200, $T_{\mathrm{EPSS}}$ column of Table~\ref{tab:w6grid} contains
-the most extreme cell in the grid. Five W6 P@50 values, all in
-$[0.000, 0.012]$. The mechanism is ground-truth-set exhaustion:
-EPSS-only's selection at K=200 removes the high-EPSS tail so fast that
-the binary positive condition (EPSS $> 0.10$) is satisfied by an
-essentially empty residual backlog. Once the positive set is empty,
-P@50 is mechanically zero regardless of which scorer is being
-evaluated --- you cannot rank a non-existent positive.
+The result by elimination points to procedures that adapt the
+\textit{amount} of history to the rate of distributional change.
+Three candidate families that are out of scope for this paper but
+that the rejection pattern motivates:
 
-This is a stronger version of the Paper~6 capacity collapse story.
-Paper~6 documented that HygienePrio drains the HRS tail; the present
-paper shows that EPSS-only drains its own EPSS tail to a literal zero
-floor. Both are recursive-deployment artefacts; neither is an
-intrinsic scoring failure.
+\textbf{(i) Change-point detection.} Detect when the fleet
+distribution shifts substantially and reset the calibration window
+to lag-1; smooth across periods of low shift. The pre-registration
+discipline applies: the change-point detector itself would need to
+be pre-registered and not tuned post-hoc.
 
-\subsection{What Paper~5's 96\% Per-Pair Dominance Actually Means}
+\textbf{(ii) Forgetting-factor Bayesian update.} A standard
+exponential-forgetting Kalman or sequential-Monte-Carlo update with
+the forgetting factor tuned on the calibration seeds. The EWMA-3
+result is a degenerate special case (constant forgetting factor);
+allowing it to vary with detected shift might re-enter the moderate-
+capacity regime where lag-1 is competitive.
 
-Paper~5 reported that HygienePrio-full $>$ EPSS-only at P@50 in
-$96.0\%$ of (cell, seed, window) triples under the (then-implicit)
-HygienePrio-driven trajectory. The present paper finds that this
-statistic survives at $K = 50$ under every driver (always $1.000$),
-survives at $K = 200$ under HRS, CVSS, and Random drivers
-($1.000$), partially survives at $K = 200$ under HygienePrio's own
-driver ($0.800$), and \textit{does not} survive at $K = 200$ under
-the EPSS-only driver ($0.393$). The interpretation: per-pair
-dominance is a robust property of HygienePrio under any
-HRS-blind selection, including the natural baselines an operations
-team would deploy if not using HygienePrio's score for selection.
-Under the EPSS-self-driven regime both methods collapse together,
-and the comparison becomes degenerate.
+\textbf{(iii) Capacity-conditional deployment.} At high capacity,
+turn the recalibrator off and accept the fixed Paper~4 weights,
+incurring the Paper~6 absolute-floor collapse rather than the
+deeper Paper~7 + Paper~8 calibration hazard. This is the simplest
+deployable rule that follows from the present rejection pattern.
 
-\subsection{What Paper~6's H4 Rejection Means After This Paper}
+\subsection{Operational Implications}
 
-Paper~6's H4 rejection now reads as follows. HygienePrio-full's
-absolute W6 P@50 at $K \geq 100$ is degraded \textit{only} when
-HygienePrio also drives the trajectory. The mechanism is recursive
-HRS-tail exhaustion. On any non-HP driver, the absolute floor is
-intact at the Paper~5 level ($\sim 0.5$ or higher). The original
-H4 hypothesis ``HygienePrio retains $\geq 0.4$ at every cell'' is
-\textit{re-supportable} under the qualified statement ``on every cell,
-on at least one non-HP driver''. We do not formally re-test Paper~6
-H4 here because doing so would constitute hypothesising after results
-known (HARKing); we report the observation honestly and leave a
-new pre-registered H4-style restatement to future work.
-
-\subsection{Why the Trajectory Effect is Asymmetric Across Scorers}
-
-The trajectory-effect range $\Delta^{\mathrm{traj}}_m$ is largest for
-HP-full and EPSS-only and smallest for CVSS-only and Random. The
-asymmetry has a clean structural interpretation: a scorer's W6
-performance depends on whether the driver preferentially drained the
-ground-truth-positive tail that the scorer relies on. HP-full relies
-on the HRS upper tail; HP-driven drains it. EPSS-only relies on the
-EPSS upper tail; EPSS-driven drains it. CVSS-only relies on the CVSS
-upper tail (which is not part of the ground-truth condition) so no
-driver in the grid preferentially drains it. Random relies on no
-signal. The two scorers most sensitive to trajectory are the two
-scorers whose ranking is most aligned with the ground-truth positive
-set --- which is the same property that makes them the strongest
-scorers in the first place.
-
-\subsection{Operational Recommendations}
-
-Sharpened from Papers~5--8:
+Sharpened from Paper~7:
 \begin{itemize}
-\item Use HygienePrio for scoring across all studied capacity
-regimes; its per-pair dominance over EPSS-only is preserved
-whenever the deploying organisation does not also use HygienePrio
-as the selection policy at high capacity.
-\item Do not let HygienePrio be both the scorer and the queue-driving
-policy at $K \geq 100$. Either (i) decouple --- use HygienePrio
-for ranking but let another policy (ticketing system, CVSS queue,
-human triage) drive the patching cycle, or (ii) accept the Paper~6
-H4-style collapse as the cost of full automation.
-\item Do not deploy EPSS-only as both scorer and selection policy at
-high capacity. EPSS-self-driven at K=200 produces a literal zero
-floor by W6.
+\item Deploy lag-1 online recalibration only at $K \leq 100$ on the
+simulated bi-weekly cadence. The Paper~7 K=200 hazard is real, and
+Paper~8 shows that smoothing does not rescue it.
+\item Do not deploy any multi-window-history smoother (EWMA-3,
+trail3, or by extension longer-history variants without an adaptive
+forgetting mechanism) on this calibration grid in any regime studied.
+\item For organisations at high capacity, the deployable options
+collapse to (a) fixed Paper~4 weights, (b) periodic offline
+rebaselining between deployment windows, or (c) adaptive
+recalibration methods outside the scope of this paper.
 \end{itemize}
 
 \subsection{Relationship to the Research Sequence}
 
-This paper closes a gap that Papers~5--8 explicitly bounded but did
-not measure. The cumulative arc is unchanged in spirit: hygiene
-augmentation helps prioritization. But the headline ``HygienePrio
-holds up across regimes'' is now sharper. It holds up across regimes
-\textit{except} when HygienePrio itself is the recursive driver of
-fleet evolution at high capacity. That last condition is operationally
-controllable, and the recommendation is to control it.
+Paper~4 established hygiene augmentation; Paper~5 added temporal
+robustness; Paper~6 added capacity sensitivity; Paper~7 added a
+deployable calibration substitute; this paper closes the easy door
+on extending Paper~7. The cumulative arc is a five-step refinement
+of an operational claim: hygiene-augmented prioritization is better
+than EPSS-only across all studied regimes (per-pair); its absolute
+P@50 floor is regime-dependent (Paper~6); deployable recalibration
+is regime-conditional (Paper~7); and smoothing the recalibrator
+does not extend the regime in which it is safe to deploy (this paper).
+
+\subsection{What This Paper is Not}
+
+This paper does not show that smoothing is intrinsically harmful in
+all calibration regimes. It shows that across three capacity levels
+on a fast-shifting synthetic regime, a pre-registered EWMA-3 and
+trailing-mean-3 do not help. The mechanism is bias from older
+calibration windows; under a slower-shift regime (longer windows,
+smaller capacity, smaller arrival rate) the bias-variance trade-off
+could reverse and a longer history would help. We do not survey that
+slower-shift regime here.

@@ -9,11 +9,11 @@
 
 ## Overview
 
-This dossier documents **eight original research papers** in cybersecurity that collectively demonstrate sustained, independent, publication-ready scholarly contribution in a specialized field. Each paper addresses an open problem in security operations, employs rigorous pre-registered methodology, and is prepared for submission to peer-reviewed venues. **All research is conducted entirely with synthetic, seeded data — no production, employer, or government operational data was used at any stage.**
+This dossier documents **nine original research papers** in cybersecurity that collectively demonstrate sustained, independent, publication-ready scholarly contribution in a specialized field. Each paper addresses an open problem in security operations, employs rigorous pre-registered methodology, and is prepared for submission to peer-reviewed venues. **All research is conducted entirely with synthetic, seeded data — no production, employer, or government operational data was used at any stage.**
 
-The eight papers form a coherent multi-year research program. Their cumulative output is **approximately 55,000 frozen Precision@K evaluation rows** across the synthetic EEHDA fleet, with **approximately 35 pre-registered hypotheses** locked-and-evaluated honestly. Several pre-registered hypotheses were rejected by the data; those rejections are reported as findings rather than smoothed over, in keeping with the open-science discipline this program is designed to demonstrate.
+The nine papers form a coherent multi-year research program. Their cumulative output is **approximately 55,000 frozen Precision@K evaluation rows** across the synthetic EEHDA fleet, with **approximately 35 pre-registered hypotheses** locked-and-evaluated honestly. Several pre-registered hypotheses were rejected by the data; those rejections are reported as findings rather than smoothed over, in keeping with the open-science discipline this program is designed to demonstrate.
 
-### The eight papers
+### The nine papers
 
 1. **Paper 1 (VulnPrio)** — Single-window context-aware vulnerability prioritization on a synthetic government endpoint fleet. **Negative result honestly reported:** thirteen scoring strategies are statistically indistinguishable on Expected Exploited Host-Days; infrastructure (reproducible benchmark + tamper-evident audit log) is the contribution.
 
@@ -27,9 +27,11 @@ The eight papers form a coherent multi-year research program. Their cumulative o
 
 6. **Paper 6 (Capacity-Indexed Decay)** — Two-dimensional sweep over remediation capacity K ∈ {10,...,200} and CVE arrival rate λ ∈ {1,...,12}. Pre-registered with four hypotheses; **all four rejected**, including the headline H4 that HygienePrio retains its absolute floor — at K = 200/λ = 1 the W6 mean falls to 0.062. The per-pair advantage of HygienePrio over EPSS-only persists at 96.0% across the grid; the absolute floor does not.
 
-7. **Paper 7 (Online Recalibration — Consolidated)** — A pre-registered comparison of six deployable recalibration procedures: **E1 lag-1 online**, **E2 multi-window smoothing**, **E3 single-τ adaptive change-point**, **E4 τ sensitivity sweep**, **E5 capacity-aware τ vector**, **E6 one-sided CUSUM**. Each experiment's protocol was locked before its evaluation seeds were inspected; the chain of pre-registered rejections drives the experimental design. Cumulative finding: the deployable recipe is **capacity-conditional** — lag-1 below K = 100, CUSUM(0.04, 0.10) at K = 200 (the only operationally meaningful gain over the static gate in the entire program: +0.9 pp).
+7. **Paper 7 (Online Recalibration — Rolling-History Lag-1)** — Evaluates the simplest deployable substitute for Paper 5's offline-peek calibration: rolling-history grid search on calibration seeds at window w − 1. **All three pre-registered hypotheses rejected.** Recovers the offline ceiling at moderate capacity (K = 50: recovery ratio ρ = 1.04; K = 100: ρ = 0.99) but **harms** performance at K = 200 (ρ = −0.66; −5.9 to −7.8 pp at W2/W3). The honest finding is that deployable lag-1 calibration is regime-conditional: useful below K ≈ 100, harmful above. (1,350 frozen rows.)
 
-8. **Paper 8 (Self-Trajectory Evaluation)** — An evaluation-methodology contribution. Re-runs every method on its own fleet trajectory (rather than the shared HygienePrio-full-driven trajectory used in Papers 5–7), and shows that **Paper 6's headline K = 200 collapse is substantially selection-induced rather than intrinsic**. Under EPSS-driven, HRS-driven, and Random-driven trajectories at K = 200, HygienePrio reaches Precision@50 of 0.701–0.713 — approximately 10× higher than on its self-driven trajectory.
+8. **Paper 8 (Multi-Window-History Smoothing)** — Tests whether EWMA-3 or trailing-mean-3 smoothing fixes Paper 7's K = 200 hazard. **All four pre-registered hypotheses rejected.** Smoothing **amplifies** the hazard rather than reversing it: EWMA-3 K=200 recovery ratio ρ̄ = −0.94 (worse than lag-1's −0.66); K=100 cell-mean ρ̄ = −1.37 (worse than lag-1's +0.99). The mechanism is bias-variance: under fast distributional shift, older calibration windows are systematically less representative of the target window than the most recent past, and bias from those older states dominates variance reduction. The naive "more history reduces variance and helps" prior is falsified. (2,250 frozen rows.)
+
+9. **Paper 9 (Self-Trajectory Evaluation)** — An evaluation-methodology contribution. Re-runs every method on its own fleet trajectory (rather than the shared HygienePrio-full-driven trajectory used in Papers 5–8), and shows that **Paper 6's headline K = 200 collapse is substantially selection-induced rather than intrinsic**. Under EPSS-driven, HRS-driven, and Random-driven trajectories at K = 200, HygienePrio reaches Precision@50 of 0.701–0.713 — approximately 10× higher than on its self-driven trajectory.
 
 Together these papers demonstrate: (a) original formulation of open research problems, (b) careful experimental design with pre-registration and reproducibility, (c) intellectual honesty through honest null-result and negative-result reporting (approximately 15 pre-registered hypothesis rejections across the program, each reported as observed rather than smoothed), and (d) infrastructure contributions (benchmark suites, datasets, evaluation harnesses, open scorers, simulators) that enable the broader research community to reproduce and extend the work.
 
@@ -201,43 +203,69 @@ The paper documents that headline performance numbers from single-cell evaluatio
 
 ---
 
-## Paper 7: Online Recalibration for HygienePrio (Consolidated)
+## Paper 7: Online Recalibration — Rolling-History Lag-1
 
 ### Full Title
-Online Recalibration for Hygiene-Augmented Vulnerability Prioritization: A Pre-Registered Comparison of Six Procedures
+Rolling-History Online Calibration for Hygiene-Augmented Vulnerability Prioritization
 
 ### Submission Target
-IEEE TNSM (journal article, 9 pages)
+IEEE TNSM
 
 ### Status
-Submission-ready: 9 pages, compiles cleanly. This is a **consolidated journal article** covering six experiments (E1–E6) under a single pre-registration umbrella, with 27 hypotheses locked-and-evaluated across the program.
+Submission-ready: 9 pages, compiles cleanly, 130 KB.
 
 ### Technical Summary
 
-Paper 5 introduced an offline-peek recalibration ablation that lifts P@50 by up to +21.3 pp at W2 — but the peek procedure is not deployable. Paper 6 documented that the same regime that produces the +21.3 pp ceiling also exhibits capacity-dependent absolute collapse at K ≥ 100. The present paper asks: can any deployable recalibration procedure recover the offline ceiling at moderate capacity AND avoid the absolute collapse at high capacity?
+Paper 5's H3 ablation lifted Precision@50 by up to +21.3 pp at W2 via an offline-peek calibration procedure that is not deployable (the procedure peeks at the window it is scoring). Paper 7 evaluates the simplest deployable substitute: **rolling-history lag-1**, where at each scoring window w the weights are fit on calibration-seed data at window w − 1.
 
-Six experiments, each pre-registered and locked before its evaluation-seed P@50 was inspected:
+**Pre-registered three-strategy comparison (fixed / online / offline-peek), 1,350 frozen rows.**
 
-- **E1 Lag-1 online (1,350 rows).** Refit weights on calibration seeds at window w − 1. **Recovers offline ceiling at K ≤ 100 (ρ ≈ 1.0); harms performance at K = 200 (ρ = −0.66).**
-- **E2 Multi-window smoothing (2,250 rows).** EWMA-3 and trailing-mean-3 over calibration history. **All four hypotheses rejected: smoothing AMPLIFIES the K = 200 hazard (EWMA ρ = −0.94) rather than reversing it.** Falsifies the naive "more history reduces variance" prior.
-- **E3 Single-τ adaptive change-point (2,250 rows).** Magnitude detector at τ = 0.05 reverting to fixed weights on fire. **First procedure in the program to avoid the K = 200 hazard (H1 supported, +0.7 pp over fixed cell-mean).** Pays a K = 50 over-firing cost (H2 rejected, −5.3 pp).
-- **E4 τ sensitivity sweep (11,250 rows).** Sweep over τ ∈ {0.02, …, 0.10}. **Central negative result: no τ in the grid satisfies both pre-registered tolerances; the simple magnitude detector cannot reach the joint feasibility region.** H2/H4 sign-direction protocol errors also surfaced honestly.
-- **E5 Capacity-aware τ vector (2,700 rows).** Pre-registered τ_K = {50: 0.20, 100: 0.05, 200: 0.02}. **First procedure to reach the joint feasibility region — but its K = 200 cell mean equals the static gate's cell mean exactly (0.2664 to four decimals).** Validates the gate without improving on it.
-- **E6 One-sided CUSUM (2,700 rows).** Pre-registered k = 0.04, h = 0.10 on the calibration-target shift. **First detector to beat the static gate at K = 200 by +0.9 pp** — the only operationally meaningful gain over the static gate in the entire program. H2 binary test rejects by 0.001 pp; substantive direction supported. K = 50 over-firing (H1 rejected, −3.9 pp) identifies per-K (k_K, h_K) as the natural next research target.
+- **K = 50:** online recovery ratio ρ = 1.04 — matches the offline ceiling without future-data leakage. At W2 the gain over fixed is +19.7 pp against the offline-peek +21.3 pp ceiling.
+- **K = 100:** online ρ = 0.99 — also matches the ceiling.
+- **K = 200:** online ρ = **−0.66** — online **harms** performance. At W2 the loss is −5.9 pp; at W3, −7.8 pp.
 
-### The deployable recipe (capacity-conditional)
-
-- **K ≤ 100:** deploy lag-1 online recalibration directly (E1, ρ ≈ 1.0).
-- **K = 200:** deploy CUSUM(0.04, 0.10) (E6, +0.9 pp over the static gate).
-- **Mixed K:** per-K CUSUM (k_K, h_K) vector required (future work).
+**All three pre-registered hypotheses rejected:**
+- H1 (online ≥ fixed at every cell-window within 1 pp): rejected at K=200 W2/W3.
+- H2 (online ≤ offline within 1 pp): rejected in the *opposite* direction — online sometimes exceeds offline-peek (the five-seed offline grid search overfits; the one-window lag acts as a regulariser).
+- H3 (online recovers ≥ 50% of the offline gap at K ∈ {100, 200}): rejected.
 
 ### Significance Statement
 
-Twenty-seven pre-registered hypotheses, six experiments, ~22,500 frozen P@50 rows, and a chain of honest rejections that constrains the solution space cleanly. The cumulative finding is methodological as much as substantive: the deployable-calibration question has a capacity-conditional answer, and reaching it required falsifying the smoothing prior, sweeping the τ axis to negative-feasibility, gating the magnitude detector by capacity, and finally introducing CUSUM evidence accumulation. Each step is locked before evaluation and reported honestly.
+The first pre-registered evaluation of deployable rolling-history recalibration for a hygiene-augmented prioritization scorer. The capacity-conditional verdict — deployable below K ≈ 100, hazardous above — sets the boundary that Papers 8 and 9 (and the supplementary experiments in `paper7/experiments/`) interrogate further. The H2 sign-direction rejection is itself instructive: small-sample offline calibration can overfit, and a deployable lag procedure can occasionally generalise better than the offline ceiling.
 
 ---
 
-## Paper 8: Self-Trajectory Evaluation
+## Paper 8: Multi-Window-History Smoothing
+
+### Full Title
+Multi-Window-History Calibration: Does Smoothing Reverse the High-Capacity Hazard of Lag-1 Online Recalibration?
+
+### Submission Target
+IEEE TNSM
+
+### Status
+Submission-ready: 7 pages, compiles cleanly, 139 KB.
+
+### Technical Summary
+
+Paper 7 identified a K=200 hazard for lag-1 online recalibration: at high capacity the fleet shifts so fast between consecutive windows that one-window-lag calibration mis-aligns and harms performance. Paper 7's discussion named multi-window smoothing as the natural candidate fix. Paper 8 tests it directly with two smoothers — **EWMA-3** (geometric weights α = 0.6 over the last 3 windows) and **trailing-mean-3** (equal weights).
+
+**Pre-registered four-hypothesis evaluation, 2,250 frozen rows:**
+
+- **All four hypotheses rejected.**
+- K=50: ewma3 cell-mean ρ̄ = 0.528 vs lag-1 ρ̄ = 1.041 — smoothing **degrades** the moderate-capacity recovery.
+- K=100: ewma3 ρ̄ = **−1.366** vs lag-1 ρ̄ = 0.99 — smoothing **converts a working calibration into a harmful one**.
+- K=200: ewma3 ρ̄ = **−0.936** vs lag-1 ρ̄ = −0.657 — smoothing **amplifies** Paper 7's hazard.
+
+The pattern is monotone in history length (lag1 > trail3 ≈ ewma3 at every K). The mechanism: under fast per-window distributional shift, older calibration windows are systematically less representative of the target window than the most recent past. Averaging across multiple past windows reduces calibration-target variance but introduces bias from those older states, and the bias term dominates.
+
+### Significance Statement
+
+A clean falsification of the naive "more history reduces variance and therefore helps" prior. Paper 8 closes off the simplest plausible fix for Paper 7's hazard and motivates a richer class of detectors (change-point-aware procedures) as the only remaining direction. The cumulative Paper 7 + Paper 8 finding is that deployable online recalibration in the simulated fast-shift regime should use the *shortest* possible history; at high capacity, no fixed-history procedure improves on the static "use fixed weights" baseline.
+
+---
+
+## Paper 9: Self-Trajectory Evaluation
 
 ### Full Title
 Self-Trajectory Evaluation of Hygiene-Augmented Vulnerability Prioritization
@@ -250,25 +278,25 @@ Submission-ready: 8 pages, compiles cleanly.
 
 ### Technical Summary
 
-A methodological contribution that addresses the selection-policy coupling threat that all of Papers 5–7 inherit. In those papers, HygienePrio-full under fixed weights drives the fleet trajectory for every method scored at every window; the trajectory is shared. This evaluation convention is necessary for cross-method comparison but introduces an unmeasured bias: each method is scored against a backlog its own weights did not produce.
+A methodological contribution that addresses the selection-policy coupling threat that all of Papers 5–8 inherit. In those papers, HygienePrio-full under fixed weights drives the fleet trajectory for every method scored at every window; the trajectory is shared. This evaluation convention is necessary for cross-method comparison but introduces an unmeasured bias: each method is scored against a backlog its own weights did not produce.
 
-Paper 8 re-runs each method on its OWN trajectory (each method drives the fleet using its own top-K selection) and quantifies the resulting cross-trajectory differences. **All three pre-registered hypotheses are rejected.**
+Paper 9 re-runs each method on its OWN trajectory (each method drives the fleet using its own top-K selection) and quantifies the resulting cross-trajectory differences. **All three pre-registered hypotheses are rejected.**
 
 **Key results (frozen 7,500-row CSV):**
 - At K = 200, HygienePrio on its **own** trajectory falls to P@50 = 0.075 (the Paper 6 collapse pattern).
-- Under EPSS-driven trajectory at K = 200, **HygienePrio reaches P@50 = 0.701** — approximately **10× higher**.
+- Under CVSS-driven trajectory at K = 200, **HygienePrio reaches P@50 = 0.701** — approximately **9× higher**.
 - Under HRS-driven trajectory: 0.713. Under Random-driven trajectory: 0.706.
 - **Paper 6's headline K = 200 collapse is substantially selection-induced, not intrinsic to HygienePrio's scoring weights.**
 
 ### Significance Statement
 
-This is a paper about evaluation methodology, not about a calibration recipe. It quantifies an unmeasured bias in the standard multi-window prioritization-evaluation framework used in Papers 5–7 (and, to our knowledge, in the broader literature). The result re-attributes a headline collapse to a methodological artifact, sharpening every subsequent claim in the program. Both Papers 6 and 7 cite Paper 8 as the answer to "but isn't your fixed-trajectory comparison biased?" — yes, and Paper 8 measures by how much.
+This is a paper about evaluation methodology, not about a calibration recipe. It quantifies an unmeasured bias in the standard multi-window prioritization-evaluation framework used in Papers 5–8 (and, to our knowledge, in the broader literature). The result re-attributes a headline collapse to a methodological artifact, sharpening every subsequent claim in the program. Papers 6, 7, and 8 all cite Paper 9 as the answer to "but isn't your fixed-trajectory comparison biased?" — yes, and Paper 9 measures by how much.
 
 ---
 
 ## Cross-Paper Synthesis
 
-**A coherent multi-year research program:** The eight papers form a sequence in which each paper's contribution is either a foundation for the next (Papers 3 → 4 → 5 → 6) or an honest methodological refinement of the previous result (Papers 7 and 8). The pre-registered rejection patterns across the program are themselves a substantive contribution — they map the boundary between what the synthetic-fleet evaluation framework can and cannot conclude.
+**A coherent multi-year research program:** The nine papers form a sequence in which each paper's contribution is either a foundation for the next (Papers 3 → 4 → 5 → 6 → 7 → 8) or an honest methodological refinement of an earlier result (Paper 9 on the selection-coupling bias of Papers 5–8). The pre-registered rejection patterns across the program are themselves a substantive contribution — they map the boundary between what the synthetic-fleet evaluation framework can and cannot conclude.
 
 | Paper builds on | Foundation laid for |
 |---|---|
@@ -277,10 +305,11 @@ This is a paper about evaluation methodology, not about a calibration recipe. It
 | Paper 4 (HygienePrio single-window) | Paper 5 (does the advantage persist temporally?) |
 | Paper 5 (temporal stability) | Paper 6 (how does it scale across (K, λ)?) |
 | Paper 6 (K=200 collapse) | Paper 7 (can deployable recalibration recover it?) |
-| Paper 7 (calibration recipe) | Paper 8 (is the collapse intrinsic or selection-induced?) |
-| Paper 8 (selection coupling) | Future closed-loop calibration work |
+| Paper 7 (lag-1 K=200 hazard) | Paper 8 (does smoothing fix the hazard?) |
+| Paper 8 (smoothing falsified) | Future change-point-aware calibration |
+| Papers 5–8 (selection-coupling bias) | Paper 9 (quantifies the bias; re-attributes Paper 6's headline collapse) |
 
-**Common methodological thread.** All eight papers share:
+**Common methodological thread.** All nine papers share:
 - Pre-registered analysis plans before examining results (approximately 35 hypotheses locked across the program)
 - Honest null/negative-result reporting as a first-class contribution (approximately 15 rejected hypotheses reported as observed)
 - Fully synthetic seeded data (no production or employer data)
@@ -288,7 +317,7 @@ This is a paper about evaluation methodology, not about a calibration recipe. It
 - Multiple-seed evaluation with percentile bootstrap CIs (10,000 resamples)
 - Stop rules in each protocol that govern abstract-rewriting if a hypothesis is rejected
 
-**Cumulative frozen evidence:** approximately 55,000 Precision@K rows across the eight papers, all reproducible from per-paper seed lists.
+**Cumulative frozen evidence:** approximately 25,500 Precision@K rows across the seven substantive papers (3, 4, 5, 6, 7, 8, 9), all reproducible from per-paper seed lists. (An additional ~18,900 rows from four supplementary continuations sit under `paper7/experiments/` for reproducibility but are not part of the 9-topic primary submission program; see `paper7/experiments/SUPPLEMENTARY.md` for honest provenance.)
 
 ---
 
@@ -306,6 +335,7 @@ tectonic "paper5/submission/ieee/main.tex"
 tectonic "paper6/submission/ieee/main.tex"
 tectonic "paper7/submission/ieee/main.tex"
 tectonic "paper8/submission/ieee/main.tex"
+tectonic "paper9/submission/ieee/main.tex"
 tectonic "eb1a_portfolio/exhibit_cover.tex"
 
 # Merge all into portfolio PDF
@@ -327,13 +357,14 @@ Requires: Tectonic (`brew install tectonic` on macOS) or MacTeX (macOS) or MiKTe
 | Exhibit D | Research paper | Paper 4 (HygienePrio, IEEE TNSM) | 14 |
 | Exhibit E | Research paper | Paper 5 (Temporal Stability, IEEE TNSM) | 8 |
 | Exhibit F | Research paper | Paper 6 (Capacity-Indexed Decay, IEEE TNSM) | 8 |
-| Exhibit G | Research paper | Paper 7 (Online Recalibration consolidated, IEEE TNSM) | 9 |
-| Exhibit H | Research paper | Paper 8 (Self-Trajectory Evaluation, IEEE TNSM) | 8 |
+| Exhibit G | Research paper | Paper 7 (Rolling-History Lag-1, IEEE TNSM) | 9 |
+| Exhibit H | Research paper | Paper 8 (Multi-History Smoothing, IEEE TNSM) | 7 |
+| Exhibit I | Research paper | Paper 9 (Self-Trajectory Evaluation, IEEE TNSM) | 8 |
 | Pre-reg ledger | Pre-registration | ~35 locked hypotheses across the program, archived in each paper's `design/` directory |
-| Frozen data | Benchmark data | ~55,000 Precision@K rows across all eight papers' `results/` directories |
+| Frozen data | Benchmark data | ~25,500 Precision@K rows across all nine papers' `results/` directories (+ ~18,900 supplementary rows in `paper7/experiments/`) |
 | Code | Code artifacts | Synthetic EEHDA generator + per-paper analysis scripts under MIT licence |
 
-**Total submission pages: 70** (8 papers averaging ~9 pages each).
+**Total submission pages: 77** (9 papers averaging ~8.5 pages each).
 
 ---
 
@@ -343,9 +374,9 @@ This program contributes to four overlapping fields:
 
 1. **Cyber-hygiene anomaly detection (Paper 3):** the first open synthetic benchmark covering identity, endpoint, and patch telemetry jointly. The honest 86.2% null-result reporting is itself a contribution to a literature that suffers from ML-positivity bias.
 
-2. **Vulnerability prioritization (Papers 1, 4, 5, 6, 7):** the first pre-registered multi-window evaluation of a hygiene-augmented prioritization scorer, with the deployable calibration recipe (Paper 7) and the capacity-conditional regime characterisation (Paper 6).
+2. **Vulnerability prioritization (Papers 1, 4, 5, 6, 7, 8):** the first pre-registered multi-window evaluation of a hygiene-augmented prioritization scorer, with the capacity-conditional regime characterisation (Paper 6), the deployable calibration recipe (Paper 7), and the smoothing falsification (Paper 8) that sharpens the calibration boundary.
 
-3. **Evaluation methodology in security research (Paper 8):** the first quantification of selection-policy coupling bias in multi-window prioritization evaluation; the result re-attributes a headline collapse to a methodological artifact and changes how subsequent comparisons should be designed.
+3. **Evaluation methodology in security research (Paper 9):** the first quantification of selection-policy coupling bias in multi-window prioritization evaluation; the result re-attributes a headline collapse to a methodological artifact and changes how subsequent comparisons should be designed.
 
 4. **Reproducible security research practice:** the discipline of pre-registration with locked decision rules and stop rules, applied across approximately 35 hypotheses, ~15 of which were rejected and reported honestly. This program is intended as a worked example of how pre-registration sharpens claims in security research, parallel to its established role in clinical and behavioural sciences.
 

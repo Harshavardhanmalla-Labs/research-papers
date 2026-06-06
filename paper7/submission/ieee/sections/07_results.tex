@@ -1,195 +1,109 @@
 \section{Results}
 \label{sec:results}
 
-All numerical claims trace to the per-experiment frozen CSVs in
-\texttt{paper7/experiments/0X\_*/results/}. The complete
-hypothesis-outcome ledger across all six experiments is in
-Table~\ref{tab:hypothesis_ledger}.
+All claims in this section trace to
+\texttt{paper7/results/primary\_v1/online\_calib\_results.csv}
+(1{,}350 rows) and the derived
+\texttt{hypothesis\_summary.json} and
+\texttt{cell\_window\_means.csv}.
 
-\input{tables/tab_hypothesis_ledger}
+\input{tables/tab_main}
 
-\subsection{E1 --- Lag-1 Online Recalibration}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig1_strategy_trajectories.pdf}
+\caption{Mean P@50 trajectories across six windows for the three
+calibration strategies at $K \in \{50, 100, 200\}$, $\lambda = 3$.
+Online (green) tracks offline (orange) at $K = 50, 100$ but
+\textit{loses} to fixed (grey) at $K = 200, w \in \{2, 3\}$.}
+\label{fig:trajectories}
+\end{figure}
 
-The lag-1 procedure recovers the offline-peek ceiling at moderate
-capacity and harms performance at high capacity.
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig2_gain_bars.pdf}
+\caption{Per-(K, window) absolute P@50 gain over fixed weights for
+online (green) and offline (orange) calibration. Negative online
+bars at $K=200, w \in \{2, 3\}$ are the H1 failures.}
+\label{fig:bars}
+\end{figure}
 
-\textbf{Per-cell recovery ratios} (over $w \geq 2$):
-\[\rho_{K=50} = 1.04, \quad \rho_{K=100} = 0.99, \quad
-\rho_{K=200} = -0.66.\]
+\subsection{K = 50: Online Matches the Offline Ceiling}
 
-At $K = 50, w = 2$ lag-1 produces P@50 $= 0.741$ against the
-offline-peek ceiling of $0.757$ (and fixed-weight baseline $0.544$),
-recovering $92.5\%$ of the offline gain without future-data leakage.
-At $K = 200$ the procedure produces $-5.9$~pp at W2 and $-7.8$~pp
-at W3 relative to fixed weights; the per-window calibration target
-shifts faster than the lag-1 history can track.
+At the canonical Paper~5 cell, the fixed-weight HygienePrio-full
+W2 mean P@50 is $0.544$. Offline-peek calibration lifts this to
+$0.757$ ($+21.3$~pp, matching Paper~5's H3 number). \textbf{Online
+recalibration with a one-window lag reaches $0.741$ ($+19.7$~pp), a
+$92.5\%$ recovery of the offline gain without future-data leakage.}
+The cell-mean recovery ratio across $w \geq 2$ is $\rho = 1.04$,
+i.e., online matches or slightly exceeds the offline ceiling on
+average.
 
-\textbf{H1.E1 rejected} (two cell-windows fail the $-0.01$ tolerance
-at $K = 200, w \in \{2, 3\}$). \textbf{H2.E1 rejected in the opposite
-direction} (online sometimes exceeds offline-peek by $+1$ to $+3$~pp
-at late windows; the five-seed offline grid search overfits).
-\textbf{H3.E1 rejected} (at $K = 200$ the W4--W6 recovery does not
-meet the $\geq 5$~pp absolute threshold).
+By W5, online ($0.580$) exceeds offline-peek ($0.550$) outright.
+This direction-of-effect is the opposite of the H2 prediction; the
+five-seed offline grid search appears to overfit, while the
+one-window lag's implicit regularisation generalises better.
 
-The honest substantive interpretation: lag-1 is deployable and
-recovers essentially the full offline ceiling at $K \leq 100$;
-it incurs $-5.9$ to $-7.8$~pp losses at $K = 200$ in the first
-two operating windows.
+\subsection{K = 100: Online Recovers the Bulk of the Gain}
 
-\subsection{E2 --- Multi-Window Smoothing}
+At $K = 100$ the fixed-weight HygienePrio-full W6 has already fallen
+to $0.315$ (the Paper~6 H4-collapse zone). Online recalibration lifts
+this to $0.355$ ($+4.0$~pp) at W6 and to $0.547$ ($+3.0$~pp) at W3.
+The cell-mean recovery ratio is $\rho = 0.99$ across $w \geq 2$ ---
+online essentially matches the offline ceiling. The absolute floor
+is improved but not restored to the Paper~5 regime; online
+recalibration is a useful add-on at $K = 100$ but does not rescue
+the cell from the Paper~6 collapse pattern.
 
-The pre-registered prior was that averaging across more past windows
-would reduce calibration-target variance and reverse the K=200
-hazard. The data falsifies this prior.
+\subsection{K = 200: Online Harms Performance}
 
-\textbf{Per-cell recovery ratios:} EWMA-3 produces
-$\rho_{50} = 0.53$, $\rho_{100} = -1.37$, $\rho_{200} = -0.94$.
-\textsf{trail3} produces qualitatively similar values. Smoothing
-\textit{worsens} the hazard at K=200 (worse than lag-1's $-0.66$)
-and \textit{degrades} the K=50 and K=100 recovery (worse than
-lag-1's $1.04$ and $0.99$).
+At $K = 200$ the picture inverts. The fixed-weight HygienePrio-full
+W2 mean is $0.518$; online \textit{drops} it to $0.458$ ($-5.9$~pp).
+At W3, fixed is $0.346$ and online falls to $0.269$ ($-7.8$~pp).
+Offline-peek at the same windows produces $+3.8$ and $+4.9$~pp,
+showing that better weights for those windows do exist --- they
+simply cannot be inferred from the previous window's calibration
+state. By W4 online recovers a small positive gain ($+3.4$~pp); by
+W6 the residual backlog is so depleted that all three strategies
+collapse to the same $0.075$ (no calibration choice can rescue an
+exhausted backlog).
 
-\textbf{All four E2 hypotheses rejected} (H1.E2 EWMA-no-hazard;
-H2.E2 EWMA-matches-lag1; H3.E2 EWMA-equals-trail3; H4.E2 EWMA-recovery).
-The mechanism is bias-variance: under fast distributional shift,
-older calibration windows are systematically less representative of
-the target window than the most recent past, and averaging
-introduces bias from those older states. The bias term dominates
-the variance reduction.
+The cell-mean recovery ratio across $w \geq 2$ is $\rho = -0.66$.
+Online recalibration is a net hazard at this capacity.
 
-The result rules out simple history-based smoothing as a fix for
-the lag-1 K=200 hazard, motivating the change-point detection
-class of E3--E6.
+\subsection{Hypothesis Outcomes}
 
-\subsection{E3 --- Single-$\tau$ Adaptive ($\tau = 0.05$)}
+\input{tables/tab_hypotheses}
 
-The magnitude detector at $\tau = 0.05$ avoids the K=200 hazard but
-incurs a K=50 cost.
+\textbf{H1 (online $\geq$ fixed).} Rejected. Two cell-window pairs
+($K=200$, $w \in \{2, 3\}$) fail the $-0.01$ threshold with losses of
+$-5.9$ and $-7.8$~pp.
 
-\textbf{H1.E3 supported.} At $K = 200$, adaptive's mean
-$\Delta_{\text{adaptive}-\text{fixed}} = +0.7$~pp; no window incurs
-a loss exceeding the $-0.01$ pre-registered tolerance.
-\textit{First procedure in the sequence to avoid the K=200 hazard.}
+\textbf{H2 (online $\leq$ offline).} Rejected. Two cell-window pairs
+($K=50$, $w \in \{4, 5\}$; $K=100$, $w \in \{3, 6\}$ also show
+positive deltas of $+1$ to $+3$~pp, the most prominent at $K = 50,
+w = 5$ where online ($0.580$) exceeds offline ($0.550$) by $+3.0$~pp.
 
-\textbf{H4.E3 supported.} Adaptive beats the static gate at K=200 by
-$+0.7$~pp cell-mean.
+\textbf{H3 (online rescues high-capacity collapse).} Rejected.
+At $K = 100, w \in \{4, 5\}$ online gain is below the $5$~pp absolute
+threshold. At $K = 200, w \in \{4, 5, 6\}$ the W2--W3 hazard means
+the late-window cell-mean recovery ratio is negative.
 
-\textbf{H2.E3 rejected.} At K=50, the detector fires in $60\%$ of
-post-W1 windows and the cell-mean delta vs lag-1 is $-5.3$~pp.
-Adaptive trades moderate-capacity recovery for high-capacity safety.
+\subsection{Per-Pair Sign Test}
 
-\textbf{H3.E3 rejected.} Fire fractions $\{60\%, 40\%, 80\%\}$ at
-$K \in \{50, 100, 200\}$ are non-monotone (Spearman $\rho = 0.5$).
-The detector responds to per-window calibration-target dynamics, not
-to capacity directly.
-
-\subsection{E4 --- $\tau$ Sensitivity Sweep}
-
-The sweep over $\tau \in \{0.02, 0.03, 0.05, 0.075, 0.10\}$ produces
-\textbf{the central negative result of the program} on the
-simple-detector branch.
-
-\textbf{H3.E4 rejected.} \textit{No $\tau$ in the swept grid
-simultaneously satisfies both pre-registered tolerances}
-(worst K=200 delta $\geq -0.01$ AND cell-mean K=50 delta $\geq -0.02$).
-The K=50 cost is between $-4.1$ and $-5.3$~pp at every $\tau$,
-always exceeding the $-2.0$~pp ceiling. The Pareto curve over $\tau$
-sits entirely outside the joint feasibility region.
-
-\textbf{H1.E4 substantively strengthened.} The worst per-window K=200
-adaptive--fixed delta is exactly $0.0$ at every $\tau$ tested ---
-stronger than the single-$\tau$ H1.E3 result.
-
-\textbf{H2.E4 and H4.E4 sign-direction rejected.} The
-pre-registration predicted larger $\tau$ would fire more and incur
-more K=50 cost. Mathematically the opposite holds: larger $\tau$
-requires a larger shift to trigger and therefore fires less.
-Spearman$(\tau, \text{fire frac}) = -0.97$ ($p = 0.005$). The
-pre-registration encoded the wrong directional intuition; the
-data direction is the substantive scientific claim.
-
-E4 closes the simple-magnitude-detector branch with a sharp negative
-feasibility result.
-
-\subsection{E5 --- Capacity-Aware $\tau$}
-
-A pre-registered per-K threshold vector
-$\tau_K = \{50: 0.20, 100: 0.05, 200: 0.02\}$ reaches the joint
-feasibility region for the first time in the program --- but does so
-by collapsing to the static gate at the capacity extremes.
-
-\textbf{H1.E5 supported.} All three tolerances are simultaneously met:
-worst K=200 cap--fix $= 0$, cell-mean K=50 cap--lag1 $= 0.0$ exactly
-(the large $\tau_{50} = 0.20$ never fires, so cap\_aware $=$ lag1
-at every K=50 window), cell-mean K=100 cap--lag1 $= -0.004$.
-
-\textbf{H3.E5 supported.} Fire fractions $\{0\%, 40\%, 100\%\}$ at
-$K \in \{50, 100, 200\}$ give Spearman $\rho = 1.0$.
-
-\textbf{H4.E5 rejected.} cap\_aware K=200 cell mean equals gated K=200
-cell mean to four decimal places: $0.2664 = 0.2664$. The small
-$\tau_{200}$ fires at every K=200 post-W1 window, so cap\_aware
-reverts to fixed at every window --- the same decision the static
-gate makes unconditionally at K=200. The per-window detector
-contributes nothing beyond the static gate.
-
-\textbf{Substantive interpretation.} E5 reaches feasibility by
-\textit{approximating the static gate} at both capacity extremes:
-at K=50 cap\_aware $=$ lag1 $=$ gated; at K=200 cap\_aware $=$
-fixed $=$ gated. Only K=100 differs and the difference is within
-noise. The static gate is the substantive recommendation at this
-point in the program; capacity-aware $\tau$ validates the gate
-without improving on it.
-
-\subsection{E6 --- One-Sided CUSUM}
-
-CUSUM with pre-registered $k = 0.04$, $h = 0.10$ is the first
-detector in the program that \textit{beats} the static gate at
-K=200 by an operationally meaningful margin.
-
-\textbf{H4.E6 supported.} CUSUM K=200 cell mean $= 0.2754$;
-cap\_aware K=200 cell mean $= 0.2664$; gated K=200 cell mean
-$= 0.2664$. CUSUM is $+0.9$~pp above both.
-
-\textbf{H3.E6 supported.} CUSUM fires at K=200 in $60\%$ of post-W1
-windows; cap\_aware fires in $100\%$. The K=200 fire pattern is
-$\{W2, W3, W6\}$. At W4 ($|\Delta| = 0.020$) and W5 ($|\Delta|
-= 0.096$ after a $0.020$ predecessor that emptied the accumulator)
-CUSUM does \textit{not} fire and uses the lag-1 fit, which is
-beneficial. This is exactly the mechanism E5's static-collapse
-result motivated.
-
-\textbf{H2.E6 fine-margin rejected.} The pre-registered binary test
-required cusum $-$ gated $\geq +0.01$. The observed margin is
-$+0.0090$, missing the threshold by $0.001$~pp. We report the
-rejection honestly and the substantive direction (CUSUM strictly
-beats the gate by an operationally meaningful margin) as the
-contribution.
-
-\textbf{H1.E6 rejected.} At K=50, CUSUM fires in $20\%$ of post-W1
-windows (vs cap\_aware's $0\%$). The cell-mean cusum--lag1 falls to
-$-3.9$~pp, missing the $-2.0$~pp feasibility tolerance. A single
-$(k, h)$ pair that wins at K=200 also fires harmfully at K=50; a
-per-K $(k_K, h_K)$ vector is the natural fix and is left as future
-work.
-
-\subsection{Cross-Experiment Summary}
-
-\input{tables/tab_summary}
-
-The cumulative arc is operationally clear: lag-1 (E1) covers
-$K \leq 100$; CUSUM (E6) is the only deployable procedure that
-beats the static gate at K=200. Across $K \leq 100$ the static gate
-suffices and the calibration arc reduces to the simple ``use lag-1
-below the threshold'' recipe; at $K = 200$ CUSUM adds $+0.9$~pp
-over the gate, the only operationally meaningful gain in the
-entire program.
+For each (cell, seed, window) triple with $w \geq 2$ we record the
+sign of $(\text{online} - \text{fixed})$. At $K = 50$, online beats
+fixed on $112/125$ ($89.6\%$) of post-W1 triples. At $K = 100$, the
+fraction is $87/125$ ($69.6\%$). At $K = 200$, the fraction is
+$57/125$ ($45.6\%$): online is roughly a coin flip versus fixed at
+this capacity. The aggregate sign-test fraction across all cells and
+windows is $256/375$ ($68.3\%$), consistent with the per-cell
+recovery-ratio summary.
 
 \subsection{Pre-Registration Deviations}
 
-None. Each experiment's pre-registered procedure parameters,
-hypotheses, decision rules, and stop rules were applied verbatim.
-The H2.E1 sign reversal (online beats offline at some windows),
-the E2 universal rejections, the E4 H2/H4 sign-direction
-falsifications, the E5 static-gate collapse, and the E6 fine-margin
-H2 rejection were all reported as observed.
+None. The strategy definitions, hypotheses, decision rules, and stop
+rules from the protocol were applied verbatim. The H1, H2, and H3
+rejections were reported as observed; the abstract was rewritten
+after H1 rejection to qualify the deployability claim before the
+discussion was drafted, in compliance with the protocol's stop rule.

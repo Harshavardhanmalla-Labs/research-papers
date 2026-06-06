@@ -1,81 +1,66 @@
-# Paper 7 — Online Recalibration for Hygiene-Augmented Vulnerability Prioritization
+# Paper 7 — Rolling-History Online Calibration for Hygiene-Augmented Vulnerability Prioritization
 
-A **consolidated** pre-registered comparison of six deployable
-recalibration procedures, evaluated on the EEHDA fleet:
+Pre-registered evaluation of a deployable substitute for Paper 5's
+offline-peek H3 calibration ablation. Tests whether one-window-lag
+rolling-history grid search can rescue HygienePrio at Paper 6's
+high-capacity collapse cells.
 
-| Exp | Procedure | Sub-directory |
-|-----|-----------|---------------|
-| E1 | Lag-1 online | `experiments/01_lag1_*` |
-| E2 | Multi-window smoothing (EWMA-3, trail-3) | `experiments/02_smoothing/` |
-| E3 | Single-τ adaptive (τ=0.05) | `experiments/03_adaptive_single_tau/` |
-| E4 | τ sensitivity sweep (5 values) | `experiments/04_tau_sweep/` |
-| E5 | Capacity-aware τ vector | `experiments/05_capacity_aware/` |
-| E6 | One-sided CUSUM (k=0.04, h=0.10) | `experiments/06_cusum/` |
+**Target venue:** IEEE TNSM
 
-**Target venue:** IEEE TNSM (journal article, 9 pages, clean compile).
+## Headline findings (honest, pre-registered)
 
-## Headline finding (cumulative across six experiments)
+- **K = 50 (canonical):** online recalibration recovers **92.5%** of
+  the offline-peek W2 gain (+19.7 pp vs +21.3 pp ceiling). Cell-mean
+  recovery ratio ρ = 1.04.
+- **K = 100:** online recovers essentially all of the offline gain
+  (ρ = 0.99) but the absolute floor remains low (W6 = 0.355).
+- **K = 200:** online **harms** performance, losing −5.9 pp at W2 and
+  −7.8 pp at W3. Cell-mean recovery ratio ρ = **−0.66**.
+- **All three pre-registered hypotheses rejected** — the rejection
+  pattern is the contribution.
+- **H2 rejected in surprising direction:** online sometimes *beats*
+  offline-peek (+3 pp at K=50, W5). Five-seed offline grid overfits;
+  one-window lag acts as implicit regulariser.
 
-The deployable recalibration recipe is **capacity-conditional**:
+## Operational summary
 
-- **K ≤ 100:** deploy lag-1 online recalibration (E1, ρ ≈ 1.0 vs offline ceiling).
-- **K = 200:** deploy CUSUM (E6, +0.9 pp over the static gate — the only operationally meaningful gain over the gate in the whole program).
-- **Mixed capacity:** per-K (k_K, h_K) CUSUM vector required (future work).
-
-## Pre-registration
-
-- Consolidated protocol: [`design/PAPER7_PROTOCOL.md`](design/PAPER7_PROTOCOL.md) — 27 hypotheses across 6 experiments
-- Per-experiment protocols: `experiments/0X_*/PROTOCOL.md` or `experiments/0X_*/design/`
+Deploy rolling-history online recalibration only when per-window
+distributional shift is small relative to the lag. At high capacity,
+keep fixed Paper-4 weights instead.
 
 ## Reproduce
 
+From `paper7/`:
 ```bash
-# E1 lag-1
-PYTHONPATH=experiments/01_lag1_src python3 \
-  experiments/01_lag1_src/run_temporal.py
-
-# E2 smoothing
-PYTHONPATH=experiments/02_smoothing/src python3 \
-  experiments/02_smoothing/src/run_multi_history.py
-
-# E3 adaptive (single τ)
-PYTHONPATH=experiments/03_adaptive_single_tau/src python3 \
-  experiments/03_adaptive_single_tau/src/run_adaptive.py
-
-# E4 τ sweep
-PYTHONPATH=experiments/04_tau_sweep/src python3 \
-  experiments/04_tau_sweep/src/run_tau_sweep.py
-
-# E5 capacity-aware τ
-PYTHONPATH=experiments/05_capacity_aware/src python3 \
-  experiments/05_capacity_aware/src/run_cap_aware.py
-
-# E6 CUSUM
-PYTHONPATH=experiments/06_cusum/src python3 \
-  experiments/06_cusum/src/run_cusum.py
+PYTHONPATH=src python3 src/run_online_calib.py    # 1,350-row sweep
+PYTHONPATH=src python3 src/analyze.py             # H1–H3 outcomes + tables
+PYTHONPATH=src python3 src/make_figures.py        # 2 figures
 ```
 
 ## Layout
 
 ```
 paper7/
-├── design/PAPER7_PROTOCOL.md          # consolidated 27-hypothesis protocol
-├── experiments/
-│   ├── 01_lag1_*                      # E1 src + results
-│   ├── 02_smoothing/                  # E2 full sub-project
-│   ├── 03_adaptive_single_tau/        # E3 full sub-project
-│   ├── 04_tau_sweep/                  # E4 full sub-project
-│   ├── 05_capacity_aware/             # E5 full sub-project
-│   └── 06_cusum/                      # E6 full sub-project
-└── submission/ieee/                   # 9-page IEEE TNSM manuscript
+├── design/PAPER7_PROTOCOL.md          # pre-registration (locked 2026-06-04)
+├── src/
+│   ├── paper7/online_calib.py         # 3-strategy evaluator
+│   ├── run_online_calib.py            # CLI entry
+│   ├── analyze.py                     # H1-H3 + auto LaTeX tables
+│   └── make_figures.py                # 2 figures
+├── results/primary_v1/
+│   ├── online_calib_results.csv       # 1,350 rows, frozen
+│   ├── cell_window_means.csv          # per-cell-per-window aggregates
+│   ├── hypothesis_summary.json        # H1-H3 outcomes
+│   └── run_manifest.json
+└── submission/ieee/                   # IEEE TNSM scaffold, 7 pages, clean compile
     ├── main.tex / main.pdf
     ├── references.bib
     ├── sections/ (12 files)
-    └── tables/ (3 files: experiment coverage, hypothesis ledger, summary)
+    ├── tables/ (3 files)
+    └── figures/ (2 PDFs)
 ```
 
-## Frozen artifacts
+## Dependencies
 
-22,500 P@50 rows across six experiments, plus per-experiment
-change-point decision logs. All numerical claims in the manuscript
-trace to the per-experiment frozen CSVs.
+Reuses Paper 4's `hygieneprio` package and Paper 5's `paper5.window_sim`
+via `sys.path` injection. No code duplication.
