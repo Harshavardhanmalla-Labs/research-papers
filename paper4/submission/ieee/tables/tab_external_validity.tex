@@ -1,0 +1,25 @@
+\begin{table}[!t]
+  \caption{Real-distribution external validity. Mean Precision@50 across
+  the same 25 evaluation seeds, under synthetic EEHDA CVE attributes
+  (Paper~4 primary) vs.\ resampled from the frozen 2026-06-05 real CVE
+  corpus.}
+  \label{tab:external_validity}
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    \textbf{Method} & \textbf{Synthetic} & \textbf{Real} & \textbf{$\Delta$} \\
+    \midrule
+    HygienePrio-full & 0.520 & 0.377 & $-0.143$ \\
+    EPSS-only        & 0.211 & 0.353 & $+0.142$ \\
+    HRS-only         & 0.295 & 0.041 & $-0.254$ \\
+    CVSS-only        & 0.045 & 0.014 & $-0.031$ \\
+    Random           & 0.044 & 0.010 & $-0.034$ \\
+    \midrule
+    \multicolumn{4}{l}{\textit{HygienePrio-full $-$ EPSS-only gap (Precision@50, pp):}} \\
+    Synthetic & \multicolumn{3}{r}{$+30.9$ pp (Paper~4 headline)} \\
+    Real      & \multicolumn{3}{r}{$+2.4$ pp (external validity)} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
