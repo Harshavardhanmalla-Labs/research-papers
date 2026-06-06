@@ -33,6 +33,7 @@ COMPONENTS = [
     (ROOT / "paper7" / "submission" / "ieee" / "main.pdf",                                 "Paper 7 — Online Recalibration (Lag-1)"),
     (ROOT / "paper8" / "submission" / "ieee" / "main.pdf",                                 "Paper 8 — Multi-History Smoothing"),
     (ROOT / "paper9" / "submission" / "ieee" / "main.pdf",                                 "Paper 9 — Self-Trajectory Evaluation"),
+    (ROOT / "paper10" / "submission" / "ieee" / "main.pdf",                                "Paper 10 — AutoHeal Self-Healing Framework"),
 ]
 
 OUTPUT = ROOT / "eb1a_portfolio" / "EB1A_Research_Portfolio_Malla_2026.pdf"

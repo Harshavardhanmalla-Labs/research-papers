@@ -1,0 +1,20 @@
+\begin{table}[!t]
+  \caption{Cell-mean outcomes at W12 by strategy and capacity.}
+  \label{tab:summary}
+  \centering
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}lcccc@{}}
+    \toprule
+    \textbf{Strategy/K} & \textbf{Cov} & \textbf{Rb \%} & \textbf{MTTR} & \textbf{Halts} \\
+    \midrule
+    AutoHeal $K{=}50$ & 0.999 & 5.73 & 0.00 & 44 \\
+    AutoHeal $K{=}100$ & 0.999 & 6.13 & 0.00 & 44 \\
+    AutoHeal $K{=}200$ & 1.000 & 5.65 & 0.00 & 46 \\
+    Fixed-policy $K{=}50$ & 1.000 & 4.97 & 0.00 & 0 \\
+    Fixed-policy $K{=}100$ & 1.000 & 4.98 & 0.00 & 0 \\
+    Fixed-policy $K{=}200$ & 1.000 & 4.71 & 0.00 & 0 \\
+    Human-in-loop & 1.000 & 4.57 & 0.00 & 0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

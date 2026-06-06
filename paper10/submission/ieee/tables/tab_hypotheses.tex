@@ -1,0 +1,17 @@
+\begin{table}[!t]
+  \caption{Pre-registered hypothesis outcomes.}
+  \label{tab:hypotheses}
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}p{0.5cm}p{4.0cm}p{3.0cm}@{}}
+    \toprule
+    \textbf{ID} & \textbf{Decision rule} & \textbf{Outcome} \\
+    \midrule
+    H1 & Coverage $\geq 0.80$ at W6, $K\in\{50,100\}$ & Supported \\
+    H2 & Rollback rate $\leq 5\%$ everywhere & Rejected (300 fails; max 100.0\%) \\
+    H3 & MTTR ratio $\leq 0.5$ vs.\ HIL, $K\in\{50,100\}$ & Rejected (K50=inf, K100=inf) \\
+    H4 & Coverage dominance $\geq 80\%$, $K\leq 100$ & Rejected (K50=2\%, K100=2\%) \\
+    \bottomrule
+  \end{tabular}
+\end{table}

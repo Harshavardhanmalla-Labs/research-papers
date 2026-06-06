@@ -1,0 +1,48 @@
+\section{Related Work}
+
+\textbf{Autonomic computing and self-healing.}
+The self-healing concept originates in autonomic
+computing~\cite{kephart2003vision}, which sought to embed
+self-configuring, self-healing, self-optimising, and
+self-protecting properties in distributed systems. Subsequent work
+has applied the framework to security incidents at varying levels
+of abstraction. Commercial implementations of self-healing
+vulnerability remediation (Microsoft Defender automated
+investigation; Tanium auto-remediation; IBM SOAR) are closed-source
+and do not publish their decision rules or safety bounds.
+
+\textbf{Pre-registered evaluation in security research.}
+Pre-registration discipline is rare in security; the VulnPrio
+sequence's earlier papers (Papers~1, 3--9) apply it consistently.
+AutoHeal continues that discipline by locking the architecture's
+parameters and hypotheses before evaluation.
+
+\textbf{Integration with Papers 4--9.} AutoHeal synthesises:
+HygienePrio (Paper~4)~\cite{paper4hygieneprio} for scoring;
+Paper~7's lag-1 calibration~\cite{paper7online} as the
+calibration recipe at moderate capacity; Paper~9's
+Theorem~1~\cite{paper9selftraj} (the closed-loop signal exhaustion
+result) as the structural justification for the K=200 exclusion
+from H1.
+
+\textbf{Real CVE attribute distributions.} The frozen real
+EPSS/KEV public corpus (\texttt{real\_data/processed/}) is the
+same artifact released with Paper~4~\S\ref{sec:external_validity}.
+AutoHeal inherits the corpus and its synthetic-vs-real distribution
+gap as an inherited consequence: the absolute coverage numbers
+under real distributions will differ from a purely-synthetic
+evaluation by the same factor Paper~4 measured.
+
+\textbf{Policy mandates.} CISA BOD~22-01~\cite{cisa2021bod2201}
+and 23-01~\cite{cisa2022bod2301} require risk-based prioritization;
+NIST SP~800-40 Rev.~4~\cite{nist2022sp80040r4} specifies the
+documentation standard. AutoHeal's pre-registered triage rules
+constitute the documentation form contemplated by these mandates,
+extended with safety bounds that the mandates do not specify but
+that production deployments require.
+
+\textbf{What we are not the first to do.} Closed-loop patch
+deployment is a long-standing operations practice. The novelty of
+AutoHeal is not in the closed-loop concept but in the
+\emph{pre-registered evaluation harness with locked safety bounds},
+which is uncommon in both the academic and commercial literature.
