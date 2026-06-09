@@ -1,0 +1,25 @@
+rule suspicious_scheduled_task_creation {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects scheduled task creation via schtasks/at with create-style flags. Risk-scored; pair with the binary path the task launches."
+    severity = "Medium"
+    yara_version = "YL2.0"
+    rule_version = "2.0"
+    mitre_tactic = "Persistence, Privilege Escalation"
+    mitre_technique = "T1053.005"
+    data_source = "Endpoint process telemetry"
+    false_positives = "Software deployment, patching, enterprise management scripts"
+  events:
+    $e.metadata.event_type = "PROCESS_LAUNCH"
+    re.regex($e.principal.process.file.full_path, `(?i)\\(schtasks|at)\.exe$`)
+    re.regex($e.principal.process.command_line, `(?i)\s/create\b`)
+    not $e.principal.hostname in %approved_admin_hosts
+    $e.principal.hostname != ""
+  outcome:
+    $risk_score = max(45)
+    $risk_entity_to_score = $e.principal.hostname
+    $cmdline = array_distinct($e.principal.process.command_line)
+    $user = array_distinct($e.principal.user.userid)
+  condition:
+    $e
+}

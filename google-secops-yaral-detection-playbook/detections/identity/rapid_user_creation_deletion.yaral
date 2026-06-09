@@ -1,0 +1,28 @@
+rule rapid_user_creation_and_deletion {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects an account created and deleted within 4 hours — possible attacker cleanup or unauthorized lifecycle activity."
+    severity = "Medium"
+    yara_version = "YL2.0"
+    rule_version = "2.0"
+    mitre_tactic = "Persistence, Defense Evasion"
+    mitre_technique = "T1136, T1070"
+    data_source = "Directory / IAM audit logs"
+    false_positives = "HR onboarding corrections, admin testing, provisioning failures"
+  events:
+    $create.metadata.event_type = "USER_CREATION"
+    $create.target.user.userid = $user
+    $delete.metadata.event_type = "USER_DELETION"
+    $delete.target.user.userid = $user
+    $create.metadata.event_timestamp.seconds <= $delete.metadata.event_timestamp.seconds
+    $user != ""
+  match:
+    $user over 4h
+  outcome:
+    $risk_score = max(50)
+    $risk_entity_to_score = $user
+    $creator = array_distinct($create.principal.user.userid)
+    $deleter = array_distinct($delete.principal.user.userid)
+  condition:
+    $create and $delete
+}

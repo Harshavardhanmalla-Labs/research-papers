@@ -1,0 +1,24 @@
+rule suspicious_service_creation {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects service creation via sc.exe or service binaries pointing at user-writable / temp paths."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "1.0"
+    mitre_tactic = "Persistence, Privilege Escalation, Lateral Movement"
+    mitre_technique = "T1543.003, T1569.002"
+    data_source = "Endpoint process telemetry / service creation events"
+    false_positives = "Legitimate software installs and management agents"
+  events:
+    $e.metadata.event_type = "PROCESS_LAUNCH"
+    re.regex($e.principal.process.file.full_path, `(?i)\\sc\.exe$`)
+    re.regex($e.principal.process.command_line, `(?i)\bcreate\b`)
+    re.regex($e.principal.process.command_line, `(?i)(\\appdata\\|\\temp\\|\\programdata\\|\\users\\public\\)`)
+    $e.principal.hostname != ""
+  outcome:
+    $risk_score = max(70)
+    $risk_entity_to_score = $e.principal.hostname
+    $cmdline = array_distinct($e.principal.process.command_line)
+  condition:
+    $e
+}

@@ -1,0 +1,9 @@
+# Reference list: threat_intel_ip_watchlist
+# Type: CIDR
+# Purpose: curated, high-confidence malicious IP / C2 infrastructure.
+# Source: combine commercial TI, ISAC feeds, internal incident artefacts.
+# Owner: Threat Intelligence. Review cadence: weekly (aging policy: drop after 60 days
+#   unless re-validated).
+# Example entries:
+# 192.0.2.10/32
+# 198.51.100.45/32

@@ -1,0 +1,8 @@
+# Reference list: approved_admin_hosts
+# Type: STRING (exact hostname match)
+# Purpose: hosts where elevated/admin behavior is expected (jump boxes, PAW workstations).
+# Owner: Detection Engineering. Review cadence: monthly.
+# Example entries (replace with your environment):
+# JUMPBOX01
+# PAW-ADMIN-NYC-01
+# MGMT-SRV-001

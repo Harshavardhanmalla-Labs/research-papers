@@ -1,0 +1,30 @@
+rule lolbin_proxy_execution {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects living-off-the-land binaries (rundll32, regsvr32, mshta) invoking remote URLs or script protocols for proxy execution."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "1.0"
+    mitre_tactic = "Defense Evasion"
+    mitre_technique = "T1218.010, T1218.011, T1218.005"
+    data_source = "Endpoint process telemetry"
+    false_positives = "Legitimate installers and COM registration during software deployment"
+  events:
+    $e.metadata.event_type = "PROCESS_LAUNCH"
+    re.regex($e.principal.process.file.full_path, `(?i)\\(rundll32|regsvr32|mshta)\.exe$`)
+    (
+      re.regex($e.principal.process.command_line, `(?i)https?://`) or
+      re.regex($e.principal.process.command_line, `(?i)\b(javascript|vbscript):`) or
+      re.regex($e.principal.process.command_line, `(?i)\bscrobj\.dll\b`) or
+      re.regex($e.principal.process.command_line, `(?i)/i:http`)
+    )
+    not $e.principal.hostname in %approved_admin_hosts
+    $e.principal.hostname != ""
+  outcome:
+    $risk_score = max(70)
+    $risk_entity_to_score = $e.principal.hostname
+    $binary = array_distinct($e.principal.process.file.full_path)
+    $cmdline = array_distinct($e.principal.process.command_line)
+  condition:
+    $e
+}

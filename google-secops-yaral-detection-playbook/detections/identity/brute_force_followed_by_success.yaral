@@ -1,0 +1,34 @@
+rule brute_force_followed_by_successful_login {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects 5+ failed logins followed by a successful login for the same user and source within 10 minutes."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "2.0"
+    mitre_tactic = "Credential Access, Initial Access"
+    mitre_technique = "T1110, T1078"
+    data_source = "Authentication logs"
+    false_positives = "Password resets, stale sessions, misconfigured apps, service-account failures"
+  events:
+    $fail.metadata.event_type = "USER_LOGIN"
+    $fail.security_result.action = "BLOCK"
+    $fail.target.user.userid = $user
+    $fail.principal.ip = $src
+
+    $ok.metadata.event_type = "USER_LOGIN"
+    $ok.security_result.action = "ALLOW"
+    $ok.target.user.userid = $user
+    $ok.principal.ip = $src
+
+    $fail.metadata.event_timestamp.seconds < $ok.metadata.event_timestamp.seconds
+    $user != ""
+  match:
+    $user, $src over 10m
+  outcome:
+    $risk_score = max(75)
+    $risk_entity_to_score = $user
+    $failed_count = count($fail.metadata.id)
+    $success_count = count($ok.metadata.id)
+  condition:
+    #fail >= 5 and #ok >= 1
+}

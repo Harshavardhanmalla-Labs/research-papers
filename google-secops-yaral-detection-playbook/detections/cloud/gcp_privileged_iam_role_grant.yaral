@@ -1,0 +1,25 @@
+rule gcp_privileged_iam_role_grant {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects IAM policy changes granting highly privileged roles (owner, editor, security/org admin) in cloud audit logs."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "1.0"
+    mitre_tactic = "Privilege Escalation, Persistence"
+    mitre_technique = "T1098, T1078.004"
+    data_source = "Cloud audit logs (IAM)"
+    false_positives = "Approved IaC deployments, platform-team role assignments"
+  events:
+    $e.metadata.event_type = "RESOURCE_PERMISSIONS_CHANGE"
+    re.regex($e.metadata.product_event_type, `(?i)setiampolicy`)
+    re.regex($e.target.resource.attribute.roles.name,
+             `(?i)(roles/owner|roles/editor|roles/iam\.securityAdmin|roles/resourcemanager\.organizationAdmin|admin)`)
+    not $e.principal.user.userid in %approved_iac_service_accounts
+  outcome:
+    $risk_score = max(78)
+    $risk_entity_to_score = $e.principal.user.userid
+    $actor = array_distinct($e.principal.user.userid)
+    $role = array_distinct($e.target.resource.attribute.roles.name)
+  condition:
+    $e
+}

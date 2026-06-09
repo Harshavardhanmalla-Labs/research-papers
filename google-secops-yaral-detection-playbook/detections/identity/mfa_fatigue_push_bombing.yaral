@@ -1,0 +1,25 @@
+rule mfa_push_bombing {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects a high volume of MFA challenges for a single user within a short window, indicative of push-bombing / MFA fatigue."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "1.0"
+    mitre_tactic = "Credential Access"
+    mitre_technique = "T1621"
+    data_source = "MFA / IdP logs"
+    false_positives = "Genuine user retries, flaky network, device re-enrollment"
+  events:
+    $e.metadata.event_type = "USER_LOGIN"
+    re.regex($e.security_result.detection_fields["mfa_status"], `(?i)(challenge|denied|prompt)`)
+    $e.target.user.userid = $user
+    $user != ""
+  match:
+    $user over 10m
+  outcome:
+    $risk_score = max(65)
+    $risk_entity_to_score = $user
+    $challenge_count = count($e.metadata.id)
+  condition:
+    $e and #e >= 8
+}

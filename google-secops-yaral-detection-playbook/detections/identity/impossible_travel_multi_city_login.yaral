@@ -1,0 +1,31 @@
+rule impossible_travel_multi_city_login {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects a user authenticating successfully from more than one city within a short window, indicating possible credential or token compromise."
+    severity = "Medium"
+    yara_version = "YL2.0"
+    rule_version = "2.0"
+    mitre_tactic = "Initial Access, Credential Access"
+    mitre_technique = "T1078"
+    data_source = "Identity provider authentication logs"
+    false_positives = "VPN, mobile carrier routing, travel, cloud proxies, geo inaccuracies"
+  events:
+    $login.metadata.event_type = "USER_LOGIN"
+    $login.security_result.action = "ALLOW"
+    $login.principal.user.userid = $user
+    $login.principal.location.city = $city
+    $login.principal.ip = $ip
+    not $ip in cidr %approved_vpn_egress_ranges
+    $user != ""
+    $city != ""
+  match:
+    $user over 1h
+  outcome:
+    $risk_score = max(55)
+    $risk_entity_to_score = $user
+    $distinct_cities = count_distinct($login.principal.location.city)
+    $cities = array_distinct($login.principal.location.city)
+    $source_ips = array_distinct($login.principal.ip)
+  condition:
+    $login and $distinct_cities > 1
+}

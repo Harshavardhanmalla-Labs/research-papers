@@ -1,0 +1,35 @@
+rule suspicious_encoded_powershell_execution {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects PowerShell launched with encoded commands, hidden windows, profile bypass, or execution-policy bypass. Scored as a risk contributor; excludes approved automation via reference lists."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "2.0"
+    mitre_tactic = "Execution, Defense Evasion"
+    mitre_technique = "T1059.001, T1027"
+    data_source = "Endpoint process telemetry"
+    false_positives = "Admin scripts, SCCM/Intune/Tanium automation, EDR response actions"
+  events:
+    $e.metadata.event_type = "PROCESS_LAUNCH"
+    re.regex($e.principal.process.command_line, `(?i)\b(powershell(\.exe)?|pwsh(\.exe)?)\b`)
+    (
+      re.regex($e.principal.process.command_line, `(?i)\s-enc(odedcommand)?\b`) or
+      re.regex($e.principal.process.command_line, `(?i)\s-e\s+[A-Za-z0-9+/=]{20,}`) or
+      re.regex($e.principal.process.command_line, `(?i)\s-w(indowstyle)?\s+hidden`) or
+      re.regex($e.principal.process.command_line, `(?i)\s-nop(rofile)?\b`) or
+      re.regex($e.principal.process.command_line, `(?i)\s-ep?\s+bypass`) or
+      re.regex($e.principal.process.command_line, `(?i)-executionpolicy\s+bypass`)
+    )
+    not $e.principal.user.userid in %approved_powershell_automation_accounts
+    not $e.principal.hostname in %approved_admin_hosts
+    $e.principal.hostname != ""
+    $e.principal.process.command_line != ""
+  outcome:
+    $risk_score = max(60)
+    $risk_entity_to_score = $e.principal.hostname
+    $user = array_distinct($e.principal.user.userid)
+    $cmdline = array_distinct($e.principal.process.command_line)
+    $parent = array_distinct($e.principal.process.parent_process.file.full_path)
+  condition:
+    $e
+}
