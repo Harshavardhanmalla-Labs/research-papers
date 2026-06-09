@@ -1,0 +1,9 @@
+# Reference list: approved_powershell_automation_accounts
+# Type: STRING (exact userid match)
+# Purpose: service accounts that legitimately run encoded/automated PowerShell at scale
+#   (SCCM/Intune/Tanium/EDR live response, etc.).
+# Owner: Detection Engineering. Review cadence: monthly.
+# Example entries:
+# svc-sccm
+# svc-intune
+# svc-tanium

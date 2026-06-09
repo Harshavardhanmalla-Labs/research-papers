@@ -1,0 +1,25 @@
+rule svchost_execution_from_unusual_location {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects svchost.exe running from a path other than System32/SysWOW64, indicating masquerading."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "2.0"
+    mitre_tactic = "Defense Evasion"
+    mitre_technique = "T1036.005"
+    data_source = "Endpoint process telemetry"
+    false_positives = "Rare packaging issues, forensic tooling, lab images"
+  events:
+    $e.metadata.event_type = "PROCESS_LAUNCH"
+    re.regex($e.principal.process.file.full_path, `(?i)\\svchost\.exe$`)
+    not re.regex($e.principal.process.file.full_path, `(?i)\\windows\\system32\\svchost\.exe$`)
+    not re.regex($e.principal.process.file.full_path, `(?i)\\windows\\syswow64\\svchost\.exe$`)
+    $e.principal.hostname != ""
+  outcome:
+    $risk_score = max(85)
+    $risk_entity_to_score = $e.principal.hostname
+    $path = array_distinct($e.principal.process.file.full_path)
+    $hash = array_distinct($e.principal.process.file.sha256)
+  condition:
+    $e
+}

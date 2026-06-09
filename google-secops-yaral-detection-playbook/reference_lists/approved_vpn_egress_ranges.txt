@@ -1,0 +1,8 @@
+# Reference list: approved_vpn_egress_ranges
+# Type: CIDR
+# Purpose: corporate VPN egress and cloud-proxy ranges, so impossible-travel logic
+#   does not fire on routed traffic that legitimately exits in another region.
+# Owner: Network + Detection Engineering. Review cadence: quarterly.
+# Example entries:
+# 198.51.100.0/24
+# 203.0.113.0/24

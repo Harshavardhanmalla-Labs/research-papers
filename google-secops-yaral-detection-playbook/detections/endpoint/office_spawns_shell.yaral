@@ -1,0 +1,27 @@
+rule office_application_spawns_interpreter {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects Microsoft Office applications spawning command interpreters or scripting hosts, indicative of macro-based execution."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "1.0"
+    mitre_tactic = "Execution, Initial Access"
+    mitre_technique = "T1059, T1566.001, T1204.002"
+    data_source = "Endpoint process telemetry (requires parent process)"
+    false_positives = "Rare legitimate macros, add-ins, and templated automation"
+  events:
+    $e.metadata.event_type = "PROCESS_LAUNCH"
+    re.regex($e.principal.process.parent_process.file.full_path,
+             `(?i)\\(winword|excel|powerpnt|outlook|mspub|onenote)\.exe$`)
+    re.regex($e.principal.process.file.full_path,
+             `(?i)\\(cmd|powershell|pwsh|wscript|cscript|mshta|rundll32|regsvr32)\.exe$`)
+    $e.principal.hostname != ""
+  outcome:
+    $risk_score = max(80)
+    $risk_entity_to_score = $e.principal.hostname
+    $parent = array_distinct($e.principal.process.parent_process.file.full_path)
+    $child = array_distinct($e.principal.process.file.full_path)
+    $cmdline = array_distinct($e.principal.process.command_line)
+  condition:
+    $e
+}

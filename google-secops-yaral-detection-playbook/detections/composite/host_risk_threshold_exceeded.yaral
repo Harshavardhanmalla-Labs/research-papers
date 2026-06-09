@@ -1,0 +1,23 @@
+rule host_risk_threshold_exceeded {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Composite/consumer rule. Fires when a single host accumulates risk above threshold from multiple producer detections within 2h."
+    severity = "Critical"
+    yara_version = "YL2.0"
+    rule_version = "1.0"
+    mitre_tactic = "Meta-detection (aggregates upstream producer rules)"
+    data_source = "RULE_DETECTION events emitted by other rules"
+    false_positives = "Legitimate admin sessions firing several behavioral producers in the same window"
+  events:
+    $d.metadata.event_type = "RULE_DETECTION"
+    $d.detection.detection.detection_depth = 0
+    $d.detection.outcomes["risk_entity_to_score"] = $hostname
+    $d.detection.risk_score = $risk
+  match:
+    $hostname over 2h
+  outcome:
+    $total_risk_score = sum($risk)
+    $contributing_rules = array_distinct($d.detection.rule_name)
+  condition:
+    $d and $total_risk_score >= 90
+}

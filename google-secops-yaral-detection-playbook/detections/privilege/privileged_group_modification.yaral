@@ -1,0 +1,25 @@
+rule privileged_group_membership_change {
+  meta:
+    author = "Harshavardhan Malla"
+    description = "Detects modification of privileged group membership across AD and cloud directories."
+    severity = "High"
+    yara_version = "YL2.0"
+    rule_version = "2.0"
+    mitre_tactic = "Privilege Escalation, Persistence"
+    mitre_technique = "T1098, T1078.003"
+    data_source = "Directory service / IAM audit logs"
+    false_positives = "Approved access changes, break-glass, admin onboarding"
+  events:
+    $e.metadata.event_type = "GROUP_MODIFICATION"
+    re.regex($e.target.group.group_display_name,
+             `(?i)(domain admins|enterprise admins|schema admins|administrators|global administrator|privileged role administrator|security administrator)`)
+    $e.target.group.group_display_name != ""
+  outcome:
+    $risk_score = max(80)
+    $risk_entity_to_score = $e.principal.user.userid
+    $actor = array_distinct($e.principal.user.userid)
+    $group = array_distinct($e.target.group.group_display_name)
+    $target_user = array_distinct($e.target.user.userid)
+  condition:
+    $e
+}

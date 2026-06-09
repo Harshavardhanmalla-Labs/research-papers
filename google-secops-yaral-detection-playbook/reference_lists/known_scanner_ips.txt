@@ -1,0 +1,8 @@
+# Reference list: known_scanner_ips
+# Type: CIDR
+# Purpose: internal vulnerability scanners and authorised pentest infrastructure
+#   that generate auth failures resembling password spray.
+# Owner: Security Operations. Review cadence: quarterly.
+# Example entries:
+# 10.10.50.0/24
+# 10.10.51.0/24
