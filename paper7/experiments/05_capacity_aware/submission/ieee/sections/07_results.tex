@@ -1,0 +1,114 @@
+\section{Results}
+\label{sec:results}
+
+All claims trace to \texttt{paper12/results/primary\_v1/cap\_aware\_results.csv}
+(2{,}700 rows), \texttt{changepoint\_log.csv}, and
+\texttt{hypothesis\_summary.json}.
+
+\input{tables/tab_main}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig1_strategy_trajectories.pdf}
+\caption{Mean P@50 trajectories for the six strategies at
+$K \in \{50, 100, 200\}$ with the pre-registered $\tau_K$ vector.
+Amber bands mark windows where cap\_aware fires. K=50: never fires.
+K=100: 40\% fires. K=200: 100\% fires.}
+\label{fig:traj}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig2_fire_vs_K.pdf}
+\caption{Firing fraction per K for cap\_aware vs Paper~10's
+adaptive05. The cap\_aware fire fraction is perfectly monotone
+in K (H3 supported).}
+\label{fig:fire}
+\end{figure}
+
+\subsection{H1 Supported: Feasibility Region Reached}
+
+The three pre-registered tolerances are simultaneously satisfied:
+\begin{itemize}
+\item Worst per-window K=200 $\Delta_{\mathrm{cap-fix}} = 0.0$
+(tolerance $\geq -0.01$).
+\item Cell-mean K=50 $\Delta_{\mathrm{cap-lag1}} = 0.0$ exactly
+(tolerance $\geq -0.02$).
+\item Cell-mean K=100 $\Delta_{\mathrm{cap-lag1}} = -0.004$
+(tolerance $\geq -0.02$).
+\end{itemize}
+
+The K=50 result holds with equality because $\tau_{50} = 0.20$
+suppresses every fire at K=50; the detector never reverts to fixed,
+so cap\_aware uses lag-1 weights at every window and reproduces the
+lag-1 strategy exactly. The cell-mean delta is therefore $0.0$ by
+construction.
+
+This is the first procedure in the Papers~7--12 sequence to reach
+the joint feasibility region.
+
+\subsection{H3 Supported: Perfectly Monotone Firing}
+
+Fire fractions are $\{0\%, 40\%, 100\%\}$ at $K \in \{50, 100, 200\}$,
+yielding Spearman $\rho = 1.0$ ($p = 0$, exact monotonicity). The
+$\tau_K$ vector operationalises capacity-conditional behaviour
+exactly: at K=50 the threshold $\tau_{50} = 0.20$ is large enough
+that the calibration-target shift $|\Delta_w|$ never crosses it; at
+K=200 the threshold $\tau_{200} = 0.02$ is small enough that
+$|\Delta_w|$ always crosses it; at K=100 the intermediate
+$\tau_{100} = 0.05$ produces a 40\% firing rate.
+
+\subsection{H4 Rejected: cap\_aware Equals gated at K=200}
+
+\input{tables/tab_hypotheses}
+
+The cap\_aware K=200 cell-mean P@50 is $0.2664$; the gated K=200
+cell-mean is also $0.2664$, identical to four decimal places. The
+H4 pre-registered tolerance required a margin of $+0.01$;
+the observed margin is $0.000$.
+
+The mechanism is structural. At $\tau_{200} = 0.02$ the magnitude
+test fires at every post-W1 K=200 window because the per-window
+$|\Delta_w|$ values are $\{0.144, 0.160, 0.020, 0.096, 0.136\}$ at
+$w = 2, \ldots, 6$, all $\geq 0.02$. cap\_aware therefore reverts to
+fixed at every K=200 window --- exactly what the static gate does
+unconditionally at K=200. The two strategies execute the same decision
+on every window-seed pair.
+
+\subsection{H2 Rejected at One Cell-Window}
+
+At $K=200, w=4$ the calibration-target shift is $|\Delta| = 0.020$.
+The cap\_aware threshold $\tau_{200} = 0.02$ fires; the adaptive05
+threshold $\tau = 0.05$ does not. cap\_aware therefore reverts to
+fixed at this window; adaptive05 uses the lag-1 fit. The lag-1 fit
+at $w = 4, K = 200$ happens to be beneficial: adaptive05 records
+$0.288$ vs cap\_aware's $0.254$ ($-3.4$~pp).
+
+This single window failure is intrinsic to the pre-registered
+$\tau_{200} = 0.02$ choice: any threshold value below $0.05$ that
+maintains the H1 feasibility would have produced the same fire
+decision at this window. The K=200 cell-mean across all six windows
+remains close to adaptive05 ($0.2664$ vs $0.2733$), but the
+$-0.034$ pre-registered tolerance was missed.
+
+\subsection{Substantive Interpretation}
+
+The H1 positive and H4 rejection together describe the practical
+contribution: \textbf{the capacity-aware detector reaches the
+feasibility region precisely by approximating the static gate at the
+two capacity extremes}. At K=50 cap\_aware $=$ lag1 (no fire); at
+K=200 cap\_aware $=$ fixed (all fire). The only substantive
+per-window decision is at K=100, where cap\_aware loses $-0.4$~pp
+to lag-1 on average due to its 40\% intervention rate.
+
+A practitioner deploying the static gate (lag-1 at $K \leq 100$,
+fixed at $K \geq 200$) accepts the cap\_aware $-0.4$~pp K=100 cost
+implicitly --- and avoids the H2 single-window failure at K=200.
+The static gate is therefore not just feasible but slightly preferred
+in this grid; cap\_aware validates the gate's feasibility without
+improving on its operating point.
+
+\subsection{Pre-Registration Deviations}
+
+None. The $\tau_K$ vector, hypotheses H1--H4, decision rules, and
+stop rules were applied verbatim.

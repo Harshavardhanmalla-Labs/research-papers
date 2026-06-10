@@ -15,7 +15,7 @@ from hygienebench.schema import (
     GroupType, RemediationAction, AccountAction, LogonType, AnomalyClass
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = [
     "SyntheticHygieneGenerator",
     "SyntheticHygieneDataset",

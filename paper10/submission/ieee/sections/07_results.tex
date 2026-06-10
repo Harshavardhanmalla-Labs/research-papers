@@ -1,0 +1,118 @@
+\section{Results}
+\label{sec:results}
+
+All claims trace to \texttt{paper10/results/primary\_v1/autoheal\_results.csv}
+(2{,}700 rows) and the derived \texttt{hypothesis\_summary.json}.
+
+\input{tables/tab_hypotheses}
+
+\input{tables/tab_summary}
+
+\subsection{H1 — Coverage Supported}
+
+At Window~6 (14-day horizon), AutoHeal achieves cell-mean
+coverage-to-date:
+\begin{itemize}
+\item $K = 50$: $\bar{c}_6 = 0.978$
+\item $K = 100$: $\bar{c}_6 = 0.978$
+\end{itemize}
+Both exceed the pre-registered $\geq 0.80$ threshold by approximately
+$18$~pp. By Window~12 the cell-mean coverage reaches $0.999$ at
+both capacities --- effectively complete remediation of the
+high-EPSS backlog. H1 is supported.
+
+The substantive finding is that AutoHeal's \emph{eventual}
+remediation completeness is high under the pre-registered
+configuration. The autonomous-remediation core of the framework
+works: vulnerable pairs are detected, scored, triaged, acted on,
+verified, and successfully closed at high rates within 12 windows
+(28 simulated days).
+
+\subsection{H2 — Safety Bound Violated}
+
+The pre-registered safety bound ($\leq 5\%$ rollback rate per
+cell-seed-window) is violated at \textbf{300 of the 900 post-W1
+window-seed cells} ($33.3\%$). The maximum per-window rollback
+rate observed is $1.0$ ($100\%$) at small AUTO buckets where a
+single rollback constitutes the entire action set.
+
+The safety hard-stop ($> 10\%$ rollback per window) fires
+\textbf{134 times} across the 900 cell-seed-window space
+($14.9\%$); cascading failures are detected three times.
+Halt counts split essentially evenly across capacities (44 at $K = 50$,
+44 at $K = 100$, 46 at $K = 200$).
+
+\textbf{Important methodological observation.} The H2 violation
+is \emph{not} a failure of the safety mechanism --- the safety
+mechanism correctly halted the pipeline 134 times. The
+violation is that the H2 tolerance ($5\%$) was set assuming
+stable per-window rollback rates from the pre-registered
+failure-mode distribution. In practice, the conservative triage
+threshold ($0.80$ for AUTO classification) produces small AUTO
+buckets, and a single rollback in a small bucket gives a large
+per-window rate. The pre-registration could be re-locked at a
+larger tolerance (e.g., $\leq 15\%$ per window) consistent with
+the observed empirical distribution; doing so within this paper
+would be post-hoc tuning and is left as future work.
+
+\subsection{H3 — MTTR Not Analysable}
+
+The MTTR instrumentation records the disclosure window at the
+moment of successful remediation rather than at the moment of
+detection. Cell-mean MTTR for both AutoHeal and Human-in-loop is
+$0.0$ windows --- a degenerate measurement.
+
+We report this honestly per the protocol's stop rule. H3 cannot
+be evaluated from this run; a corrected instrumentation
+(disclosure window tracked at detection time) is pre-registered
+for the follow-up evaluation. The instrumentation bug does not
+affect H1, H2, or H4: those hypotheses depend on coverage,
+rollback rate, and dominance fraction respectively, none of which
+share the MTTR tracking code path.
+
+\subsection{H4 — Dominance Rejected}
+
+AutoHeal's coverage exceeds Human-in-loop's coverage in
+$\textbf{2\%}$ of (cell, seed, window) triples at $K \in \{50, 100\}$
+(6 of 300 triples at each $K$). The pre-registered $\geq 80\%$
+dominance threshold is missed by 78~pp.
+
+\textbf{Mechanism.} Human-in-loop unconditionally acts on 30 pairs
+per window (matching the Verizon 2026 DBIR human triage capacity
+calibration). AutoHeal at $K = 50$ with the conservative triage
+threshold averages $\approx 27$ acted pairs per window, slightly
+\emph{less} than Human-in-loop. Combined with the 134 hard-stop
+halts (each halt zeroing AutoHeal's window throughput),
+AutoHeal's effective per-window throughput is reduced relative to
+the unconditional Human-in-loop baseline.
+
+The H4 rejection is structural and predictable from the
+pre-registered configuration: AutoHeal trades raw throughput for
+safety-bounded automation, while Human-in-loop trades safety for
+throughput.
+
+\subsection{Cell-Mean Outcomes by Strategy}
+
+Table~\ref{tab:summary} reports cell-mean outcomes at W12. The
+substantive picture:
+\begin{itemize}
+\item AutoHeal achieves near-complete coverage ($0.999$) at
+all three $K$ but with reduced per-window throughput
+($26$--$36$ pairs/window) due to the strict triage threshold
+and safety hard-stops.
+\item Fixed-policy achieves near-complete coverage with full
+throughput ($K$ pairs/window) but no safety hard-stop. At
+$K = 200$ the post-W2 throughput drops dramatically ($4.2$ acted
+pairs/window mean) because the high-EPSS backlog is exhausted
+after early-window aggressive remediation.
+\item Human-in-loop achieves near-complete coverage with stable
+throughput ($30$ pairs/window).
+\end{itemize}
+
+\subsection{Pre-Registration Deviations}
+
+None. The architecture parameters, hypotheses H1--H4, decision
+rules, and stop rules were applied verbatim. The H2 violation, the
+H4 rejection, and the H3 instrumentation issue are all reported
+as observed; the abstract was rewritten per the protocol's stop
+rule when H2 was rejected.

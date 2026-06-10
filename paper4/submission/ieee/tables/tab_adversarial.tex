@@ -1,0 +1,24 @@
+\begin{table}[!t]
+  \caption{Adversarial robustness: mean Precision@50 across 25
+  evaluation seeds, by gaming fraction $g$ (the share of low-HRS-host
+  pairs whose EPSS is inflated by a Stackelberg attacker).}
+  \label{tab:adversarial}
+  \centering
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}lccc c@{}}
+    \toprule
+    \textbf{$g$} & \textbf{HP-full} & \textbf{EPSS} &
+    \textbf{HRS} & \textbf{HP$-$EPSS} \\
+    \midrule
+    $0.00$ & $0.595$ & $0.331$ & $0.284$ & $+26.4$ pp \\
+    $0.05$ & $0.581$ & $0.195$ & $0.284$ & $+38.6$ pp \\
+    $0.10$ & $0.566$ & $0.194$ & $0.284$ & $+37.2$ pp \\
+    $0.15$ & $0.563$ & $0.194$ & $0.284$ & $+36.9$ pp \\
+    $0.20$ & $0.566$ & $0.193$ & $0.284$ & $+37.3$ pp \\
+    $0.30$ & $0.566$ & $0.193$ & $0.284$ & $+37.4$ pp \\
+    \midrule
+    \textbf{Drop} & $-2.9$ pp & $-13.8$ pp & $\phantom{+}0.0$ pp & --- \\
+    \bottomrule
+  \end{tabular}
+\end{table}

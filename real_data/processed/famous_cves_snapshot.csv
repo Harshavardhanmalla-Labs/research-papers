@@ -1,0 +1,11 @@
+cve,name,epss,epss_percentile,in_kev,kev_date_added
+CVE-2021-44228,Log4Shell — Log4j RCE,0.94358,0.99964,True,2021-12-10
+CVE-2014-0160,Heartbleed — OpenSSL info disclosure,0.94464,0.99996,True,2022-05-04
+CVE-2023-23397,Outlook NTLM credential theft,0.93421,0.99825,True,2023-03-14
+CVE-2023-34362,MOVEit Transfer SQL injection,0.94254,0.99935,True,2023-06-02
+CVE-2023-4966,Citrix Bleed — Netscaler session hijack,0.94348,0.99959,True,2023-10-18
+CVE-2024-3400,Palo Alto PAN-OS RCE,0.94297,0.99948,True,2024-04-12
+CVE-2022-30190,Follina — MSDT zero-day,0.93596,0.99844,True,2022-06-14
+CVE-2021-34527,PrintNightmare — Print Spooler RCE,0.9424,0.99932,True,2021-11-03
+CVE-2020-1472,Zerologon — Netlogon,0.9438,0.9997,True,2021-11-03
+CVE-2019-0708,BlueKeep — RDP wormable,0.94454,0.99993,True,2021-11-03

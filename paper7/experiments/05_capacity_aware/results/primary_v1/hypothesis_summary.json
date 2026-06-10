@@ -1,0 +1,41 @@
+{
+  "n_rows": 2700,
+  "H1_feasibility": {
+    "supported": true,
+    "worst_K200_dcapfix": 0.0,
+    "cellmean_K50_dcaplag1": 0.0,
+    "cellmean_K100_dcaplag1": -0.004320000000000002
+  },
+  "H2_cap_ge_adaptive05": {
+    "supported": false,
+    "n_failures": 1,
+    "failures": [
+      {
+        "cell_K": 200,
+        "window": 4,
+        "d_cap_ad05": -0.034399999999999986
+      }
+    ]
+  },
+  "H3_fire_monotone_in_K": {
+    "supported": true,
+    "rho": 1.0,
+    "p": 0.0,
+    "fire_capaware_per_K": {
+      "50": 0.0,
+      "100": 0.4,
+      "200": 1.0
+    },
+    "fire_adaptive05_per_K": {
+      "50": 0.6,
+      "100": 0.4,
+      "200": 0.8
+    }
+  },
+  "H4_cap_beats_gated_K200": {
+    "supported": false,
+    "cap_K200_mean": 0.2664,
+    "gated_K200_mean": 0.2664,
+    "delta": 0.0
+  }
+}

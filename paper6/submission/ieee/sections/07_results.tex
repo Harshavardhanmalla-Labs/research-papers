@@ -14,8 +14,8 @@ figures are reported.
 
 Table~\ref{tab:slopes} and Fig.~\ref{fig:slopes} show the per-cell mean
 P@50 decay slope. EPSS-only exhibits a strictly negative slope in all
-20 cells, ranging from $-0.013$ (at $K = 10, \lambda = 1$) to $-0.064$
-(at $K = 200, \lambda = 1$). No cell in the grid produces a steady-state
+20 cells, ranging from $-0.025$ (at $K = 200, \lambda = 12$) to $-0.052$
+(at $K = 50, \lambda = 3$). No cell in the grid produces a steady-state
 EPSS regime (slope $\geq -0.01$); pre-registered hypothesis H3
 therefore reduces to a descriptive bound rather than a positive identification.
 
@@ -23,8 +23,8 @@ therefore reduces to a descriptive bound rather than a positive identification.
 \centering
 \includegraphics[width=\columnwidth]{fig1_slope_heatmap.pdf}
 \caption{EPSS-only decay slope (mean P@50/window) across the $(K, \lambda)$
-grid. All 20 cells are negative; the most aggressive decay sits at high
-capacity / low arrival ($K = 200, \lambda = 1$).}
+grid. All 20 cells are negative; the most aggressive decay sits at
+moderate capacity / low arrival ($K = 50, \lambda = 3$, slope $-0.052$).}
 \label{fig:slopes}
 \end{figure}
 
@@ -39,8 +39,10 @@ For H1, Spearman$(K, \mathrm{slope})$ at fixed $\lambda$ yields
 $\rho = 0.30$ at every $\lambda \in \{1, 3, 6, 12\}$ --- well below the
 $-0.8$ threshold required, and of the \textit{wrong sign}. The
 non-monotonicity is visible in Table~\ref{tab:slopes}: at $\lambda = 1$,
-slopes are $-0.038$ ($K = 10$), $-0.047$ ($K = 25$), $-0.063$ ($K = 50$),
-$-0.044$ ($K = 100$), $-0.064$ ($K = 200$) --- not monotone.
+slopes are $-0.038$ ($K = 10$), $-0.047$ ($K = 25$), $-0.051$ ($K = 50$),
+$-0.043$ ($K = 100$), $-0.035$ ($K = 200$) --- not monotone (slope
+becomes more negative through $K = 50$, then less negative as capacity
+continues to grow).
 
 For H2, Spearman$(\lambda, \mathrm{slope})$ at fixed $K$ yields
 $\rho \in \{0.6, 0.6, -0.4, 0.0, 1.0\}$ for $K \in \{10, 25, 50, 100, 200\}$;

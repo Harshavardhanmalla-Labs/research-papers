@@ -1,0 +1,46 @@
+Paper~7~\cite{paper7online} found that lag-1 online recalibration of
+HygienePrio harms performance at $K = 200$ (cell-mean recovery ratio
+$\rho = -0.66$). Paper~8~\cite{paper8multi} falsified the natural
+fix --- multi-window smoothing makes the hazard worse, not better.
+Paper~8 explicitly named adaptive change-point detection as the
+remaining candidate. This paper evaluates the simplest such
+detector: at each window, monitor the calibration-target P@50 shift
+between consecutive past windows and switch to fixed weights when
+the magnitude crosses a pre-registered threshold of $0.05$.
+
+Five strategies (\textsf{fixed}, \textsf{lag1}, \textsf{adaptive},
+\textsf{gated}, \textsf{offline}) were evaluated on a pre-registered
+2{,}250-row sweep ($K \in \{50, 100, 200\}$, $\lambda = 3$, six
+windows, 25 evaluation seeds). The pre-registration locked four
+hypotheses; the outcome is mixed.
+
+\textbf{H1 supported:} At $K = 200$, \textsf{adaptive} is the first
+procedure in the Paper 7--8--10 sequence that does not harm relative
+to \textsf{fixed} at any of the six windows. Mean delta over the
+five post-W1 windows is $+0.7$~pp, with the W2--W4 windows up to
+$+3.4$~pp. The high-capacity hazard is finally avoided.
+
+\textbf{H4 supported:} At $K = 200$, \textsf{adaptive} marginally
+beats a static capacity-conditional gate (\textsf{gated}) by $+0.7$~pp
+($0.273$ vs $0.266$, cell mean). The per-window detector adds value
+over the static rule, but the margin is small.
+
+\textbf{H2 rejected:} At $K = 50$, the detector fires in three of
+the five post-W1 windows ($60\%$), and the adaptive cell mean is
+$5.3$~pp \textit{below} lag-1's because every fire reverts to
+\textsf{fixed} when lag-1 would have done better. Adaptive trades
+moderate-capacity recovery for high-capacity safety.
+
+\textbf{H3 rejected:} The firing fraction is not monotone in $K$
+($60\%, 40\%, 80\%$ at $K \in \{50, 100, 200\}$; Spearman
+$\rho = 0.5$). The detector picks up on per-window distributional
+shifts that are not cleanly aligned with capacity.
+
+The deployable conclusion is operational rather than algorithmic:
+\textbf{adaptive switching is the first procedure that does not
+break at high capacity, but it pays a moderate-capacity penalty
+and is only marginally superior to a static capacity-conditional
+gate}. A practitioner can prefer the simpler gate ($+0.7$~pp gap)
+unless capacity is variable across deployment cycles. All results
+bounded to the synthetic EEHDA evaluation context; external validation
+on real fleet telemetry is required before any deployment recommendation.

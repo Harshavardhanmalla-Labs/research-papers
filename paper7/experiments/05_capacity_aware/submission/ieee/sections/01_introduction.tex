@@ -1,0 +1,66 @@
+\section{Introduction}
+
+Paper~11~\cite{paper11tau} mapped the H1/H2 Pareto curve of Paper~10's
+single-$\tau$ adaptive procedure and found the curve sits entirely
+outside the joint feasibility region defined by Paper~10's two
+pre-registered tolerances. The simple magnitude detector --- viewed
+as a one-parameter family --- cannot reach the feasible region.
+Paper~11 identified three richer detector families as candidates:
+capacity-aware thresholding, CUSUM, and Bayesian online change-point.
+
+This paper evaluates the first and simplest of these: a pre-registered
+per-K threshold vector $\tau_K = \{50: 0.20, 100: 0.05, 200: 0.02\}$.
+The intuition is operational: use a large $\tau_{50}$ to suppress
+detector fires at K=50 (where lag-1 is beneficial), a small
+$\tau_{200}$ to make it fire aggressively at K=200 (where lag-1
+harms), and a middle $\tau_{100}$ at the intermediate capacity. The
+question is whether this single locked vector can reach the joint
+feasibility region without requiring any per-window decision beyond
+the magnitude test.
+
+\subsection{Contributions}
+
+\begin{itemize}
+\item \textbf{C1 --- First feasibility-positive result (H1 supported).}
+The capacity-aware detector simultaneously satisfies all three
+pre-registered tolerances: worst K=200 cap\_aware--fixed delta $0.0$,
+cell-mean K=50 cap\_aware--lag1 delta exactly $0.0$, cell-mean K=100
+cap\_aware--lag1 delta $-0.004$. The first procedure in the
+Papers~7--12 sequence that closes the feasibility-region gap.
+
+\item \textbf{C2 --- Perfectly monotone firing (H3 supported).} Fire
+fractions are $\{0\%, 40\%, 100\%\}$ at $K \in \{50, 100, 200\}$,
+giving Spearman $\rho = 1.0$. The $\tau_K$ vector operationalises
+the capacity-conditional intuition exactly: K=50 never fires, K=200
+always fires, K=100 splits.
+
+\item \textbf{C3 --- At K=200 the detector collapses to gated (H4
+rejected).} The cap\_aware K=200 cell mean equals the gated cell mean
+to four decimal places ($0.2664$). At $\tau_{200} = 0.02$ the
+magnitude test fires at every post-W1 window because $|\Delta_w|$
+routinely exceeds $0.02$ at that capacity. The per-window detector
+contributes nothing beyond what a static $K \geq 200 \to$ fixed rule
+already provides.
+
+\item \textbf{C4 --- One-window H2 failure.} At $K=200, w=4$ the
+cap\_aware fires while adaptive05 does not ($|\Delta| = 0.020$, just
+below $0.05$). At that window the unfired lag-1 fit happens to be
+beneficial, and cap\_aware loses $-3.4$~pp to the Paper~10-default
+single-$\tau$ control.
+
+\item \textbf{C5 --- Static gate is sufficient.} The capacity-aware
+detector validates the static gate as a feasible operating point but
+does not improve on it in this grid. A practitioner can deploy the
+gate without losing meaningful accuracy; the per-window detector
+adds complexity without value.
+\end{itemize}
+
+\subsection{Relationship to Prior Papers}
+
+This paper is the twelfth in the VulnPrio research sequence. Paper~11
+closed the simple-detector branch with a sharp negative feasibility
+result; this paper opens and closes the capacity-aware branch with
+a positive feasibility result that nevertheless collapses to the
+static gate. The cumulative methodological arc now includes a
+detector that satisfies the joint tolerances and a detector that
+approximates it without the per-window machinery.

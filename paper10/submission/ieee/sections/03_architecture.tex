@@ -1,0 +1,93 @@
+\section{The AutoHeal Architecture}
+\label{sec:architecture}
+
+AutoHeal is a six-stage closed-loop pipeline executed per maintenance
+window. All stage parameters are pre-registered in
+\texttt{paper10/design/PAPER10\_PROTOCOL.md} and frozen before any
+evaluation-seed AutoHeal result was inspected.
+
+\input{tables/tab_architecture}
+
+\subsection{Stage 1 — Detect}
+
+Scan the fleet's vulnerability records; identify unpatched
+(host, CVE) pairs. CVE attribute lookup uses the real EPSS / KEV
+public corpus (\S\ref{sec:dataset}) so the same CVE in two hosts
+has the same external-feed attributes.
+
+\subsection{Stage 2 — Score}
+
+Apply HygienePrio~\cite{paper4hygieneprio} with the calibrated
+Paper~4 weights $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1,
+0.2)$. At capacity $K \leq 100$, online calibration follows
+Paper~7's lag-1 recipe~\cite{paper7online}; at $K = 200$, weights
+are held fixed per Paper~7's K=200 hazard finding. The scorer
+output is normalised to $[0, 1]$ to feed the triage thresholds.
+
+\subsection{Stage 3 — Triage}
+
+Each (host, CVE) pair is classified into one of three buckets via
+the pre-registered rule:
+
+\begin{itemize}
+\item \textbf{AUTO} (auto-remediate): score $\geq 0.80$ AND
+host criticality $\neq$ CRITICAL AND patch-test-suite present AND
+no known blocking config AND not during business-hours window.
+\item \textbf{REVIEW} (human-in-loop): score in $[0.50, 0.80)$ OR
+host criticality = CRITICAL OR business-hours.
+\item \textbf{DEFER}: score $< 0.50$ OR known incompatible patch.
+\end{itemize}
+
+The two thresholds (0.80, 0.50) and the CRITICAL gate are the
+pre-registered configuration. They are deliberately conservative:
+AutoHeal only auto-acts on high-confidence, low-risk pairs.
+
+\subsection{Stage 4 — Plan}
+
+From the AUTO bucket, select the top-$K$ pairs by HygienePrio
+score (where $K$ is the per-window capacity). This is the
+Paper~6~\cite{paper6capacity} capacity-constrained selection.
+
+\subsection{Stage 5 — Act}
+
+Each scheduled pair undergoes a simulated patch action with a
+pre-registered failure-mode distribution drawn from public
+sysadmin literature on production patch operations:
+\begin{itemize}
+\item SUCCESS: $92\%$
+\item ROLLBACK (post-patch health-check fail): $5\%$
+\item DEFERRED (patch blocked at install time): $3\%$
+\end{itemize}
+
+The numbers are fixed before evaluation. Real-world deployments
+would condition on package, OS, and patch type; AutoHeal's
+synthetic evaluation assumes the pre-registered distribution to
+keep the threat model identifiable.
+
+\subsection{Stage 6 — Verify + Rollback}
+
+Each acted pair runs a post-action health check. On failure, the
+patch is reverted and the pair is re-classified as REVIEW for the
+next window. The framework tracks per-window rollback rate; if
+$> 10\%$ the framework halts (hard-stop safety bound) and
+escalates to human review. A cascading-failure detector
+additionally fires if more than 5 rollbacks share a common
+upstream patch ancestor (approximated by CVE id prefix).
+
+\subsection{Stage 7 — Learn}
+
+Successful and rolled-back outcomes feed the Paper~7 lag-1
+calibration update (when $K \leq 100$). At $K = 200$, weights are
+held fixed per Paper~7's K=200 hazard finding, and the
+learn stage records data for offline rebaselining only.
+
+\subsection{Pre-Registered Safety Bounds (Hard Stops)}
+
+\begin{itemize}
+\item Rollback rate $> 10\%$ at any window $\Rightarrow$ halt;
+fall back to human-in-loop for remaining windows.
+\item Cascading-failure detection ($> 5$ rollbacks share a common
+patch ancestor) $\Rightarrow$ halt; escalate to human.
+\item Either bound triggering at any cell-window pair is reported
+in the frozen results.
+\end{itemize}

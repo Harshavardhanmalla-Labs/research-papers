@@ -1,0 +1,68 @@
+\section{Threats to Validity}
+\label{sec:threats}
+
+The threats taxonomy follows Wohlin et al.~\cite{wohlin2012experimentation}.
+
+\textbf{Conclusion validity.} The evaluation comprises 2{,}700
+window-seed-strategy observations summarised with 95\% percentile
+bootstrap CIs (10{,}000 resamples). The pre-registered hypothesis
+decisions follow the locked tolerances; cell-mean point estimates
+have width comparable to the H1 ($0.80$) and H4 ($0.80$) thresholds
+at 25 evaluation seeds.
+
+\textbf{Internal validity.}
+
+\textit{(i) Failure-mode distribution.} The pre-registered patch
+action distribution (92/5/3) is drawn from public sysadmin
+literature but is not seeded by direct measurement. Real distributions
+condition on package, OS, patch type, and organisational maturity.
+A different per-action distribution would shift the absolute MTTR
+and rollback rate numbers; the qualitative claim (AutoHeal hits
+safety bounds at high capacity) is robust to the distribution
+because the safety hard-stop fires on the observed empirical rate.
+
+\textit{(ii) Health-check fidelity.} AutoHeal's verifier
+(\S\ref{sec:architecture}) approximates real post-action probes
+deterministically from the action outcome. A real-world deployment
+would run configuration drift checks, performance regression tests,
+and dependency-graph integrity checks. The simulator's
+``health\_check $==$ success'' coupling is a pessimistic baseline:
+real verifiers may catch failures the action outcome alone misses,
+but they may also produce false negatives that AutoHeal would
+treat as silent successes. The pre-registered hard-stop is robust
+to the abstraction because it triggers on the observed empirical
+rate regardless of whether individual checks are accurate.
+
+\textit{(iii) Cascading-failure detector is heuristic.} The
+detector (\S\ref{sec:architecture}) flags clusters of rollbacks
+sharing a CVE-id prefix. Real cascading failures correlate via
+package or dependency rather than CVE id; the heuristic is a
+proxy. A pre-registered alternative based on actual
+dependency-graph correlations is left as future work.
+
+\textit{(iv) Selection-policy coupling.} As in Papers~5--9,
+HygienePrio under fixed weights drives fleet evolution for all
+three strategies. AutoHeal's triage classes select a subset of
+HygienePrio's top-$K$; Human-in-loop uses HygienePrio's top-30.
+A closed-loop evaluation where each strategy drives its own
+trajectory is the natural follow-up (Paper~9~\cite{paper9selftraj}
+quantifies the bias).
+
+\textbf{Construct validity.} Coverage is defined over EPSS$>0.5$
+pairs at the moment of detection; this is the operational target
+implicit in CISA BOD 22-01~\cite{cisa2021bod2201}. MTTR is
+measured in windows (not days) to match the Paper~5 simulator's
+clock. The Human-in-loop baseline at $K_{\text{human}} = 30$ is
+calibrated to Verizon's 43-day DBIR statistic but does not model
+the qualitative properties of human review (judgment calls,
+business-context awareness) that real teams contribute beyond
+raw capacity.
+
+\textbf{External validity.} All claims are bounded to the synthetic
+EEHDA evaluation context with real CVE attribute distributions.
+External validation on real fleet telemetry remains the program's
+most consequential open problem, identified throughout
+Papers~3--9. AutoHeal's pre-registered safety bounds and
+hypothesis-rejection stop rules are designed to be transferable
+to a real-deployment evaluation, but their specific cell-mean
+numbers are not.

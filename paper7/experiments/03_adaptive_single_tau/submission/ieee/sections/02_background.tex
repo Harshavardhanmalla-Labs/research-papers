@@ -1,0 +1,40 @@
+\section{Background}
+
+\subsection{The Capacity-Conditional Calibration Problem}
+
+Papers~7~\cite{paper7online} and~8~\cite{paper8multi} together
+established that no fixed-history calibration strategy is universally
+deployable for HygienePrio's scorer weights across capacity regimes:
+lag-1 grid search recovers the offline-peek ceiling at $K \in
+\{50, 100\}$ but harms performance at $K = 200$, and multi-window
+smoothing (EWMA-3, trailing-mean-3) amplifies the harm rather than
+reversing it. Paper~8 explicitly named adaptive procedures ---
+change-point detection or capacity-conditional gating --- as the
+remaining candidate class.
+
+\subsection{Change-Point Detection}
+
+A change-point detector flags windows at which the underlying
+distribution has shifted enough that recently-fit parameters are
+unlikely to generalise to the current observation. Classical
+examples include CUSUM~\cite{page1954cusum} and Bayesian online
+change-point methods; both are out of scope for this paper. The
+detector studied here is intentionally minimal: a single-threshold
+magnitude comparison on the calibration-target P@50 stream.
+
+\subsection{Capacity-Conditional Gating}
+
+A static alternative to adaptive switching is a capacity-conditional
+gate: deploy lag-1 below a threshold capacity and fixed weights above
+it. This requires no per-window decision but assumes a clean
+capacity-boundary, which Paper~7's results gesture toward (clean
+recovery at $K \leq 100$, clear harm at $K = 200$). Whether an
+adaptive detector outperforms this static rule is RQ4.
+
+\subsection{Why a Minimal Detector First}
+
+Before evaluating sophisticated detectors, it is useful to know whether
+even the simplest plausible detector beats both lag-1 and fixed in
+the regimes where each individually fails. If a one-threshold rule
+suffices, more elaborate machinery is not needed; if it fails, the
+failure pattern indicates where the elaborate machinery is required.

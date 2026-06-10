@@ -1,0 +1,36 @@
+\section{Related Work}
+
+\textbf{Paper 10 baseline.} Paper~10~\cite{paper10adaptive} introduced
+the one-threshold magnitude detector and evaluated it at the single
+$\tau = 0.05$. This paper inherits the procedure and sweeps $\tau$.
+
+\textbf{The Papers 7--10 sequence.}
+Paper~7~\cite{paper7online} identified the K=200 hazard;
+Paper~8~\cite{paper8multi} ruled out smoothing as a fix;
+Paper~9~\cite{paper9selftraj} re-attributed Paper~6's K=200 collapse
+to selection-policy coupling;
+Paper~10 introduced the adaptive detector. This paper completes the
+arc by characterising the $\tau$ axis the detector left implicit.
+
+\textbf{Pareto-frontier analysis.} Pareto curves over a single tuning
+parameter are standard in detection theory (ROC curves) and
+forecasting (bias-variance trade-offs). The $\tau$-sweep here is the
+analog in the calibration-strategy space.
+
+\textbf{Change-point detection.} CUSUM~\cite{page1954cusum} and
+Bayesian online change-point methods would each induce different
+Pareto curves than the simple magnitude detector. Whether either
+shifts the H3 operating point into the feasible region is future
+work.
+
+\textbf{Multi-paper sequence.} HygieneBench (Paper~3)~\cite{paper3hygienebench},
+HygienePrio (Paper~4)~\cite{paper4hygieneprio}, Temporal Stability
+(Paper~5)~\cite{paper5temporal}, Capacity-Indexed Decay
+(Paper~6)~\cite{paper6capacity}, Online Calibration (Paper~7),
+Multi-History Calibration (Paper~8), Self-Trajectory
+(Paper~9), and Adaptive Recalibration (Paper~10) form the
+methodological substrate.
+
+\textbf{Policy mandates.} CISA BOD~22-01~\cite{cisa2021bod2201},
+23-01~\cite{cisa2022bod2301}, NIST SP~800-40~\cite{nist2022sp80040r4},
+2026 DBIR~\cite{verizon2026dbir}.

@@ -1,0 +1,49 @@
+\section{Methodology}
+
+\subsection{Scorer (Inherited)}
+
+\begin{equation}
+\begin{aligned}
+S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
+          & + \gamma\,\mathrm{KEV\_recency}(c) \\
+          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+\end{aligned}
+\label{eq:hp}
+\end{equation}
+
+\subsection{CUSUM Detector}
+
+At each window $w \geq 2$:
+\begin{enumerate}
+\item Compute the calibration-target shift $\Delta_w$ as in
+Paper~10~\cite{paper10adaptive}.
+\item Update the accumulator:
+\begin{equation}
+C_w = \max(0,\; C_{w-1} + |\Delta_w| - k), \quad C_1 = 0.
+\end{equation}
+\item Fire if $C_w \geq h$.
+\item On fire: revert \textsf{cusum} to Paper~4 fixed weights for
+window $w$, then reset $C_w = 0$.
+\item Otherwise: use the lag-1 fitted weights at window $w$.
+\end{enumerate}
+
+Pre-registered $k = 0.04$, $h = 0.10$. The slack $k$ is one-half the
+typical $|\Delta_w|$ at K=50 from Paper~11's published calibration
+log; the threshold $h$ is the largest single-$\tau$ value from
+Paper~11's grid.
+
+\subsection{Why $C_w$ Resets to Zero on Fire}
+
+Reset is the standard one-sided CUSUM convention~\cite{page1954cusum}.
+After firing, the detector treats the post-fire window as a fresh
+operating regime and only re-fires if a new cumulative excursion
+crosses $h$. Without reset the detector would fire repeatedly on the
+same persistent shift, which is the behaviour the magnitude detector
+of Papers~10--12 already provides.
+
+\subsection{Other Strategies (Inherited)}
+
+\textsf{lag1}, \textsf{offline}, and \textsf{gated} are unchanged
+from Papers~7--12. \textsf{cap\_aware} uses the Paper~12
+$\tau_K = \{50: 0.20, 100: 0.05, 200: 0.02\}$ vector and is
+included as a directly-comparable control.
