@@ -172,6 +172,143 @@ export const PAPERS: Paper[] = [
     },
     artifacts: ["manuscript","src","design","submission/ieee","results"],
   },
+  {
+    id: "paper6",
+    title: "Capacity-Indexed Decay of Exploit-Likelihood Vulnerability Prioritization",
+    shortTitle: "Capacity-Decay",
+    subtitle: "Two-dimensional (K, λ) sweep characterising the regime-dependence of EPSS-only ranking",
+    status: "complete",
+    statusLabel: "Complete",
+    root: "paper6",
+    manuscript: {
+      main: "manuscript/paper6_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",        path: "design/PAPER6_PROTOCOL.md" },
+        { label: "Artifact README", path: "README.md" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_sweep_v1",
+      primaryCSV: "results/primary_sweep_v1/sweep_results.csv",
+      secondaryCSVs: [
+        { label: "Cell summary",          path: "results/primary_sweep_v1/cell_summary.csv" },
+        { label: "Persistence",           path: "results/primary_sweep_v1/persistence.csv" },
+        { label: "Hypothesis summary",    path: "results/primary_sweep_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_sweep_v1","submission/ieee"],
+  },
+  {
+    id: "paper7",
+    title: "Rolling-History Online Calibration for Hygiene-Augmented Vulnerability Prioritization",
+    shortTitle: "Online-Calibration",
+    subtitle: "Deployable lag-1 substitute for the offline-peek H3 ceiling: works at K≤100, harms at K=200",
+    status: "complete",
+    statusLabel: "Complete",
+    root: "paper7",
+    manuscript: {
+      main: "manuscript/paper7_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",                  path: "design/PAPER7_PROTOCOL.md" },
+        { label: "Artifact README",           path: "README.md" },
+        { label: "Supplementary experiments", path: "experiments/SUPPLEMENTARY.md" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/online_calib_results.csv",
+      secondaryCSVs: [
+        { label: "Cell-window means",   path: "results/primary_v1/cell_window_means.csv" },
+        { label: "Hypothesis summary",  path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","experiments"],
+  },
+  {
+    id: "paper8",
+    title: "Multi-Window-History Calibration: Does Smoothing Reverse the High-Capacity Hazard of Lag-1?",
+    shortTitle: "Smoothing-Falsified",
+    subtitle: "EWMA-3 and trail-3 amplify Paper 7's K=200 hazard rather than fixing it — naive smoothing prior falsified",
+    status: "complete",
+    statusLabel: "Complete",
+    root: "paper8",
+    manuscript: {
+      main: "manuscript/paper8_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",        path: "design/PAPER8_PROTOCOL.md" },
+        { label: "Artifact README", path: "README.md" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/multi_history_results.csv",
+      secondaryCSVs: [
+        { label: "Cell-window means",  path: "results/primary_v1/cell_window_means.csv" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee"],
+  },
+  {
+    id: "paper9",
+    title: "Self-Trajectory Evaluation of Hygiene-Augmented Vulnerability Prioritization",
+    shortTitle: "Self-Trajectory",
+    subtitle: "Paper 6's K=200 collapse re-attributed to closed-loop selection coupling + Closed-Loop Signal Exhaustion Theorem",
+    status: "complete",
+    statusLabel: "Complete",
+    root: "paper9",
+    manuscript: {
+      main: "manuscript/paper9_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",        path: "design/PAPER9_PROTOCOL.md" },
+        { label: "Artifact README", path: "README.md" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/self_traj_results.csv",
+      secondaryCSVs: [
+        { label: "Cell means",        path: "results/primary_v1/cell_means.csv" },
+        { label: "Hypothesis summary",path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee"],
+  },
+  {
+    id: "paper10",
+    title: "AutoHeal: A Pre-Registered Self-Healing Framework for Autonomous Vulnerability Remediation",
+    shortTitle: "AutoHeal",
+    subtitle: "Six-stage closed-loop pipeline integrating Papers 3–9 with pre-registered safety bounds — H1 ✓ / H2 ✗ / H3 N/A / H4 ✗",
+    status: "complete",
+    statusLabel: "Complete",
+    root: "paper10",
+    manuscript: {
+      main: "manuscript/paper10_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",        path: "design/PAPER10_PROTOCOL.md" },
+        { label: "Artifact README", path: "README.md" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/autoheal_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee"],
+  },
 ];
 
 /* ─────────────────────────────────────────────────────────

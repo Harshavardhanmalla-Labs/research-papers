@@ -6,6 +6,38 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  // Safelist guarantees the per-paper accent colour classes get generated
+  // even if Tailwind JIT misses them (e.g. when the class string is built
+  // dynamically from PAPER_META[i]).
+  safelist: [
+    // backgrounds (10% opacity for active card bg, 8% for dark variant)
+    "bg-sky-500/10",     "dark:bg-sky-500/8",
+    "bg-teal-500/10",    "dark:bg-teal-500/8",
+    "bg-violet-500/10",  "dark:bg-violet-500/8",
+    "bg-rose-500/10",    "dark:bg-rose-500/8",
+    "bg-amber-500/10",   "dark:bg-amber-500/8",
+    "bg-emerald-500/10", "dark:bg-emerald-500/8",
+    "bg-indigo-500/10",  "dark:bg-indigo-500/8",
+    "bg-fuchsia-500/10", "dark:bg-fuchsia-500/8",
+    "bg-lime-500/10",    "dark:bg-lime-500/8",
+    "bg-red-500/10",     "dark:bg-red-500/8",
+    // active-state border tints
+    "border-sky-500/35",     "border-teal-500/35",
+    "border-violet-500/35",  "border-rose-500/35",
+    "border-amber-500/35",   "border-emerald-500/35",
+    "border-indigo-500/35",  "border-fuchsia-500/35",
+    "border-lime-500/35",    "border-red-500/35",
+    // dot indicators
+    "bg-sky-500",     "bg-teal-500",     "bg-violet-500",  "bg-rose-500",
+    "bg-amber-500",   "bg-emerald-500",  "bg-indigo-500",  "bg-fuchsia-500",
+    "bg-lime-500",    "bg-red-500",
+    // left border (used on hover/active variant)
+    "border-l-sky-500",     "border-l-teal-500",
+    "border-l-violet-500",  "border-l-rose-500",
+    "border-l-amber-500",   "border-l-emerald-500",
+    "border-l-indigo-500",  "border-l-fuchsia-500",
+    "border-l-lime-500",    "border-l-red-500",
+  ],
   darkMode: "class",
   theme: {
     extend: {
