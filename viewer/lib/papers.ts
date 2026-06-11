@@ -1,4 +1,8 @@
-export const PAPERS_ROOT = "/Users/sowmyasreeogiboyina/Research Papers";
+// Repository root, relative to where the viewer runs (the `viewer/` directory).
+// Paths built from this are resolved server-side against the app's working
+// directory, so the portal works on ANY machine and clone location — no
+// hardcoded user path. Override with NEXT_PUBLIC_PAPERS_ROOT if needed.
+export const PAPERS_ROOT = process.env.NEXT_PUBLIC_PAPERS_ROOT ?? "..";
 
 export type PaperStatus = "complete" | "drafting" | "packaging" | "in-progress";
 
