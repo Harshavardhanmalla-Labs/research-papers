@@ -38,7 +38,7 @@ For each of the 25 evaluation seeds:
   \item Generate ranked list $R$ by sorting descending by $S(h, c)$.
   \item Generate baseline ranked lists (EPSS-only, CVSS-only, Random, HRS-only) using identical $V$.
   \item Compute ground truth labels using the pre-registered definition (\S3.2).
-  \item Compute P@$K$, NDCG@$K$, Oracle-gap for $K \in \{50, 100, 250\}$ for all methods. $K = 50$ represents a tight weekly maintenance window (approximately 1.4\% of the mean fleet of $\sim$3,480 applicable pairs); $K = 100$ a moderate bi-weekly window; $K = 250$ a broad monthly capacity. These values span the range typical of reported enterprise patch cadences~\cite{verizon2026dbir}.
+  \item Compute P@$K$, NDCG@$K$, Oracle-gap for $K \in \{50, 100, 250\}$ for all methods. $K = 50$ represents a tight weekly maintenance window (approximately 1.4\% of the mean fleet of $\sim$3,500 applicable pairs); $K = 100$ a moderate bi-weekly window; $K = 250$ a broad monthly capacity. These values span the range typical of reported enterprise patch cadences~\cite{verizon2026dbir}.
   \item Hash and verify result artifacts.
 \end{enumerate}
 
@@ -68,4 +68,4 @@ For each of the 25 evaluation seeds:
 
 \subsection{Reporting Convention}
 
-All metrics are reported as mean $\pm$ 95\% BCa bootstrap confidence interval~\cite{efron1994introduction} (10,000 resamples) across 25 evaluation seeds. No null hypothesis significance testing is performed; evidence is based on BCa CI non-overlap. With 25 seeds and the observed seed-to-seed standard deviation of $\approx$0.06 for P@50, the evaluation has sufficient power to detect differences of $\geq$5 pp at 80\% power (estimated via the standard formula for paired comparisons): the headline 31 pp difference substantially exceeds this threshold. Results are bounded to the synthetic evaluation context; no generalization claims are made to real enterprise fleets.
+All metrics are reported as mean $\pm$ 95\% BCa bootstrap confidence interval~\cite{efron1994introduction} (10,000 resamples) across 25 evaluation seeds. No null hypothesis significance testing is performed; evidence is based on BCa CI non-overlap. With 25 seeds and the observed seed-to-seed standard deviation of 0.06--0.08 for P@50 (depending on method), the evaluation has sufficient power to detect differences of $\geq$5 pp at 80\% power (estimated via the standard formula for paired comparisons): the headline 31 pp difference substantially exceeds this threshold. Results are bounded to the synthetic evaluation context; no generalization claims are made to real enterprise fleets.

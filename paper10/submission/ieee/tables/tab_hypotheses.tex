@@ -9,9 +9,9 @@
     \textbf{ID} & \textbf{Decision rule} & \textbf{Outcome} \\
     \midrule
     H1 & Coverage $\geq 0.80$ at W6, $K\in\{50,100\}$ & Supported \\
-    H2 & Rollback rate $\leq 5\%$ everywhere & Rejected (300 fails; max 100.0\%) \\
-    H3 & MTTR ratio $\leq 0.5$ vs.\ HIL, $K\in\{50,100\}$ & Rejected (K50=inf, K100=inf) \\
-    H4 & Coverage dominance $\geq 80\%$, $K\leq 100$ & Rejected (K50=2\%, K100=2\%) \\
+    H2 & Rollback rate $\leq 5\%$ everywhere & Rejected (300 of 900 cells; max 100.0\%) \\
+    H3 & MTTR ratio $\leq 0.5$ vs.\ HIL, $K\in\{50,100\}$ & Not analysable (degenerate MTTR $=0.0$; instrumentation limitation) \\
+    H4 & Dominance $\geq 80\%$, $K\leq 100$ (registered: P@50; reported: coverage) & Rejected (K50=2\%, K100=2\%) \\
     \bottomrule
   \end{tabular}
 \end{table}

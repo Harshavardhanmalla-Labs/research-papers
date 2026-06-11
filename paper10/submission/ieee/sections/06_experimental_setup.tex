@@ -13,11 +13,8 @@ before any evaluation-seed AutoHeal result was computed.
 For each $K \in \{50, 100, 200\}$ and each of the 25 evaluation seeds
 105--129, the three strategies (AutoHeal, Human-in-loop,
 Fixed-policy) are simulated for 12 windows. The shared CVE corpus is
-the frozen real-data snapshot from Paper~4~\S\ref{sec:external_validity}.
-
-\subsection{Statistical Reporting}
-
-Per the pre-registered protocol: cell-mean point estimates with
-95\% percentile bootstrap CIs, no NHST, hypothesis decisions per
-locked tolerance thresholds, stop rules trigger abstract rewrites
-when a hypothesis fails.
+the frozen real-data snapshot released with the external-validity
+section of Paper~4 (\S X)~\cite{paper4hygieneprio}.
+Statistical reporting follows the conventions stated in
+\S\ref{sec:stat_reporting}; per the protocol, stop rules trigger
+abstract rewrites when a hypothesis fails.

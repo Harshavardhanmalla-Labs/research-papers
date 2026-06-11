@@ -15,8 +15,9 @@ reference.
 \subsection{Observations}
 
 \textbf{(i) EPSS catches major CVEs.} All ten high-profile CVEs have
-present-day EPSS scores in $[0.9342, 0.9446]$ --- the top $0.04\%$ of
-the EPSS distribution. Every one is in the CISA KEV catalog.
+present-day EPSS scores in $[0.9342, 0.9446]$ --- all within the top
+$0.2\%$ of the EPSS distribution (per-CVE percentiles range from
+99.825 to 99.996). Every one is in the CISA KEV catalog.
 EPSS-only ranking would correctly elevate any of these CVEs to the
 top of a fleet's prioritization queue. The first-order claim
 ``EPSS works for major CVEs'' is empirically supported by the
@@ -39,7 +40,7 @@ the tie in favour of high-HRS hosts (high patch debt, high AD
 exposure, stale telemetry). The HRS dimension that Paper~4
 \S\ref{sec:results} identifies as most informative ---
 \emph{patch posture} --- is exactly the dimension that captures
-which hosts are likely to have a long-uncated MOVEit instance.
+which hosts are likely to have a long-unpatched MOVEit instance.
 On a retrospective Log4Shell-style fleet sweep with thousands of
 hosts running affected software, HygienePrio's ranking would
 elevate the patch-debt-laden hosts first; EPSS-only would

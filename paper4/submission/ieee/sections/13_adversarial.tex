@@ -17,10 +17,11 @@ A defender deploys a deterministic prioritization scorer $S$ committed
 in advance. An attacker observes $S$ and chooses a \emph{gaming
 fraction} $g \in [0, 1]$ representing the share of (host, CVE) pairs
 whose EPSS attribute the attacker can inflate from its true value to a
-high-but-plausible target value $\hat{\mathrm{EPSS}} = 0.55$ (the
-median EPSS of CVEs that appear in the CISA KEV catalog, per
-\S\ref{sec:external_validity} --- chosen so the gamed pairs become
-borderline-positive under EPSS-only ranking).
+high-but-plausible target value $\hat{\mathrm{EPSS}} = 0.55$
+(approximately the central tendency of EPSS among CVEs that appear in
+the CISA KEV catalog --- mean $0.49$, median $0.52$ in the frozen
+corpus of \S\ref{sec:external_validity} --- chosen so the gamed pairs
+become borderline-positive under EPSS-only ranking).
 
 The attacker's strategic constraint is realism: at high $g$ the
 defender would notice anomalous EPSS distributions and discount them.
@@ -50,8 +51,10 @@ that ignores EPSS entirely.
 
 \subsection{Experimental Setup}
 
-We run all 25 evaluation seeds (105--129) at each of the six gaming
-levels, yielding 450 result rows. The ground truth (EPSS$>0.10$ AND
+We run the same 25-seed set as the real-distribution evaluation
+(105--129; \emph{not} the primary evaluation's 100--124, see
+\S\ref{sec:external_validity}) at each of the six gaming levels,
+yielding 450 result rows. The ground truth (EPSS$>0.10$ AND
 HRS$>$75th percentile) is computed \emph{after} attacker gaming, so
 gamed pairs become spurious positives under EPSS but only true
 positives if their host happens to clear the HRS threshold ---
@@ -61,6 +64,23 @@ which by construction it does not for attacker-targeted pairs (bottom
 \input{tables/tab_adversarial}
 
 \subsection{Results}
+
+\textbf{Reconciling the $g=0$ row with Table~\ref{tab:precision_k}.}
+The unattacked baselines in Table~\ref{tab:adversarial}
+(HygienePrio-full $0.595$, EPSS-only $0.331$) are higher than the
+primary-evaluation values ($0.509$ / $0.202$) for two identifiable
+reasons in the released harness
+(\texttt{real\_data/adversarial\_eval.py}): (a) the adversarial
+harness restricts the eligible-pair pool to \emph{unpatched} pairs
+only (\texttt{vr[\textasciitilde vr["patched"]]}), whereas the
+primary evaluation ranks all generated (host, CVE) pairs --- removing
+already-patched pairs raises the positive base rate among ranked
+candidates and therefore lifts every method's Precision@50; and
+(b) the harness uses the 105--129 seed set rather than the primary
+100--124 set. The $g=0$ row is therefore the harness-internal
+baseline for the manipulation sweep, not directly comparable to
+Table~\ref{tab:precision_k}; all within-sweep deltas are computed
+against it.
 
 \textbf{HygienePrio degrades by $\leq 3$~pp at any attack level.}
 Across $g \in [0, 0.30]$, HygienePrio-full's mean Precision@50 falls
@@ -137,7 +157,9 @@ important future-work direction in this section.
 
 \subsection{Reproducibility}
 
-The adversarial evaluator and frozen results are released:
+The adversarial evaluator and frozen results are released under
+\texttt{real\_data/} at the repository root (not under
+\texttt{paper4/}):
 \begin{verbatim}
 real_data/adversarial_eval.py
 real_data/results/adversarial_results.csv  (450 rows)

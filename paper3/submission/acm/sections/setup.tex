@@ -1,6 +1,5 @@
 % Section: Experimental Setup
 % Source: paper_draft_v0.1.md § 4. Experimental Setup
-% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
 
 \section{Experimental Setup}
 \label{sec:setup}
@@ -15,7 +14,7 @@ to unsupervised tabular anomaly detection under class imbalance
 
 M6 is implemented as PCA-based linear reconstruction error because PyTorch is
 unavailable in the evaluation environment; this is an approximation of a
-one-hidden-layer autoencoder. M8 is implemented using networkx graph features
+one-hidden-layer autoencoder. M8 is implemented using \texttt{networkx} graph features
 (degree, privileged-degree, clustering coefficient) combined with Isolation
 Forest rather than DOMINANT-style deep graph autoencoders~\cite{ding2019dominant},
 for the same reason. Both approximations are documented. M8 is excluded from T4

@@ -5,19 +5,27 @@ AutoHeal is evaluated on the EEHDA synthetic fleet
 generator~\cite{paper4hygieneprio} with per-CVE attributes drawn from
 the frozen real EPSS/KEV corpus
 (\texttt{real\_data/processed/cve\_corpus\_for\_sampling.csv}). This
-combines the synthetic-fleet topology of Papers 3--9 with the
-real CVE attribute distribution introduced in
-Paper~4~\S\ref{sec:external_validity}.
+combines the synthetic-fleet topology of Papers
+3--9~\cite{paper3hygienebench,paper5temporal} with the
+real CVE attribute distribution introduced in the external-validity
+section of Paper~4 (\S X)~\cite{paper4hygieneprio}.
 
 \input{tables/tab_grid}
 
 The seed split, $\lambda = 3$ Poisson new-CVE arrival rate, and
 the 25 evaluation seeds (105--129) are inherited from Papers 5--9 so
 that AutoHeal's evaluation is directly comparable to prior results.
-Twelve windows correspond to 28 days of bi-weekly cycles, allowing
+Windows are bi-weekly (14 days, the Paper~5
+convention~\cite{paper5temporal}); twelve windows therefore span
+168 days (24 weeks), allowing
 the safety bounds and MTTR metrics to develop across multiple
 remediation rounds.
 
 Three strategies (AutoHeal, Human-in-loop, Fixed-policy) at three
 capacities $\times$ 12 windows $\times$ 25 seeds = $2{,}700$ frozen
-window-seed rows.
+window-seed rows. Note that the capacity axis applies to AutoHeal
+and Fixed-policy only: the Human-in-loop baseline acts at a fixed
+$K_{\text{human}} = 30$ pairs per window in every capacity cell.
+It is simulated once per capacity cell, and its 900 rows are
+recorded in the frozen CSV under $K_{\text{human}} = 30$ rather
+than under the cell's $K$.

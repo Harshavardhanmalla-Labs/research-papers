@@ -4,13 +4,14 @@
 
 \textbf{Achieves:} AutoHeal eventually remediates $\geq 97.8\%$ of
 high-EPSS pairs at moderate capacity (H1) under a pre-registered
-six-stage architecture with locked triage thresholds and safety
-bounds. The autonomous-remediation goal is met within 14 days.
+seven-stage architecture with locked triage thresholds and safety
+bounds. The autonomous-remediation goal is met by Window~6 ---
+12 weeks into the 24-week evaluation horizon.
 
 \textbf{Does not achieve:} a per-window rollback rate within the
-pre-registered $5\%$ tolerance (H2). The safety hard-stop fires
-$14.9\%$ of the time. The autonomous pipeline frequently
-escalates to human review.
+pre-registered $5\%$ tolerance (H2). The safety hard-stop bound is
+flagged in $14.9\%$ of windows --- conditions that a production
+deployment would escalate to human review.
 
 \textbf{Does not achieve:} per-window throughput superiority over
 Human-in-loop (H4). The conservative triage threshold caps the
@@ -23,7 +24,7 @@ bug must be corrected before this hypothesis can be evaluated.
 \subsection{Why H1 Succeeds Despite H4 Failing}
 
 The H1 and H4 outcomes are non-contradictory: H1 measures
-\emph{eventual} coverage at a 14-day horizon, while H4 measures
+\emph{eventual} coverage at a 12-week horizon (Window~6), while H4 measures
 \emph{per-window} dominance over Human-in-loop. AutoHeal and
 Human-in-loop converge to similar coverage by Window 12
 ($\bar{c}_{12} \approx 0.999$ for both); per-window AutoHeal
@@ -43,15 +44,20 @@ falsifies that expectation cleanly.
 For a deployment under the pre-registered AutoHeal configuration:
 
 \textit{(i) Eventual coverage is high.} A team can expect $97.8\%$
-of high-EPSS CVEs remediated within 14 days at moderate capacity
-(H1 supported).
+of high-EPSS CVEs remediated by Window~6 (12 weeks) at moderate
+capacity (H1 supported).
 
-\textit{(ii) Safety hard-stops are frequent.} Operations teams
-should plan for the AutoHeal pipeline halting and escalating to
+\textit{(ii) Safety-bound flags are frequent.} Operations teams
+should plan for the AutoHeal pipeline flagging windows for
+escalation to
 human review approximately $15\%$ of the time. This is not a
-failure mode --- it is the safety mechanism working as designed
+failure mode --- it is the safety detection mechanism working as
+designed
 --- but it implies a tighter human-in-loop integration than
-``set and forget'' automation suggests.
+``set and forget'' automation suggests. Note that the simulation
+measured detection only; the operational cost of enforcement
+(hard stop with fallback) is not quantified here
+(\S\ref{sec:deviations}).
 
 \textit{(iii) Throughput parity, not superiority.} At the
 pre-registered triage thresholds, AutoHeal is not faster than
@@ -69,11 +75,17 @@ threshold is the natural next step.
 \subsection{Why the Safety Hard-Stop Mechanism Matters}
 
 The H2 rejection is the substantive finding for production
-deployments. AutoHeal's pre-registered safety hard-stop fires
-correctly when rollback rates exceed the $10\%$ threshold. Without
-that mechanism, the framework would continue acting through the
-rollback storm and amplify a single faulty patch into fleet-wide
-operational impact.
+deployments. AutoHeal's pre-registered safety detector flags
+windows correctly when rollback rates exceed the $10\%$ threshold.
+Without
+that detection, an autonomous framework would act through the
+rollback storm with no signal that escalation is warranted, and
+could amplify a single faulty patch into fleet-wide
+operational impact. We emphasise that the simulation exercised
+detection only: the enforcement response (hard stop with fallback
+to human-in-loop) was not exercised, so the downstream
+consequences of enforcement are unmeasured
+(\S\ref{sec:deviations}, \S\ref{sec:threats}).
 
 The cascading-failure detector (3 firings) is a sanity check that
 the heuristic works: even with the simple CVE-id-prefix proxy
@@ -93,18 +105,21 @@ The synthesis-level claims:
 
 \textit{Paper~7's K=200 hazard (lag-1 calibration harms at high
 capacity) is reproduced.} AutoHeal at $K = 200$ achieves the
-same coverage as $K = 100$ but with the same halt rate and
+same coverage as $K = 100$ but with the same safety-flag rate and
 without the calibration step (Paper~7's recipe says hold weights
 fixed at $K = 200$, and AutoHeal does so).
 
 \textit{Paper~9 Theorem~1 (closed-loop signal exhaustion) predicts
-Fixed-policy K=200's drop in acted pairs from full capacity to
-$4.2$/window.} The high-EPSS backlog is drained within early
-windows; subsequent windows have few high-EPSS pairs to act on.
+Fixed-policy K=200's late-horizon collapse in acted pairs.}
+Throughput remains at capacity through W9, then collapses to
+$4.2$ pairs/window by W12 ($\approx 114$ at W10, $\approx 12$ at
+W11) as the high-EPSS backlog drains;
+late windows have few high-EPSS pairs to act on.
 The Fixed-policy column at K=200 in Table~\ref{tab:summary}
 quantifies the theorem empirically.
 
-\textit{Paper~4~\S\ref{sec:external_validity} (synthetic-vs-real
+\textit{Paper~4's external-validity finding (\S X of that paper;
+synthetic-vs-real
 distributional shift) does not change AutoHeal's relative ordering.}
 AutoHeal's coverage trajectory under real CVE attributes
 matches the synthetic-trajectory shape, with the absolute coverage

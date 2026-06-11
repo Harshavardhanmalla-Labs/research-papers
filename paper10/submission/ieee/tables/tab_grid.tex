@@ -8,10 +8,10 @@
     \toprule
     \textbf{Axis} & \textbf{Values} \\
     \midrule
-    Capacity $K$            & $\{50, 100, 200\}$ \\
+    Capacity $K$            & $\{50, 100, 200\}$ (AutoHeal, Fixed-policy) \\
     Arrival rate $\lambda$  & 3 (fixed) \\
-    Windows $W$             & 12 \\
-    Strategies              & AutoHeal, Human-in-loop, Fixed-policy \\
+    Windows $W$             & 12 (bi-weekly; 168 days) \\
+    Strategies              & AutoHeal, Human-in-loop ($K_{\text{human}}=30$, fixed in all cells), Fixed-policy \\
     Eval seeds              & 25 (105--129) \\
     CVE attribute source    & Real corpus (FIRST.org + CISA snapshot) \\
     \midrule

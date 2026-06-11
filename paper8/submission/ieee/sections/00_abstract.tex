@@ -1,38 +1,27 @@
-Paper~7~\cite{paper7online} found that lag-1 rolling-history online
-recalibration of the HygienePrio scorer recovers the offline-peek
-calibration ceiling at moderate capacity (per-cell recovery ratio
-$\rho \in \{1.04, 0.99\}$ at $K \in \{50, 100\}$, $\lambda = 3$) but
-\textit{harms} performance at $K = 200$ ($\rho = -0.66$). Paper~7
-named multi-window-history smoothing as the natural candidate fix.
-This paper evaluates that fix in a pre-registered 2{,}250-row
-five-strategy comparison: \textsf{fixed} (Paper~4 weights),
-\textsf{lag1} (Paper~7 baseline), \textsf{trail3} (equal-weight
-3-window trailing mean), \textsf{ewma3} (exponentially-weighted
-3-window mean, $\alpha = 0.6$), and \textsf{offline} (Paper~7 ceiling).
-
-\textbf{All four pre-registered hypotheses are rejected, and the
-direction of rejection is the contribution.} Multi-window smoothing
-does \textit{not} reverse the high-capacity hazard --- it makes the
-hazard substantially worse. At $K = 100$, EWMA-3's cell-mean recovery
-ratio is $-1.37$ (versus lag-1's $+0.99$); at $K = 200$ it is $-0.94$
-(versus lag-1's $-0.66$); at $K = 50$ the matched-capacity moderate
-regime, EWMA-3 \textit{also} underperforms lag-1 ($\rho = 0.53$
-versus $1.04$).
-
-The mechanism is the inverse of the naive smoothing-helps intuition.
-At high capacity the fleet's distribution at window $w$ has shifted
-substantially from window $w - 3$, $w - 2$, $w - 1$; weighting all
-three past windows in the calibration target pulls the selected
-weights \textit{further} from the appropriate-for-window-$w$ optimum,
-not closer to it. The hazard is monotone in history length: less
-history is better when the rate of distributional change is fast.
-
-The operational recommendation that emerges is sharper than Paper~7's:
-deployable online recalibration in this setting should use the
-shortest possible history (lag-1 at most) and should be turned off
-entirely at high capacity. Future work is needed on more sophisticated
-adaptive procedures (change-point detection, Bayesian update with
-forgetting factor) that can identify when smoothing is locally
-appropriate. All results bounded to the synthetic EEHDA evaluation
-context; external validation on real fleet telemetry with longitudinal
-exploitation outcome data is required before deployment.
+Paper~7 found that lag-1 rolling-history online recalibration of the
+HygienePrio scorer recovers the offline-peek calibration ceiling at
+moderate capacity (per-cell recovery ratio $\rho \in \{1.04, 0.99\}$
+at $K \in \{50, 100\}$, $\lambda = 3$) but harms performance at
+$K = 200$ ($\rho = -0.66$), and named multi-window-history smoothing
+as the natural candidate fix. This paper evaluates that fix in a
+pre-registered 2{,}250-row five-strategy comparison: fixed (Paper~4
+weights), lag1 (Paper~7 baseline), trail3 (equal-weight 3-window
+trailing mean), ewma3 (exponentially-weighted 3-window mean,
+$\eta = 0.6$), and offline (Paper~7 ceiling). All four pre-registered
+hypotheses are rejected, and the direction of rejection is the
+contribution: multi-window smoothing does not reverse the
+high-capacity hazard --- it makes the hazard substantially worse. At
+$K = 100$, EWMA-3's cell-mean recovery ratio is $-1.37$ (versus
+lag-1's $+0.99$); at $K = 200$ it is $-0.94$ (versus lag-1's
+$-0.66$); at $K = 50$, the matched-capacity moderate regime, EWMA-3
+also underperforms lag-1 ($\rho = 0.53$ versus $1.04$). The mechanism
+is the inverse of the naive smoothing-helps intuition: at high
+capacity the fleet's distribution at window $w$ has shifted
+substantially from the three preceding windows, so weighting all
+three in the calibration target pulls the selected weights further
+from the appropriate-for-window-$w$ optimum. The hazard is monotone
+in history length --- less history is better when distributional
+change is fast. Deployable online recalibration in this setting
+should therefore use the shortest possible history (lag-1 at most)
+and be turned off entirely at high capacity. All results are bounded
+to the synthetic EEHDA evaluation context.

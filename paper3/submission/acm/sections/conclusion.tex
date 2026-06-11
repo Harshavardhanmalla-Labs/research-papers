@@ -1,15 +1,14 @@
 % Section: Conclusion
 % Source: paper_draft_v0.1.md § 7. Conclusion
-% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
 
 \section{Conclusion}
 \label{sec:conclusion}
 
 We introduced \hygienebench, a reproducible synthetic benchmark for cyber-hygiene
 anomaly detection, covering seven tasks and twelve anomaly classes across eleven
-entity/event tables. A 810-run evaluation of eight methods under five telemetry
+entity/event tables. An 810-run evaluation of eight methods under five telemetry
 conditions finds that simple rule baselines perform at least as well as unsupervised
-ML on 86.2\% of (condition, task, method) configurations. ML adds meaningful value
+ML on 83.8\% of (condition, task, method) configurations. ML adds meaningful value
 on two of seven tasks---group membership drift (T2, $+$0.185 AP) and
 patch/vulnerability hygiene (T5, $+$0.210 AP)---while rule baselines dominate on
 tasks with strong single-feature discriminators. Telemetry staleness (C-STALE)
@@ -18,7 +17,6 @@ task-stratified evaluation of anomaly detection methods and explicit negative-re
 reporting in security benchmark papers.
 
 \hygienebench v0.1, including the synthetic generator, frozen datasets, and
-evaluation harness, is openly available at:
-\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper3} ---
-Zenodo DOI to be finalized at camera-ready submission.
-% [NOTE: add Zenodo DOI at camera-ready]
+evaluation harness, is available in an anonymized repository (link redacted for
+review; the repository and a Zenodo DOI will be released on acceptance).
+% [NOTE: add repository URL and Zenodo DOI at camera-ready]

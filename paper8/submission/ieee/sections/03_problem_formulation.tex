@@ -25,8 +25,9 @@ per-window mean P@50 across windows $\max(1, w - 3), \ldots, w - 1$.
 At $w = 2$ this reduces to \textsf{lag1}; at $w \geq 4$ this averages
 exactly three past windows.
 \item[\textsf{ewma3}] Same set of past windows as \textsf{trail3} but
-with geometric weights $\alpha^i$, $i = 0, 1, 2, \ldots$ counting back
-from the most recent past window. Pre-registered $\alpha = 0.6$.
+with geometric weights $\eta^i$, $i = 0, 1, 2, \ldots$ counting back
+from the most recent past window. Pre-registered decay $\eta = 0.6$
+(distinct from the scorer weight $\alpha$).
 \item[\textsf{offline}] Peek at window $w$ on the calibration seeds.
 (Upper-bound ceiling.)
 \end{description}

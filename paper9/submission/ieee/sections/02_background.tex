@@ -17,14 +17,16 @@ under a counterfactual trajectory.
 
 Paper~6~\cite{paper6capacity} reported that HygienePrio-full's W6 P@50
 collapses at $K \in \{100, 200\}$ on the HygienePrio-driven trajectory
-and attributed the collapse to ``high-HRS-tail exhaustion''. The
+and attributed the collapse to selection that exhausts the high-HRS
+tail. The
 mechanism Paper~6 named is recursive: HygienePrio-full preferentially
 selects high-HRS-host pairs, those hosts get patched, the upper tail of
 the HRS distribution thins, and HygienePrio-full's discriminative
 signal degrades.
 
 If this mechanism is correct, then on a non-HygienePrio-driven
-trajectory --- one where the selection policy is HRS-blind ---
+trajectory --- one whose selection policy does not drain the positive
+set HygienePrio is evaluated against ---
 HygienePrio's signal should \textit{not} collapse, because no
 mechanism would be draining the HRS upper tail. The Paper~6 headline
 H4-rejection ``HygienePrio collapses at high capacity'' would then

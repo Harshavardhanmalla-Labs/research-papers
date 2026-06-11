@@ -11,9 +11,9 @@ This paper tests this hypothesis through a pre-registered multi-window simulatio
 \subsection{Contributions}
 
 \begin{itemize}
-\item \textbf{C1 --- Multi-window evaluation framework.} An extension of the EEHDA synthetic fleet simulation to support temporal fleet state evolution: patch application, new CVE disclosure, EPSS score update, and telemetry freshness accumulation across consecutive maintenance windows.
+\item \textbf{C1 --- Multi-window evaluation framework.} An extension of the Extended Enterprise Hygiene Dataset Artifact (EEHDA) synthetic fleet simulation to support temporal fleet state evolution: patch application, new CVE disclosure, EPSS score update, and telemetry freshness accumulation across consecutive maintenance windows.
 
-\item \textbf{C2 --- Temporal stability finding.} HygienePrio-full outperforms EPSS-only in all 150 of 150 window-seed evaluation pairs. EPSS-only decays from $0.331$ at Window~1 to $0.034$ at Window~6 (89.7\% relative drop); HygienePrio-full maintains P@50 $\geq 0.499$ at every window.
+\item \textbf{C2 --- Temporal stability finding.} HygienePrio-full outperforms EPSS-only in all 150 of 150 window-seed evaluation pairs. EPSS-only decays from $0.331$ at Window~1 to $0.034$ at Window~6 (89.6\% relative drop); HygienePrio-full maintains P@50 $\geq 0.499$ at every window.
 
 \item \textbf{C3 --- Operationally significant reversal.} By Window~2, EPSS-only's P@50 ($0.149$) has fallen below HRS-only ($0.229$), and HRS-only dominates EPSS-only at every subsequent window. Even the simplest hygiene baseline outperforms exploit-likelihood scoring once the second maintenance window begins.
 
