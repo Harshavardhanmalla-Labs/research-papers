@@ -1,0 +1,44 @@
+\section{Problem Formulation}
+\label{sec:problem}
+
+\subsection{Setting (Inherited)}
+
+EEHDA synthetic fleet, scorer Eq.~(\ref{eq:hp}), multi-window
+simulator, $K \in \{50, 100, 200\}$, $\lambda = 3$, six windows,
+25 evaluation seeds, 5 calibration seeds, all inherited from
+Papers~4--10.
+
+\subsection{Five Strategies (Inherited from Paper 10)}
+
+At every window the five strategies (\textsf{fixed}, \textsf{lag1},
+\textsf{adaptive}($\tau$), \textsf{gated}, \textsf{offline}) are
+identical to Paper~10's. Only $\tau$ varies in this paper.
+
+\subsection{$\tau$ Sweep Grid (Locked)}
+
+$\tau \in \{0.02, 0.03, 0.05, 0.075, 0.10\}$. The grid spans roughly
+an order of magnitude with denser sampling at the small end, where
+the H1 hazard is predicted to re-emerge. Total rows:
+$5\,\tau \times 3\,K \times 5\,\text{strategies} \times 25\,\text{seeds}
+\times 6\,W = 11{,}250$, plus a change-point decision log of
+$5\,\tau \times 3\,K \times 6\,W = 90$ rows.
+
+\subsection{Pre-Registered Hypotheses}
+
+\begin{description}
+\item[H1] The worst per-window $\textsf{adaptive} - \textsf{fixed}$
+delta at $K = 200$ is monotone non-decreasing in $\tau$
+(Spearman $\rho \geq +0.8$). \textit{Smaller $\tau$ produces less
+gating and re-introduces hazard.}
+\item[H2] The cell-mean $\textsf{adaptive} - \textsf{lag1}$ at
+$K = 50$ is monotone non-increasing in $\tau$
+(Spearman $\rho \leq -0.8$). \textit{Larger $\tau$ gates more and
+sacrifices more moderate-capacity recovery.}
+\item[H3] At least one $\tau$ in the grid satisfies both:
+(a) worst $K = 200$ per-window delta $\geq -0.01$, AND
+(b) cell-mean $K = 50$ delta $\geq -0.02$. \textit{A single
+operating point passes both Paper 10 tolerances.}
+\item[H4] Cell-mean firing fraction (averaged across $K$) is monotone
+non-decreasing in $\tau$ (Spearman $\rho \geq +0.8$). \textit{Larger
+$\tau$ fires more.}
+\end{description}

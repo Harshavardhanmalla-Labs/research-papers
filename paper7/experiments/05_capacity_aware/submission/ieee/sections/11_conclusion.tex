@@ -1,0 +1,41 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A pre-registered evaluation of a capacity-aware threshold detector
+with $\tau_K = \{50: 0.20, 100: 0.05, 200: 0.02\}$ on a 2{,}700-row
+sweep produces four hypothesis decisions: H1 supported (feasibility
+region reached), H3 supported (firing perfectly monotone in K),
+H2 rejected at one cell-window, H4 rejected (cap\_aware $=$ gated at
+K=200 to four decimal places).
+
+\textbf{The H1 positive.} The capacity-aware detector is the first
+procedure in the Papers~7--12 sequence that simultaneously satisfies
+all three pre-registered tolerances (worst K=200 $\geq -0.01$,
+cell-mean K=50 $\geq -0.02$, cell-mean K=100 $\geq -0.02$). The
+$\tau_{50} = 0.20$ never fires at K=50, so cap\_aware = lag-1 there
+exactly; the $\tau_{200} = 0.02$ fires every window at K=200, so
+cap\_aware = fixed there exactly; the K=100 intermediate produces a
+$-0.004$ cell-mean deviation from lag-1.
+
+\textbf{The H4 collapse.} cap\_aware and gated produce identical
+cell means at K=200 ($0.2664$ each) because both strategies make the
+same decision at every K=200 window: revert to Paper~4 fixed
+weights. The per-window magnitude test contributes nothing beyond
+what the unconditional gate already provides.
+
+\textbf{The substantive interpretation.} Capacity-aware
+thresholding reaches the feasibility region by approximating the
+static gate at the two capacity extremes. The detector validates the
+static gate as a feasible operating point but does not improve on
+it in this grid. The deployable recipe is the static gate.
+
+\textbf{Reproducibility.} Runner, analysis, pre-registration protocol,
+and frozen 2{,}700-row results CSV are available at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper12}.
+
+\textbf{Future work.} (i) CUSUM~\cite{page1954cusum} detector with
+pre-registered accumulator parameters; (ii) Bayesian online
+change-point detector with pre-registered priors; (iii) per-K $\tau$
+sensitivity sweep within the capacity-aware family; (iv) real fleet
+validation with longitudinal exploitation outcome data; (v) closed-loop
+adaptive procedures where the selection policy is also recalibrated.

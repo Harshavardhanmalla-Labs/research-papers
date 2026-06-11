@@ -3,35 +3,24 @@ data at the same window being scored adds up to $+21.3$ percentage points
 of Precision@50 over the fixed Paper~4 weights at the canonical operating
 cell ($K=50, \lambda=3$). That procedure is not deployable --- it peeks
 at the future window. This paper evaluates a deployable alternative:
-\textbf{rolling-history online calibration}, in which weights at window
-$w$ are fit on calibration-seed data at window $w-1$ only. We
-pre-registered three hypotheses and ran a 1{,}350-row evaluation
+rolling-history online calibration, in which weights at window $w$ are
+fit on calibration-seed data at window $w-1$ only. We pre-registered
+three hypotheses and ran a 1{,}350-row evaluation
 ($K \in \{50, 100, 200\}$, $\lambda = 3$, six windows, 25 evaluation
-seeds, three calibration strategies).
-
-All three pre-registered hypotheses are \textit{rejected}, and the
-rejection pattern is the central scientific contribution.
-\textbf{First (H1),} online recalibration does not uniformly match
-or beat fixed weights: at $K = 200$ it loses $-5.9$~pp at W2 and
-$-7.8$~pp at W3 relative to the fixed Paper~4 weights. The fleet
-state changes faster than one-window-lag calibration can track.
-\textbf{Second (H2),} online sometimes \textit{exceeds} the
-offline-peek ceiling --- at $K = 50, w=5$ online ($0.580$) beats
-offline-peek ($0.550$). The five-seed offline grid search overfits;
-the one-window lag acts as a regulariser.
-\textbf{Third (H3),} online does not rescue HygienePrio at the
-high-capacity collapse cells documented in Paper~6: at $K = 200$ the
-mean recovery ratio across windows $w \geq 2$ is $-0.66$ (negative),
-not the predicted $\geq +0.5$.
-
-The operational implication is sharp: rolling-history online
-recalibration is a beneficial procedure at moderate capacity
-($K = 50$: recovery ratio $1.04$, $K = 100$: $0.99$) but is a
-\textit{net hazard} at high capacity ($K = 200$: $-0.66$). The headline
-recommendation is therefore conditional: deploy rolling-history online
-recalibration only when the per-window fleet-state shift is small
-relative to the lag the recalibration window imposes; at high capacity,
-keep fixed Paper~4 weights or wait for an offline rebaselining cycle.
-All results are bounded to the synthetic EEHDA evaluation context;
-external validation on real fleet telemetry with longitudinal
-exploitation outcome data is required before any deployment recommendation.
+seeds, three calibration strategies). All three hypotheses are rejected,
+and the rejection pattern is the central contribution. First (H1),
+online recalibration does not uniformly match or beat fixed weights: at
+$K = 200$ it loses $-5.9$~pp at W2 and $-7.8$~pp at W3, because the
+fleet state changes faster than one-window-lag calibration can track.
+Second (H2), online sometimes exceeds the offline-peek ceiling --- at
+$K = 50, w = 5$ online ($0.580$) beats offline-peek ($0.550$); the
+five-seed offline grid search overfits, and the one-window lag acts as
+a regulariser. Third (H3), online does not rescue the high-capacity
+collapse documented in Paper~6: no qualifying $(K, w)$ point achieves
+both $\geq 50\%$ gap recovery and a $\geq 5$~pp absolute gain; the
+binding failure is the 5~pp absolute-gain clause. Rolling-history
+recalibration is beneficial at moderate capacity ($K = 50$: recovery
+ratio $1.04$; $K = 100$: $0.99$) but a net hazard at $K = 200$
+($-0.66$). All results are bounded to the synthetic EEHDA context;
+external validation on real fleet telemetry is required before any
+deployment recommendation.

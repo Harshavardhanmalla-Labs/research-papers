@@ -20,7 +20,8 @@ freshness (0.20). Only the four scorer weights $(\alpha, \beta, \gamma,
 \subsection{Multi-History Grid Search}
 
 At window $w \geq 2$ and for a calibration strategy with history set
-$H \subseteq \{1, \ldots, w-1\}$ and per-window weights $\{w_i\}_{i \in H}$:
+$H \subseteq \{1, \ldots, w-1\}$ and per-history-window weights
+$\{u_i\}_{i \in H}$:
 \begin{enumerate}
 \item For each of the 108 grid points $g = (\alpha, \beta, \gamma,
 \delta)$:
@@ -28,7 +29,7 @@ $H \subseteq \{1, \ldots, w-1\}$ and per-window weights $\{w_i\}_{i \in H}$:
 \item For each $i \in H$, compute the mean P@50 across the five
 calibration seeds at window $i$ when scored with weights $g$.
 \item Take the weighted mean across history windows
-$\bar{p}(g) = \sum_{i \in H} w_i\, p_i(g) / \sum_i w_i$.
+$\bar{p}(g) = \sum_{i \in H} u_i\, p_i(g) / \sum_i u_i$.
 \end{enumerate}
 \item Select $g^\star = \arg\max_g \bar{p}(g)$; ties broken lexicographically.
 \item Apply $g^\star$ to each of the 25 evaluation seeds at window $w$
@@ -36,14 +37,15 @@ and record the seed's P@50.
 \end{enumerate}
 
 \textsf{lag1}, \textsf{trail3}, and \textsf{ewma3} instantiate this
-with different $(H, \{w_i\})$:
+with different $(H, \{u_i\})$:
 
 \begin{itemize}
 \item \textsf{lag1}: $H = \{w-1\}$, single uniform weight.
 \item \textsf{trail3}: $H = \{\max(1, w-3), \ldots, w-1\}$, equal weights.
 \item \textsf{ewma3}: $H = \{\max(1, w-3), \ldots, w-1\}$, geometric
-weights $w_i = 0.6^{(w-1)-i}$ so the most recent past window receives
-weight $0.6^0 = 1$ and older windows receive $0.6, 0.36, \ldots$.
+weights $u_i = \eta^{(w-1)-i}$ with $\eta = 0.6$, so the most recent
+past window receives weight $\eta^0 = 1$ and older windows receive
+$0.6, 0.36, \ldots$.
 \end{itemize}
 
 \subsection{Fleet-State Evolution}
@@ -64,4 +66,9 @@ gap, we report:
      {\text{P@50}^{\textsf{offline}}_{K, w} - \text{P@50}^{\textsf{fixed}}_{K, w}}.
 \end{equation}
 $\rho \approx 1$ matches the offline ceiling; $\rho < 0$ is a hazard.
-The cell-mean across $w \geq 2$ is $\bar\rho_K^{\text{ewma}}$.
+The ratio is reported only where the offline--fixed gap exceeds the
+pre-registered threshold of $0.01$
+($\text{P@50}^{\textsf{offline}} - \text{P@50}^{\textsf{fixed}} > 0.01$);
+windows below the threshold are excluded as numerically unstable
+denominators. The cell-mean across $w \geq 2$ is
+$\bar\rho_K^{\text{ewma}}$.

@@ -1,0 +1,220 @@
+\section{A Theoretical Lower Bound: The Closed-Loop Signal Exhaustion Theorem}
+\label{sec:theorem}
+
+The empirical findings of \S\ref{sec:results} demonstrate that
+HygienePrio's Precision@50 at $K = 200, w = 6$ depends on which method
+drives the fleet trajectory: $0.075$ under HygienePrio's own driver,
+$0.701$--$0.713$ under the non-draining drivers (CVSS-only, HRS-only,
+Random). This section formalises the
+underlying phenomenon as a theorem applicable to any
+scoring-driven closed-loop prioritization system.
+
+\subsection{Setup}
+
+Let $V_w \subseteq H \times C$ be the unpatched (host, CVE) backlog
+at the start of window $w$. Let $S: H \times C \to \mathbb{R}$ be a
+deterministic scoring policy, and let
+\begin{equation}
+A_w(S; K) = \{(h, c) \in V_w : S(h, c) \text{ is in the top-}K \text{ of } V_w\}
+\end{equation}
+be the policy's top-$K$ action set. The fleet evolves by remediation:
+$V_{w+1} = V_w \setminus A_w(S; K)$ plus an i.i.d.\ disclosure draw
+of size $n_w$ from a fixed distribution $\mathcal{D}_{\text{new}}$.
+
+Let $L \subseteq H \times C$ be the ground-truth positive set
+at $V_w$ defined by a binary predicate
+$L_w = \{(h, c) \in V_w : \phi(h, c; F_w) = 1\}$ for some
+fleet-state-dependent labelling function $\phi$. Define the
+\emph{Precision@K} of $S$ as $P_w(S; K) = |A_w(S; K) \cap L_w| / K$.
+
+\subsection{The Signal-Tail Density Function}
+
+Let $\tau(\cdot)$ denote the labelling threshold induced by $\phi$
+under $F_w$. Define the \emph{signal-tail density} of $S$ at window
+$w$ as
+\begin{equation}
+\rho_w(S) = \frac{|\{(h, c) \in V_w : S(h, c) > q_K(S; V_w)\}|}{|V_w|},
+\end{equation}
+where $q_K(S; V_w)$ is the $K$-th largest value of $S$ on $V_w$. The
+density $\rho_w(S)$ measures the fraction of the backlog that lies in
+$S$'s scoring upper tail.
+
+\subsection{The Theorem}
+
+\begin{theorem}[Closed-Loop Signal Exhaustion]
+\label{thm:exhaustion}
+Suppose $S$'s top-$K$ action set $A_w(S; K)$ has expected positive-set
+overlap $\mathbb{E}|A_w(S; K) \cap L_w| = \alpha K$ for some
+$\alpha \in (0, 1]$ at $w = 1$. Suppose further that:
+\begin{enumerate}
+\item[(A1)] The labelling predicate $\phi$ is positively correlated
+with $S$ on the upper tail: $\mathbb{P}[\phi(h, c) = 1 \mid (h, c) \in
+A_w(S; K)] > \mathbb{P}[\phi(h, c) = 1 \mid (h, c) \in V_w \setminus A_w(S; K)]$.
+\item[(A2)] The new-disclosure rate $n_w$ satisfies $n_w < K$ for all $w$.
+\item[(A3)] The new-disclosure distribution $\mathcal{D}_{\text{new}}$
+has tail density $\rho^{\mathcal{D}}(S) \leq \rho_1(S)$ ---
+the disclosure process does not preferentially refill $S$'s upper
+tail beyond its initial density.
+\item[(A4)] The initial tail density does not exceed the positive
+prevalence bound: $\rho_1(S) \leq \alpha$.
+\end{enumerate}
+Then for any $\epsilon > 0$, there exists a finite window
+$w^\star(\epsilon)$ such that for all $w \geq w^\star$,
+\begin{equation}
+\mathbb{E}[P_w(S; K)] \leq \mathbb{E}[P_w(\mathrm{Random}; K)] + \epsilon.
+\end{equation}
+That is, the closed-loop policy converges in expectation to the random-ranking
+baseline within finite windows.
+\end{theorem}
+
+\subsection{Proof Sketch}
+
+Let $T_w(S) = \{(h, c) \in V_w : S(h, c) > q_K(S; V_w)\}$ denote the
+upper-tail set on $V_w$. Note that $T_w$ is redefined on each
+window's backlog $V_w$; the induction below is over the surviving
+positive mass within the (re-anchored) tail, not over a fixed set.
+By A1, $T_w$ is enriched in positives:
+$\mathbb{P}[\phi = 1 \mid T_w] > \mathbb{P}[\phi = 1 \mid V_w]$.
+
+Each window's selection $A_w \subseteq T_w$ removes positives at a
+rate at least proportional to the enrichment factor:
+$\mathbb{E}|A_w \cap L_w| \geq \alpha K$. The replacement disclosure
+$n_w$ contributes new positives at rate
+$\mathbb{P}_{\mathcal{D}_{\text{new}}}[\phi = 1] \cdot n_w$, which
+by A3 is bounded above by $\rho^{\mathcal{D}}(S) \cdot n_w
+\leq \rho_1(S) \cdot n_w \leq \alpha \cdot n_w < \alpha K$,
+using A3, A4, and A2 in turn.
+
+The net change in positive mass within $T_w$ per window is therefore
+negative:
+\begin{equation}
+\Delta |T_w \cap L_w| \leq -\alpha K + \rho^{\mathcal{D}}(S) \cdot n_w < 0.
+\end{equation}
+By induction, $|T_w \cap L_w| \to 0$ as $w \to \infty$. Since $A_w
+\subseteq T_w$, $P_w(S; K) = |A_w \cap L_w| / K \to 0$. As the random
+baseline $P_w(\mathrm{Random}; K) \to \mathbb{P}[\phi = 1 \mid V_w]$
+also approaches zero (or its limiting positive density),
+$|P_w(S; K) - P_w(\mathrm{Random}; K)|$ becomes arbitrarily small.
+
+As an order-of-magnitude heuristic (not a tight bound), the
+exhaustion window scales as
+$w^\star \approx \lceil |T_1 \cap L_1| / (\alpha K -
+\rho^{\mathcal{D}}(S) n_w) \rceil$ --- the initial positive tail mass
+divided by the net per-window drain; the exact constant depends on
+the gap between $\alpha K$ and $\rho^{\mathcal{D}}(S) n_w$.
+\hfill$\square$
+
+\subsection{Empirical Consistency}
+
+The data of \S\ref{sec:results} show ceiling-limited precision driven
+by positive-set exhaustion --- the mechanism the theorem formalizes.
+At $K = 200, \lambda = 3$ under the self-driven trajectory, the mean
+surviving positive mass at $w = 6$ is $3.8$ of $\approx 760$ backlog
+pairs, capping P@50 at $0.076$; HygienePrio's measured $0.075$ sits
+at that ceiling. Measured precision nonetheless remains well above
+the random baseline ($0.075$ vs.\ $0.004$), because the evaluation
+truncates at W6 before full convergence to the theorem's conclusion
+$\mathbb{E}[P_w(S;K)] \leq \mathbb{E}[P_w(\mathrm{Random};K)] +
+\epsilon$. Under the non-draining drivers the labelling tail is not
+preferentially drained, the exhaustion dynamic is absent, and
+$P_w(S; K)$ remains near $0.7$.
+
+The theorem is likewise consistent with the EPSS-self-driven collapse
+to $0.001$--$0.012$: EPSS-only's selection at $K = 200$ drains the
+same EPSS-gated positive set, and the disclosure rate $\lambda = 3$
+contributes few high-EPSS pairs per window, so the net drain rate is
+sharp and $w^\star$ is small.
+
+\subsection{Implication}
+
+Theorem~\ref{thm:exhaustion} formalises a structural limit: \emph{no
+deterministic scoring policy whose selection is positively correlated
+with its own discriminative signal can sustain Precision@K indefinitely
+under capacity-constrained closed-loop deployment.} The mechanism is not
+particular to HygienePrio; it applies equally to EPSS-only, CVSS-only,
+or any future scoring rule.
+
+The practical interpretation matches the operational recommendation of
+\S\ref{sec:discussion}: \emph{decouple scoring from selection at high
+capacity.} The theorem provides the underlying reason: a self-driven
+policy is mathematically guaranteed to exhaust its own signal in finite
+time; a foreign-driven policy is bounded only by the foreign driver's
+exhaustion rate of the labelling tail, which can be slower or non-existent.
+
+\subsection{Corollaries}
+
+The theorem has four corollaries that strengthen its operational reach.
+
+\begin{corollary}[Random Policy Escape]
+\label{cor:random}
+If $S$ is the random ranking baseline, then $A_w(S; K)$ is a uniform
+random sample of $V_w$, the enrichment assumption A1 is violated by
+construction, and $P_w(S; K) = \mathbb{P}[\phi = 1 \mid V_w]$ for all $w$.
+Random ranking does not exhibit signal exhaustion.
+\end{corollary}
+
+\begin{corollary}[$\epsilon$-Greedy Policies Slow Convergence]
+\label{cor:egreedy}
+For $\epsilon \in (0, 1)$, consider the mixed policy $S_\epsilon$ that
+selects each window's top-$K$ from $S$ with probability $1-\epsilon$
+and uniformly at random from $V_w$ with probability $\epsilon$. Then
+the convergence rate of Theorem~\ref{thm:exhaustion} is slowed by a
+factor of $1/(1-\epsilon)$ --- approximately, by the following
+heuristic argument. The expected
+positive-mass drain per window becomes $(1-\epsilon) \alpha K
++ \epsilon \mathbb{P}[\phi=1 \mid V_w] K$, which approaches the random
+baseline as $\epsilon \to 1$. The signal-exhaustion regime is
+asymptotically equivalent but reached in $w^\star_\epsilon =
+w^\star / (1-\epsilon)$ windows. \hfill$\square$
+\end{corollary}
+
+\begin{corollary}[High Arrival Rates Break the Theorem]
+\label{cor:high_arrival}
+If A2 is violated ($n_w \geq K$) and A3 is violated in the same
+direction ($\rho^{\mathcal{D}}(S) \geq \alpha$), the net change in
+positive mass within $T_w$ becomes non-negative and the theorem does
+not apply. Empirically, this regime corresponds to a fleet whose
+new-CVE arrival rate exceeds its remediation rate while preserving
+the upper-tail composition --- i.e., a disclosure process biased
+toward exactly the signals the policy uses to rank. In the simulated
+$\lambda = 12, K = 10$ cell of Paper~6, this condition is approached
+but not crossed; in real fleets it would correspond to a denial-of-service
+attack on the prioritization system (deliberate publication of many
+high-EPSS CVEs targeting the defender's fleet topology).
+\end{corollary}
+
+\begin{corollary}[Online Calibration Cannot Escape the Bound]
+\label{cor:calibration}
+If $S$ is replaced at each window by a re-calibrated $S_w$ trained on
+a held-out calibration set whose backlog $V_w^{\text{cal}}$ also evolves
+under the same closed-loop policy, then $S_w$'s discriminative target
+is the same evolving distribution as $S$'s; the calibration procedure
+cannot move the labelling threshold $\tau$ faster than the
+positive-mass drain rate. Online recalibration therefore inherits
+Theorem~\ref{thm:exhaustion}'s convergence bound asymptotically.
+\emph{This explains Paper~7's empirical finding that lag-1 online
+recalibration cannot rescue K=200 collapse}~\cite{paper7online}:
+the calibration target is itself exhausted by the closed-loop policy.
+The only structural way to escape the bound is to make the labelling
+function depend on signals \emph{outside} the policy's discriminative
+set --- which is exactly what self-trajectory decoupling accomplishes.
+\end{corollary}
+
+\subsection{Scope and Limitations}
+
+The theorem assumes deterministic scoring, bounded new-disclosure rate,
+and a labelling predicate positively correlated with $S$ on the upper
+tail. The four corollaries above cover the randomised, $\epsilon$-mixed,
+high-arrival, and online-recalibrated extensions. The theorem does
+not cover:
+\begin{itemize}
+\item Disclosure processes that adversarially refill $S$'s upper tail
+faster than $K$ (Assumption A3 fails). The 2026 DBIR's $\sim$43-day mean
+patch-to-disclosure cycle~\cite{verizon2026dbir} suggests this is
+unlikely in practice
+outside the deliberate adversarial-disclosure scenario of
+Corollary~\ref{cor:high_arrival}.
+\item Reinforcement-learning policies whose scoring updates between
+windows, which require a different bound for the update-cycle dynamics.
+\end{itemize}
+Extending the theorem to these cases is left as future work.

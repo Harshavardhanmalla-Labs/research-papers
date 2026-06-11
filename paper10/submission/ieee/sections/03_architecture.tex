@@ -1,0 +1,156 @@
+\section{The AutoHeal Architecture}
+\label{sec:architecture}
+
+AutoHeal is a seven-stage closed-loop pipeline executed per maintenance
+window. All stage parameters are pre-registered in
+\texttt{paper10/design/PAPER10\_PROTOCOL.md} and frozen before any
+evaluation-seed AutoHeal result was inspected.
+Fig.~\ref{fig:architecture} shows the pipeline with its safety-bound
+checks and the closed loop back to detection.
+
+\input{tables/tab_architecture}
+
+\begin{figure}[!t]
+  \centering
+  \begin{tikzpicture}[
+      font=\scriptsize,
+      stage/.style={draw, rounded corners=2pt, minimum width=2.5cm,
+        minimum height=0.52cm, align=center, inner sep=2pt},
+      safety/.style={draw, dashed, rounded corners=2pt, align=center,
+        inner sep=2pt, minimum height=0.52cm},
+      arr/.style={-{Stealth[length=2mm]}},
+      node distance=0.28cm and 0.55cm]
+    \node[stage] (detect) {1.~Detect\\ \tiny unpatched (host, CVE) pairs};
+    \node[stage, below=of detect] (score) {2.~Score\\ \tiny HygienePrio + lag-1 calib.};
+    \node[stage, below=of score] (triage) {3.~Triage\\ \tiny AUTO / REVIEW / DEFER};
+    \node[stage, below=of triage] (plan) {4.~Plan\\ \tiny top-$K$ from AUTO bucket};
+    \node[stage, below=of plan] (act) {5.~Act\\ \tiny simulated patch action};
+    \node[stage, below=of act] (verify) {6.~Verify + Rollback\\ \tiny post-action health check};
+    \node[stage, below=of verify] (learn) {7.~Learn\\ \tiny outcome-driven recalibration};
+    \draw[arr] (detect) -- (score);
+    \draw[arr] (score) -- (triage);
+    \draw[arr] (triage) -- (plan);
+    \draw[arr] (plan) -- (act);
+    \draw[arr] (act) -- (verify);
+    \draw[arr] (verify) -- (learn);
+    % safety checks
+    \node[safety, right=of verify, xshift=-0.1cm] (safe)
+      {Safety bounds:\\ rollback ${>}10\%$ flag\\ cascade detection};
+    \draw[arr, dashed] (verify) -- (safe);
+    \draw[arr, dashed] (safe.north) |- node[pos=0.85, above, font=\tiny]
+      {flag: suppress new-CVE intake} (detect.east);
+    % closed loop
+    \draw[arr] (learn.west) -- ++(-0.5,0) |- node[pos=0.25, left,
+      font=\tiny, align=center] {next\\ window} (detect.west);
+  \end{tikzpicture}
+  \caption{The AutoHeal seven-stage closed-loop pipeline. Solid
+  arrows: per-window data flow; the Learn stage closes the loop into
+  the next window's Detect stage. Dashed: the pre-registered safety
+  bounds (per-window rollback rate ${>}10\%$; cascading-failure
+  detection), which in the simulated evaluation flag the window and
+  suppress new-CVE intake (\S\ref{sec:safety_bounds}).}
+  \label{fig:architecture}
+\end{figure}
+
+\subsection{Stage 1 — Detect}
+
+Scan the fleet's vulnerability records; identify unpatched
+(host, CVE) pairs. CVE attribute lookup uses the real EPSS / KEV
+public corpus (\S\ref{sec:dataset}) so the same CVE in two hosts
+has the same external-feed attributes.
+
+\subsection{Stage 2 — Score}
+
+Apply HygienePrio~\cite{paper4hygieneprio} with the calibrated
+Paper~4 weights $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1,
+0.2)$. At capacity $K \leq 100$, online calibration follows
+Paper~7's lag-1 recipe~\cite{paper7online}; at $K = 200$, weights
+are held fixed per Paper~7's K=200 hazard finding. The scorer
+output is normalised to $[0, 1]$ to feed the triage thresholds.
+
+\subsection{Stage 3 — Triage}
+
+Each (host, CVE) pair is classified into one of three buckets via
+the pre-registered rule:
+
+\begin{itemize}
+\item \textbf{AUTO} (auto-remediate): score $\geq 0.80$ AND
+host criticality $\neq$ CRITICAL AND patch-test-suite present AND
+no known blocking config AND not during business-hours window.
+\item \textbf{REVIEW} (human-in-loop): score in $[0.50, 0.80)$ OR
+host criticality = CRITICAL OR business-hours.
+\item \textbf{DEFER}: score $< 0.50$ OR known incompatible patch.
+\end{itemize}
+
+The two thresholds (0.80, 0.50) and the CRITICAL gate are the
+pre-registered configuration. They are deliberately conservative:
+AutoHeal only auto-acts on high-confidence, low-risk pairs.
+
+\subsection{Stage 4 — Plan}
+
+From the AUTO bucket, select the top-$K$ pairs by HygienePrio
+score (where $K$ is the per-window capacity). This is the
+Paper~6~\cite{paper6capacity} capacity-constrained selection.
+
+\subsection{Stage 5 — Act}
+
+Each scheduled pair undergoes a simulated patch action with a
+pre-registered failure-mode distribution drawn from public
+sysadmin literature on production patch operations:
+\begin{itemize}
+\item SUCCESS: $92\%$
+\item ROLLBACK (post-patch health-check fail): $5\%$
+\item DEFERRED (patch blocked at install time): $3\%$
+\end{itemize}
+
+The numbers are fixed before evaluation. Real-world deployments
+would condition on package, OS, and patch type; AutoHeal's
+synthetic evaluation assumes the pre-registered distribution to
+keep the threat model identifiable. The empirically observed
+per-window rollback rates are reported in \S\ref{sec:results}
+(they exceed the expected $5\%$ in small AUTO buckets).
+
+\subsection{Stage 6 — Verify + Rollback}
+
+Each acted pair runs a post-action health check. On failure, the
+patch is reverted and the pair is re-classified as REVIEW for the
+next window. The framework tracks per-window rollback rate; if
+$> 10\%$ the hard-stop safety bound is \emph{flagged} for that
+window. A cascading-failure detector
+additionally fires if more than 5 rollbacks share a common
+upstream patch ancestor (approximated by CVE id prefix). The
+response to a flag in the simulated evaluation is described in
+\S\ref{sec:safety_bounds}.
+
+\subsection{Stage 7 — Learn}
+
+Successful and rolled-back outcomes feed the Paper~7 lag-1
+calibration update (when $K \leq 100$). At $K = 200$, weights are
+held fixed per Paper~7's K=200 hazard finding, and the
+learn stage records data for offline rebaselining only.
+
+\subsection{Pre-Registered Safety Bounds}
+\label{sec:safety_bounds}
+
+Two safety bounds are pre-registered:
+
+\begin{itemize}
+\item Rollback rate $> 10\%$ at any window.
+\item Cascading-failure detection ($> 5$ rollbacks share a common
+patch ancestor).
+\end{itemize}
+
+\textbf{Detection vs.\ enforcement.} In the evaluated
+implementation, exceeding either bound \emph{flags} the affected
+window in the frozen results (134 window-level flags across the
+sweep: 44 at $K = 50$, 44 at $K = 100$, 46 at $K = 200$) and
+suppresses new-CVE intake for that window; remediation of the
+existing backlog continues in subsequent windows. A production
+deployment would escalate a flagged window to human review. The
+protocol registered a stronger enforcement response (hard stop with
+fallback to human-in-loop for remaining windows); that enforcement
+path was \emph{not exercised} in the simulation --- the evaluation
+measures detection of the safety bounds, not the operational
+consequences of enforcing them. This deviation is disclosed in
+\S\ref{sec:results} and discussed as an evaluation limitation in
+\S\ref{sec:threats}.

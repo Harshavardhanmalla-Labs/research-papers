@@ -34,8 +34,8 @@ extending Paper~5's single-cell simulator with explicit cell-level
 control of capacity and Poisson arrival rate; 15{,}000 frozen result rows.
 
 \item \textbf{C2 --- Universal EPSS decay across the grid.} EPSS-only
-decay slope is strictly negative in all 20 cells (range $-0.013$ to
-$-0.064$ P@50/window). The pre-registered ratio hypothesis H3 fails to
+decay slope is strictly negative in all 20 cells (range $-0.025$ to
+$-0.052$ P@50/window). The pre-registered ratio hypothesis H3 fails to
 identify a steady-state cell within the grid; we report this descriptively
 rather than as a binary claim.
 
@@ -46,13 +46,16 @@ threshold across most slices. The underlying compositional dynamics
 are non-monotone in the synthetic regime studied; we report the
 non-monotonicities directly rather than smoothing them.
 
-\item \textbf{C4 --- HygienePrio also collapses at high capacity.}
+\item \textbf{C4 --- HygienePrio also collapses at high capacity
+under self-driven (closed-loop) selection.}
 The pre-registered claim that HygienePrio-full retains W6 P@50
 $\geq 0.40$ across all cells (H4) is \textit{rejected}. At $K = 200$,
 HygienePrio-full falls to a W6 mean of $0.062$ ($\lambda = 1$). The
 mechanism is symmetric to EPSS-only's collapse: high-throughput
-remediation exhausts the high-HRS tail, after which the hygiene
-signal carries little additional information.
+remediation under self-driven selection exhausts the high-HRS tail,
+after which the hygiene signal carries little additional information.
+Paper~9~\cite{paper9selftraj} shows the collapse is specific to
+self-driven selection and does not occur under independent drivers.
 
 \item \textbf{C5 --- Per-pair dominance survives.} HygienePrio-full
 outperforms EPSS-only at P@50 in $96.0\%$ of all (cell, seed, window)

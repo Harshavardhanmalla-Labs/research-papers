@@ -1,0 +1,20 @@
+\section{Experimental Setup}
+
+\subsection{Pre-Registration}
+
+The AutoHeal architecture, triage thresholds, failure-mode
+distribution, safety bounds, capacity grid, hypotheses H1--H4,
+decision rules, and stop rules were locked in
+\texttt{paper10/design/PAPER10\_PROTOCOL.md} on 2026-06-05
+before any evaluation-seed AutoHeal result was computed.
+
+\subsection{Execution}
+
+For each $K \in \{50, 100, 200\}$ and each of the 25 evaluation seeds
+105--129, the three strategies (AutoHeal, Human-in-loop,
+Fixed-policy) are simulated for 12 windows. The shared CVE corpus is
+the frozen real-data snapshot released with the external-validity
+section of Paper~4 (\S X)~\cite{paper4hygieneprio}.
+Statistical reporting follows the conventions stated in
+\S\ref{sec:stat_reporting}; per the protocol, stop rules trigger
+abstract rewrites when a hypothesis fails.

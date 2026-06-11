@@ -1,0 +1,28 @@
+\begin{table}[!t]
+  \caption{Real CVE retrospective. Ten high-profile CVEs from
+  2014--2024, with present-day (2026-06-05) EPSS scores and KEV
+  inclusion dates. Source: FIRST.org EPSS feed + CISA KEV catalog.}
+  \label{tab:famous_cves}
+  \centering
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}lccl@{}}
+    \toprule
+    \textbf{CVE} & \textbf{EPSS} & \textbf{KEV date} & \textbf{Name} \\
+    \midrule
+    CVE-2021-44228 & $0.944$ & 2021-12-10 & Log4Shell \\
+    CVE-2014-0160  & $0.945$ & 2022-05-04 & Heartbleed \\
+    CVE-2023-23397 & $0.934$ & 2023-03-14 & Outlook NTLM \\
+    CVE-2023-34362 & $0.943$ & 2023-06-02 & MOVEit SQLi \\
+    CVE-2023-4966  & $0.943$ & 2023-10-18 & Citrix Bleed \\
+    CVE-2024-3400  & $0.943$ & 2024-04-12 & PAN-OS RCE \\
+    CVE-2022-30190 & $0.936$ & 2022-06-14 & Follina MSDT \\
+    CVE-2021-34527 & $0.942$ & 2021-11-03 & PrintNightmare \\
+    CVE-2020-1472  & $0.944$ & 2021-11-03 & Zerologon \\
+    CVE-2019-0708  & $0.945$ & 2021-11-03 & BlueKeep \\
+    \midrule
+    \multicolumn{4}{l}{\textit{All ten in top $0.2\%$ of EPSS distribution.}} \\
+    \multicolumn{4}{l}{\textit{EPSS-only cannot discriminate among them.}} \\
+    \bottomrule
+  \end{tabular}
+\end{table}

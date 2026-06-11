@@ -1,0 +1,138 @@
+\section{External Validity Under Real CVE Attribute Distributions}
+\label{sec:external_validity}
+
+The 96.0\% HygienePrio-vs-EPSS persistence finding (\S\ref{sec:results})
+is bounded to the synthetic EEHDA attribute model. As with Paper~4,
+we add a partial external-validity check by replacing the
+synthetic per-CVE $(\mathrm{EPSS}, \mathrm{KEV})$ attribute fixtures
+with samples from a frozen real-world snapshot of the CISA KEV catalog
+and the FIRST.org EPSS feed (2026-06-05). Fleet topology, simulator,
+capacity-arrival sweep mechanics, HRS components, scorer weights, and
+ground-truth definition are unchanged; only the CVE attribute
+distribution shifts.
+
+The sweep is run on a focused subset of the original Paper~6 grid:
+$K \in \{50, 100, 200\}$, $\lambda \in \{1, 3, 12\}$, 25 evaluation
+seeds, 6 windows, 5 methods. Total rows: 6{,}750.
+
+\input{tables/tab_external_validity}
+
+\subsection{Honest Finding}
+
+\textbf{The 96.0\% per-pair persistence is a synthetic-distribution
+artifact.} Under real CVE attribute distributions, the overall
+HygienePrio-full $>$ EPSS-only persistence across all
+(cell, seed, window) triples falls from $96.0\%$ to $\mathbf{10.0\%}$.
+The two methods tie (within $0.5$~pp) in $69\%$ of (cell, seed, window)
+triples; EPSS-only is slightly ahead at $K = 50$ (cell-mean W6 gaps of
+$1.3$--$2.3$~pp in its favour) and the two are essentially identical
+at $K \geq 100$. Notably, all $135$ HygienePrio wins in the real sweep
+occur at Window~1 only --- per-cell persistence is exactly $0.100$ in
+all 9 cells. This is not a pipeline artifact: after W1 the two methods'
+score distributions collapse onto the same residual backlog and produce
+tied selections, so no post-W1 wins are possible.
+
+\textbf{Why.} Two reinforcing mechanisms:
+
+\textit{(i) Real EPSS distribution is thinner.} As documented in
+Paper~4, \S XII~\cite{paper4hygieneprio} (real$\,\Rightarrow\,$3.64\%
+EPSS$>0.10$ vs.\ synthetic 12\%), real CVE corpora produce a thinner
+upper-EPSS tail. This makes the EPSS-only baseline less informative
+in absolute terms but \emph{more concentrated} on the actual
+ground-truth positives, so EPSS-only's relative discriminative power
+improves. Under the EEHDA synthetic fixture, EPSS-only ranks 12\% of
+the backlog above the labelling threshold, of which most are noise;
+under real distributions only 3.64\% clear the threshold and they
+are higher-quality.
+
+\textit{(ii) Real KEV prevalence is much lower.} Real KEV coverage is
+0.52\% vs.\ synthetic 8\%. The HygienePrio scorer's KEV-recency term
+contributes far less under real distributions, weakening the
+quantitative gap between HygienePrio and EPSS-only.
+
+\subsection{What Survives}
+
+\textbf{The qualitative capacity-collapse finding is preserved and
+sharpened.} HygienePrio's W6 P@50 collapses at $K = 200$ in the real
+distribution (mean $0.010$--$0.021$ across $\lambda$), \emph{just like
+EPSS-only's collapse}. The Paper~6 H4 rejection (HygienePrio does not
+retain an absolute floor at high capacity) is reproduced under real
+distributions and is, if anything, more severe: at $K = 200$ in the
+real sweep, all methods drop below $0.025$ at W6.
+
+\textbf{HRS-only collapses to near-zero under real distributions.}
+HRS-only's mean W6 P@50 is $0.000$--$0.002$ across all 9 cells. The
+combination of thinner EPSS tail and lower KEV prevalence means the
+ground-truth positive set (EPSS$>0.10$ AND HRS$>$75th percentile) is
+small to begin with, and HRS-only's rankings cannot find the few
+positives that exist.
+
+\textbf{The compositional decay mechanism is robust.} Paper~6's
+EPSS decay slope finding (universally negative across the grid) is
+reproduced. The mechanism --- capacity-constrained remediation
+drains the high-EPSS tail --- does not depend on synthetic
+distribution and is, as expected, more aggressive under thinner
+real-world tails for the hygiene-augmented method: HygienePrio-full's
+W6 cell means in the real sweep are uniformly below their synthetic
+counterparts. EPSS-only is the exception at $K = 50$, where its real
+W6 cell means ($0.114$--$0.121$) are actually \emph{higher} than the
+synthetic ones ($0.034$--$0.053$), consistent with the more
+concentrated real upper-EPSS tail described above.
+
+\subsection{Operational Implication}
+
+Both Paper~4's $+31$~pp synthetic gap (Paper~4,
+\S XII~\cite{paper4hygieneprio}) and Paper~6's 96\% per-pair
+persistence are synthetic-distribution
+effects. The honest cross-paper recommendation is:
+
+\begin{itemize}
+\item Single-window evaluations like Paper~4 should report the
+real-distribution gap ($+2.4$~pp) as the substantive operational claim;
+the $+31$~pp synthetic number is informative about the EEHDA
+generator, not the field.
+
+\item Multi-window evaluations like Paper~6 should re-attribute the
+``HygienePrio wins'' claim under real distributions as: the two
+methods tie (within $0.5$~pp) in $69\%$ of (cell, seed, window)
+triples; EPSS-only is slightly ahead at $K = 50$ ($1.3$--$2.3$~pp at
+W6) and the two are essentially identical at $K \geq 100$, with both
+methods converging to near-zero at high capacity.
+
+\item The structural finding --- capacity-driven collapse of any
+deterministic scoring policy \emph{under self-driven (closed-loop)
+selection} --- is robust across synthetic and real distributions,
+and is the program's most generalisable result. This matches the
+theoretical bound proven in Paper~9~\cite{paper9selftraj} as the
+Closed-Loop Signal Exhaustion Theorem. Paper~9~\cite{paper9selftraj}
+further shows the collapse is specific to self-driven selection and
+does not occur under independent drivers.
+\end{itemize}
+
+\subsection{Honest Caveat on This Section's Scope}
+
+The real-distribution test replaces only per-CVE attribute
+distributions. The fleet topology, host--CVE assignment,
+HRS components (patch posture, AD exposure, telemetry freshness),
+ground-truth definition (EPSS$>0.10$ AND HRS$>$75th percentile),
+and selection-policy convention are unchanged. A full external
+validation would require longitudinal real-fleet exploitation
+outcome data, which remains unavailable in any public dataset.
+The present section is a partial external-validity bound, not a
+full replacement for real-data validation.
+
+\subsection{Reproducibility}
+
+The \texttt{real\_data/} directory lives at the repository root
+(a sibling of \texttt{paper6/}, not inside it):
+
+{\small\begin{verbatim}
+<repo-root>/real_data/real_dist_capacity_sweep.py
+<repo-root>/real_data/results/
+    real_dist_capacity_sweep.csv
+<repo-root>/real_data/results/
+    real_dist_capacity_summary.json
+\end{verbatim}}
+\noindent (6{,}750-row frozen sweep.) Reproduce from the repository
+root with
+\texttt{python3 real\_data/\allowbreak real\_dist\_capacity\_sweep.py}.

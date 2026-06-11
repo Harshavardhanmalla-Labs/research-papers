@@ -1,0 +1,111 @@
+\section{Real-World Retrospective: What Would HygienePrio Have Done?}
+\label{sec:retrospective}
+
+The synthetic and real-distribution evaluations of
+\S\S\ref{sec:results}--\ref{sec:adversarial} test HygienePrio on
+distributional aggregates. We close the empirical evaluation with a
+\emph{worked retrospective}: for ten high-profile CVEs of the past
+seven years, we examine what HygienePrio would have produced relative
+to EPSS-only at the moment of public disclosure, using the
+present-day (2026-06-05) EPSS and KEV state as a stable late-life
+reference.
+
+\input{tables/tab_famous_cves}
+
+\subsection{Observations}
+
+\textbf{(i) EPSS catches major CVEs.} All ten high-profile CVEs have
+present-day EPSS scores in $[0.9342, 0.9446]$ --- all within the top
+$0.2\%$ of the EPSS distribution (per-CVE percentiles range from
+99.825 to 99.996). Every one is in the CISA KEV catalog.
+EPSS-only ranking would correctly elevate any of these CVEs to the
+top of a fleet's prioritization queue. The first-order claim
+``EPSS works for major CVEs'' is empirically supported by the
+present-day data.
+
+\textbf{(ii) Major CVEs leave EPSS no room to discriminate.}
+The narrow EPSS range $[0.9342, 0.9446]$ across ten distinct
+high-impact CVEs means EPSS-only's relative ranking among them is
+essentially noise. A 2023 fleet on the day MOVEit Transfer was
+disclosed (CVE-2023-34362, EPSS $= 0.9425$, KEV-added $2023$-$06$-$02$)
+faced the question: \emph{which of our hosts running MOVEit
+should we patch first?} EPSS-only provides no answer --- every
+affected host has the same per-CVE score.
+
+\textbf{(iii) HygienePrio's contribution is host-side discrimination.}
+The Paper~4 scorer's EPSS$\cdot$HRS interaction term
+$\delta \cdot (\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h))$ multiplies
+the high EPSS of a major CVE by the host's hygiene risk, breaking
+the tie in favour of high-HRS hosts (high patch debt, high AD
+exposure, stale telemetry). The HRS dimension that Paper~4
+\S\ref{sec:results} identifies as most informative ---
+\emph{patch posture} --- is exactly the dimension that captures
+which hosts are likely to have a long-unpatched MOVEit instance.
+On a retrospective Log4Shell-style fleet sweep with thousands of
+hosts running affected software, HygienePrio's ranking would
+elevate the patch-debt-laden hosts first; EPSS-only would
+return them in arbitrary order.
+
+\textbf{(iv) The KEV signal arrives \emph{after} disclosure.} For
+CVEs like Log4Shell (disclosed 2021-12-09, KEV-added 2021-12-10),
+KEV inclusion lags disclosure by one day; for Heartbleed (disclosed
+2014-04-07, KEV-added 2022-05-04) the KEV-added date is over
+\emph{eight years} after disclosure --- a function of the KEV
+catalog's 2021 inception, not of CVE risk. The HygienePrio
+$\gamma \cdot \mathrm{KEV\_recency}(c)$ term contributes meaningfully
+in the days after KEV inclusion; before KEV inclusion it does not
+fire. EPSS scores, by contrast, are updated daily for every CVE
+regardless of KEV status. The KEV term in HygienePrio is therefore
+a \emph{lagging amplifier} of CVEs that EPSS has already flagged.
+
+\subsection{The Realistic Operational Claim}
+
+The empirical results across this paper, including the
+\S\ref{sec:external_validity} real-distribution finding, support a
+narrower operational claim than the $+31$~pp synthetic headline alone:
+
+\begin{quote}
+\emph{HygienePrio provides host-side discrimination among the high-EPSS
+CVEs that EPSS-only treats as interchangeable. Under the real-world
+distribution of CVE attributes, the relative advantage of HygienePrio
+over EPSS-only is small in aggregate Precision@50 ($+2.4$ pp,
+\S\ref{sec:external_validity}), but is operationally significant at
+the moment of a major-CVE disclosure: it tells a remediation team
+which of many vulnerable hosts to patch first.}
+\end{quote}
+
+This narrower claim is what the empirical evidence in this paper
+actually supports, and it is the one we recommend a deploying
+organisation use as the basis for selecting HygienePrio over
+EPSS-only. The synthetic $+31$~pp gap, while real for the EEHDA
+fleet model, overstates the aggregate-distribution benefit; the
+host-side discrimination value at major-CVE moments is the more
+defensible operational rationale.
+
+\subsection{Honest Caveats}
+
+\textit{(i) Late-life EPSS proxy for disclosure-time EPSS.}
+The EPSS scores in Table~\ref{tab:famous_cves} are present-day
+(2026-06-05) values, not the disclosure-time values. EPSS scores
+evolve over time as exploitation evidence accumulates. The
+direction of evolution for major CVEs is upward (toward 1.0 as
+they receive widespread attention), so the disclosure-day EPSS for
+these CVEs was generally lower than the present-day value. We use
+the present-day value as a proxy because the FIRST.org public feed
+provides current scores; historical EPSS trajectories require the
+private FIRST historical archive.
+
+\textit{(ii) Retrospective is anecdote, not evaluation.}
+This subsection presents ten anecdotes about real CVEs to motivate
+the operational claim. It is not a controlled evaluation. The
+aggregate-distribution evaluation in \S\ref{sec:external_validity}
+is the proper external-validity test.
+
+\subsection{Reproducibility}
+
+\begin{verbatim}
+real_data/processed/famous_cves_snapshot.csv
+\end{verbatim}
+\noindent (10 CVEs with present-day EPSS, KEV date, and severity
+description.) Built from the FIRST.org and CISA snapshots in
+\texttt{real\_data/raw/}.

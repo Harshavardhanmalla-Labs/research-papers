@@ -1,0 +1,59 @@
+% =====================================================================
+% Paper 10 — AutoHeal: A Self-Healing Framework for Autonomous
+% Vulnerability Remediation
+%
+% Target: IEEE Transactions on Network and Service Management (TNSM)
+% Synthesis paper integrating Papers 3-9 of the VulnPrio program.
+% Frozen at paper10/results/primary_v1/autoheal_results.csv
+% =====================================================================
+\documentclass[journal]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\graphicspath{{figures/}}
+
+\title{AutoHeal: A Pre-Registered Self-Healing Framework for Autonomous
+Vulnerability Remediation}
+
+\author{Harshavardhan~Malla%
+  \thanks{H.~Malla is an independent researcher.}%
+  \thanks{Manuscript prepared June 2026.}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/00_abstract.tex}
+\end{abstract}
+
+\begin{IEEEkeywords}
+self-healing systems, autonomic computing, vulnerability management,
+network security, EPSS, pre-registered evaluation, reproducibility.
+\end{IEEEkeywords}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_background.tex}
+\input{sections/03_architecture.tex}
+\input{sections/04_dataset.tex}
+\input{sections/05_methodology.tex}
+\input{sections/06_experimental_setup.tex}
+\input{sections/07_results.tex}
+\input{sections/08_discussion.tex}
+\input{sections/09_threats.tex}
+\input{sections/10_related_work.tex}
+\input{sections/11_conclusion.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

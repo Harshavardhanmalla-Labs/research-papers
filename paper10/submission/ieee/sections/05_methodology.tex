@@ -1,0 +1,88 @@
+\section{Methodology}
+
+\subsection{Three Strategies}
+
+We evaluate three strategies on the same fleet trajectory per seed:
+
+\textbf{AutoHeal} — the full seven-stage pipeline described in
+\S\ref{sec:architecture}.
+
+\textbf{Human-in-loop baseline} — every (host, CVE) pair is treated
+as REVIEW; the team manually selects the top-30 pairs per window
+(matching the 2026 DBIR survey baseline for human triage capacity)
+ordered by HygienePrio score. The 30-pair budget is fixed
+regardless of the cell's capacity $K$. No safety hard-stops;
+rollbacks are absorbed by the manual process.
+
+\textbf{Fixed-policy baseline} — same capacity $K$ as AutoHeal, no
+triage step (all top-$K$ pairs by HygienePrio score are acted on),
+no rollback escalation. This isolates the value of AutoHeal's
+triage + safety machinery relative to a calibrated-scoring-with-no-gating
+control.
+
+\subsection{Per-Window Metrics}
+
+For each (cell, seed, window) we record:
+
+\begin{itemize}
+\item $n_{\text{pairs}}$, $n_{\text{auto}}$, $n_{\text{review}}$,
+$n_{\text{defer}}$: counts after triage.
+\item $n_{\text{acted}}$, $n_{\text{success}}$, $n_{\text{rollback}}$,
+$n_{\text{defer-at-act}}$: counts after acting.
+\item Rollback rate $= n_{\text{rollback}} / n_{\text{acted}}$.
+\item Mean time-to-remediate (MTTR), measured in windows from
+disclosure to successful remediation, averaged over successes in
+the current window.
+\item Coverage-to-date: fraction of all EPSS$>0.5$ pairs
+cumulatively remediated.
+\item Cascade-detected and safety-bound-flagged booleans (the
+\texttt{halt\_triggered} column of the frozen CSV records the
+flag; see \S\ref{sec:safety_bounds}).
+\end{itemize}
+
+\subsection{Pre-Registered Hypothesis Tests}
+
+\textbf{H1 (Coverage).} AutoHeal's cell-mean coverage at Window~6
+(a 12-week horizon) is $\geq 0.80$ at $K \in \{50, 100\}$.
+$K = 200$ is excluded from H1 by Paper~9 Corollary~4: at that
+capacity, closed-loop calibration is structurally unable to escape
+the signal-exhaustion bound, so a coverage hypothesis is not
+warranted.
+
+\textbf{H2 (Safety).} Per-window rollback rate $\leq 5\%$ at every
+(cell, seed, window) triple. The hard-stop threshold (10\%) is
+twice the H2 threshold; H2 is the operational target, the hard-stop
+is the safety bound.
+
+\textbf{H3 (MTTR Reduction).} AutoHeal's cell-mean MTTR for KEV-listed
+CVEs is $\leq 50\%$ of the Human-in-loop baseline's MTTR at
+$K \in \{50, 100\}$.
+
+\textbf{H4 (Per-Pair Dominance).} As registered in the protocol,
+AutoHeal beats Human-in-loop on \emph{Precision@50} in
+$\geq 80\%$ of (cell, seed, window) triples at $K \leq 100$. The
+analysis code evaluated the hypothesis on \emph{per-window coverage}
+dominance instead, and Precision@50 was not instrumented in the
+frozen per-window results; the paper therefore reports the
+coverage-dominance version. This deviation from the registered
+metric is disclosed in \S\ref{sec:results}.
+
+\subsection{Statistical Reporting}
+\label{sec:stat_reporting}
+
+Cell-mean point estimates are means across the 25 evaluation seeds.
+No null-hypothesis significance tests are performed; hypothesis
+decisions follow the pre-registered tolerance thresholds.
+Seed-level spread is available in the frozen artifact.
+
+\subsection{Reproducibility}
+
+From \texttt{paper10/}:
+{\small\begin{verbatim}
+PYTHONPATH=src python3 src/run_autoheal.py
+PYTHONPATH=src python3 src/analyze.py
+\end{verbatim}}
+Re-uses Paper~4's \texttt{hygieneprio}~\cite{paper4hygieneprio} and
+Paper~5's
+\texttt{window\_sim}~\cite{paper5temporal} via \texttt{sys.path}; reads
+the real corpus from \texttt{real\_data/processed/}.

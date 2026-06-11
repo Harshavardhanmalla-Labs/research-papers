@@ -1,0 +1,47 @@
+\section{Experimental Setup}
+
+\subsection{Pre-Registration}
+
+Strategies, detector, threshold $\tau = 0.05$, gated capacity
+threshold 100, hypotheses H1--H4, decision rules, and stop rules were
+locked in
+\texttt{paper10/design/PAPER10\_PROTOCOL.md} before any
+adaptive-calibration result was computed.
+
+\subsection{Execution}
+
+For each $K \in \{50, 100, 200\}$:
+\begin{enumerate}
+\item Cache per-window $(\text{pairs}_w, \text{HRS}_w)$ states for
+the five calibration seeds under fixed-weight HygienePrio-full
+trajectory.
+\item Cache per-window states for the 25 evaluation seeds (same
+trajectory policy).
+\item For each window $w = 1, \ldots, 6$, run the detector (\S5.2),
+choose \textsf{adaptive}, \textsf{gated}, and \textsf{offline}
+weights per \S5.3 and the calibration grid search; score every
+evaluation seed at window $w$ with each of five strategies; record
+one P@50 row per (seed, window, strategy) and one change-point
+decision row per (cell, window).
+\end{enumerate}
+
+\subsection{Statistical Reporting}
+
+Cell-mean point estimates are means across 25 evaluation seeds. 95\%
+confidence intervals are percentile bootstrap with 10{,}000
+resamples~\cite{efron1994introduction}. No null-hypothesis significance
+tests; hypothesis decisions follow the pre-registered tolerance
+thresholds. H3 is the only hypothesis with a correlation test
+(Spearman~$\rho$ across three $K$ values; small sample size limits
+the precision and is noted in \S\ref{sec:threats}).
+
+\subsection{Reproducibility}
+
+From \texttt{paper10/}:
+{\small\begin{verbatim}
+PYTHONPATH=src python3 src/run_adaptive.py
+PYTHONPATH=src python3 src/analyze.py
+PYTHONPATH=src python3 src/make_figures.py
+\end{verbatim}}
+The runner reuses Paper~5's window simulator and Paper~4's scorer
+via \texttt{sys.path} injection. Deterministic from the seed list.

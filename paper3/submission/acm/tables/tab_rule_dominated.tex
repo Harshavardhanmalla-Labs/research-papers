@@ -1,22 +1,22 @@
 % Table 7: Rule-dominated tasks
 % Source: paper_draft_v0.1.md Table 7
 % Numbers verified against results/primary_full_v1/primary_results.csv (2026-05-28)
-% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
 
 \begin{table}[t]
 \centering
 \caption{Rule-dominated tasks (rule AP $\geq$ best-ML AP in majority of configs).}
 \label{tab:rule_dominated}
 \small
-\begin{tabular}{@{}lr>{\raggedright\arraybackslash}p{3.5cm}@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lr>{\raggedright\arraybackslash}p{3.1cm}@{}}
 \toprule
 Task & Mean AP & Notes \\
 \midrule
 T1 Stale priv.\ accounts & 0.937 & AP$\approx$1.0 under all conditions \\
-T3 Endpoint--identity    & 0.736 & C-STALE sensitivity: $-$0.168 \\
+T3 Endpoint--identity    & 0.736 & C-STALE sensitivity: $-$0.169 \\
 T4 Telemetry gaps        & 0.890 & High AP; 1:14 imbalance \\
 T6 Dormant reactivation  & 0.832 & AP$\approx$1.0; M8 exception (0.490) \\
-T7 Escalation drift      & 0.822 & Extreme imbalance; ceiling effect \\
+T7 Escalation drift      & 0.822 & Extreme imbalance; rules at AP\,=\,1.0 \\
 \bottomrule
 \end{tabular}
 \end{table}

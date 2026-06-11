@@ -18,6 +18,7 @@ four scorer weights $(\alpha, \beta, \gamma, \delta)$ are subject to
 re-calibration in this paper; HRS weights are not.
 
 \subsection{Rolling-History Grid Search}
+\label{sec:rolling-grid}
 
 At window $w \geq 2$ the \textsf{online} strategy executes:
 \begin{enumerate}
@@ -54,8 +55,9 @@ choice and its threat-to-validity consequence are restated in
 
 \subsection{Online Recovery Ratio}
 
-For each (cell, window) with $w \geq 2$ and a positive offline-fixed
-gap, we report the recovery ratio:
+For each (cell, window) with $w \geq 2$ and an offline-fixed gap
+exceeding $0.01$ (the protocol's reporting threshold), we report the
+recovery ratio:
 \begin{equation}
 \rho_{K, w} = \frac{\text{P@50}^{\mathrm{online}}_{K, w} - \text{P@50}^{\mathrm{fixed}}_{K, w}}
                    {\text{P@50}^{\mathrm{offline}}_{K, w} - \text{P@50}^{\mathrm{fixed}}_{K, w}}.

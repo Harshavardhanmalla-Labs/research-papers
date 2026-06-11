@@ -1,0 +1,28 @@
+Papers 3--9 of the VulnPrio research sequence developed components
+for hygiene-augmented vulnerability prioritization: a synthetic
+telemetry benchmark, a calibrated scoring rule, a deployable online
+recalibration recipe, a capacity-arrival operating-regime
+characterisation, and a closed-loop signal-exhaustion theorem. This
+paper asks whether those components can be assembled into an
+autonomous remediation framework with pre-registered safety bounds.
+AutoHeal is a seven-stage closed-loop pipeline (detect, score,
+triage, plan, act, verify with rollback, learn) parameterised by the
+prior papers' findings and locked under a pre-registered protocol.
+We evaluate it on a 2{,}700-row frozen sweep across capacities
+$K \in \{50, 100, 200\}$, 12 bi-weekly maintenance windows, and 25
+evaluation seeds, against a human-in-loop baseline and a fixed-policy
+control, with CVE attributes drawn from the real EPSS/KEV public
+corpus released with Paper~4. The pre-registration locked four
+hypotheses, and the mixed outcome pattern is the substantive
+finding. H1 (coverage) is supported: AutoHeal remediates 97.8\% of
+high-EPSS pairs by Window~6 at $K \in \{50, 100\}$. H2 (safety) is
+rejected: the registered $\leq 5\%$ per-window rollback tolerance is
+violated in 300 of the 900 window-seed cells (33.3\%), and the
+hard-stop safety bound is flagged 134 times. H3 (MTTR reduction) is
+not analysable because an instrumentation defect produces degenerate
+estimates. H4 (dominance over human-in-loop) is rejected: AutoHeal
+leads in only 2\% of cells. At the pre-registered conservative
+thresholds, AutoHeal achieves safety-bounded automation parity with
+human-in-loop rather than throughput superiority. All results are
+bounded to the synthetic evaluation context; external validation on
+real fleet telemetry is the most consequential remaining direction.

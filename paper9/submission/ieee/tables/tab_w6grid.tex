@@ -1,0 +1,27 @@
+\begin{table*}[!t]
+  \caption{Window-6 mean P@50 per (scoring method, driving method) cell. Rows = scoring method, columns = trajectory-driving method. Diagonals (italics) are each method's self-trajectory P@50; HP-full column shows the Papers~5--8 baseline.}
+  \label{tab:w6grid}
+  \centering
+  \small
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{l ccccc c}
+    \toprule
+    \textbf{scorer} \textbackslash{} \textbf{driver}
+    & HP & EPSS & HRS & CVSS & Rand & range \\
+    \midrule
+    \multicolumn{7}{l}{\textit{K = 50}} \\
+    HP & \textit{0.499} & 0.741 & 0.605 & 0.644 & 0.633 & 0.242 \\
+    EPSS & 0.034 & \textit{0.366} & 0.410 & 0.386 & 0.367 & 0.375 \\
+    HRS & 0.050 & 0.214 & \textit{0.322} & 0.330 & 0.335 & 0.286 \\
+    CVSS & 0.054 & 0.070 & 0.122 & \textit{0.117} & 0.106 & 0.068 \\
+    Rand & 0.054 & 0.082 & 0.140 & 0.126 & \textit{0.120} & 0.086 \\
+    \midrule
+    \multicolumn{7}{l}{\textit{K = 200}} \\
+    HP & \textit{0.075} & 0.008 & 0.713 & 0.701 & 0.706 & 0.705 \\
+    EPSS & 0.076 & \textit{0.012} & 0.622 & 0.479 & 0.488 & 0.610 \\
+    HRS & 0.003 & 0.002 & \textit{0.314} & 0.290 & 0.320 & 0.318 \\
+    CVSS & 0.002 & 0.001 & 0.179 & \textit{0.157} & 0.147 & 0.178 \\
+    Rand & 0.004 & 0.000 & 0.187 & 0.159 & \textit{0.151} & 0.187 \\
+    \bottomrule
+  \end{tabular}
+\end{table*}

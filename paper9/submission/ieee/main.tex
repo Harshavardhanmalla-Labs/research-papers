@@ -1,0 +1,60 @@
+% =====================================================================
+% Paper 9 — Self-Trajectory Evaluation
+%
+% Target: IEEE Transactions on Network and Service Management (TNSM)
+% Reproducibility: all numeric claims trace to
+%   paper9/results/primary_v1/self_traj_results.csv (7,500 rows).
+% =====================================================================
+\documentclass[journal]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
+
+\graphicspath{{figures/}}
+
+\title{Self-Trajectory Evaluation: Is HygienePrio's Capacity-Driven
+Collapse Intrinsic or Selection-Policy-Induced?}
+
+\author{Harshavardhan~Malla%
+\thanks{H. Malla is an independent researcher.}%
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/00_abstract.tex}
+\end{abstract}
+
+\begin{IEEEkeywords}
+vulnerability prioritization, selection policy, counterfactual trajectory,
+identifiability, HygienePrio, pre-registration, reproducibility.
+\end{IEEEkeywords}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_background.tex}
+\input{sections/03_problem_formulation.tex}
+\input{sections/04_dataset.tex}
+\input{sections/05_methodology.tex}
+\input{sections/06_experimental_setup.tex}
+\input{sections/07_results.tex}
+\input{sections/12_theorem.tex}
+\input{sections/08_discussion.tex}
+\input{sections/09_threats.tex}
+\input{sections/10_related_work.tex}
+\input{sections/11_conclusion.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

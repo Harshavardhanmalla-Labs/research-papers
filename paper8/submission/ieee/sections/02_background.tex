@@ -18,14 +18,15 @@ distribution and underfits the current one.
 
 A standard fix for ``too-noisy single-window estimates'' is to average
 across a longer window of history. Two operationally simple variants
-appear in time-series forecasting~\cite{huang2024ewma}:
+appear in time-series forecasting~\cite{holt2004ewma}:
 
 \textit{Trailing arithmetic mean.} Equal weight on the past $H$
-windows; reduces variance by $1/H$ but introduces lag of order $H/2$.
+windows; reduces variance by a factor of $H$ (under i.i.d.\
+assumptions) but introduces lag of order $H/2$.
 
 \textit{Exponentially-weighted moving average (EWMA).} Geometric
-decay $\alpha^i$ over past windows; trades smoothness for a tunable
-effective horizon. At $\alpha = 0.6$ the effective lookback is
+decay $\eta^i$ over past windows; trades smoothness for a tunable
+effective horizon. At $\eta = 0.6$ the effective lookback is
 $\approx 2.5$ windows.
 
 The question this paper asks is whether either smoothing scheme

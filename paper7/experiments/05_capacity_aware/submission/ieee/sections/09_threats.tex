@@ -1,0 +1,47 @@
+\section{Threats to Validity}
+\label{sec:threats}
+
+\textbf{Conclusion validity.} The 2{,}700-row evaluation provides
+narrow but adequate statistical power for the cell-mean comparisons.
+H3's Spearman is computed on three points and is exact ($\rho = 1.0$
+because the three fire fractions are strictly ordered). H4's exact
+$0.000$ delta between cap\_aware and gated at K=200 is a structural
+identity rather than a statistical comparison: the two strategies
+make the same decision at every window, so their cell means coincide
+to numerical precision.
+
+\textbf{Internal validity.}
+
+\textit{(i) The $\tau_K$ vector is pre-registered, not tuned.} The
+choices $\{0.20, 0.05, 0.02\}$ were locked before any
+capacity-aware-detector P@50 was inspected. They were chosen by
+inspection of Paper~11's calibration-seed change-point decision log
+(an artifact released with Paper~11) and operational intuition.
+Other $\tau_K$ vectors could shift the K=100 intervention rate but
+would not change the K=50 and K=200 collapses.
+
+\textit{(ii) Selection-policy coupling.} Inherited from Papers~7--11.
+Fleet evolution is driven by HygienePrio-full under fixed weights;
+all six strategies share that trajectory. Paper~9~\cite{paper9selftraj}
+addressed the cross-method trajectory question; the present paper
+inherits the fixed-trajectory convention.
+
+\textit{(iii) Single $\lambda$ value.} The sweep holds $\lambda = 3$.
+Different arrival rates would shift the per-window $|\Delta_w|$
+distribution and re-calibrate the $\tau_K$ vector accordingly. The
+qualitative finding --- a per-K threshold reaches feasibility by
+approximating the static gate --- is more robust than the specific
+$\tau_K$ choice.
+
+\textbf{Construct validity.} The H1 K=50 result holds with equality
+because cap\_aware reproduces lag-1 exactly when the detector never
+fires. This is the substantive scientific claim, not an artifact: the
+$\tau_{50} = 0.20$ choice was made to suppress fires, and the
+suppression was achieved. The K=200 H4 equality is similarly substantive.
+
+\textbf{External validity.} Synthetic EEHDA structural priors are
+inherited from Papers~4--11. Real fleets with substantially different
+per-window calibration-target distributions would re-locate the
+feasibility region along the $\tau_K$ axis. The qualitative result
+(cap\_aware $\to$ gated at the two capacity extremes) is robust to
+distributional shifts within the studied calibration-grid family.

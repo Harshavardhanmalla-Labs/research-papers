@@ -1,4 +1,5 @@
 \section{Threats to Validity}
+\label{sec:threats}
 
 This section follows the four-category taxonomy of Wohlin et al.~\cite{wohlin2012experimentation} for empirical software engineering studies, extended with statistical considerations.
 
@@ -20,7 +21,7 @@ This section follows the four-category taxonomy of Wohlin et al.~\cite{wohlin201
 
 \textbf{Threshold choices.} The EPSS $>$ 0.10 and HRS $>$ 75th percentile thresholds that define the positive class are operationally motivated but not derived from validated exploitation data. These thresholds directly control the base rate of true positives (6.2\% mean across seeds) and therefore affect P@$K$ values for all methods. The relative ordering of methods may be less sensitive to threshold choice than the absolute P@$K$ values, but this is not verified.
 
-\textbf{Calibration leakage.} Calibration and evaluation seeds are strictly separated (5 calibration, 25 evaluation, from adjacent seed values). If the generator has strong auto-correlation across adjacent seed values, the calibration/evaluation separation may be partially compromised. Generator analysis supporting independence of adjacent seeds is not reported; this is a known limitation.
+\textbf{Calibration leakage.} Calibration and evaluation seeds are strictly separated and drawn from well-separated ranges: calibration uses seeds \{11, 22, 33, 44, 55\} while evaluation uses seeds 100--124 (\texttt{run\_manifest.json}). The two ranges do not abut, so any leakage would require generator auto-correlation across distant seed values, which is a stronger condition than adjacency-based leakage. Generator analysis formally supporting independence across seed values is nevertheless not reported; this is a known limitation.
 
 \textbf{Measurement validity of HRS dimensions.} PatchPosture is measured as a static snapshot of the proportion of applicable CVEs that remain unpatched. This does not capture patch scheduling latency: a host may have 50\% unpatched CVEs today with all patches scheduled for tomorrow. In real environments, operational scheduling context would be needed to distinguish genuine neglect from planned maintenance.
 

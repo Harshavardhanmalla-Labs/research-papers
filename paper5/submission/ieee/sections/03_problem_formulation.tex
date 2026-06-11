@@ -2,7 +2,7 @@
 
 \subsection{Multi-Window Setting}
 
-Let $F_t$ denote the fleet state at time $t$. The simulation advances through $W = 6$ consecutive bi-weekly windows. At each window $w \in \{1, \ldots, W\}$ the following steps are executed:
+Let $F_t$ denote the fleet state at time $t$. The simulation advances through $W = 6$ consecutive bi-weekly windows, indexed $w = 1, \ldots, W$ with window $w$ starting at time $t_w$; we write $F_w \equiv F_{t_w}$ for the fleet state at the start of window $w$. At each window $w \in \{1, \ldots, W\}$ the following steps are executed:
 
 \begin{enumerate}
 \item \textbf{Score.} Compute scores $S_w(h, c)$ for all applicable pairs $(h, c) \in V_w$ using the fleet state $F_w$.
@@ -28,7 +28,7 @@ At each window, ground truth is defined identically to Paper~4~\cite{paper4hygie
 \subsection{Pre-Registered Hypotheses}
 
 \begin{description}
-\item[H1] HygienePrio-full maintains P@50 $>$ EPSS-only (non-overlapping BCa 95\% CIs) for at least 4 of 6 windows.
-\item[H2] The HygienePrio advantage is largest at Window~1 (before high-HRS hosts are remediated) and attenuates monotonically.
+\item[H1] HygienePrio-full maintains P@50 $>$ EPSS-only (non-overlapping 95\% CIs; reported as bias-corrected percentile bootstrap, an approximation to the pre-registered BCa, see \S\ref{sec:threats}) for at least 4 of 6 windows.
+\item[H2] The HygienePrio advantage is largest at Window~1 (before high-HRS hosts are remediated) and attenuates monotonically. (\textit{Rejected at evaluation --- direction reversed}; see \S\ref{sec:results}.)
 \item[H3] Per-window re-calibration does not substantially outperform fixed-weight HygienePrio ($<$ 5 pp improvement at P@50), suggesting the initial calibration is sufficiently stable. (\textit{Rejected at evaluation}; see \S\ref{sec:results}.)
 \end{description}

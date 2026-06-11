@@ -1,0 +1,54 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+AutoHeal integrates Papers 3--9 of the VulnPrio sequence into a
+seven-stage self-healing pipeline with pre-registered safety bounds.
+The 2{,}700-row frozen evaluation reports honestly on which regimes
+admit autonomous remediation and which do not. The substantive
+findings appear in \S\ref{sec:results}; the pre-registered
+hypothesis outcomes appear in Table~\ref{tab:hypotheses}.
+
+\textbf{Synthesis claim.} The components developed in
+Papers 3--9 are sufficient to build a self-healing framework whose
+\emph{safety bounds are observable in advance} and whose
+\emph{failure modes are predicted by the program's theoretical
+results} (Paper~9 Theorem~1 predicts the K=200 exclusion;
+Paper~7's lag-1 hazard predicts the calibration recipe choice).
+Building AutoHeal does not require new theoretical machinery beyond
+what the prior papers established; it requires \emph{integrating}
+them under a pre-registered architecture.
+
+\textbf{Honest scope.} AutoHeal is evaluated on the EEHDA synthetic
+fleet with real CVE attribute distributions. The pre-registered
+failure-mode distribution (92/5/3) is drawn from public literature
+rather than measured on a real fleet. The cell-mean numbers reported
+here may not transfer; the qualitative findings (which capacity
+regimes admit autonomous remediation, where safety bounds fire) are
+designed to be transferable to a real-deployment evaluation
+following the same pre-registration discipline.
+
+\textbf{What this paper adds to the program.} AutoHeal is the
+\emph{integration} paper of the VulnPrio sequence. Papers 1--9
+established components and bounds; AutoHeal demonstrates that the
+components fit together in an architecture whose behaviour is
+predicted by the prior papers' findings. The program's
+recommendations now have a concrete object to attach to: ``deploy
+AutoHeal at $K \leq 100$ with the pre-registered triage thresholds
+and safety bounds; do not deploy at $K = 200$ per Paper~9
+Theorem~1 and Corollary~4.''
+
+\textbf{Reproducibility.} The framework, runner, analysis, and
+frozen results are available at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper10}.
+
+\textbf{Future work.} The most consequential remaining direction is
+external validation on real fleet telemetry. AutoHeal's
+pre-registered architecture and safety bounds are designed to be
+directly portable to a real-deployment study; the failure-mode
+distribution would be measured from the deployment rather than
+pre-registered, and the cell-mean numbers would be re-estimated.
+Closed-loop calibration of the triage thresholds (treating the
+thresholds themselves as parameters to learn rather than constants
+to pre-register) is the second most consequential direction, but
+requires careful pre-registration discipline to avoid
+post-hoc tuning.

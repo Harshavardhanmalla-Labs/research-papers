@@ -1,0 +1,113 @@
+\section{Results}
+\label{sec:results}
+
+All claims trace to \texttt{paper11/results/primary\_v1/tau\_sweep\_results.csv}
+(11{,}250 rows), \texttt{changepoint\_log.csv} (90 rows), and the
+derived \texttt{per\_tau\_summary.csv} and
+\texttt{hypothesis\_summary.json}.
+
+\input{tables/tab_per_tau}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig1_pareto.pdf}
+\caption{Pareto curve of the adaptive procedure across the five
+$\tau$ values: K=50 cost (x-axis) against worst K=200 hazard
+(y-axis). The dashed Paper~10 tolerances bound a joint feasible
+region (green); no $\tau$ point sits inside it.}
+\label{fig:pareto}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig2_fire_vs_tau.pdf}
+\caption{Firing fraction per capacity vs $\tau$. The direction
+contradicts H4's prediction: larger $\tau$ produces less firing,
+not more.}
+\label{fig:fire}
+\end{figure}
+
+\subsection{H1: Worst K=200 Hazard is Uniformly Zero}
+
+The worst per-window K=200 adaptive--fixed cell-mean delta is
+\textit{exactly} $0.0$ at every $\tau \in \{0.02, 0.03, 0.05,
+0.075, 0.10\}$. At every $\tau$, either the detector fires (in which
+case adaptive equals fixed by construction) or the lag-1 fit at the
+unfired window happens to converge on the Paper~4 fixed weights
+(because at K=200 the lag-1 grid search frequently selects fixed
+weights as its local optimum given the noisy calibration target).
+
+The formal Spearman test reports $\rho = $~NaN because the dependent
+variable has no variation; H1 is therefore technically rejected by
+the pre-registered decision rule. The substantive interpretation,
+however, is much stronger than H1 stated: the hazard is uniformly
+zero across an order-of-magnitude $\tau$ range, not merely
+non-decreasing. We report both the formal NaN and the substantive
+``uniformly safe'' interpretation; the latter is the
+operationally relevant claim.
+
+\subsection{H3 Rejected: No Operating Point Exists}
+
+The K=50 cell-mean adaptive--lag1 deltas are
+$\{-0.0408, -0.0408, -0.0533, -0.0408, -0.0408\}$ at
+$\tau \in \{0.02, 0.03, 0.05, 0.075, 0.10\}$. The largest (least
+negative) value is $-0.0408$ at four of the five $\tau$ points.
+The Paper~10 pre-registered tolerance requires this delta $\geq
+-0.02$ for H3 satisfaction; no $\tau$ in the grid reaches that
+floor. \textbf{No operating point exists for the simple magnitude
+detector in this grid that satisfies both Paper~10 tolerances.}
+
+The substantive interpretation is that the joint feasible region
+defined by Paper~10's two tolerances is empty for the simple
+detector across the studied $\tau$ range. Richer detectors that
+can decouple the K=200 hazard suppression from the K=50 over-firing
+penalty are necessary to enter the feasible region.
+
+\subsection{H2 and H4: Pre-Registration Sign Errors}
+
+The pre-registration predicted fire fraction would be monotone
+non-decreasing in $\tau$ (Spearman $\rho \geq +0.8$). The actual
+correlation is $\rho = -0.97$ ($p = 0.005$). Firing fractions
+overall are $\{50\%, 50\%, 50\%, 44\%, 33\%\}$ at $\tau \in
+\{0.02, 0.03, 0.05, 0.075, 0.10\}$. The mechanism is straightforward:
+a larger threshold requires a larger calibration-target shift
+$|\Delta_w|$ to trigger, which fires the detector less often. The
+protocol inverted this mathematical relationship.
+
+H2 inherited the sign error: the protocol predicted the K=50 cell-mean
+adaptive--lag1 delta would be monotone non-increasing in $\tau$
+(Spearman $\rho \leq -0.8$); the data reports
+$\rho = +0.87$ ($p = 0.06$). As $\tau$ grows, the detector fires
+less, adaptive uses lag-1 weights more, and the K=50 delta becomes
+less negative (closer to lag-1's positive contribution). The H2
+hypothesis was pre-registered with the wrong direction and is
+formally rejected; the data direction is the mathematically correct
+one.
+
+\input{tables/tab_hypotheses}
+
+\subsection{Substantive Per-$\tau$ Picture}
+
+At $\tau = 0.02$ (smallest threshold tested), the detector fires
+overall in $50\%$ of post-W1 windows --- the same firing fraction as
+$\tau = 0.05$ in this discrete grid. The K=50 cost is
+$-4.1$~pp, the K=100 cost is $-0.4$~pp, the K=200 mean delta vs
+fixed is $+0.7$~pp. The Pareto-curve hypothesis Paper~10 advanced
+implicitly assumed a continuous response in $\tau$; the discrete
+grid reveals that the firing decision is bimodal at most windows
+in this regime --- the calibration-target shifts $|\Delta_w|$
+either cross all small thresholds at once or none.
+
+At $\tau = 0.10$ (largest threshold tested), firing drops to $33\%$
+overall, the K=50 cost shrinks slightly to $-4.1$~pp, and the K=200
+mean adaptive--fixed delta grows to $+0.9$~pp. The K=200 worst-case
+remains $0.0$. The procedure's behaviour is approximately constant
+across the upper half of the $\tau$ range.
+
+\subsection{Pre-Registration Deviations}
+
+None. The grid, decision rules, and stop rules were applied verbatim.
+The H1 NaN-Spearman ambiguity and the H2/H4 sign-error rejections
+were reported honestly. The abstract was rewritten after the H3
+rejection in compliance with the protocol's stop rule to lead with
+the negative feasibility result.

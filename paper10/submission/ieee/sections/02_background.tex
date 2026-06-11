@@ -1,0 +1,80 @@
+\section{Background}
+
+\subsection{The Self-Healing Concept in Security}
+
+Self-healing systems detect anomalous states and apply remediation
+without human intervention. The concept dates to autonomic
+computing~\cite{kephart2003vision} and has been operationalised in
+commercial products: Microsoft Defender for Endpoint's automated
+investigation and response, Tanium's auto-remediation, Tenable
+Nessus / vulnerability-management workflows, IBM SOAR, and Splunk
+Phantom. The unifying property
+is a closed-loop detect--decide--act pipeline whose decisions occur
+faster than human review.
+
+\subsection{What Vulnerability Remediation Adds}
+
+Vulnerability remediation is, in principle, an ideal self-healing
+target: patches are well-defined, success criteria are observable
+(does the host still exhibit the vulnerable configuration?), and
+remediation actions are reversible (rollback to pre-patch state).
+In practice, self-healing systems in vulnerability management have
+been deployed cautiously because of three risks:
+
+\textit{(i) Cascading failures.} A patch that introduces a regression
+on one host may affect many hosts if applied widely. Automated
+deployment without staged validation can amplify a single faulty
+patch into a fleet-wide outage.
+
+\textit{(ii) False prioritisation.} If the scoring rule that selects
+patches to apply is biased --- by attacker manipulation
+(Paper~4, \S XI, adversarial robustness~\cite{paper4hygieneprio}),
+distributional shift
+(Paper~4, \S X~\cite{paper4hygieneprio}), or capacity-driven signal
+exhaustion (Paper~9~Theorem~1) --- the autonomous system will
+remediate the wrong things.
+
+\textit{(iii) Business-criticality gaps.} A self-healing system that
+patches a host during business hours, on a customer-facing system,
+or without rollback capability causes operational harm
+disproportionate to the vulnerability it addresses.
+
+\subsection{Why Now}
+
+Papers 3--9 of this research sequence developed components that
+collectively address these risks:
+
+\begin{itemize}
+\item HygieneBench (Paper~3)~\cite{paper3hygienebench} provides the
+synthetic, seeded telemetry substrate --- identity state, patch
+posture, vulnerability exposure, and telemetry freshness --- that
+underlies the EEHDA fleet fixtures used throughout the sequence.
+\item HygienePrio (Paper~4)~\cite{paper4hygieneprio} provides a
+scoring rule with calibrated weights, real-distribution external
+validity (Paper~4, \S X), and
+quantified adversarial robustness (Paper~4, \S XI).
+\item Paper 7's lag-1 online calibration~\cite{paper7online} gives
+a deployable recipe for moderate capacity ($K \leq 100$).
+\item Paper 9's Theorem 1~\cite{paper9selftraj} bounds when
+self-driven remediation will exhaust its own signal and identifies
+selection-policy decoupling as the structural solution.
+\item Real CVE/EPSS/KEV public data
+(real\_data/processed/) provides realistic attribute distributions.
+\end{itemize}
+
+The motivation for AutoHeal is to integrate these components into
+a single framework with explicit safety bounds and to evaluate
+honestly whether the result is operationally deployable.
+
+\subsection{Policy Mandates}
+
+CISA Binding Operational Directive 22-01~\cite{cisa2021bod2201}
+mandates 15-day remediation of KEV-listed CVEs for federal agencies.
+The 2026 DBIR~\cite{verizon2026dbir} reports a 43-day mean time to
+remediation across surveyed organisations. A self-healing framework
+that materially reduces MTTR has direct policy-compliance value.
+NIST SP~800-40 Rev.~4~\cite{nist2022sp80040r4} recommends
+risk-based patch management with documented prioritization;
+AutoHeal's pre-registered triage rules and frozen evaluation
+constitute exactly the form of documentation the standard
+contemplates.

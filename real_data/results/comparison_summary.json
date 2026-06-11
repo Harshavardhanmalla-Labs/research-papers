@@ -1,0 +1,32 @@
+{
+  "n_seeds": 25,
+  "comparison_by_method": {
+    "HygienePrio-full": {
+      "real_dist_mean_p50": 0.3768,
+      "synth_mean_p50": 0.52,
+      "delta": -0.1432
+    },
+    "EPSS-only": {
+      "real_dist_mean_p50": 0.3528,
+      "synth_mean_p50": 0.211,
+      "delta": 0.1418
+    },
+    "HRS-only": {
+      "real_dist_mean_p50": 0.0408,
+      "synth_mean_p50": 0.295,
+      "delta": -0.2542
+    },
+    "CVSS-only": {
+      "real_dist_mean_p50": 0.0136,
+      "synth_mean_p50": 0.045,
+      "delta": -0.0314
+    },
+    "Random": {
+      "real_dist_mean_p50": 0.0096,
+      "synth_mean_p50": 0.044,
+      "delta": -0.0344
+    }
+  },
+  "real_dist_hp_vs_epss_gap_pp": 2.4,
+  "synth_hp_vs_epss_gap_pp": 30.9
+}

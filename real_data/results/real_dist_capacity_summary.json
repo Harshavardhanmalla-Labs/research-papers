@@ -1,0 +1,80 @@
+{
+  "n_rows": 6750,
+  "cell_means_W6": {
+    "K50_L1": {
+      "CVSS-only": 0.0024,
+      "EPSS-only": 0.1144,
+      "HRS-only": 0.0,
+      "HygienePrio-full": 0.1008,
+      "Random": 0.0056
+    },
+    "K50_L3": {
+      "CVSS-only": 0.0056,
+      "EPSS-only": 0.1168,
+      "HRS-only": 0.0008,
+      "HygienePrio-full": 0.0944,
+      "Random": 0.0008
+    },
+    "K50_L12": {
+      "CVSS-only": 0.0016,
+      "EPSS-only": 0.1208,
+      "HRS-only": 0.0008,
+      "HygienePrio-full": 0.1056,
+      "Random": 0.0032
+    },
+    "K100_L1": {
+      "CVSS-only": 0.0016,
+      "EPSS-only": 0.0408,
+      "HRS-only": 0.0,
+      "HygienePrio-full": 0.0408,
+      "Random": 0.0008
+    },
+    "K100_L3": {
+      "CVSS-only": 0.0008,
+      "EPSS-only": 0.0464,
+      "HRS-only": 0.0008,
+      "HygienePrio-full": 0.0464,
+      "Random": 0.0024
+    },
+    "K100_L12": {
+      "CVSS-only": 0.0008,
+      "EPSS-only": 0.0448,
+      "HRS-only": 0.0008,
+      "HygienePrio-full": 0.0448,
+      "Random": 0.0
+    },
+    "K200_L1": {
+      "CVSS-only": 0.0,
+      "EPSS-only": 0.0104,
+      "HRS-only": 0.0008,
+      "HygienePrio-full": 0.0104,
+      "Random": 0.0
+    },
+    "K200_L3": {
+      "CVSS-only": 0.0008,
+      "EPSS-only": 0.0144,
+      "HRS-only": 0.0,
+      "HygienePrio-full": 0.0144,
+      "Random": 0.0008
+    },
+    "K200_L12": {
+      "CVSS-only": 0.0016,
+      "EPSS-only": 0.0208,
+      "HRS-only": 0.0024,
+      "HygienePrio-full": 0.0208,
+      "Random": 0.0
+    }
+  },
+  "persistence": {
+    "K50_L1": 0.1,
+    "K50_L3": 0.1,
+    "K50_L12": 0.1,
+    "K100_L1": 0.1,
+    "K100_L3": 0.1,
+    "K100_L12": 0.1,
+    "K200_L1": 0.1,
+    "K200_L3": 0.1,
+    "K200_L12": 0.1
+  },
+  "overall_persistence": 0.1
+}

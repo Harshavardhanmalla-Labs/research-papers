@@ -1,0 +1,58 @@
+\section{Background}
+
+\subsection{Paper 12's Static-Gate Collapse}
+
+Paper~12~\cite{paper12capaware} showed that the capacity-aware
+magnitude detector reaches the joint feasibility region established
+by Papers~10 and~11, but its K=200 cell-mean P@50 equals the static
+gate's cell mean to four decimal places ($0.2664$). The mechanism is
+structural: the small pre-registered $\tau_{200} = 0.02$ fires at
+every K=200 post-W1 window because $|\Delta_w|$ routinely exceeds
+that threshold, so cap\_aware reverts to fixed at every window ---
+identical to the unconditional gate's behaviour at K=200.
+
+Paper~12 noted that an improvement over the static gate at K=200
+requires a detector that distinguishes \textit{noise excursions}
+(single-window $|\Delta_w|$ spikes) from \textit{sustained shifts}
+(multi-window accumulation). The single-window magnitude test
+cannot do this. CUSUM was named as the natural next family.
+
+\subsection{CUSUM}
+
+The CUSUM detector~\cite{page1954cusum} accumulates positive
+deviations of an observed statistic from a reference level and
+alarms when the accumulator crosses a fixed threshold. The
+one-sided CUSUM on a positive deviation $|\Delta_w|$ is:
+\begin{equation}
+C_w = \max(0,\; C_{w-1} + |\Delta_w| - k), \qquad C_1 = 0,
+\end{equation}
+and the alarm fires when $C_w \geq h$. After firing, $C_w$ resets
+to $0$.
+
+The two pre-registered parameters $(k, h)$ control sensitivity. The
+slack $k$ is interpreted as the per-window ``no change'' shift level
+that the detector ignores; the threshold $h$ is the cumulative
+evidence required to fire. Under a constant $|\Delta_w| = \delta$
+with $\delta < k$, the accumulator stays at $0$ and never fires.
+Under $\delta \geq k$, the accumulator grows linearly at rate
+$(\delta - k)$ per window and fires after $\lceil h / (\delta - k)
+\rceil$ windows.
+
+\subsection{Why CUSUM Could Beat the Static Gate}
+
+At K=200 the per-window $|\Delta_w|$ sequence in Paper~10's
+calibration log is roughly $\{0.144, 0.160, 0.020, 0.096, 0.136\}$.
+The single-window magnitude detector at $\tau_{200} = 0.02$ fires
+on every window because every value exceeds $0.02$. CUSUM with
+$k = 0.04$ and $h = 0.10$ accumulates $0.144 - 0.04 = 0.104$ at W2
+(fires, resets), then $0.16 - 0.04 = 0.12$ at W3 (fires, resets),
+then $0.02 - 0.04 = -0.02 \to 0$ at W4 (\textit{no} fire), then
+$0.096 - 0.04 = 0.056$ at W5 (does not fire alone), then
+$0.056 + 0.136 - 0.04 = 0.152$ at W6 (fires).
+
+If this pattern holds in the evaluation seeds, CUSUM would fire at
+W2, W3, W6 but not at W4 or W5. The W4 lag-1 fit is the same
+beneficial fit that adaptive05 captured in Paper~12 (the one window
+where the magnitude detector with $\tau = 0.05$ did not fire). CUSUM
+would therefore capture some K=200 lag-1 benefit at W4 and W5 that
+both cap\_aware and the static gate miss.

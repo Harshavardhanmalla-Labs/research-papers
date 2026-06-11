@@ -1,0 +1,45 @@
+\section{Related Work}
+
+\textbf{Lag-1 and smoother baselines.} Paper~7~\cite{paper7online}
+introduced the lag-1 baseline that the present detector gates over;
+Paper~8~\cite{paper8multi} ruled out multi-window smoothers as a
+fix. Together they motivate the adaptive-procedure class that this
+paper enters.
+
+\textbf{Self-trajectory evidence.} Paper~9~\cite{paper9selftraj}
+showed that Paper~6's high-capacity collapse was strongly
+selection-policy-dependent. The present paper inherits the
+fixed-trajectory convention from Papers~7 and~8 and does not address
+the trajectory-coupling question; doing so would require
+re-running adaptive switching under each method's own trajectory,
+which is left as future work.
+
+\textbf{Change-point detection.}
+The CUSUM detector~\cite{page1954cusum} is the classical alternative
+to the magnitude test used here; it accumulates evidence across
+windows rather than reacting to a single inter-window shift.
+Bayesian online change-point methods are a richer class. Both are
+out of scope; the present paper establishes the floor performance
+of the simplest deployable detector.
+
+\textbf{Capacity-conditional gating.} The static
+$(K \leq 100 \to \textsf{lag1}, K \geq 200 \to \textsf{fixed})$
+gate is, to our knowledge, not previously formalised in the
+vulnerability-prioritization literature. It emerges naturally from
+the Paper~7 results and is included here as the simplest non-adaptive
+baseline against which to compare the change-point procedure.
+
+\textbf{Multi-paper sequence.} HygieneBench (Paper~3)~\cite{paper3hygienebench},
+HygienePrio (Paper~4)~\cite{paper4hygieneprio}, Temporal Stability
+(Paper~5)~\cite{paper5temporal}, Capacity-Indexed Decay
+(Paper~6)~\cite{paper6capacity}, Online Calibration (Paper~7),
+Multi-History Calibration (Paper~8), and Self-Trajectory
+Evaluation (Paper~9) define the methodological substrate within
+which this paper sits.
+
+\textbf{Policy mandates.} CISA BOD~22-01~\cite{cisa2021bod2201},
+23-01~\cite{cisa2022bod2301}, NIST SP~800-40
+Rev.~4~\cite{nist2022sp80040r4}, and the 2026 DBIR~\cite{verizon2026dbir}
+define the operational scheduling regime; the magnitude-test detector
+is auditable in a way that gradient-based or Bayesian alternatives
+are not, which matters for federal-deployment compliance.

@@ -1,0 +1,114 @@
+\section{Introduction}
+
+\subsection{Why Self-Healing for Vulnerability Remediation}
+
+A self-healing vulnerability remediation framework detects vulnerable
+hosts, decides which to patch, executes the patches, and rolls back
+when the post-action state is unhealthy --- all without human
+intervention beyond exception handling. Commercial implementations
+exist (Microsoft Defender automated investigation; Tanium; IBM SOAR);
+the academic literature has focused on the upstream components
+(scoring, prioritization) and not on the integrated closed-loop
+system with pre-registered safety bounds.
+
+Papers 3--9 of this research sequence developed those upstream
+components under a consistent pre-registration discipline:
+HygieneBench (Paper~3)~\cite{paper3hygienebench} for the synthetic
+telemetry substrate; HygienePrio (Paper~4)~\cite{paper4hygieneprio}
+for the scoring rule;
+Paper~7~\cite{paper7online} for the deployable online calibration
+recipe; Paper~6~\cite{paper6capacity} for the capacity-arrival
+operating regime; Paper~9 Theorem~1~\cite{paper9selftraj} for the
+structural bound on closed-loop signal exhaustion; and the real
+EPSS/KEV public corpus (released with the external-validity section
+of Paper~4, \S X~\cite{paper4hygieneprio})
+for realistic CVE attribute distributions.
+
+This paper integrates those components into AutoHeal --- a
+seven-stage closed-loop pipeline with explicit pre-registered safety
+bounds --- and evaluates it on a frozen 2{,}700-row sweep.
+
+\subsection{Pre-Registered Hypotheses}
+
+The four hypotheses locked before evaluation are:
+
+\textbf{H1 (Coverage):} AutoHeal remediates $\geq 80\%$ of high-EPSS
+pairs by Window 6 at moderate capacity ($K \in \{50, 100\}$).
+$K = 200$ is excluded by Paper~9 Corollary~4: closed-loop
+calibration is structurally unable to escape signal exhaustion at
+that capacity.
+
+\textbf{H2 (Safety):} Per-window rollback rate $\leq 5\%$ at every
+cell-seed-window triple. The hard-stop threshold (10\%) is twice
+the H2 threshold; H2 is the operational target.
+
+\textbf{H3 (MTTR Reduction):} AutoHeal's mean time to remediation
+is $\leq 50\%$ of the Human-in-loop baseline's MTTR at moderate
+capacity.
+
+\textbf{H4 (Per-Pair Dominance):} AutoHeal beats Human-in-loop in
+$\geq 80\%$ of (cell, seed, window) triples at $K \leq 100$. The
+protocol registered this hypothesis on Precision@50; the analysis
+code evaluated per-window coverage dominance. This deviation is
+disclosed in \S\ref{sec:results}.
+
+\subsection{Contributions}
+
+\begin{itemize}
+\item \textbf{C1 --- A pre-registered self-healing architecture.}
+AutoHeal's seven-stage pipeline is documented in \S\ref{sec:architecture}
+with triage thresholds, failure-mode distribution, and safety bounds
+locked before evaluation. The architecture is the artifact;
+re-implementations on different scoring rules are direct.
+
+\item \textbf{C2 --- A 2{,}700-row frozen evaluation.}
+\S\ref{sec:results} reports outcomes on the EEHDA fleet with real
+CVE attributes for 25 evaluation seeds across 12 windows and three
+capacities.
+
+\item \textbf{C3 --- H1 supported: autonomous remediation works at
+moderate capacity.} AutoHeal eventually remediates $97.8\%$ of
+high-EPSS pairs by Window 6, exceeding the pre-registered $80\%$
+threshold by ${\approx}18$~pp.
+
+\item \textbf{C4 --- H2 rejected: the safety bound is exceeded
+substantively.} The hard-stop bound is flagged 134 times across the
+sweep (14.9\% of windows); cascading failures detected three
+times. \emph{The detection mechanism works as designed} --- it
+correctly flags windows where conditions warrant escalation
+(in the simulated evaluation the flag suppresses new-CVE intake
+for the affected window; enforcement by hard stop with fallback
+was not exercised, see \S\ref{sec:architecture} and
+\S\ref{sec:threats}). The H2 tolerance ($5\%$) was set assuming the pre-registered
+failure-mode distribution would produce stable per-window
+rollback rates; in practice small AUTO buckets at the
+conservative triage threshold amplify per-window rates beyond the
+H2 tolerance.
+
+\item \textbf{C5 --- H4 rejected: structural-not-throughput parity
+with human-in-loop.} Under the pre-registered conservative triage
+thresholds, AutoHeal's per-window AUTO bucket averages
+$\approx 27$ pairs at $K = 50$ (of which $\approx 19$ are acted
+per window), comparable to Human-in-loop's
+unconditional 30. AutoHeal trades throughput for safety-bounded
+automation rather than the other way around.
+
+\item \textbf{C6 --- H3 not analysable.} The MTTR instrumentation
+records disclosure at remediation time rather than detection
+time, producing degenerate cell-mean MTTR estimates ($0.0$ for
+both AutoHeal and Human-in-loop). We report the issue honestly
+per the protocol's stop rule and pre-register a corrected
+instrumentation for the follow-up evaluation.
+\end{itemize}
+
+\subsection{Relationship to Prior Papers}
+
+This paper is the synthesis paper of the VulnPrio sequence. Papers~1
+and 3--9 produced components and bounds; AutoHeal integrates them
+under a pre-registered architecture. The mixed outcome of the
+four hypotheses --- H1 supported, H2 rejected, H4 rejected, H3 not
+analysable --- demonstrates that the components fit together in a
+working closed-loop system whose failure modes are predicted by
+the prior papers' findings (Paper~9 Corollary~4 predicts the
+K=200 exclusion; Paper~7 predicts the K=50/100 calibration recipe
+choice).

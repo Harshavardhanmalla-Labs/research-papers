@@ -5,6 +5,10 @@ All claims trace to
 \texttt{paper8/results/primary\_v1/multi\_history\_results.csv}
 (2{,}250 rows) and the derived
 \texttt{hypothesis\_summary.json} and \texttt{cell\_window\_means.csv}.
+Table~\ref{tab:main} reports the full per-(capacity, window) means for
+all five strategies; Fig.~\ref{fig:trajectories} plots the
+corresponding trajectories, and Fig.~\ref{fig:rho} summarises the
+cell-mean recovery ratios.
 
 \input{tables/tab_main}
 
@@ -28,7 +32,8 @@ H4 threshold; EWMA-3 sits well below it at every $K$.}
 
 \subsection{Cell-Mean Recovery Ratios}
 
-The summary statistic across $w \geq 2$ per cell:
+The summary statistic across $w \geq 2$ per cell
+(plotted in Fig.~\ref{fig:rho}):
 
 \begin{center}
 \small
@@ -52,37 +57,40 @@ capacity, hurts mildly at low capacity'' is contradicted in both directions.
 \subsection{Per-Window Detail}
 
 \textbf{$K = 50$.} EWMA-3 matches \textsf{lag1} at W2 and W3 but
-falls below it at W4--W6 by $0.6$--$2.6$~pp. The mechanism is that
+falls below it at W4 by $7.8$~pp and at W6 by $2.2$~pp, matching it
+at W5 (Table~\ref{tab:main}). The mechanism is that
 the W4 calibration target for EWMA-3 includes W1, W2, and W3 of the
 calibration seeds, whose distributions have shifted by W4. The
 \textsf{lag1} W4 calibration target uses only the W3 calibration
 state, which is closer to the W4 evaluation state.
 
 \textbf{$K = 100$.} The gap widens. At W3 \textsf{lag1} adds
-$+3.0$~pp over \textsf{fixed}; EWMA-3 \textit{loses} $-0.3$~pp.
-By W6, \textsf{lag1} gains $+4.0$~pp while EWMA-3 holds essentially
-zero ($+0.0$~pp). The H2 cell ($K = 100, w = 5$) is also where
+$+3.0$~pp over \textsf{fixed}; EWMA-3 \textit{loses} $-5.6$~pp.
+By W6, \textsf{lag1} gains $+4.0$~pp while EWMA-3 gains only
+$+1.4$~pp. The H3 failure cell ($K = 100, w = 5$) is also where
 \textsf{ewma3} and \textsf{trail3} diverge by $+10.6$~pp ---
 the only window in the entire sweep where the smoothing-strategy
 choice is first-order.
 
-\textbf{$K = 200$.} Both \textsf{lag1} and EWMA-3 are hazardous,
-but EWMA-3 worse: at W2, \textsf{lag1} loses $-5.9$~pp, EWMA-3
-loses $-6.0$~pp; at W3, \textsf{lag1} loses $-7.8$~pp, EWMA-3 loses
-$-8.0$~pp. The point estimates are very close, but the average over
-$w \geq 2$ tilts further negative for EWMA-3 because the W4--W6
-recovery present in \textsf{lag1} (positive deltas) is dampened in
-EWMA-3.
+\textbf{$K = 200$.} Both \textsf{lag1} and EWMA-3 are hazardous: at
+W2 and W3 the two are \textit{identical} (both lose $-5.9$ and
+$-7.8$~pp against \textsf{fixed}, since at these early windows the
+EWMA history reduces to the same selection as lag-1). The EWMA-3 gap
+arises entirely from the dampened W4--W6 recovery: \textsf{lag1}
+regains $+3.4$, $+1.0$, and $0.0$~pp over \textsf{fixed} at W4--W6,
+whereas EWMA-3 regains only $+1.0$, $+0.1$, and $+0.1$~pp, so the
+average over $w \geq 2$ tilts further negative for EWMA-3.
 
 \subsection{Hypothesis Outcomes}
 
 \input{tables/tab_hypotheses}
 
-All four pre-registered hypotheses are rejected.
+All four pre-registered hypotheses are rejected;
+Table~\ref{tab:hypotheses} summarises the decision rules and outcomes.
 
 \textbf{H1 (EWMA-3 $\geq$ fixed at $K = 200$).} Rejected. Two
-window failures at $w \in \{2, 3\}$ with deltas of $-6.0$ and
-$-8.0$~pp.
+window failures at $w \in \{2, 3\}$ with deltas of $-5.9$ and
+$-7.8$~pp.
 
 \textbf{H2 (EWMA-3 matches \textsf{lag1} at moderate capacity).}
 Rejected. Five cell-window failures across $K \in \{50, 100\}$ with
@@ -102,7 +110,7 @@ Cell-mean recovery ratio is $-0.94$, negative rather than $\geq 0.5$.
 
 The per-cell pattern is monotone in history length:
 \textsf{lag1} $>$ \textsf{trail3} $\approx$ \textsf{ewma3} at every
-$K$. The pre-registered EWMA $\alpha = 0.6$ effectively averages
+$K$. The pre-registered EWMA $\eta = 0.6$ effectively averages
 $\approx 2.5$ past windows; the equal-weight \textsf{trail3} averages
 exactly 3. Both bring older calibration-seed states into the
 fitting target, and at the simulated bi-weekly cadence those older
@@ -110,7 +118,7 @@ states are systematically less representative of the current window
 than the most recent past window alone. The H3 single failure at
 $K = 100, w = 5$ is the exception that confirms the rule: at that
 window the grid-search optimum was on a flat region and the
-$\alpha = 0.6$ weighting moved EWMA's selection to a different local
+$\eta = 0.6$ weighting moved EWMA's selection to a different local
 optimum than trail3's equal weighting.
 
 \subsection{Pre-Registration Deviations}

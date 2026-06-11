@@ -1,0 +1,55 @@
+% =====================================================================
+% Paper 13 — CUSUM Detector
+% Target: IEEE TNSM
+% Reproducibility: paper13/results/primary_v1/cusum_results.csv
+% =====================================================================
+\documentclass[journal]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
+
+\graphicspath{{figures/}}
+
+\title{CUSUM Detector for Adaptive Change-Point Recalibration:
+Can Multi-Window Evidence Accumulation Break the Static-Gate Collapse?}
+
+\author{%
+  \IEEEauthorblockN{Harshavardhan Malla}
+  \IEEEauthorblockA{Independent Researcher}%
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/00_abstract.tex}
+\end{abstract}
+
+\begin{IEEEkeywords}
+vulnerability prioritization; CUSUM; change-point detection; adaptive
+calibration; pre-registration.
+\end{IEEEkeywords}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_background.tex}
+\input{sections/03_problem_formulation.tex}
+\input{sections/04_dataset.tex}
+\input{sections/05_methodology.tex}
+\input{sections/06_experimental_setup.tex}
+\input{sections/07_results.tex}
+\input{sections/08_discussion.tex}
+\input{sections/09_threats.tex}
+\input{sections/10_related_work.tex}
+\input{sections/11_conclusion.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
