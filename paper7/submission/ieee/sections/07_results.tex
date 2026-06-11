@@ -5,7 +5,10 @@ All claims in this section trace to
 \texttt{paper7/results/primary\_v1/online\_calib\_results.csv}
 (1{,}350 rows) and the derived
 \texttt{hypothesis\_summary.json} and
-\texttt{cell\_window\_means.csv}.
+\texttt{cell\_window\_means.csv}. Table~\ref{tab:main} reports the
+per-(K, window) cell means for all three strategies;
+Fig.~\ref{fig:trajectories} plots the corresponding trajectories and
+Fig.~\ref{fig:bars} the per-window gains over fixed weights.
 
 \input{tables/tab_main}
 
@@ -31,10 +34,12 @@ bars at $K=200, w \in \{2, 3\}$ are the H1 failures.}
 \subsection{K = 50: Online Matches the Offline Ceiling}
 
 At the canonical Paper~5 cell, the fixed-weight HygienePrio-full
-W2 mean P@50 is $0.544$. Offline-peek calibration lifts this to
-$0.757$ ($+21.3$~pp, matching Paper~5's H3 number). \textbf{Online
-recalibration with a one-window lag reaches $0.741$ ($+19.7$~pp), a
-$92.5\%$ recovery of the offline gain without future-data leakage.}
+W2 mean P@50 is $0.544$ (Table~\ref{tab:main}, top block;
+Fig.~\ref{fig:trajectories}, left panel). Offline-peek calibration
+lifts this to $0.757$ ($+21.3$~pp, matching Paper~5's H3 number).
+Online recalibration with a one-window lag reaches $0.741$
+($+19.7$~pp), a $92.5\%$ recovery of the offline gain without
+future-data leakage.
 The cell-mean recovery ratio across $w \geq 2$ is $\rho = 1.04$,
 i.e., online matches or slightly exceeds the offline ceiling on
 average.
@@ -57,7 +62,8 @@ the cell from the Paper~6 collapse pattern.
 
 \subsection{K = 200: Online Harms Performance}
 
-At $K = 200$ the picture inverts. The fixed-weight HygienePrio-full
+At $K = 200$ the picture inverts (negative online bars in
+Fig.~\ref{fig:bars}). The fixed-weight HygienePrio-full
 W2 mean is $0.518$; online \textit{drops} it to $0.458$ ($-5.9$~pp).
 At W3, fixed is $0.346$ and online falls to $0.269$ ($-7.8$~pp).
 Offline-peek at the same windows produces $+3.8$ and $+4.9$~pp,
@@ -73,6 +79,9 @@ Online recalibration is a net hazard at this capacity.
 
 \subsection{Hypothesis Outcomes}
 
+Table~\ref{tab:hypotheses} summarises the pre-registered decision
+rules and outcomes.
+
 \input{tables/tab_hypotheses}
 
 \textbf{H1 (online $\geq$ fixed).} Rejected. Two cell-window pairs
@@ -80,25 +89,38 @@ Online recalibration is a net hazard at this capacity.
 $-5.9$ and $-7.8$~pp.
 
 \textbf{H2 (online $\leq$ offline).} Rejected. Two cell-window pairs
-($K=50$, $w \in \{4, 5\}$; $K=100$, $w \in \{3, 6\}$ also show
-positive deltas of $+1$ to $+3$~pp, the most prominent at $K = 50,
-w = 5$ where online ($0.580$) exceeds offline ($0.550$) by $+3.0$~pp.
+exceed the $+0.01$ tolerance: $K = 50, w = 5$, where online ($0.580$)
+exceeds offline-peek ($0.550$) by $+3.0$~pp, and $K = 100, w = 3$,
+where online ($0.547$) exceeds offline-peek ($0.531$) by $+1.6$~pp.
 
-\textbf{H3 (online rescues high-capacity collapse).} Rejected.
-At $K = 100, w \in \{4, 5\}$ online gain is below the $5$~pp absolute
-threshold. At $K = 200, w \in \{4, 5, 6\}$ the W2--W3 hazard means
-the late-window cell-mean recovery ratio is negative.
+\textbf{H3 (online rescues high-capacity collapse).} Rejected. The
+pre-registered rule requires, for at least one $w \in \{4, 5, 6\}$
+and $K \in \{100, 200\}$, \textit{both} (i) recovery of $\geq 50\%$
+of the offline-fixed gap and (ii) an absolute online-over-fixed gain
+of $\geq 5$~pp. The ratio clause~(i) is in fact met at several
+points: $K = 100, w = 4$ ($\rho = 1.00$), $K = 100, w = 6$
+($\rho = 1.32$), and $K = 200, w = 4$ ($\rho = 1.16$); it fails at
+$K = 100, w = 5$ ($\rho = 0.49$). But the absolute-gain clause~(ii)
+fails at every qualifying point --- the largest gain is $+4.0$~pp at
+$K = 100, w = 6$, with $+3.4$~pp at $K = 200, w = 4$ and $+1.3$ to
+$+1.8$~pp elsewhere. The binding failure is therefore the $5$~pp
+absolute-gain clause, not the recovery-ratio clause: the residual
+offline-fixed gaps at $w \geq 4$ are themselves small, so even full
+recovery cannot reach $5$~pp.
 
 \subsection{Per-Pair Sign Test}
 
-For each (cell, seed, window) triple with $w \geq 2$ we record the
-sign of $(\text{online} - \text{fixed})$. At $K = 50$, online beats
-fixed on $112/125$ ($89.6\%$) of post-W1 triples. At $K = 100$, the
-fraction is $87/125$ ($69.6\%$). At $K = 200$, the fraction is
-$57/125$ ($45.6\%$): online is roughly a coin flip versus fixed at
-this capacity. The aggregate sign-test fraction across all cells and
-windows is $256/375$ ($68.3\%$), consistent with the per-cell
-recovery-ratio summary.
+For each (cell, seed, window) triple with $w \in \{2, \ldots, 6\}$
+($25$ seeds $\times$ $5$ windows $= 125$ triples per cell) we record
+whether online P@50 strictly exceeds, ties, or falls below fixed.
+At $K = 50$, online strictly wins $98/125$ ($78.4\%$), ties $14$,
+and loses $13$. At $K = 100$, online strictly wins $74/125$
+($59.2\%$), ties $29$, and loses $22$. At $K = 200$, online strictly
+wins only $34/125$ ($27.2\%$), ties $46$, and loses $45$: at this
+capacity online \textit{loses} more often than it wins, reinforcing
+the hazard finding rather than a coin-flip reading. Aggregating
+across cells, online strictly wins $206/375$ ($54.9\%$), ties $89$,
+and loses $80$, consistent with the per-cell recovery-ratio summary.
 
 \subsection{Pre-Registration Deviations}
 

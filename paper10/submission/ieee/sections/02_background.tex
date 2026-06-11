@@ -6,8 +6,9 @@ Self-healing systems detect anomalous states and apply remediation
 without human intervention. The concept dates to autonomic
 computing~\cite{kephart2003vision} and has been operationalised in
 commercial products: Microsoft Defender for Endpoint's automated
-investigation and response, Tanium's auto-remediation, Tenable's
-PVS workflows, IBM SOAR, and Splunk Phantom. The unifying property
+investigation and response, Tanium's auto-remediation, Tenable
+Nessus / vulnerability-management workflows, IBM SOAR, and Splunk
+Phantom. The unifying property
 is a closed-loop detect--decide--act pipeline whose decisions occur
 faster than human review.
 
@@ -27,8 +28,9 @@ patch into a fleet-wide outage.
 
 \textit{(ii) False prioritisation.} If the scoring rule that selects
 patches to apply is biased --- by attacker manipulation
-(Paper~4~\S\ref{sec:adversarial}), distributional shift
-(Paper~4~\S\ref{sec:external_validity}), or capacity-driven signal
+(Paper~4, \S XI, adversarial robustness~\cite{paper4hygieneprio}),
+distributional shift
+(Paper~4, \S X~\cite{paper4hygieneprio}), or capacity-driven signal
 exhaustion (Paper~9~Theorem~1) --- the autonomous system will
 remediate the wrong things.
 
@@ -43,10 +45,14 @@ Papers 3--9 of this research sequence developed components that
 collectively address these risks:
 
 \begin{itemize}
+\item HygieneBench (Paper~3)~\cite{paper3hygienebench} provides the
+synthetic, seeded telemetry substrate --- identity state, patch
+posture, vulnerability exposure, and telemetry freshness --- that
+underlies the EEHDA fleet fixtures used throughout the sequence.
 \item HygienePrio (Paper~4)~\cite{paper4hygieneprio} provides a
 scoring rule with calibrated weights, real-distribution external
-validity (\S\ref{sec:external_validity} of that paper), and
-quantified adversarial robustness (\S\ref{sec:adversarial}).
+validity (Paper~4, \S X), and
+quantified adversarial robustness (Paper~4, \S XI).
 \item Paper 7's lag-1 online calibration~\cite{paper7online} gives
 a deployable recipe for moderate capacity ($K \leq 100$).
 \item Paper 9's Theorem 1~\cite{paper9selftraj} bounds when

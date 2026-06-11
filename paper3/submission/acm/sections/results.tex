@@ -1,6 +1,5 @@
 % Section: Results
 % Source: paper_draft_v0.1.md § 5. Results
-% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
 
 \section{Results}
 \label{sec:results}
@@ -8,7 +7,8 @@
 \subsection{Overall Performance}
 
 Table~\ref{tab:overall} summarizes mean AP and P@$k$ for each method, averaged
-across all conditions, tasks, and seeds (810 runs). The rule baseline (M1) achieves
+across all conditions, tasks, and seeds (810 runs). Figure~\ref{fig:ap_heatmap}
+breaks the same runs down by method and task. The rule baseline (M1) achieves
 the highest mean AP (0.916). M5 (OCSVM) is the closest ML competitor (AP\,=\,0.913,
 P@$k$\,=\,0.447 vs.\ M1 P@$k$\,=\,0.444). M2 (hybrid scorer) performs worst among
 all methods (AP\,=\,0.709), despite incorporating domain knowledge---indicating that
@@ -16,19 +16,32 @@ its fixed weights are not well-calibrated across the heterogeneous task set.
 
 \input{tables/tab_overall}
 
-\textbf{Overall: 608 of 705 (condition, task, method) configurations are
-failure-flagged (86.2\% negative-result rate).} For synthetic cyber-hygiene
+\textbf{Overall: applying the pre-registered failure rule of
+Eq.~\eqref{eq:failure}, 197 of 235 (condition, task, method) configurations are
+failure-flagged (83.8\% negative-result rate).} For synthetic cyber-hygiene
 telemetry with structured, rule-exploitable anomaly injection, simple threshold
 rules perform at least as well as unsupervised ML methods on the majority of
 evaluation configurations. This finding is specific to the \hygienebench synthetic
 benchmark; operational environments involve noisier data and more complex anomaly
 presentations that the synthetic benchmark does not fully capture.
+An earlier pipeline version aggregated failure flags per (condition, seed)
+instance; all numbers reported here use the pre-registered per-condition
+aggregation across the three seeds.
+
+\paragraph{AP stability.}
+Per the pre-registered secondary metrics, AP stability ($1-\text{CV}$ across the
+three seeds, computed per (condition, task, method) group) is high for all
+methods: mean $1-\text{CV}$ ranges from 0.859 (M8) to 0.967 (M1), with M5 at
+0.951 and M2--M7 between 0.879 and 0.951. Full per-configuration stability
+values, along with the remaining secondary metrics R@$k$ and FPB, are included
+in the released evaluation artifact.
 
 \subsection{Where ML Adds Value}
 \label{sec:results:ml_value}
 
 Despite the dominant negative-result finding, two tasks show consistent ML
-improvement over the rule baseline (Table~\ref{tab:ml_gain}).
+improvement over the rule baseline (Table~\ref{tab:ml_gain};
+Figure~\ref{fig:ml_gain} shows the full per-method AP comparison on both tasks).
 
 \paragraph{T2---Group Membership Drift.}
 The rule baseline (M1) achieves mean AP\,=\,0.766 on C-BASE and C-STALE. The best
@@ -58,26 +71,35 @@ reactivation), and T7 (escalation drift). For these tasks under C-BASE, both M1
 and the best ML method achieve AP\,$\approx$\,1.000.
 
 \textbf{T3} is a partial exception. Under C-BASE its AP is 0.782, but under
-C-STALE it degrades sharply to 0.613 ($\Delta$\,=\,$-$0.168)---the largest
+C-STALE it degrades sharply to 0.613 ($\Delta$\,=\,$-$0.169)---the largest
 condition sensitivity of any task. T3 combines identity-side and endpoint-side
 features, making it susceptible to staleness in either domain.
 
-\textbf{T7} exhibits a ceiling effect: with only 2 anomalous entities per dataset
-instance (imbalance $\approx$1:500), all methods achieve AP\,=\,1.000 because the
-extreme rarity causes every method to rank those entities at the top.
+\textbf{T7} is rule-dominated despite extreme rarity: with only 2 anomalous
+entities per dataset instance (imbalance $\approx$1:500), the rule-based methods
+M1 and M7 achieve AP\,=\,1.000, while several ML methods rank the two rare
+anomalies poorly---M2 has mean T7 AP\,=\,0.319, M5 0.786, M4 0.830, and M3/M8
+0.861 (task mean 0.822). No ML method closes the gap to the rule baseline.
 
 \input{tables/tab_rule_dominated}
 
 \subsection{Effect of Telemetry Conditions}
 
-Table~\ref{tab:conditions} shows mean AP by condition. C-STALE produces the lowest
-mean AP (0.741 vs.\ C-BASE 0.772), confirming that staleness degrades detection.
+Table~\ref{tab:conditions} shows mean AP by condition, and
+Figure~\ref{fig:ap_condition} shows the corresponding AP distributions. C-STALE
+produces the lowest mean AP (0.741 vs.\ C-BASE 0.772), confirming that staleness
+degrades detection.
 
 The C-FRESH, C-MISS, and C-UNSUP conditions show higher mean AP than C-BASE (0.856,
 0.845, 0.844). The largest contributor is T5 ($+$0.238 AP under C-FRESH). Fresh
 telemetry improves patch compliance scores, KEV exposure counts, and remediation
 latency reliability, making the underlying feature signals more discriminating. This
 is a data-quality effect, not a freshness-flag artifact.
+The C-UNSUP gap deserves an honest caveat: all eight methods are unsupervised, so
+withholding labels cannot raise AP. The C-UNSUP/C-BASE difference instead reflects
+independent RNG draws across separately generated dataset instances. Consequently,
+between-condition gaps of similar magnitude---including part of the C-FRESH
+effect---should be read with instance-level sampling variation in mind.
 
 \input{tables/tab_conditions}
 
@@ -87,16 +109,17 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
 
 \begin{itemize}[leftmargin=*]
 
-\item \textbf{M8 (graph) is failure-flagged on 100\% of configs} (75/75). M8
+\item \textbf{M8 (graph) is failure-flagged on 100\% of configs} (25/25). M8
   produces non-trivial anomaly scores (e.g., T1 AP\,=\,0.919, T3 AP\,=\,1.000)
   but fails to improve on the rule baseline on any configuration. The largest deficit
   is T6 (dormant reactivation): M8 AP\,=\,0.490 vs.\ M1 AP\,=\,1.000. Bipartite
   graph features capture structural position, not temporal account state.
 
-\item \textbf{M5 (OCSVM) has the lowest failure rate (69.5\%)} and is not flagged
-  on T2 and T5, the two tasks where ML adds value.
+\item \textbf{M5 (OCSVM) has the lowest failure rate (68.6\%)} and is not flagged
+  on T2 or T5, the two tasks where ML adds value (it does fail Eq.~\eqref{eq:failure}
+  on T2 in occasional individual seeds, but never in $\geq$2/3 seeds).
 
-\item \textbf{M2 (hybrid scorer) is failure-flagged on 96.2\% of configs}---worst
+\item \textbf{M2 (hybrid scorer) is failure-flagged on 94.3\% of configs}---worst
   among non-graph methods. Its fixed-weight combination is dominated by the
   task-specific rule baseline.
 
@@ -105,9 +128,10 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig2_failure_heatmap.pdf}
-  \caption{Failure-flag rate heatmap (method $\times$ task). Dark cells indicate
-    configurations where ML fails to improve on the rule baseline by the
-    pre-registered $\Delta$=0.05 threshold in $\geq$2/3 seeds.}
+  \caption{Failure-flag rate heatmap (method $\times$ task). Red cells indicate
+    flagged configurations---ML fails to improve on the rule baseline by the
+    pre-registered $\Delta$=0.05 threshold (Eq.~\eqref{eq:failure}) in
+    $\geq$2/3 seeds; white cells (M8, T4--T5) are not applicable.}
   \label{fig:failure_heatmap}
 \end{figure}
 
@@ -115,7 +139,8 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   \centering
   \includegraphics[width=\columnwidth]{figures/fig1_ap_heatmap.pdf}
   \caption{Condition-averaged AP heatmap (method $\times$ task). Higher values
-    indicate better anomaly ranking. M1 (rule baseline) anchors the top row.}
+    indicate better anomaly ranking. Rows are ordered by mean AP across all
+    runs; M1 (rule baseline) anchors the top row.}
   \label{fig:ap_heatmap}
 \end{figure}
 
@@ -123,8 +148,8 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   \centering
   \includegraphics[width=\textwidth]{figures/fig4_t2_t5_ml_gain.pdf}
   \caption{AP by method for T2 (group membership drift) and T5
-    (patch--vulnerability hygiene) under C-BASE---the two tasks where ML
-    consistently adds value over the rule baseline.}
+    (patch--vulnerability hygiene), averaged over all conditions and seeds---the
+    two tasks where ML consistently adds value over the rule baseline.}
   \label{fig:ml_gain}
 \end{figure*}
 

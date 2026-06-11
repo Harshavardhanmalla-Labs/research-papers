@@ -20,9 +20,9 @@ operational questions follow:
 
 \textbf{Q2.} Does online recalibration rescue HygienePrio at the
 high-capacity cells where Paper~6~\cite{paper6capacity} reported W6
-collapse to mean P@50 $\leq 0.12$?
+collapse to mean P@50 $\leq 0.12$ at $K = 200$?
 
-We pre-registered three hypotheses corresponding to these questions
+We pre-registered two hypotheses corresponding to these questions
 and a third operational-safety check; ran a 1{,}350-row evaluation
 spanning $K \in \{50, 100, 200\}$, $\lambda = 3$, six windows, and
 three calibration strategies (\textsf{fixed}, \textsf{online},
@@ -51,13 +51,16 @@ to fixed weights, losing $-5.9$ to $-7.8$~pp at W2--W3 because the
 fleet state shifts faster than a one-window lag can track. Pre-registered
 H1 (``online never loses to fixed by more than $1$~pp'') is rejected at
 two cell-window pairs; H3 (``online rescues high-capacity collapse'')
-is rejected because the W4--W6 recovery does not meet the
-$\geq 0.5$ recovery threshold and the W2--W3 hazard dominates the
-cell-mean.
+is rejected on its two-clause rule: although the $\geq 0.5$
+recovery-ratio clause is met at several late-window points (e.g.,
+$K = 200, w = 4$: $\rho = 1.16$; $K = 100, w = 6$: $\rho = 1.32$),
+the $\geq 5$~pp absolute-gain clause fails at every qualifying
+$(K, w)$ point --- the largest late-window gain is $+4.0$~pp.
 
 \item \textbf{C4 --- Online beats offline-peek in some windows (H2
-rejected).} At $K = 50, w = 5$ and a few other late-window points,
-online ($0.580$) exceeds offline-peek ($0.550$). The five-seed
+rejected).} At $K = 50, w = 5$, online ($0.580$) exceeds offline-peek
+($0.550$) by $+3.0$~pp, and at the mid-window point $K = 100, w = 3$
+online exceeds offline-peek by $+1.6$~pp. The five-seed
 offline grid search overfits the calibration set; the one-window
 lag acts as an implicit regulariser. H2 is therefore rejected by
 the data, in the opposite direction from what naive intuition

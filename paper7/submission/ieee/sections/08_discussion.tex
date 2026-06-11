@@ -53,14 +53,17 @@ The headline operational summary is conditional:
 \item At moderate capacity ($K \leq 100$ on the simulated bi-weekly
 cadence), \textbf{deploy} rolling-history online recalibration. Recovery
 of the offline ceiling is essentially complete; the absolute P@50 gain
-over fixed weights is $+3$ to $+20$~pp depending on window.
+over fixed weights is $+0.4$ to $+20$~pp depending on capacity and
+window ($K = 50$ spans $+0.7$ to $+19.7$~pp; $K = 100$ spans $+0.4$
+to $+4.0$~pp).
 \item At high capacity ($K \geq 200$), \textbf{do not deploy} naive
 rolling-history online recalibration. The lag-1 grid search introduces
 $-6$ to $-8$~pp losses in early windows. A team operating at this
 capacity should either (i) keep fixed Paper~4 weights, (ii) lengthen
-the calibration window (e.g., use a rolling \textit{multi}-window
-EWMA), or (iii) recalibrate offline between deployment cycles and
-freeze weights within a deployment.
+the calibration window (e.g., a rolling \textit{multi}-window
+EWMA) --- though companion results suggest simple EWMA smoothing does
+not rescue $K = 200$ --- or (iii) recalibrate offline between
+deployment cycles and freeze weights within a deployment.
 \item Independent of capacity, the small-sample overfitting visible
 at K = 50 W5 argues for a larger calibration set than five seeds
 when offline grid search is the procedure of record.

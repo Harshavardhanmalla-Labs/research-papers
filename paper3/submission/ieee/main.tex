@@ -78,7 +78,7 @@ synthetic pipeline grounded in public structural priors (NIST NVD severity
 distributions, Verizon DBIR 2026 patch-lag aggregates, CISA BOD 23-01
 cadence requirements). We evaluate eight detection methods under five telemetry
 conditions (baseline, fresh, stale, missing, unsupervised) across 810 runs using a
-pre-registered failure protocol. Our central finding is that \textbf{86.2\% of
+pre-registered failure protocol. Our central finding is that \textbf{83.8\% of
 (condition, task, method) configurations fail to consistently outperform a
 structured rule baseline} by the pre-registered \(\Delta\!\geq\!0.05\) AP
 threshold. ML adds meaningful signal on group-membership-drift detection (T2, best
@@ -125,7 +125,7 @@ This paper makes the following contributions:
     conditions with pre-registered evaluation budgets.
   \item[\textbf{C4}] An 810-run comparative evaluation of eight detection methods
     with a pre-registered failure protocol.
-  \item[\textbf{C5}] Explicit negative-result reporting for 86.2\% of
+  \item[\textbf{C5}] Explicit negative-result reporting for 83.8\% of
     configurations, with analysis of when and why ML fails to add value.
 \end{itemize}
 
@@ -237,7 +237,7 @@ pre-registered failure protocol to produce primary results and failure flags.
 
   % Row 6: Results
   \node[graybox, minimum width=6.8cm, text width=6.6cm, below=0.45cm of metrics] (results)
-    {810 Primary Runs $\rightarrow$ 705 Failure Flags (86.2\% \fp)\\$\rightarrow$ CSV + JSON Manifests};
+    {810 Primary Runs $\rightarrow$ 197/235 Configs Flagged (83.8\% \fp)\\$\rightarrow$ CSV + JSON Manifests};
 
   \draw[arrow] (metrics.south) -- ++(0,-0.18) -| (results.north);
   \draw[arrow] (fail.south)    -- ++(0,-0.18) -| (results.north);
@@ -458,15 +458,18 @@ log prior to any results being examined.
 \subsection{Overall Performance}
 
 Table~\ref{tab:overall} summarizes performance across all 810 runs.
-\textbf{608 of 705 (condition, task, method) configurations are failure-flagged
-(86.2\%).} The rule baseline (M1) achieves the highest mean AP (0.916). M5 (OCSVM)
-is the strongest ML method (AP~=~0.913, failure rate~69.5\%). M8 (graph) is
+\textbf{197 of 235 (condition, task, method) configurations are failure-flagged
+(83.8\%).} The rule baseline (M1) achieves the highest mean AP (0.916). M5 (OCSVM)
+is the strongest ML method (AP~=~0.913, failure rate~68.6\%). M8 (graph) is
 failure-flagged on every configuration (100\%).
+An earlier pipeline version aggregated failure flags per (condition, seed)
+instance; all numbers reported here use the pre-registered per-condition
+aggregation across the three seeds.
 
 \begin{table}[t]
 \centering
 \caption{Mean AP and P@$k$ across all 810 runs. \fp\ = failure-flagged.
-  $\dagger$M8 covers T1--T3,T6--T7 only ($n$=75 configs).}
+  $\dagger$M8 covers T1--T3,T6--T7 only ($n$=25 configs).}
 \label{tab:overall}
 \small
 \begin{tabular}{@{}lrrl@{}}
@@ -474,13 +477,13 @@ failure-flagged on every configuration (100\%).
 Method & AP & P@$k$ & Failure rate \\
 \midrule
 M1 Rule baseline    & \textbf{0.916} & 0.444 & --- \\
-M5 OCSVM            & 0.913 & \textbf{0.447} & 69.5\%~\fp \\
+M5 OCSVM            & 0.913 & \textbf{0.447} & 68.6\%~\fp \\
 M8 Graph-IF$^\dagger$ & 0.801 & 0.348 & \textbf{100\%}~\fp \\
-M4 LOF              & 0.800 & 0.445 & 77.1\%~\fp \\
-M6 Linear-AE        & 0.798 & 0.407 & 88.6\%~\fp \\
-M3 Isolation Forest & 0.781 & 0.428 & 88.6\%~\fp \\
-M7 Temporal z-score & 0.774 & 0.392 & 87.6\%~\fp \\
-M2 Hybrid scorer    & 0.709 & 0.417 & 96.2\%~\fp \\
+M4 LOF              & 0.800 & 0.445 & 71.4\%~\fp \\
+M6 Linear-AE        & 0.798 & 0.407 & 85.7\%~\fp \\
+M3 Isolation Forest & 0.781 & 0.428 & 85.7\%~\fp \\
+M7 Temporal z-score & 0.774 & 0.392 & 85.7\%~\fp \\
+M2 Hybrid scorer    & 0.709 & 0.417 & 94.3\%~\fp \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -549,7 +552,7 @@ T5 & M5 OCSVM   & 0.726 & 0.837 & $+$\textbf{0.111} & C-MISS \\
 Figure~\ref{fig:ap_by_condition} plots the AP distributions by condition.
 C-STALE produces the lowest mean AP (0.741 vs.\ C-BASE 0.772, $\Delta$~=~$-$0.031).
 The largest staleness degradation is T3 (endpoint--identity correlation): AP drops
-from 0.782 (C-BASE) to 0.613 (C-STALE, $\Delta$~=~$-$0.168). T3 combines
+from 0.782 (C-BASE) to 0.613 (C-STALE, $\Delta$~=~$-$0.169). T3 combines
 identity-side and endpoint-side features; staleness in either degrades the joint
 signal, making T3 the strongest argument for staleness-aware detection methods.
 
@@ -559,6 +562,11 @@ respectively). The primary contributor is T5, which gains $+$0.238 AP under C-FR
 Fresh telemetry improves patch compliance scores and KEV exposure count reliability,
 making underlying feature signals more discriminating---a data-quality effect, not a
 freshness-flag artifact.
+The C-UNSUP gap deserves an honest caveat: all eight methods are unsupervised, so
+withholding labels cannot raise AP. The C-UNSUP/C-BASE difference instead reflects
+independent RNG draws across separately generated dataset instances. Consequently,
+between-condition gaps of similar magnitude---including part of the C-FRESH
+effect---should be read with instance-level sampling variation in mind.
 
 \begin{table}[t]
 \centering
@@ -571,9 +579,9 @@ Condition & Mean AP & $\Delta$ vs C-BASE & Primary driver \\
 \midrule
 C-FRESH & 0.856 & $+$0.084 & T5 $+$0.238, T1 $+$0.101 \\
 C-MISS  & 0.845 & $+$0.073 & Similar to C-FRESH \\
-C-UNSUP & 0.844 & $+$0.072 & Labels withheld only \\
+C-UNSUP & 0.844 & $+$0.072 & Instance-level sampling \\
 C-BASE  & 0.772 & ---       & Reference \\
-C-STALE & 0.741 & $-$0.031 & T3 $-$0.168 \\
+C-STALE & 0.741 & $-$0.031 & T3 $-$0.169 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -588,30 +596,34 @@ C-STALE & 0.741 & $-$0.031 & T3 $-$0.168 \\
 \subsection{Failure-Flag Analysis}
 
 Figure~\ref{fig:failure_heatmap} shows the per-(method, task) failure-flag heatmap.
-M8 (graph-augmented IF) is failure-flagged on all 75 applicable configurations
+M8 (graph-augmented IF) is failure-flagged on all 25 applicable configurations
 (100\%). The largest M8 deficit is T6 (dormant account reactivation): M8 AP~=~0.490
 vs.\ M1 AP~=~1.000. Bipartite user-group graph features capture structural position
 but not temporal account state, which is the primary T6 signal. M5 (OCSVM) has the
-lowest failure rate (69.5\%) and succeeds on T2 and T5. M2 (hybrid scorer) has the
-highest failure rate among non-graph methods (96.2\%), indicating that its
+lowest failure rate (68.6\%) and is not flagged on T2 or T5, the two tasks where ML
+adds value (it does fail Eq.~\eqref{eq:failure} on T2 in occasional individual
+seeds, but never in $\geq$2/3 seeds). M2 (hybrid scorer) has the
+highest failure rate among non-graph methods (94.3\%), indicating that its
 fixed-weight combination is not well-calibrated across the heterogeneous task set.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig2_failure_heatmap}
-  \caption{Failure-flag fraction per (method, task) cell across all conditions and seeds. Red = high failure rate ($\geq$80\%); blue = low failure rate. M8 (graph-IF) is uniformly red (100\% failure rate). M5 (OCSVM) achieves the lowest failure rate (69.5\%).}
+  \caption{Failure-flag fraction per (method, task) cell across all conditions and seeds. Red = high failure rate ($\geq$80\%); blue = low failure rate. M8 (graph-IF) is uniformly red (100\% failure rate). M5 (OCSVM) achieves the lowest failure rate (68.6\%).}
   \label{fig:failure_heatmap}
 \end{figure}
 
-T7 (escalation drift) exhibits a ceiling effect: with only 2 anomalous entities per
-dataset instance (imbalance $\approx$1:500), all methods achieve AP~=~1.000 because
-every method places those entities above the majority.
+T7 (escalation drift) is rule-dominated despite extreme rarity: with only 2
+anomalous entities per dataset instance (imbalance $\approx$1:500), the rule-based
+methods M1 and M7 achieve AP~=~1.000, while several ML methods rank the two rare
+anomalies poorly---M2 has mean T7 AP~=~0.319, M5 0.786, M4 0.830, and M3/M8 0.861
+(task mean 0.822). No ML method closes the gap to the rule baseline.
 
 % =====================================================================
 \section{Discussion and Limitations}
 \label{sec:discussion}
 
-\textbf{Interpretation.} The 86.2\% failure rate is not a finding against ML in
+\textbf{Interpretation.} The 83.8\% failure rate is not a finding against ML in
 security operations broadly. It is a finding about unsupervised ML vs.\ structured
 rule baselines on \emph{synthetic, class-imbalanced tabular anomaly detection} in
 the hygiene domain. Real operational environments involve noisier data, absent
@@ -637,7 +649,7 @@ that ML justifies that overhead on synthetic structured data. Second, for T2 and
 ML (OCSVM, temporal z-score, LOF) provides measurable lift over rules, motivating
 investment in supervised or semi-supervised variants if labels become available.
 Third, the C-STALE results quantify the detection cost of stale data pipelines: the
-$-$0.168 AP drop on T3 under C-STALE is a conservative lower bound on what SOCs risk
+$-$0.169 AP drop on T3 under C-STALE is a conservative lower bound on what SOCs risk
 when telemetry ingestion lags.
 
 \textbf{Future work.}
@@ -659,12 +671,12 @@ tables generated from a fully open, seeded pipeline grounded in public structura
 priors (NIST NVD, Verizon DBIR 2026, CISA BOD 23-01 \cite{cisa_bod2301_2022}).
 An 810-run evaluation of eight methods under five telemetry conditions, using a
 pre-registered failure protocol, finds that simple rule baselines perform at least
-as well as unsupervised ML on \textbf{86.2\%} of (condition, task, method)
+as well as unsupervised ML on \textbf{83.8\%} of (condition, task, method)
 configurations. ML adds consistent value on group membership drift (T2, $+$0.185 AP,
 M7 temporal z-score) and patch-vulnerability hygiene (T5, $+$0.210 AP, M5 OCSVM).
-M8 (graph-IF) is failure-flagged on all 75 applicable configurations. Telemetry
+M8 (graph-IF) is failure-flagged on all 25 applicable configurations. Telemetry
 staleness consistently degrades performance; T3 (endpoint--identity correlation) is
-the most sensitive task ($-$0.168 AP under C-STALE), quantifying the detection cost
+the most sensitive task ($-$0.169 AP under C-STALE), quantifying the detection cost
 of stale data pipelines.
 
 These results motivate three benchmark-practice changes: (1) task-stratified

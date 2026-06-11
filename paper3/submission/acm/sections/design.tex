@@ -1,6 +1,5 @@
 % Section: HygieneBench Design
 % Source: paper_draft_v0.1.md § 3. HygieneBench Design
-% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
 
 \section{\hygienebench Design}
 \label{sec:design}
@@ -8,16 +7,19 @@
 \subsection{Schema and Synthetic Generator}
 
 \hygienebench v0.1 uses a schema with eleven entity/event tables and one anomaly
-label table (Table~\ref{tab:schema}). The generator (\texttt{SyntheticHygieneGenerator})
-is implemented in Python using NumPy and Pandas, with all randomness gated through
-\texttt{numpy.random.default\_rng(seed)}. Entity identifiers are deterministic UUIDs
-derived from \texttt{hashlib.md5(seed\_tag + index)}, ensuring reproducibility
+label table (Table~\ref{tab:schema}). The generator
+(\texttt{Synthetic\allowbreak Hygiene\allowbreak Generator}) is implemented in
+Python using NumPy and Pandas, with all randomness gated through
+\texttt{numpy.random.\allowbreak default\_rng(seed)}. Entity identifiers are
+deterministic UUIDs derived from
+\texttt{hashlib.md5(\allowbreak seed\_tag + index)}, ensuring reproducibility
 across platforms.
 
 \input{tables/tab_schema}
 
 \paragraph{Structural priors.}
-Patch-lag distributions use DBIR 2026 aggregate statistics (43-day mean for critical
+Patch-lag distributions use DBIR 2026 aggregate
+statistics~\cite{verizon_dbir_2026} (43-day mean for critical
 patches). CVE severity distributions use NVD base score statistics. Telemetry
 refresh cadence requirements follow CISA BOD 23-01 (14-day asset discovery, 72-hour
 patch data)~\cite{cisa_bod2301_2022}. AD group-size distributions lack a

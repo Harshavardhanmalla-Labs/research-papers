@@ -1,22 +1,22 @@
 % Table 8: Mean AP by condition
 % Source: paper_draft_v0.1.md Table 8
 % Numbers verified against results/primary_full_v1/primary_results.csv (2026-05-28)
-% [VERIFY ACM TEMPLATE BEFORE SUBMISSION]
 
 \begin{table}[t]
 \centering
 \caption{Mean AP by telemetry condition (all methods and tasks).}
 \label{tab:conditions}
 \small
-\begin{tabular}{@{}lrr>{\raggedright\arraybackslash}p{2.8cm}@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrr>{\raggedright\arraybackslash}p{2.6cm}@{}}
 \toprule
 Condition & Mean AP & $\Delta$ vs BASE & Primary driver \\
 \midrule
 C-FRESH & 0.856 & $+$0.084 & T5 $+$0.238; T1 $+$0.101 \\
 C-MISS  & 0.845 & $+$0.073 & T5, T1 dominate \\
-C-UNSUP & 0.844 & $+$0.072 & Labels withheld \\
+C-UNSUP & 0.844 & $+$0.072 & Instance-level sampling variation \\
 C-BASE  & 0.772 & ---       & Reference \\
-C-STALE & 0.741 & $-$0.031 & T3 $-$0.168; staleness \\
+C-STALE & 0.741 & $-$0.031 & T3 $-$0.169; staleness \\
 \bottomrule
 \end{tabular}
 \end{table}

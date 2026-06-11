@@ -14,11 +14,11 @@ Table~\ref{tab:pk50_window} and Fig.~\ref{fig:trajectory} report mean P@50 per m
 \label{fig:trajectory}
 \end{figure}
 
-\textit{1) EPSS decay.} EPSS-only decays monotonically from $0.331$ at Window~1 to $0.034$ at Window~6 --- an 89.7\% relative drop. Once the highest-EPSS CVEs are remediated from the backlog, the remaining CVEs have systematically lower EPSS scores and the binary ground-truth condition (EPSS~$> 0.10$) is satisfied by an increasingly small fraction of the residual backlog, so EPSS-only ranking becomes uninformative.
+\textit{1) EPSS decay.} EPSS-only decays monotonically from $0.331$ at Window~1 to $0.034$ at Window~6 --- an 89.6\% relative drop. Once the highest-EPSS CVEs are remediated from the backlog, the remaining CVEs have systematically lower EPSS scores and the binary ground-truth condition (EPSS~$> 0.10$) is satisfied by an increasingly small fraction of the residual backlog, so EPSS-only ranking becomes uninformative.
 
-\textit{2) HygienePrio resilience.} HygienePrio-full maintains mean P@50 $\geq 0.499$ at every window (W1--W6: $0.595, 0.544, 0.564, 0.514, 0.521, 0.499$). The trajectory is not strictly monotone --- W3 ($0.564$) slightly exceeds W2 ($0.544$) --- reflecting the interaction between new-CVE arrivals and the per-window recomputed HRS-percentile ground-truth threshold; the variation is well within the per-seed bootstrap CI band.
+\textit{2) HygienePrio resilience.} HygienePrio-full maintains mean P@50 $\geq 0.499$ at every window (W1--W6: $0.595, 0.544, 0.564, 0.514, 0.521, 0.499$). The trajectory is not strictly monotone --- W3 ($0.564$) slightly exceeds W2 ($0.544$), and W5 ($0.521$) slightly exceeds W4 ($0.514$) --- reflecting the interaction between new-CVE arrivals and the per-window recomputed HRS-percentile ground-truth threshold; the variation is well within the per-seed bootstrap CI band.
 
-\textit{3) Growing absolute gap.} The HygienePrio-vs-EPSS gap is $26.4$ pp at Window~1 and grows to $46.5$ pp at Window~6. The gap widens because HygienePrio's denominator (its own P@50) stays near $0.5$ while EPSS-only's numerator collapses; the result is that the operational advantage of HygienePrio increases with each additional patching cycle.
+\textit{3) Growing absolute gap.} The HygienePrio-vs-EPSS gap is $26.4$ pp at Window~1 and grows to $46.5$ pp at Window~6. The gap widens because HygienePrio's own P@50 stays near $0.5$ while EPSS-only's collapses; the result is that the operational advantage of HygienePrio increases with each additional patching cycle.
 
 \textit{4) HRS-only overtakes EPSS at Window~2.} HRS-only is $0.284$ at Window~1 (below EPSS-only's $0.331$) but $0.229$ at Window~2 (above EPSS-only's $0.149$), and remains above EPSS-only for every subsequent window. For the entire second-through-sixth window range, the simplest hygiene baseline outperforms exploit-likelihood scoring under the evaluated capacity.
 
@@ -28,7 +28,7 @@ HygienePrio-full outperforms EPSS-only at P@50 in \textbf{150 of 150 window-seed
 
 \subsection{Stability Analysis}
 
-Fig.~\ref{fig:stability} reports the per-seed standard deviation of P@50 across the six windows for each method. HygienePrio-full's distribution is concentrated and substantially lower than EPSS-only's, which exhibits a characteristic high-variance decay pattern --- relatively high at Window~1, near-zero by Windows~5--6. The stability advantage matters operationally: a remediation team relying on HygienePrio-full faces predictable scheduling quality across the patching cycle, whereas an EPSS-only team faces effectively-random ranking by the fourth window.
+Fig.~\ref{fig:stability} reports the per-seed standard deviation of P@50 across the six windows for each method. HygienePrio-full's per-seed standard deviations are concentrated and substantially lower than EPSS-only's (mean per-seed sd $0.075$ versus $0.118$); EPSS-only's larger per-seed sd reflects the wide span of its trajectory, from relatively high P@50 at Window~1 to near-zero by Windows~5--6. The stability advantage matters operationally: a remediation team relying on HygienePrio-full faces predictable scheduling quality across the patching cycle, whereas an EPSS-only team faces effectively-random ranking by the fourth window.
 
 \begin{figure}[t]
 \centering
@@ -43,11 +43,11 @@ The decay of EPSS-only reflects a deterministic compositional effect, not stocha
 
 \subsection{Hypothesis Outcomes}
 
-\textbf{H1 (sustained advantage).} Supported: HygienePrio-full's CI does not overlap EPSS-only's at any of the six windows ($6/6 > 4/6$).
+\textbf{H1 (sustained advantage).} Supported: HygienePrio-full's CI does not overlap EPSS-only's in 6 of 6 windows, exceeding the pre-registered 4-of-6 threshold.
 
-\textbf{H2 (monotonic attenuation).} Partially supported. The HygienePrio-vs-EPSS \textit{relative} gap (as a fraction of HygienePrio's P@50) does not attenuate monotonically; it widens. HygienePrio's own P@50 attenuates from $0.595$ to $0.499$ approximately monotonically, with one minor reversal at W3. The pre-registered hypothesis of strict monotone attenuation is therefore qualified rather than supported.
+\textbf{H2 (monotonic attenuation).} \textit{Rejected (direction reversed).} H2 predicted that the HygienePrio-vs-EPSS advantage would be largest at Window~1 and attenuate monotonically; the observed advantage is instead \textit{smallest} at Window~1 ($26.4$ pp) and grows to $46.5$ pp at Window~6. HygienePrio's own P@50 declines from $0.595$ to $0.499$ approximately monotonically, with two minor reversals (W3 and W5), but the hypothesised attenuation of the advantage did not occur. The prediction failed in the favorable direction: the advantage strengthens rather than erodes over the patching cycle.
 
-\textbf{H3 (recalibration not needed).} \textit{Rejected.} The per-window recalibration ablation (Table~\ref{tab:recalibration}) shows that grid-searching scorer weights on the five calibration seeds at each window's evolved state and applying those weights to the 25 evaluation seeds improves mean P@50 by $+17.4$ pp at W1, $+21.3$ pp at W2, $+10.1$ pp at W3, and $+9.0$ pp at W4. These deltas all exceed the pre-registered $5$ pp stop-rule threshold, so the hypothesis that the initial calibration is sufficiently stable is rejected. The gains shrink to $+2.9$ pp by W5 and $+1.3$ pp by W6, where the residual backlog has thinned and per-window calibration has less degrees of freedom to exploit.
+\textbf{H3 (recalibration not needed).} \textit{Rejected.} The per-window recalibration ablation (Table~\ref{tab:recalibration}) shows that grid-searching scorer weights on the five calibration seeds at each window's evolved state and applying those weights to the 25 evaluation seeds improves mean P@50 by $+17.4$ pp at W1, $+21.3$ pp at W2, $+10.1$ pp at W3, and $+9.0$ pp at W4. These deltas all exceed the pre-registered $5$ pp stop-rule threshold, so the hypothesis that the initial calibration is sufficiently stable is rejected. The gains shrink to $+2.9$ pp by W5 and $+1.3$ pp by W6, where the residual backlog has thinned and per-window calibration has fewer degrees of freedom to exploit. The $+17.4$ pp delta at W1 --- before any temporal evolution has occurred --- additionally indicates that the inherited Paper~4 weights were miscalibrated for this fixture from the outset (consistent with the fixture differences noted in \S6.3), so the recalibration gains are not a purely temporal effect.
 
 \input{tables/tab_recalibration}
 

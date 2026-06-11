@@ -12,7 +12,7 @@ identifiability-preserving compromise.
 
 Paper~6~\cite{paper6capacity} additionally reported that HygienePrio-full's
 W6 P@50 collapses at $K \in \{100, 200\}$ on this baseline trajectory and
-named the mechanism ``high-HRS-tail exhaustion'': HygienePrio-full
+reported that the mechanism exhausts the high-HRS tail: HygienePrio-full
 preferentially remediates high-HRS hosts, those hosts exit the upper
 HRS tail, and HygienePrio's discriminative signal degrades. The
 mechanism is, by construction, induced by HygienePrio's own selection.
@@ -31,6 +31,12 @@ evaluation that fills in all five trajectory-driver columns of the
 P@50 grid at $K \in \{50, 200\}$, $\lambda = 3$. The results retroactively
 reframe Papers~5--8.
 
+Throughout the paper we call CVSS-only, HRS-only, and Random the
+\emph{non-draining drivers}: their selection does not preferentially
+drain the EPSS $> 0.10$ $\wedge$ HRS $>$ p75 joint positive set that
+defines the ground truth. HygienePrio-driven and EPSS-driven selection
+both drain that set, each through its EPSS-gated component.
+
 \subsection{Contributions}
 
 \begin{itemize}
@@ -42,36 +48,47 @@ $\times$ 6 windows = 7{,}500 rows.
 \item \textbf{C2 --- The collapse is selection-induced.} Paper~6's
 W6 P@50 collapse of HygienePrio-full from $\sim 0.5$ at $K = 50$ to
 $0.062$--$0.075$ at $K = 200$ is reproduced under the
-HygienePrio-driven trajectory. Under any HRS-blind driver ---
-CVSS-only, HRS-only, or Random --- HygienePrio's W6 P@50 at $K = 200$
-sits between $0.701$ and $0.713$. The collapse mechanism is recursive,
-not intrinsic.
+HygienePrio-driven trajectory. Under the independent drivers that do
+not share HygienePrio's joint selection signal --- CVSS-only,
+HRS-only, and Random --- HygienePrio's W6 P@50 at $K = 200$ sits
+between $0.70$ and $0.72$. EPSS-driven selection also collapses
+HygienePrio's measured P@50 ($0.008$), because it drains the same
+EPSS-gated positive set. The collapse mechanism is recursive, not
+intrinsic.
 
-\item \textbf{C3 --- EPSS-self-driven is the deepest sink.} At
-$K = 200$ under EPSS-only-driven trajectory, every scorer's W6 P@50
-collapses to $0.001$--$0.012$. EPSS-only's selection so aggressively
-remediates the high-EPSS tail that the binary ground-truth positive
-set is itself exhausted by W6. The trajectory effect is shared by
-EPSS-only and HygienePrio-full but for a different mechanism.
+\item \textbf{C3 --- Both collapses are positive-set exhaustion.} At
+$K = 200$ under the EPSS-only-driven trajectory, every scorer's W6
+P@50 collapses to $0.001$--$0.012$: EPSS-only's selection so
+aggressively remediates the high-EPSS tail that the binary
+ground-truth positive set is itself exhausted by W6. The
+HygienePrio-driven collapse is the \emph{same} mechanism: at
+$K = 200$, W6 under $T_{\mathrm{HP}}$ the joint positive set holds a
+mean of only $3.8$ pairs (of $\approx 760$), a P@50 ceiling of
+$0.076$ that HygienePrio nearly attains ($0.075$) while Random scores
+$0.004$. HygienePrio's signal has not degraded --- the positives it
+is scored against have been patched away.
 
 \item \textbf{C4 --- Per-pair dominance is trajectory-conditional.}
 At $K = 50$, HygienePrio-full $>$ EPSS-only on $100\%$ of (seed,
-window) pairs under every non-trivial driver. At $K = 200$ under
+window) pairs under every driver. At $K = 200$ under
 EPSS-only's own driver, the fraction collapses to $0.393$
 (where both methods are near zero together). At $K = 200$ under
 HRS-only, CVSS-only, or Random drivers, the fraction is $1.000$.
-Paper~5's headline $96\%$ statistic is preserved at moderate
-capacity and at HRS-blind drivers; it does not survive at the
+Paper~6's pooled $96\%$ headline statistic (Paper~5's own
+single-cell figure was 150/150) is preserved at moderate
+capacity and under non-draining drivers; it does not survive at the
 EPSS-self-driven high-capacity corner.
 
 \item \textbf{C5 --- Sharpened operational reading.} HygienePrio's
-absolute floor at high capacity is intact whenever the deploying
-organisation does not also use HygienePrio's selection policy.
-The Paper~6 H4 collapse is a property of recursive deployment
-(score-and-drive simultaneously), not of hygiene-augmented scoring
+absolute floor at high capacity is intact whenever the patching
+queue is driven by a policy that does not drain the
+EPSS$\wedge$HRS joint positive set --- CVSS-, HRS-, or
+compliance-driven queues qualify; HygienePrio-driven and
+EPSS-driven queues do not. The Paper~6 H4 collapse is a property of
+positive-set-draining deployment, not of hygiene-augmented scoring
 as a method. A team using HygienePrio for scoring should expect
 the high absolute P@50 reported in Paper~5--7 across capacity
-regimes, provided some other policy drives the patching queue.
+regimes, provided a non-draining policy drives the patching queue.
 \end{itemize}
 
 \subsection{Relationship to Prior Papers}

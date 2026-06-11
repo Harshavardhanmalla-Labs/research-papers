@@ -14,8 +14,8 @@ could achieve, but is not itself deployable.
 
 \subsection{Rolling-History Cross-Validation}
 
-In rolling-history calibration, at each scoring window $w$ the weights
-used are fit on data from windows $\{1, \ldots, w-1\}$ of a held-out
+In rolling-history calibration with a one-window lag, at each scoring
+window $w$ the weights used are fit on window $w-1$ only of a held-out
 calibration set; window $w$ data is never inspected at training time.
 This pattern is standard in time-series cross-validation and is the
 weakest form of \textit{strictly online} learning: it uses only past

@@ -14,8 +14,8 @@ rows) and
 \caption{HygienePrio-full mean P@50 trajectories under each of the
 five driving methods at $K = 50$ (left) and $K = 200$ (right). At
 $K = 200$, the HP-driven trajectory (green) drops to $\sim 0.075$ by
-W6 while every non-HP-and-non-EPSS driver holds HygienePrio above
-$0.70$.}
+W6 while the three non-draining drivers (CVSS, HRS, Random) hold
+HygienePrio above $0.70$.}
 \label{fig:hp_drivers}
 \end{figure}
 
@@ -32,30 +32,51 @@ the HP-driver column collapses HP and EPSS together.}
 
 The K=200, W6 row of Table~\ref{tab:w6grid} for the HygienePrio-full
 scorer reads, by driver: $0.701$ (CVSS), $0.008$ (EPSS), $0.713$ (HRS),
-$0.075$ (HP), $0.706$ (Random). The diagonal (HP scored on HP-driven
-trajectory) reproduces Paper~6's $0.075$ collapse. On any non-HP and
-non-EPSS driver, HygienePrio-full's W6 mean is between $0.701$ and
+$0.075$ (HP), $0.706$ (Random). Figure~\ref{fig:hp_drivers} plots the
+full six-window trajectories and Figure~\ref{fig:w6heat} the complete
+W6 grid. The diagonal (HP scored on HP-driven
+trajectory) reproduces Paper~6's $0.075$ collapse. On the three
+non-draining drivers, HygienePrio-full's W6 mean is between $0.701$ and
 $0.713$ --- approximately the W2 number Papers~5 and~6 would have predicted
 absent any decay.
 
 The pre-registered H1 threshold required at least one non-HP driver to
 land within $\pm 0.05$ of the HP-self number. The non-HP drivers
 differ from the HP-self number by $0.626$ (CVSS), $0.638$ (HRS),
-$0.631$ (Random), and $-0.067$ (EPSS, in the opposite direction).
+$0.630$ (Random), and $-0.067$ (EPSS, in the opposite direction).
 \textbf{H1 is decisively rejected.} The Paper~6 collapse mechanism is
 selection-induced; it does not appear on counterfactual trajectories.
+
+The mechanism is visible directly in the surviving positive mass. At
+$K = 200$, W6 under $T_{\mathrm{HP}}$, the residual backlog contains a
+mean of $3.8$ ground-truth positives out of $\approx 760$ pairs
+(averaged over the 25 seeds), so the structural P@50 ceiling at that
+cell is $3.8 / 50 = 0.076$. HygienePrio's measured $0.075$ and
+EPSS-only's $0.076$ both sit essentially at this ceiling, while Random
+scores $0.004$. HygienePrio's discriminative signal has therefore
+\textit{not} degraded --- it still ranks nearly all surviving
+positives into its top 50. What has changed is that the joint
+positive set (EPSS $> 0.10$ $\wedge$ HRS $>$ p75) has been patched
+away by HygienePrio's own selection. Note also that the HRS-only
+driver drains the HRS upper tail every window, yet HygienePrio holds
+$0.713$ under it --- direct evidence against an HRS-tail
+signal-degradation reading. This reinforces, rather than weakens, the
+paper's thesis: the collapse is an evaluation artefact of positive-set
+exhaustion, not an intrinsic scoring failure.
 
 \subsection{EPSS-Self-Driven is the Deepest Sink}
 
 The K=200, EPSS-driver column of Table~\ref{tab:w6grid} reads
 near-zero for every scorer: HP $0.008$, EPSS $0.012$, HRS $0.002$,
-CVSS $0.001$, Random $0.000$. The mechanism, distinct from but
-analogous to the HP-driver mechanism, is that EPSS-only's selection
+CVSS $0.001$, Random $0.000$. The mechanism is the \textit{same} one
+that produces the HP-driver collapse --- exhaustion of the EPSS-gated
+joint positive set --- only deeper: EPSS-only's selection
 preferentially remediates the highest-EPSS pairs regardless of host
-state. By W6 of K=200, the EPSS $> 0.10$ threshold (Condition~1 of
+state, and by W6 of K=200 the EPSS $> 0.10$ threshold (Condition~1 of
 the ground truth) is satisfied by an essentially empty subset of the
-residual backlog. \textbf{The positive set itself is exhausted}; no
-scorer can recover P@50 against an empty positive set.
+residual backlog (mean $0.6$ surviving positives per backlog, versus
+$3.8$ under $T_{\mathrm{HP}}$). \textbf{The positive set itself is
+exhausted}; no scorer can recover P@50 against an empty positive set.
 
 \subsection{H2 Rejected in Reverse Direction}
 
@@ -84,8 +105,8 @@ $\Pr[\mathrm{P@50}^{\mathrm{HP}} > \mathrm{P@50}^{\mathrm{EPSS}}]$ over
 the 150 (seed, window) pairs per (cell, driver). At K=50, the fraction
 is $1.000$ under every driver. At K=200 the picture is
 trajectory-conditional: $1.000$ under HRS-only, CVSS-only, and Random;
-$0.800$ under HygienePrio-full (Paper~6's regime, slightly lower than
-Paper~6's $0.960$ because we are at $\lambda=3$ here rather than $\lambda=1$);
+$0.800$ under HygienePrio-full at this single cell, within Paper~6's
+observed per-cell range ($76.7\%$--$100\%$, pooled $96.0\%$);
 $0.393$ under EPSS-only --- where both HP and EPSS are near zero.
 \textbf{H3 is rejected at K=200 under $T_{\mathrm{EPSS}}$.}
 
@@ -93,9 +114,13 @@ $0.393$ under EPSS-only --- where both HP and EPSS are near zero.
 
 The W6 trajectory-effect range $\Delta^{\mathrm{traj}}_m$
 (max P@50 across drivers minus min) quantifies how trajectory-sensitive
-each scorer is.
+each scorer is; Table~\ref{tab:trajeffect} reports it per scorer.
 
-\begin{center}
+\begin{table}[!t]
+\caption{W6 trajectory-effect range $\Delta^{\mathrm{traj}}_m$ per
+scorer (max minus min mean P@50 across the five drivers).}
+\label{tab:trajeffect}
+\centering
 \small
 \begin{tabular}{lcc}
 \toprule
@@ -108,15 +133,20 @@ CVSS-only & 0.068 & 0.178 \\
 Random    & 0.086 & 0.187 \\
 \bottomrule
 \end{tabular}
-\end{center}
+\end{table}
 
 At K=200, HP-full and EPSS-only have the largest trajectory-effect
-ranges --- both depend on signals (HRS tail / EPSS tail) that are
-preferentially drained by their own self-selection. CVSS-only and
-Random have the smallest --- they do not preferentially drain the
-ground-truth-relevant tails of their own signal.
+ranges in Table~\ref{tab:trajeffect} --- the two scorers whose
+rankings are most aligned with the EPSS-gated ground-truth positive
+set, and therefore the two whose measured P@50 collapses hardest when
+a driver drains that set. CVSS-only and Random have the smallest
+ranges --- their (weak) measured performance depends little on which
+driver shapes the residual backlog.
 
 \subsection{Hypothesis Outcomes}
+
+Table~\ref{tab:hypotheses} summarises the three pre-registered
+hypothesis outcomes.
 
 \input{tables/tab_hypotheses}
 

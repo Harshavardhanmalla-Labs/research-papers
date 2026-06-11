@@ -20,10 +20,10 @@ closed-loop deployment the selection policy would also be recalibrated
 and the trajectory would diverge across strategies; this is a known
 limitation shared with Paper~7.
 
-\textit{(ii) EWMA $\alpha$ is pre-registered, not tuned.} We fixed
-$\alpha = 0.6$ in the protocol to avoid post-hoc tuning. Different
-$\alpha$ values would produce different smoothing trade-offs;
-sensitivity sweeps over $\alpha$ are deferred to future work.
+\textit{(ii) EWMA $\eta$ is pre-registered, not tuned.} We fixed
+$\eta = 0.6$ in the protocol to avoid post-hoc tuning. Different
+$\eta$ values would produce different smoothing trade-offs;
+sensitivity sweeps over $\eta$ are deferred to future work.
 
 \textit{(iii) Trailing history $H = 3$ is fixed.} Longer trailing
 histories ($H = 4$ or $H = 6$) might further smooth at high $K$ but
@@ -40,6 +40,6 @@ the cell-mean recovery ratio.
 EEHDA structural priors, 14-day window, 0.15 patch debt reduction,
 0.02 EPSS random walk, 8\% KEV prevalence. Real fleets with different
 rate-of-distributional-shift dynamics would produce different
-$(\alpha, H)$ optima; the qualitative finding --- whether smoothing
+$(\eta, H)$ optima; the qualitative finding --- whether smoothing
 helps at high capacity --- is more robust than the specific parameter
 choices.

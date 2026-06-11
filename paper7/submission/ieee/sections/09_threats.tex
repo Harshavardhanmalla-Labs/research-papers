@@ -27,7 +27,9 @@ future work below.
 
 \textit{(ii) Lag = 1 is the only lag studied.} The protocol fixed the
 calibration history window to ``previous window only'' for simplicity.
-A multi-window EWMA or rolling-mean would smooth the K=200 hazard;
+A multi-window EWMA or rolling-mean might smooth the K=200 hazard,
+although a companion study finds EWMA-3 does not (cell-mean recovery
+$\bar{\rho} = -0.94$ at $K = 200$);
 that procedure is excluded from this paper's pre-registration and
 deferred. The K=200 negative result is therefore specific to the
 lag-1 rolling-history grid search and does not generalise to all
@@ -40,9 +42,10 @@ pre-registered and is left to future work.
 
 \textbf{Construct validity.} The per-window ground-truth definition is
 inherited from Paper~5 (EPSS $> 0.10$ and HRS $>$ 75th percentile,
-both recomputed per window). At $K = 200$ the W6 positive count is
-small, and P@50 with binary relevance is noisy at small positive
-counts. This affects the absolute level but not the sign of the
+both recomputed per window). At $K = 200$ the W6 mean P@50 is
+$0.075$, i.e., fewer than four of each top-50 list are ground-truth
+positive on average, and P@50 with binary relevance is noisy at such
+small hit counts. This affects the absolute level but not the sign of the
 \textsf{online} -- \textsf{fixed} comparison.
 
 \textbf{External validity.} The 14-day window, 0.15 patch-debt

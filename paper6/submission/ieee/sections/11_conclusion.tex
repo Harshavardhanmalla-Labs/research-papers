@@ -21,21 +21,24 @@ rather than smoothing.
 \textbf{Third, and most importantly, the pre-registered claim that
 HygienePrio-full retains a high absolute floor across all cells (H4)
 is rejected.} At $K \in \{100, 200\}$, HygienePrio-full's W6 mean
-P@50 collapses to $\{0.32, 0.07\}$ on average --- not because hygiene
-signals fail to discriminate but because high-throughput remediation
-exhausts the high-HRS tail of the fleet, leaving the residual backlog
-with little discriminative structure for any host-level signal to
-recover.
+P@50 collapses to 0.32 and 0.06--0.12 respectively --- not because
+hygiene signals fail to discriminate but because, under self-driven
+(closed-loop) selection, high-throughput remediation exhausts the
+high-HRS tail of the fleet, leaving the residual backlog with little
+discriminative structure for any host-level signal to recover.
+Paper~9~\cite{paper9selftraj} shows the collapse is specific to
+self-driven selection and does not occur under independent drivers.
 
 The robustness claim that survives the sweep is per-pair: across all
 3{,}000 (cell, seed, window) comparisons, HygienePrio-full outperforms
 EPSS-only at P@50 in $96.0\%$ of pairs (minimum per-cell $76.7\%$).
 Hygiene augmentation is a strict improvement over EPSS-only across
 the studied regimes, but is not a guarantee of high absolute scheduling
-quality at high capacity. Future external comparison work --- including
-the in-progress Paper~5 follow-ups on online recalibration and
-multi-window optimisation --- should report results across $(K, \lambda)$
-cells rather than at one operating point.
+quality at high capacity. Follow-up work in this program --- online
+recalibration (Paper~7), multi-history smoothing (Paper~8), and
+self-trajectory evaluation (Paper~9~\cite{paper9selftraj}) --- now
+reports results across $(K, \lambda)$ cells rather than at one
+operating point, and external comparison work should do the same.
 
 \textbf{Reproducibility.} The sweep driver, analysis script, pre-registration
 protocol, and frozen 15{,}000-row results CSV are available at

@@ -1,12 +1,15 @@
 \begin{table}[!t]
-  \caption{Cell-mean outcomes at W12 by strategy and capacity.}
+  \caption{Cell-mean outcomes at W12 by strategy and capacity.
+  ``Flags'' counts windows in which the safety hard-stop bound
+  ($>10\%$ rollback or cascade) was flagged
+  (\S\ref{sec:safety_bounds}).}
   \label{tab:summary}
   \centering
   \small
   \setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}lcccc@{}}
     \toprule
-    \textbf{Strategy/K} & \textbf{Cov} & \textbf{Rb \%} & \textbf{MTTR} & \textbf{Halts} \\
+    \textbf{Strategy/K} & \textbf{Cov} & \textbf{Rb \%} & \textbf{MTTR} & \textbf{Flags} \\
     \midrule
     AutoHeal $K{=}50$ & 0.999 & 5.73 & 0.00 & 44 \\
     AutoHeal $K{=}100$ & 0.999 & 6.13 & 0.00 & 44 \\

@@ -9,7 +9,7 @@ records with attribute tuples sampled from a frozen snapshot of the
 \emph{actual} CVE-attribute distribution available on
 2026-06-05, while keeping the fleet topology and HRS components
 unchanged. This isolates the contribution of the synthetic CVE
-attribute model to the Paper~\ref{sec:results} headline.
+attribute model to the \S\ref{sec:results} headline.
 
 \subsection{Real CVE Attribute Corpus}
 
@@ -32,8 +32,8 @@ produces $\approx$12\% --- a \textbf{3.3$\times$} overestimate.
 \item Real KEV prevalence is \textbf{0.52\%} of the same corpus;
 the EEHDA synthetic fixture uses 8\% --- a \textbf{15$\times$}
 overestimate.
-\item Among real KEV-flagged CVEs, mean EPSS = $0.55$
-(vs.\ $0.03$ for non-KEV CVEs), confirming the KEV catalog
+\item Among real KEV-flagged CVEs, mean EPSS $= 0.49$ (median $0.52$,
+vs.\ a mean of $0.02$ for non-KEV CVEs), confirming the KEV catalog
 concentrates in the exploit-likely tail as designed.
 \end{itemize}
 
@@ -50,8 +50,17 @@ $(\mathrm{epss}, \mathrm{in\_kev})$ tuples uniformly without
 replacement from the frozen real corpus. Fleet topology (1{,}000 users,
 830 hosts, host--CVE assignment), HRS computation, ground-truth
 labels (EPSS > 0.10 AND HRS > 75th percentile), and the calibrated
-Paper~4 scorer weights are unchanged. We re-score the same 25
-evaluation seeds (105--129).
+Paper~4 scorer weights are unchanged. We re-score a set of 25
+evaluation seeds (105--129) drawn from the same generator family as
+the primary evaluation. Note that this is \emph{not} identical to the
+primary evaluation's seed set (100--124,
+\texttt{primary\_results\_v1/run\_manifest.json}); the two sets
+overlap on 20 seeds (105--124). The ``Synthetic'' column of
+Table~\ref{tab:external_validity} is computed from the frozen primary
+results restricted to those 20 overlapping seeds, which is why its
+EPSS-only baseline (0.211) differs slightly from the \S\ref{sec:results}
+headline value over all 25 primary seeds (0.202), and likewise
+HygienePrio-full (0.520 vs.\ 0.509).
 
 \input{tables/tab_external_validity}
 
@@ -124,7 +133,9 @@ gap.
 
 \subsection{Reproducibility}
 
-The frozen real CVE corpus, evaluator, and results are released:
+The frozen real CVE corpus, evaluator, and results are released under
+\texttt{real\_data/} at the \emph{repository root} (not under
+\texttt{paper4/}):
 {\small\begin{verbatim}
 real_data/raw/epss.csv            # FIRST.org snapshot 2026-06-05
 real_data/raw/kev.json            # CISA KEV snapshot

@@ -107,7 +107,7 @@ def fig_stability(df: pd.DataFrame) -> None:
         patch.set_alpha(0.5)
     ax.set_xticks(positions)
     ax.set_xticklabels(labels, rotation=20, ha="right", fontsize=7)
-    ax.set_ylabel("Per-seed std of P@50\nacross W1--W6")
+    ax.set_ylabel("Per-seed std of P@50\nacross W1–W6")
     ax.grid(True, axis="y", ls=":", alpha=0.5)
     fig.tight_layout()
     out = FIG_DIR / "fig2_stability.pdf"

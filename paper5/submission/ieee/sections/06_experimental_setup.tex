@@ -6,11 +6,11 @@ The protocol --- including research questions, hypotheses, scoring formula, grou
 
 \subsection{Calibration Procedure}
 
-The scorer weights used in the primary evaluation are inherited verbatim from Paper~4's calibration~\cite{paper4hygieneprio}: $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$. These values were not re-fitted on Paper~5's calibration seeds for the primary evaluation; reuse of the Paper~4 calibration is a deliberate methodological choice to test whether \textit{pre-existing} HygienePrio weights remain effective under temporal evolution. The H3 ablation (\S\ref{sec:results}) separately exercises a per-window grid-search recalibration on the five calibration seeds (100--104) for comparison.
+The scorer weights used in the primary evaluation are inherited verbatim from Paper~4's calibration~\cite{paper4hygieneprio}: $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$. These values were not re-fitted on Paper~5's calibration seeds for the primary evaluation; reuse of the Paper~4 calibration is a deliberate methodological choice to test whether \textit{pre-existing} HygienePrio weights remain effective under temporal evolution. The H3 ablation (\S\ref{sec:results}) separately exercises a per-window grid-search recalibration on the five calibration seeds (100--104) for comparison. Paper~5's calibration seed range (100--104) overlaps Paper~4's evaluation seed range (100--124); the overlap is harmless because the two studies use different fixtures --- Paper~5's seeds instantiate the multi-window unpatched-backlog fixture described below, not the Paper~4 single-window fixture on which those seeds served as evaluation data.
 
 \subsection{Evaluation Procedure}
 
-The Paper~5 evaluation seed range (105--129) partially overlaps Paper~4's evaluation set (100--124) but is not identical; the Window~1 mean P@50 reported here ($0.595$) is therefore on a different seed sample than the Window~1 number reported in Paper~4 ($\approx 0.509$). The two are not direct contradictions but distinct point estimates of the same population mean under the same scorer.
+The Paper~5 evaluation seed range (105--129) partially overlaps Paper~4's evaluation set (100--124) but is not identical. More importantly, the Paper~5 fixture itself differs from Paper~4's: the multi-window simulation scores only the \textit{unpatched backlog} at each window, and this filtering raises the positive base rate at Window~1 to approximately 9.5\% (versus approximately 6.2\% in Paper~4) over a smaller scored set ($\sim$1{,}750 versus $\sim$3{,}480 pairs). Window~1 numbers reported here (e.g., HygienePrio-full $0.595$, EPSS-only $0.331$) are therefore not directly comparable to Paper~4's headline figures ($\approx 0.509$ and $\approx 0.202$, respectively). The within-paper, across-window comparisons that constitute this paper's findings are unaffected, since all methods and all windows are evaluated on the same fixture.
 
 For each evaluation seed $s \in \{105, \ldots, 129\}$ and each window $w \in \{1, \ldots, 6\}$:
 \begin{enumerate}
@@ -22,7 +22,7 @@ For each evaluation seed $s \in \{105, \ldots, 129\}$ and each window $w \in \{1
 
 \subsection{Statistical Reporting}
 
-Confidence intervals shown in Fig.~\ref{fig:trajectory} are 95\% percentile bootstrap CIs over the 25 evaluation seeds with 10{,}000 resamples per (window, method, $K$) cell~\cite{efron1994introduction}. No null-hypothesis significance tests are reported; comparisons rely on CI overlap, consistent with Paper~4. Window-level comparisons are reported per window rather than pooled across windows because pooling would obscure the temporal decay pattern that is the paper's central finding.
+Confidence intervals shown in Fig.~\ref{fig:trajectory} are 95\% bias-corrected percentile bootstrap CIs (an approximation to the pre-registered BCa) over the 25 evaluation seeds with 10{,}000 resamples per (window, method, $K$) cell~\cite{efron1994introduction}. No null-hypothesis significance tests are reported; comparisons rely on CI overlap, consistent with Paper~4. Window-level comparisons are reported per window rather than pooled across windows because pooling would obscure the temporal decay pattern that is the paper's central finding.
 
 \subsection{Reproducibility}
 

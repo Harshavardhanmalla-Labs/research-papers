@@ -12,7 +12,7 @@ A pair $(h, c)$ is a \emph{true positive} (also referred to as a high-priority p
 
 \begin{enumerate}
   \item $\mathrm{EPSS}(c) > 0.10$ --- the CVE has non-trivial exploit likelihood. This threshold corresponds approximately to the 85th--90th percentile of the EPSS score distribution~\cite{jacobs2021epss}, separating CVEs with meaningful exploitation probability from the long tail with near-zero scores.
-  \item $\mathrm{HRS}(h) >$ fleet 75th percentile --- the host is in the bottom quartile of hygiene posture. The 75th percentile is chosen as a pre-registered conservative boundary that identifies genuine hygiene outliers while avoiding sensitivity to the exact threshold value for the large majority of pairs.
+  \item $\mathrm{HRS}(h) >$ fleet 75th percentile --- the host is in the worst quartile of hygiene posture (top quartile of HRS). The 75th percentile is chosen as a pre-registered conservative boundary that identifies genuine hygiene outliers while avoiding sensitivity to the exact threshold value for the large majority of pairs.
   \item $(h, c) \in V$ --- the CVE is applicable to the host.
 \end{enumerate}
 

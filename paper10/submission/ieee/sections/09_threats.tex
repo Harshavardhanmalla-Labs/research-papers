@@ -4,11 +4,14 @@
 The threats taxonomy follows Wohlin et al.~\cite{wohlin2012experimentation}.
 
 \textbf{Conclusion validity.} The evaluation comprises 2{,}700
-window-seed-strategy observations summarised with 95\% percentile
-bootstrap CIs (10{,}000 resamples). The pre-registered hypothesis
-decisions follow the locked tolerances; cell-mean point estimates
-have width comparable to the H1 ($0.80$) and H4 ($0.80$) thresholds
-at 25 evaluation seeds.
+window-seed-strategy observations summarised as point estimates
+(25-seed cell means); seed-level spread is available in the frozen
+artifact. The pre-registered hypothesis
+decisions follow the locked tolerances. The margins by which H1
+passes ($17.8$~pp above the $0.80$ threshold) and H4 fails
+($78$~pp below the $0.80$ threshold) are large relative to
+seed-level variability, so the hypothesis decisions are unlikely
+to be artefacts of seed noise.
 
 \textbf{Internal validity.}
 
@@ -40,7 +43,19 @@ package or dependency rather than CVE id; the heuristic is a
 proxy. A pre-registered alternative based on actual
 dependency-graph correlations is left as future work.
 
-\textit{(iv) Selection-policy coupling.} As in Papers~5--9,
+\textit{(iv) Safety-bound enforcement not exercised.} The
+hard-stop safety bound is \emph{detected and flagged} in the
+simulation (134 window-level flags); the registered enforcement
+response --- hard stop with fallback to human-in-loop for the
+remaining windows --- was not exercised. The evaluated
+implementation suppresses new-CVE intake for the flagged window
+and continues remediation (\S\ref{sec:safety_bounds},
+\S\ref{sec:deviations}). The evaluation therefore measures
+detection of the safety bounds, not the coverage or throughput
+consequences of enforcing them; this is a limitation of the
+evaluation, stated plainly.
+
+\textit{(v) Selection-policy coupling.} As in Papers~5--9,
 HygienePrio under fixed weights drives fleet evolution for all
 three strategies. AutoHeal's triage classes select a subset of
 HygienePrio's top-$K$; Human-in-loop uses HygienePrio's top-30.
@@ -51,7 +66,8 @@ quantifies the bias).
 \textbf{Construct validity.} Coverage is defined over EPSS$>0.5$
 pairs at the moment of detection; this is the operational target
 implicit in CISA BOD 22-01~\cite{cisa2021bod2201}. MTTR is
-measured in windows (not days) to match the Paper~5 simulator's
+measured in windows (not days) to match the Paper~5
+simulator's~\cite{paper5temporal}
 clock. The Human-in-loop baseline at $K_{\text{human}} = 30$ is
 calibrated to Verizon's 43-day DBIR statistic but does not model
 the qualitative properties of human review (judgment calls,

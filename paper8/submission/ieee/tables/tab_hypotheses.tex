@@ -8,7 +8,7 @@
     \toprule
     \textbf{ID} & \textbf{Decision rule} & \textbf{Outcome} \\
     \midrule
-    H1 & EWMA-3 $\geq$ fixed at every $w\geq 2$, $K=200$ (within $-0.01$) & Rejected (2) \\
+    H1 & EWMA-3 $\geq$ fixed at every $w\geq 2$, $K=200$ (deltas $\geq -0.01$) & Rejected (2) \\
     H2 & $|$EWMA-3 $-$ lag1$|\leq 0.02$, $K\in\{50,100\}$ & Rejected (5) \\
     H3 & $|$EWMA-3 $-$ trail3$|\leq 0.02$ everywhere & Rejected (1) \\
     H4 & $\bar\rho^{\mathrm{ewma}}_{K=200}\geq 0.5$ & Rejected (-0.94) \\
