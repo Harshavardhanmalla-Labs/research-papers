@@ -16,17 +16,17 @@ The most likely explanation is distributional: across the EEHDA synthetic fleet,
 
 This does not invalidate the theoretical motivation. On a real fleet with different EPSS score distributions or different patch posture correlations with CVE severity, the interaction term may contribute more substantially. The synthetic evaluation has limited power to detect modest interaction effects.
 
-\subsection{Cross-Paper Synthesis}
+\subsection{Synthesis with Prior Work}
 
-The three papers in this sequence form a methodological progression from null result to positive result:
+The HygienePrio result builds on two distinct strands of prior work:
 
 \begin{enumerate}
-  \item \textbf{VulnPrio:} Established the prioritization problem, the EEHDA fleet, and the null result that CVE-level multi-factor models are statistically indistinguishable from EPSS-only on the EHD metric. Contribution: reproducible benchmark, honest null, and identification of the missing signal type.
-  \item \textbf{HygieneBench:} Demonstrated that host-level hygiene signals (patch posture, AD group drift, telemetry staleness) carry discriminative structure detectable from synthetic fleet telemetry, with ML methods adding value specifically on Tasks T5 and T2. Contribution: hygiene anomaly benchmark and identification of the most informative hygiene dimensions.
-  \item \textbf{HygienePrio:} Integrates these findings: hygiene signals operationalized as HRS, when added to EPSS-weighted prioritization, produce measurable P@$K$ improvement in the synthetic evaluation (31 pp at P@50; all 25 seeds). Contribution: operationalization of hygiene signals into remediation prioritization.
+  \item \textbf{VulnPrio~\cite{paper1vulnprio}:} Established the (host, CVE) prioritization problem, the EEHDA synthetic fleet, and the null result that CVE-level multi-factor models are statistically indistinguishable from EPSS-only on the EHD metric --- providing a reproducible benchmark, an honest null, and identification of the missing signal type.
+  \item \textbf{HygieneBench~\cite{paper3hygienebench}:} Demonstrated that host-level hygiene signals (patch posture, AD group drift, telemetry staleness) carry discriminative structure detectable from synthetic fleet telemetry, with ML methods adding value specifically on Tasks T5 and T2 --- providing a hygiene anomaly benchmark and identification of the most informative hygiene dimensions.
+  \item \textbf{HygienePrio (this paper):} Integrates these findings: hygiene signals operationalised as HRS, when added to EPSS-weighted prioritization, produce measurable P@$K$ improvement in the synthetic evaluation (31 pp at P@50; all 25 seeds).
 \end{enumerate}
 
-The sequence illustrates that honest null results are scientifically productive. VulnPrio's null did not indicate that the prioritization problem is unsolvable; it identified that a particular feature set was insufficient. HygieneBench identified a more promising feature set. this paper operationalizes that identification. Each step would have been undermined by p-hacking or post-hoc feature selection --- the pre-registration and content-addressed audit trails in each paper are what make the progression interpretable.
+The progression illustrates that honest null results are scientifically productive. The VulnPrio null did not indicate that the prioritization problem is unsolvable; it identified that a particular feature set was insufficient. HygieneBench identified a more promising feature set. The present work operationalises that identification. Each step would have been undermined by p-hacking or post-hoc feature selection --- the pre-registration and content-addressed audit trails in each work are what make the progression interpretable.
 
 \subsection{Practical Implications (Synthetic Evaluation Only)}
 

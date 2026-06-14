@@ -2,7 +2,7 @@
 
 \subsection{Evaluation Infrastructure}
 
-All experiments are implemented in Python 3.11 using NumPy 1.26, Pandas 2.1, and scikit-learn 1.4 on a MacOS system (Apple M-series CPU, 16 GB RAM). Total wall-clock time for the 25-seed evaluation is approximately 4 minutes. Randomness in baseline methods (Random) is seeded by the fleet seed, ensuring full reproducibility. A content-addressed freeze/verify protocol --- consistent with VulnPrio --- is applied to all result artifacts: each seed's ranked list is hashed before evaluation, and the hash is verified before metric computation to prevent post-hoc modification.
+All experiments are implemented in Python 3.11 using NumPy 1.26, Pandas 2.1, and scikit-learn 1.4 on a MacOS system (Apple M-series CPU, 16 GB RAM). Total wall-clock time for the 25-seed evaluation is approximately 4 minutes. Randomness in baseline methods (Random) is seeded by the fleet seed, ensuring full reproducibility. A content-addressed freeze/verify protocol --- consistent with~\cite{paper1vulnprio} --- is applied to all result artifacts: each seed's ranked list is hashed before evaluation, and the hash is verified before metric computation to prevent post-hoc modification.
 
 \subsection{Calibrated Weights}
 
