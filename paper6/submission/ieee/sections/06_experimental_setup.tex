@@ -4,21 +4,21 @@
 
 The protocol --- including research questions, $(K, \lambda)$ grid,
 hypotheses, statistical decision rules, and stop rules --- was fixed
-before any sweep result was inspected. The full protocol is archived as
-\texttt{paper6/design/PAPER6\_PROTOCOL.md} and accompanies the artifact
-release.
+before any sweep result was inspected. The full pre-registration protocol accompanies the reproducibility
+artifact release.
 
 \subsection{Calibration Procedure}
 
 No calibration is performed in this study. Scorer weights
 $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$ and HRS
-weights $(0.5, 0.3, 0.2)$ are inherited verbatim from
-Paper~4~\cite{paper4hygieneprio}. This is intentional: the question is
-how a \textit{fixed} HygienePrio configuration behaves across operating
-regimes, not whether per-cell re-fitting could rescue it. Paper~5's H3
-ablation already established that per-window recalibration improves
-P@50 by up to $+21$~pp at fixed $(K, \lambda)$; the present sweep
-isolates the regime-sensitivity question.
+weights $(0.5, 0.3, 0.2)$ are reused verbatim from the prior
+HygienePrio calibration~\cite{paper4hygieneprio}. This is intentional:
+the question is how a \textit{fixed} HygienePrio configuration behaves
+across operating regimes, not whether per-cell re-fitting could rescue
+it. A prior recalibration ablation~\cite{paper5temporal} established
+that per-window recalibration improves P@50 by up to $+21$~pp at fixed
+$(K, \lambda)$; the present sweep isolates the regime-sensitivity
+question.
 
 \subsection{Sweep Execution}
 
@@ -55,13 +55,14 @@ CI overlap and the pre-registered Spearman thresholds.
 \subsection{Reproducibility}
 
 The sweep driver, analysis script, and figure generator are released
-under the MIT licence with the artifact. From \texttt{paper6/}:
+under the MIT licence with the artifact. From the artifact root:
 {\small\begin{verbatim}
 PYTHONPATH=src python3 src/run_sweep.py
 PYTHONPATH=src python3 src/analyze_sweep.py
 PYTHONPATH=src python3 src/make_figures.py
 \end{verbatim}}
-The driver re-uses Paper~5's \texttt{window\_sim} and Paper~4's
-\texttt{hygieneprio} packages via \texttt{sys.path} injection (no
-code copy). Determinism is inherited from Paper~5's per-(seed, window,
-step) RNG seeding.
+The driver re-uses the multi-window simulator
+of~\cite{paper5temporal} and the HygienePrio scorer
+of~\cite{paper4hygieneprio} via \texttt{sys.path} injection (no code
+copy). Determinism follows the per-(seed, window, step) RNG seeding
+of~\cite{paper5temporal}.

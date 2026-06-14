@@ -1,10 +1,10 @@
 % Auto-converted from paper2_full_draft.md §3.
 % Wording preserved; no claims added.
 \section{Background}
-We operate over CVEs published in the National Vulnerability Database (NVD), with EPSS probabilities and CISA KEV status as feeds, and a synthetic endpoint fleet inherited from Paper 1. The Paper-1 linear scoring formulation is preserved:
+We operate over CVEs published in the National Vulnerability Database (NVD), with EPSS probabilities and CISA KEV status as feeds, and the synthetic endpoint fleet of~\cite{Malla2026VulnPrio}. The linear scoring formulation of~\cite{Malla2026VulnPrio} is preserved:
 
 \texttt{score = w\_E · E + w\_K · K + w\_S · S + w\_C · C + w\_X · X + w\_U · U − w\_R · R}
 
-with features \texttt{E} (EPSS), \texttt{K} (KEV-as-of-t0), \texttt{S} (CVSS), \texttt{C} (criticality), \texttt{X} (exposure), \texttt{U} (urgency), and \texttt{R} (remediation complexity, subtracted as cost). A scheduler selects per-cell capacity (top-K by score) under blackout policies; the operational outcome metric is the Exposure-Host-Day (EHD) burden over a horizon. Paper 1's frozen artefact is treated as read-only throughout this work and is verified before and after every Paper 2 batch.
+with features \texttt{E} (EPSS), \texttt{K} (KEV-as-of-t0), \texttt{S} (CVSS), \texttt{C} (criticality), \texttt{X} (exposure), \texttt{U} (urgency), and \texttt{R} (remediation complexity, subtracted as cost). A scheduler selects per-cell capacity (top-K by score) under blackout policies; the operational outcome metric is the Exposure-Host-Day (EHD) burden over a horizon. The frozen artefact of~\cite{Malla2026VulnPrio} is treated as read-only throughout this work and is verified before and after every execution batch.
 
 Label A is the standard future-exploit label used here: a CVE is positive at horizon \texttt{(t0, t0 + H]} if it is added to the KEV catalog inside that horizon. KEV-as-of-\texttt{t0} is used as the feature K (a leakage-safe separation: the feature uses past KEV state; the label uses future KEV state).

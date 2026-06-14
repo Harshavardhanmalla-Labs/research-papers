@@ -2,11 +2,11 @@
 
 \subsection{Why Hygiene Signals Help Where CVE-Level Features Alone Did Not}
 
-Paper~1 (VulnPrio) found that adding CVE-level features --- asset criticality scores, endpoint exposure flags, KEV membership --- to EPSS did not improve prioritization over EPSS-only on the EEHDA fleet. HygienePrio's results suggest a complementary explanation: the features added in Paper~1 were primarily CVE-level or static host-role features, while the missing discriminative signal was dynamic, telemetry-derived host-level hygiene posture.
+VulnPrio found that adding CVE-level features --- asset criticality scores, endpoint exposure flags, KEV membership --- to EPSS did not improve prioritization over EPSS-only on the EEHDA fleet. HygienePrio's results suggest a complementary explanation: the features added in VulnPrio were primarily CVE-level or static host-role features, while the missing discriminative signal was dynamic, telemetry-derived host-level hygiene posture.
 
-The structural difference is important. Knowing that a host is a domain controller (asset criticality signal from Paper~1) provides some risk context, but it does not distinguish between a well-managed domain controller with current patches and telemetry, and a neglected domain controller with 60\% unpatched CVE debt, stale telemetry, and over-privileged group memberships. HRS captures this distinction; static asset criticality does not.
+The structural difference is important. Knowing that a host is a domain controller (asset criticality signal from VulnPrio) provides some risk context, but it does not distinguish between a well-managed domain controller with current patches and telemetry, and a neglected domain controller with 60\% unpatched CVE debt, stale telemetry, and over-privileged group memberships. HRS captures this distinction; static asset criticality does not.
 
-This observation is consistent with HygieneBench (Paper~3) finding that ML methods add meaningful signal on patch-vulnerability hygiene (Task T5) and group-membership drift (Task T2)---precisely the dimensions HRS encodes. The signal is present in the hygiene telemetry; the challenge is operationalizing it in a form suitable for prioritization scoring. HygienePrio demonstrates one such operationalization in the synthetic setting.
+This observation is consistent with HygieneBench finding that ML methods add meaningful signal on patch-vulnerability hygiene (Task T5) and group-membership drift (Task T2)---precisely the dimensions HRS encodes. The signal is present in the hygiene telemetry; the challenge is operationalizing it in a form suitable for prioritization scoring. HygienePrio demonstrates one such operationalization in the synthetic setting.
 
 \subsection{Why the Interaction Term Showed Equivocal Benefit}
 
@@ -21,12 +21,12 @@ This does not invalidate the theoretical motivation. On a real fleet with differ
 The three papers in this sequence form a methodological progression from null result to positive result:
 
 \begin{enumerate}
-  \item \textbf{Paper~1 (VulnPrio):} Established the prioritization problem, the EEHDA fleet, and the null result that CVE-level multi-factor models are statistically indistinguishable from EPSS-only on the EHD metric. Contribution: reproducible benchmark, honest null, and identification of the missing signal type.
-  \item \textbf{Paper~3 (HygieneBench):} Demonstrated that host-level hygiene signals (patch posture, AD group drift, telemetry staleness) carry discriminative structure detectable from synthetic fleet telemetry, with ML methods adding value specifically on Tasks T5 and T2. Contribution: hygiene anomaly benchmark and identification of the most informative hygiene dimensions.
-  \item \textbf{Paper~4 (HygienePrio):} Integrates these findings: hygiene signals operationalized as HRS, when added to EPSS-weighted prioritization, produce measurable P@$K$ improvement in the synthetic evaluation (31 pp at P@50; all 25 seeds). Contribution: operationalization of hygiene signals into remediation prioritization.
+  \item \textbf{VulnPrio:} Established the prioritization problem, the EEHDA fleet, and the null result that CVE-level multi-factor models are statistically indistinguishable from EPSS-only on the EHD metric. Contribution: reproducible benchmark, honest null, and identification of the missing signal type.
+  \item \textbf{HygieneBench:} Demonstrated that host-level hygiene signals (patch posture, AD group drift, telemetry staleness) carry discriminative structure detectable from synthetic fleet telemetry, with ML methods adding value specifically on Tasks T5 and T2. Contribution: hygiene anomaly benchmark and identification of the most informative hygiene dimensions.
+  \item \textbf{HygienePrio:} Integrates these findings: hygiene signals operationalized as HRS, when added to EPSS-weighted prioritization, produce measurable P@$K$ improvement in the synthetic evaluation (31 pp at P@50; all 25 seeds). Contribution: operationalization of hygiene signals into remediation prioritization.
 \end{enumerate}
 
-The sequence illustrates that honest null results are scientifically productive. Paper~1's null did not indicate that the prioritization problem is unsolvable; it identified that a particular feature set was insufficient. Paper~3 identified a more promising feature set. Paper~4 operationalizes that identification. Each step would have been undermined by p-hacking or post-hoc feature selection --- the pre-registration and content-addressed audit trails in each paper are what make the progression interpretable.
+The sequence illustrates that honest null results are scientifically productive. VulnPrio's null did not indicate that the prioritization problem is unsolvable; it identified that a particular feature set was insufficient. HygieneBench identified a more promising feature set. this paper operationalizes that identification. Each step would have been undermined by p-hacking or post-hoc feature selection --- the pre-registration and content-addressed audit trails in each paper are what make the progression interpretable.
 
 \subsection{Practical Implications (Synthetic Evaluation Only)}
 

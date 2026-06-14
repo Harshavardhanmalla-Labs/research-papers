@@ -1,8 +1,10 @@
-Paper~5 reported that grid-searching scorer weights on calibration-seed
-data at the same window being scored adds up to $+21.3$ percentage points
-of Precision@50 over the fixed Paper~4 weights at the canonical operating
-cell ($K=50, \lambda=3$). That procedure is not deployable --- it peeks
-at the future window. This paper evaluates a deployable alternative:
+A prior offline-peek recalibration ablation~\cite{paper5temporal}
+showed that grid-searching scorer weights on calibration-seed data at
+the same window being scored adds up to $+21.3$ percentage points of
+Precision@50 over the fixed HygienePrio weights~\cite{paper4hygieneprio}
+at the canonical operating cell ($K=50, \lambda=3$). That procedure is
+not deployable --- it peeks at the future window. This paper evaluates
+a deployable alternative:
 \textbf{rolling-history online calibration}, in which weights at window
 $w$ are fit on calibration-seed data at window $w-1$ only. We
 pre-registered three hypotheses and ran a 1{,}350-row evaluation
@@ -13,16 +15,18 @@ All three pre-registered hypotheses are \textit{rejected}, and the
 rejection pattern is the central scientific contribution.
 \textbf{First (H1),} online recalibration does not uniformly match
 or beat fixed weights: at $K = 200$ it loses $-5.9$~pp at W2 and
-$-7.8$~pp at W3 relative to the fixed Paper~4 weights. The fleet
-state changes faster than one-window-lag calibration can track.
+$-7.8$~pp at W3 relative to the fixed
+weights~\cite{paper4hygieneprio}. The fleet state changes faster than
+one-window-lag calibration can track.
 \textbf{Second (H2),} online sometimes \textit{exceeds} the
 offline-peek ceiling --- at $K = 50, w=5$ online ($0.580$) beats
 offline-peek ($0.550$). The five-seed offline grid search overfits;
 the one-window lag acts as a regulariser.
 \textbf{Third (H3),} online does not rescue HygienePrio at the
-high-capacity collapse cells documented in Paper~6: at $K = 200$ the
-mean recovery ratio across windows $w \geq 2$ is $-0.66$ (negative),
-not the predicted $\geq +0.5$.
+high-capacity collapse cells documented in prior
+work~\cite{paper6capacity}: at $K = 200$ the mean recovery ratio
+across windows $w \geq 2$ is $-0.66$ (negative), not the predicted
+$\geq +0.5$.
 
 The operational implication is sharp: rolling-history online
 recalibration is a beneficial procedure at moderate capacity
@@ -31,7 +35,8 @@ recalibration is a beneficial procedure at moderate capacity
 recommendation is therefore conditional: deploy rolling-history online
 recalibration only when the per-window fleet-state shift is small
 relative to the lag the recalibration window imposes; at high capacity,
-keep fixed Paper~4 weights or wait for an offline rebaselining cycle.
+keep the fixed HygienePrio weights~\cite{paper4hygieneprio} or wait
+for an offline rebaselining cycle.
 All results are bounded to the synthetic EEHDA evaluation context;
 external validation on real fleet telemetry with longitudinal
 exploitation outcome data is required before any deployment recommendation.

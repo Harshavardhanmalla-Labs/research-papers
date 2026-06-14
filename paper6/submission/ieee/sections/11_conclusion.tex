@@ -4,7 +4,7 @@
 A pre-registered two-dimensional sweep over remediation capacity $K$
 and CVE arrival rate $\lambda$, evaluated on 25 seeds across six
 maintenance windows and five prioritization methods, produces 15{,}000
-result rows that revise Paper~5's single-cell conclusion in three
+result rows that revise the prior temporal-stability evaluation's single-cell conclusion in three
 places.
 
 \textbf{First}, EPSS-only Precision@50 decays in every cell of the
@@ -32,10 +32,9 @@ The robustness claim that survives the sweep is per-pair: across all
 EPSS-only at P@50 in $96.0\%$ of pairs (minimum per-cell $76.7\%$).
 Hygiene augmentation is a strict improvement over EPSS-only across
 the studied regimes, but is not a guarantee of high absolute scheduling
-quality at high capacity. Future external comparison work --- including
-the in-progress Paper~5 follow-ups on online recalibration and
-multi-window optimisation --- should report results across $(K, \lambda)$
-cells rather than at one operating point.
+quality at high capacity. Future external comparison work --- including studies on online
+recalibration and multi-window optimisation --- should report results
+across $(K, \lambda)$ cells rather than at one operating point.
 
 \textbf{Reproducibility.} The sweep driver, analysis script, pre-registration
 protocol, and frozen 15{,}000-row results CSV are available at

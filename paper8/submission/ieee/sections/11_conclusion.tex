@@ -2,12 +2,12 @@
 \label{sec:conclusion}
 
 A pre-registered 2{,}250-row evaluation of multi-window-history
-calibration --- EWMA-3 and trailing-mean-3 --- against the Paper~7
-lag-1 baseline produces four hypothesis rejections and one clean
-finding.
+calibration --- EWMA-3 and trailing-mean-3 --- against the lag-1
+baseline of~\cite{paper7online} produces four hypothesis rejections
+and one clean finding.
 
 \textbf{The clean finding}: multi-window smoothing does not rescue
-the high-capacity hazard documented in Paper~7. At $K = 200$, EWMA-3's
+the high-capacity hazard documented in the prior online-calibration evaluation. At $K = 200$, EWMA-3's
 cell-mean recovery ratio is $-0.94$, worse than \textsf{lag1}'s
 $-0.66$. At $K = 100$ where \textsf{lag1} recovered the offline
 ceiling ($\rho = +0.99$), EWMA-3 produces $\rho = -1.37$ ---
@@ -28,8 +28,9 @@ shortest possible history (lag-1 at most), and should be turned off
 entirely at high capacity. Future adaptive procedures
 (change-point detection, forgetting-factor Bayesian update,
 capacity-conditional gating) need to be developed and
-pre-registered to address the regimes Paper~7 + Paper~8 together
-identify as untouched by simple history-based smoothers.
+pre-registered to address the regimes that the present work, together
+with~\cite{paper7online}, identifies as untouched by simple
+history-based smoothers.
 
 \textbf{Reproducibility.} The runner, analysis, pre-registration
 protocol, and frozen 2{,}250-row results CSV are available at

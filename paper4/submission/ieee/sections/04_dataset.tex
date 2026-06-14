@@ -2,7 +2,7 @@
 
 \subsection{EEHDA Synthetic Fleet}
 
-All experiments use the Extended Enterprise Hygiene Dataset Artifact (EEHDA) synthetic fleet generator --- the same generator used in Papers~1 and~3, extended to output both the vulnerability-host pair tables required by Paper~1 and the hygiene-state tables required by HygieneBench (Paper~3). This shared generator enables the cross-paper synthesis in \S8 and ensures that HygienePrio's hygiene inputs are drawn from the same distributional assumptions as the VulnPrio baseline.
+All experiments use the Extended Enterprise Hygiene Dataset Artifact (EEHDA) synthetic fleet generator --- the same generator used in VulnPrio and HygieneBench, extended to output both the vulnerability-host pair tables required by VulnPrio and the hygiene-state tables required by HygieneBench. This shared generator enables the cross-paper synthesis in \S8 and ensures that HygienePrio's hygiene inputs are drawn from the same distributional assumptions as the VulnPrio baseline.
 
 The generator produces the following tables relevant to HygienePrio (see HygieneBench~\cite{paper3hygienebench} for full schema):
 
@@ -31,7 +31,7 @@ The generator produces the following tables relevant to HygienePrio (see Hygiene
 
 \subsection{Seed Protocol}
 
-Thirty seeds are generated deterministically. Five seeds are designated as the calibration set (held out from primary evaluation, used only for weight grid search; see \S5.4). The remaining 25 seeds constitute the evaluation set. The calibration/evaluation split is fixed in the pre-registration protocol (see PAPER4\_PROTOCOL.md) and is not adjusted based on results.
+Thirty seeds are generated deterministically. Five seeds are designated as the calibration set (held out from primary evaluation, used only for weight grid search; see \S5.4). The remaining 25 seeds constitute the evaluation set. The calibration/evaluation split is fixed in the pre-registration protocol archived with the reproducibility artifact and is not adjusted based on results.
 
 \subsection{Hygiene Dimensions}
 
@@ -49,4 +49,4 @@ EPSS scores in the synthetic fixture are drawn from a mixture distribution appro
 
 \subsection{Connection to HygieneBench}
 
-HygieneBench (Paper~3) defined 12 anomaly classes (AH-01 through AH-12) including stale privileged accounts (AH-01), dormant account reactivation (AH-02), endpoint coverage gaps (AH-06), patch noncompliance clusters (AH-08), and telemetry missingness (AH-10 through AH-12). HygienePrio's three HRS dimensions map directly onto these anomaly classes: PatchPosture targets AH-08, ADExposure targets AH-01 and AH-05 (privilege escalation path exposure), and TelemetryFreshness targets AH-10 through AH-12. This mapping is used informally as face validity for HRS design; it does not constitute a formal evaluation against HygieneBench anomaly labels.
+HygieneBench defined 12 anomaly classes (AH-01 through AH-12) including stale privileged accounts (AH-01), dormant account reactivation (AH-02), endpoint coverage gaps (AH-06), patch noncompliance clusters (AH-08), and telemetry missingness (AH-10 through AH-12). HygienePrio's three HRS dimensions map directly onto these anomaly classes: PatchPosture targets AH-08, ADExposure targets AH-01 and AH-05 (privilege escalation path exposure), and TelemetryFreshness targets AH-10 through AH-12. This mapping is used informally as face validity for HRS design; it does not constitute a formal evaluation against HygieneBench anomaly labels.

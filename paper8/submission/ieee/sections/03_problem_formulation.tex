@@ -4,10 +4,10 @@
 \subsection{Setting (Inherited)}
 
 The synthetic EEHDA fleet, scorer (\S5.1), HRS components, and
-multi-window simulator are inherited from Papers~4--7. Capacity
-$K \in \{50, 100, 200\}$ and arrival rate $\lambda = 3$ are fixed
-to match Paper~7's evaluation; the only quantity varied in this
-paper is the calibration strategy.
+multi-window simulator follow~\cite{paper4hygieneprio,paper5temporal,paper6capacity,paper7online}.
+Capacity $K \in \{50, 100, 200\}$ and arrival rate $\lambda = 3$
+are fixed to match the evaluation of~\cite{paper7online}; the only
+quantity varied in this paper is the calibration strategy.
 
 \subsection{Five Calibration Strategies}
 
@@ -15,10 +15,10 @@ At window $w$, the scorer uses weights $(\alpha, \beta, \gamma, \delta)$
 determined by:
 
 \begin{description}
-\item[\textsf{fixed}] Paper~4 weights at every window. No refit.
+\item[\textsf{fixed}] HygienePrio weights at every window. No refit.
 \item[\textsf{lag1}] At $w = 1$, weights are \textsf{fixed}; at
 $w \geq 2$, grid-search to maximise mean P@50 on the five calibration
-seeds at window $w - 1$. (Paper~7 baseline.)
+seeds at window $w - 1$. (the prior online-calibration evaluation baseline.)
 \item[\textsf{trail3}] At $w = 1$, weights are \textsf{fixed}; at
 $w \geq 2$, grid-search to maximise the equal-weight mean of
 per-window mean P@50 across windows $\max(1, w - 3), \ldots, w - 1$.
@@ -31,11 +31,11 @@ from the most recent past window. Pre-registered $\alpha = 0.6$.
 (Upper-bound ceiling.)
 \end{description}
 
-The grid is identical to Paper~7 (108 points).
+The grid is identical to the prior online-calibration evaluation (108 points).
 
 \subsection{Ground Truth and Metric}
 
-Inherited from Papers~5--7: (EPSS $> 0.10$) $\wedge$ (HRS $>$ 75th
+Inherited from the prior multi-window evaluations: (EPSS $> 0.10$) $\wedge$ (HRS $>$ 75th
 percentile recomputed per window), P@50 measured against the resulting
 positive set.
 
@@ -54,4 +54,4 @@ cell-window. \textit{Smoothing-strategy choice is second-order.}
 \geq 0.5$. \textit{EWMA achieves substantial offline-ceiling recovery.}
 \end{description}
 
-Decision rules and stop rules are in \texttt{paper8/design/PAPER8\_PROTOCOL.md}.
+Decision rules and stop rules are pre-registered in the protocol archived with the reproducibility artifact.

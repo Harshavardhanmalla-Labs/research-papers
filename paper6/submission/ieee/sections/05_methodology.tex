@@ -2,8 +2,8 @@
 
 \subsection{Scorers}
 
-All five scorers are inherited verbatim from Paper~4~\cite{paper4hygieneprio}
-and Paper~5~\cite{paper5temporal} with fixed calibrated weights:
+All five scorers are inherited verbatim from HygienePrio~\cite{paper4hygieneprio}
+and the prior temporal-stability evaluation~\cite{paper5temporal} with fixed calibrated weights:
 \begin{equation}
 \begin{aligned}
 S_{\mathrm{HP}}(h,c) =\;& 0.7\,\mathrm{EPSS}(c) + 0.5\,\mathrm{HRS}(h) \\
@@ -32,7 +32,7 @@ are marked patched. PatchPosture is recomputed.
 \item \textbf{Disclose.} Draw $n_w \sim \mathrm{Poisson}(\lambda)$ new
 (host, CVE) rows. Each row is attached to a random host drawn uniformly
 from the fleet, with EPSS, CVSS, and KEV attributes sampled from the
-Paper~4~\cite{paper4hygieneprio} fixture distributions.
+HygienePrio~\cite{paper4hygieneprio} fixture distributions.
 \item \textbf{EPSS update.} Apply $\mathcal{N}(0, 0.02^2)$ random-walk
 perturbation to EPSS scores of all surviving unpatched pairs; clip to
 $[10^{-4}, 1]$.

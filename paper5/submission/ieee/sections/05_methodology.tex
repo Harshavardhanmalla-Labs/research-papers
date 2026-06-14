@@ -2,7 +2,7 @@
 
 \subsection{HygienePrio Scorer}
 
-The scorer is unchanged from Paper~4~\cite{paper4hygieneprio}:
+The scorer is unchanged from HygienePrio~\cite{paper4hygieneprio}:
 \begin{equation}
 \begin{aligned}
 S(h,c) =\;& 0.7 \cdot \mathrm{EPSS}(c) + 0.5 \cdot \mathrm{HRS}(h) \\
@@ -11,11 +11,11 @@ S(h,c) =\;& 0.7 \cdot \mathrm{EPSS}(c) + 0.5 \cdot \mathrm{HRS}(h) \\
 \end{aligned}
 \label{eq:scorer}
 \end{equation}
-Weights are fixed at the calibration values reported in Paper~4 and are \textit{not} re-calibrated between windows in the primary evaluation. Hypothesis H3 (\S3.4) tests whether per-window re-calibration would have helped.
+Weights are fixed at the calibration values reported in HygienePrio and are \textit{not} re-calibrated between windows in the primary evaluation. Hypothesis H3 (\S3.4) tests whether per-window re-calibration would have helped.
 
 \subsection{Hygiene Risk Score}
 
-HRS is computed identically to Paper~4 as the weighted combination of three components:
+HRS is computed identically to HygienePrio as the weighted combination of three components:
 \begin{equation}
 \begin{aligned}
 \mathrm{HRS}(h) =\;& 0.50 \cdot \mathrm{PatchPosture}(h) \\

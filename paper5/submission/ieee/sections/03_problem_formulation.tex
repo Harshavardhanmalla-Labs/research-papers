@@ -15,7 +15,7 @@ Let $F_t$ denote the fleet state at time $t$. The simulation advances through $W
 
 \subsection{Ground Truth per Window}
 
-At each window, ground truth is defined identically to Paper~4~\cite{paper4hygieneprio}: a pair $(h, c)$ is a true positive if $\mathrm{EPSS}(c) > 0.10$, $\mathrm{HRS}(h)$ exceeds the fleet's 75th percentile at window $w$, and $(h, c) \in V_w$. The threshold is recomputed at each window because the HRS distribution shifts as patches are applied; this is acknowledged as a structural feature of the evaluation (\S\ref{sec:threats}).
+At each window, ground truth is defined identically to HygienePrio~\cite{paper4hygieneprio}: a pair $(h, c)$ is a true positive if $\mathrm{EPSS}(c) > 0.10$, $\mathrm{HRS}(h)$ exceeds the fleet's 75th percentile at window $w$, and $(h, c) \in V_w$. The threshold is recomputed at each window because the HRS distribution shifts as patches are applied; this is acknowledged as a structural feature of the evaluation (\S\ref{sec:threats}).
 
 \subsection{Metrics}
 

@@ -1,10 +1,10 @@
 \section{Introduction}
 
-Paper~5's~\cite{paper5temporal} H3 ablation produced a striking result:
+The temporal-stability evaluation's~\cite{paper5temporal} H3 ablation produced a striking result:
 grid-searching scorer weights on five calibration seeds at the same
 window being scored, then applying those weights to 25 evaluation
 seeds at that window, adds up to $+21.3$~pp of Precision@50 over the
-fixed Paper~4 weights at the canonical $(K = 50, \lambda = 3)$ cell.
+fixed HygienePrio weights at the canonical $(K = 50, \lambda = 3)$ cell.
 The paper noted, accurately, that this procedure peeks at the window
 it is scoring and is therefore an offline upper bound, not a deployable
 recipe.
@@ -19,7 +19,7 @@ operational questions follow:
 \textbf{Q1.} How much of the offline-peek gain survives the lag?
 
 \textbf{Q2.} Does online recalibration rescue HygienePrio at the
-high-capacity cells where Paper~6~\cite{paper6capacity} reported W6
+high-capacity cells where the capacity-sweep evaluation~\cite{paper6capacity} reported W6
 collapse to mean P@50 $\leq 0.12$?
 
 We pre-registered three hypotheses corresponding to these questions
@@ -69,13 +69,13 @@ slowly relative to the lag the recalibration window imposes. At high
 capacity, the deployment is a net hazard.
 \end{itemize}
 
-\subsection{Relationship to Prior Papers}
+\subsection{Relationship to Prior Work}
 
-Paper~5~\cite{paper5temporal} established the multi-window simulator
-and reported the offline-peek H3 ceiling. Paper~6~\cite{paper6capacity}
+The temporal-stability evaluation~\cite{paper5temporal} established the multi-window simulator
+and reported the offline-peek H3 ceiling. The capacity-sweep evaluation~\cite{paper6capacity}
 swept capacity and arrival rate and identified the high-capacity
 collapse zone for HygienePrio-full at fixed weights. This paper sits
 at the intersection: it asks whether a deployable recalibration
-procedure can close Paper~5's H3 gap and rescue Paper~6's H4 collapse.
+procedure can close the temporal-stability evaluation's H3 gap and rescue the capacity-sweep evaluation's H4 collapse.
 The answer is regime-conditional: yes at moderate capacity, no (and
 in fact harmful) at high capacity.

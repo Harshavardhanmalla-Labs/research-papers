@@ -3,8 +3,9 @@
 \subsection{Pre-Registration}
 
 The cell grid, calibration strategies, hypotheses H1--H3, decision rules,
-and stop rules in \texttt{paper7/design/PAPER7\_PROTOCOL.md} were locked
-on 2026-06-04 before any online-calibration result was computed.
+and stop rules were pre-registered in the protocol archived with the
+reproducibility artifact and locked on 2026-06-04 before any
+online-calibration result was computed.
 
 \subsection{Execution Order}
 
@@ -31,13 +32,14 @@ protocol.
 \subsection{Reproducibility}
 
 The runner and analysis are released under MIT licence with the artifact.
-From \texttt{paper7/}:
+From the artifact root:
 {\small\begin{verbatim}
 PYTHONPATH=src python3 src/run_online_calib.py
 PYTHONPATH=src python3 src/analyze.py
 PYTHONPATH=src python3 src/make_figures.py
 \end{verbatim}}
-The runner re-uses Paper~5's \texttt{window\_sim} and Paper~4's
-\texttt{hygieneprio} packages via \texttt{sys.path} injection (no
-code duplication). Determinism is inherited from Paper~5's per-(seed,
-window, step) RNG seeding.
+The runner re-uses the multi-window simulator
+of~\cite{paper5temporal} and the HygienePrio scorer
+of~\cite{paper4hygieneprio} via \texttt{sys.path} injection (no code
+duplication). Determinism follows the per-(seed, window, step) RNG
+seeding of~\cite{paper5temporal}.

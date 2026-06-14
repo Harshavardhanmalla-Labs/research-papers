@@ -1,20 +1,20 @@
 \section{Introduction}
 
-Paper~7~\cite{paper7online} identified a capacity-dependent hazard
+Prior work~\cite{paper7online} identified a capacity-dependent hazard
 in lag-1 rolling-history online recalibration of the HygienePrio
 vulnerability prioritization scorer. At moderate capacity
 ($K \in \{50, 100\}$, $\lambda = 3$) the procedure recovers the
 offline-peek calibration ceiling (cell-mean recovery ratios
 $1.04$ and $0.99$); at high capacity ($K = 200$) the procedure
 \textit{harms} performance by $-5.9$ to $-7.8$~pp in early windows
-and produces a negative cell-mean recovery ratio of $-0.66$. Paper~7
+and produces a negative cell-mean recovery ratio of $-0.66$. That work
 attributed the hazard to a too-short calibration history relative to
 the per-window distributional shift rate and explicitly named
 multi-window-history smoothing as the candidate fix.
 
-This paper tests that fix. The pre-registered protocol
-(\texttt{paper8/design/PAPER8\_PROTOCOL.md}, locked 2026-06-04 before
-any multi-history-calibration result was computed) defines five
+This paper tests that fix. The pre-registered protocol (archived with
+the reproducibility artifact, locked 2026-06-04 before any
+multi-history-calibration result was computed) defines five
 calibration strategies and a 2{,}250-row evaluation:
 $3 \text{ cells} \times 5 \text{ strategies} \times 25 \text{ seeds}
 \times 6 \text{ windows}$. The four pre-registered hypotheses
@@ -54,15 +54,14 @@ the studied grid in which EWMA-3 is preferable to lag-1.
 \item \textbf{C4 --- Sharpened operational recommendation.} Deployable
 online recalibration in this setting should use the \textit{shortest}
 possible history (lag-1 at most) and should be turned off entirely
-at high capacity. The recommendation reverses Paper~7's implicit
-``future work will fix this with smoothing'' framing.
+at high capacity. The recommendation reverses the implicit ``future work will fix this
+with smoothing'' framing of~\cite{paper7online}.
 \end{itemize}
 
-\subsection{Relationship to Prior Papers}
+\subsection{Relationship to Prior Work}
 
-This paper is the eighth in the VulnPrio research sequence. Paper~7
-identified the high-capacity hazard and proposed smoothing as the
-fix; this paper falsifies the proposed fix. The result is an
+The prior online-calibration evaluation~\cite{paper7online} identified
+the high-capacity hazard and proposed smoothing as the fix; this paper falsifies the proposed fix. The result is an
 honest course-correction: the hazard requires a different class of
 solution (adaptive change-point detection, Bayesian forgetting,
 or accepting fixed weights at high capacity) than simple history

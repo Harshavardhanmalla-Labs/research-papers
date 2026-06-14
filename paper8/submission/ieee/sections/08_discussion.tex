@@ -14,7 +14,7 @@ on the older windows fit a distribution that is no longer the
 target. \textbf{Smoothing reduces variance but increases bias, and
 under fast distributional shift the bias term dominates.}
 
-The Paper~7 lag-1 hazard at $K = 200$ is therefore a \textit{lower
+The the prior online-calibration evaluation lag-1 hazard at $K = 200$ is therefore a \textit{lower
 bound} on the calibration penalty, not an upper bound. Any procedure
 that averages over more than one window of past calibration state
 will pay a larger bias penalty than lag-1. This includes EWMA,
@@ -42,37 +42,37 @@ allowing it to vary with detected shift might re-enter the moderate-
 capacity regime where lag-1 is competitive.
 
 \textbf{(iii) Capacity-conditional deployment.} At high capacity,
-turn the recalibrator off and accept the fixed Paper~4 weights,
-incurring the Paper~6 absolute-floor collapse rather than the
-deeper Paper~7 + Paper~8 calibration hazard. This is the simplest
+turn the recalibrator off and accept the fixed HygienePrio weights,
+incurring the high-capacity absolute-floor collapse rather than the
+deeper the prior online-calibration evaluation + this paper calibration hazard. This is the simplest
 deployable rule that follows from the present rejection pattern.
 
 \subsection{Operational Implications}
 
-Sharpened from Paper~7:
+Sharpened from the prior online-calibration evaluation:
 \begin{itemize}
 \item Deploy lag-1 online recalibration only at $K \leq 100$ on the
-simulated bi-weekly cadence. The Paper~7 K=200 hazard is real, and
-Paper~8 shows that smoothing does not rescue it.
+simulated bi-weekly cadence. The the prior online-calibration evaluation K=200 hazard is real, and
+this paper shows that smoothing does not rescue it.
 \item Do not deploy any multi-window-history smoother (EWMA-3,
 trail3, or by extension longer-history variants without an adaptive
 forgetting mechanism) on this calibration grid in any regime studied.
 \item For organisations at high capacity, the deployable options
-collapse to (a) fixed Paper~4 weights, (b) periodic offline
+collapse to (a) fixed HygienePrio weights, (b) periodic offline
 rebaselining between deployment windows, or (c) adaptive
 recalibration methods outside the scope of this paper.
 \end{itemize}
 
 \subsection{Relationship to the Research Sequence}
 
-Paper~4 established hygiene augmentation; Paper~5 added temporal
-robustness; Paper~6 added capacity sensitivity; Paper~7 added a
+HygienePrio established hygiene augmentation; the temporal-stability evaluation added temporal
+robustness; the capacity-sweep evaluation added capacity sensitivity; the prior online-calibration evaluation added a
 deployable calibration substitute; this paper closes the easy door
-on extending Paper~7. The cumulative arc is a five-step refinement
+on extending the prior online-calibration evaluation. The cumulative arc is a five-step refinement
 of an operational claim: hygiene-augmented prioritization is better
 than EPSS-only across all studied regimes (per-pair); its absolute
-P@50 floor is regime-dependent (Paper~6); deployable recalibration
-is regime-conditional (Paper~7); and smoothing the recalibrator
+P@50 floor is regime-dependent (the capacity-sweep evaluation); deployable recalibration
+is regime-conditional (the prior online-calibration evaluation); and smoothing the recalibrator
 does not extend the regime in which it is safe to deploy (this paper).
 
 \subsection{What This Paper is Not}

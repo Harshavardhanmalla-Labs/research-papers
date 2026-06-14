@@ -1,8 +1,8 @@
 \section{Discussion}
 
-\subsection{What the Sweep Adds to Paper~5}
+\subsection{What the Sweep Adds to Prior Temporal-Stability Work}
 
-Paper~5~\cite{paper5temporal} reported that EPSS-only collapses across
+Prior temporal-stability work~\cite{paper5temporal} reported that EPSS-only collapses across
 six windows at a single cell and concluded that hygiene augmentation
 sustains prioritization quality. The present sweep confirms the
 \textit{relative} portion of that conclusion --- HygienePrio-full beats
@@ -10,7 +10,7 @@ EPSS-only in $96.0\%$ of (cell, seed, window) triples --- but rejects
 the \textit{absolute} portion at high capacity. The W6 P@50 floor
 provided by hygiene augmentation is regime-dependent: at $K \leq 50$
 it sits near $0.5$; at $K = 200$ it sits near $0.1$. A reader of
-Paper~5 alone might assume HygienePrio-full delivers a high absolute
+Prior temporal-stability work alone might assume HygienePrio-full delivers a high absolute
 P@50 across operating points; the sweep shows this assumption is wrong
 above $K = 100$.
 
@@ -31,7 +31,7 @@ also drains HygienePrio-full --- just at a higher capacity threshold.
 \subsection{Operational Implications}
 
 For an organisation operating at $K \leq 50$ pairs per bi-weekly window,
-the Paper~5 conclusion stands: hygiene augmentation provides a high
+the single-cell conclusion of~\cite{paper5temporal} stands: hygiene augmentation provides a high
 absolute P@50 across windows, and is a strict improvement over EPSS-only.
 For an organisation operating at $K \geq 100$, neither EPSS-only nor
 HygienePrio-full delivers a high absolute P@50 by W6 --- but
@@ -77,10 +77,10 @@ work below.
 
 \subsection{Relationship to the Research Sequence}
 
-Papers~1--5 progressively widened the evaluation lens. Paper~1
+Prior work in this line~\cite{paper1vulnprio,paper3hygienebench,paper4hygieneprio,paper5temporal} progressively widened the evaluation lens. VulnPrio
 established a single-window null result for CVE-level augmentation;
-Papers~3 and~4 identified hygiene signals as the missing factor;
-Paper~5 added the temporal dimension at one cell. The present paper
+HygieneBench and HygienePrio~\cite{paper3hygienebench,paper4hygieneprio} identified hygiene signals as the missing factor;
+Prior temporal-stability work added the temporal dimension at one cell. The present paper
 adds the capacity-arrival dimension and recovers an honest
 qualification: the absolute P@50 ceiling provided by hygiene
 augmentation is regime-dependent, but the per-pair relative

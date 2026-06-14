@@ -1,11 +1,14 @@
-Paper~5 reported that EPSS-only vulnerability prioritization decays from
-mean Precision@50 of $0.331$ at maintenance Window~1 to $0.034$ at Window~6
-on the synthetic EEHDA fleet at a single capacity-arrival operating point
-($K = 50$ pairs/window, $\lambda = 3$ new CVEs/window). This paper sweeps
-the two-dimensional grid $K \in \{10, 25, 50, 100, 200\}$ and
-$\lambda \in \{1, 3, 6, 12\}$ over six bi-weekly windows on the 25
-evaluation seeds inherited from Paper~5, producing 15{,}000 pre-registered
-result rows.
+Prior work on temporal stability of hygiene-augmented vulnerability
+prioritization~\cite{paper5temporal} reported that EPSS-only
+vulnerability prioritization decays from mean Precision@50 of $0.331$
+at maintenance Window~1 to $0.034$ at Window~6 on the synthetic
+EEHDA fleet at a single capacity-arrival operating point
+($K = 50$ pairs/window, $\lambda = 3$ new CVEs/window). That result is
+restricted to one capacity-arrival cell, leaving open whether the decay
+is universal across operating regimes. This paper sweeps the
+two-dimensional grid $K \in \{10, 25, 50, 100, 200\}$ and
+$\lambda \in \{1, 3, 6, 12\}$ over six bi-weekly windows on 25
+evaluation seeds, producing 15{,}000 pre-registered result rows.
 
 Three pre-registered findings are reported honestly. \textbf{First}, EPSS-only
 exhibits a negative decay slope in all 20 cells (mean slope range
@@ -28,12 +31,13 @@ signal becomes near-uninformative.
 The robustness claim that survives is per-pair: HygienePrio-full
 outperforms EPSS-only at P@50 in $96.0\%$ of all (cell, seed, window)
 triples ($2{,}881/3{,}000$), with per-cell dominance never below
-$76.7\%$. The operational implication, in contrast to Paper~5's
-single-cell conclusion, is that hygiene-augmented scoring is a
-strict improvement over EPSS-only across all capacity regimes studied,
-but the absolute P@50 floor it provides degrades at high capacity in
-the same way exploit-likelihood scoring does. All claims are bounded to
-the synthetic evaluation context; external validation on real fleet
-telemetry with longitudinal exploitation outcome data is required before
-any deployment recommendation, and is itself a stronger requirement
-than Paper~5 implied.
+$76.7\%$. The operational implication, in contrast to single-cell
+conclusions in prior work~\cite{paper5temporal}, is that
+hygiene-augmented scoring is a strict improvement over EPSS-only across
+all capacity regimes studied, but the absolute P@50 floor it provides
+degrades at high capacity in the same way exploit-likelihood scoring
+does. All claims are bounded to the synthetic evaluation context;
+external validation on real fleet telemetry with longitudinal
+exploitation outcome data is required before any deployment
+recommendation, and is itself a stronger requirement than single-cell
+analyses imply.

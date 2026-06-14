@@ -1,11 +1,10 @@
 \section{Results}
 \label{sec:results}
 
-All claims in this section trace to
-\texttt{paper7/results/primary\_v1/online\_calib\_results.csv}
-(1{,}350 rows) and the derived
-\texttt{hypothesis\_summary.json} and
-\texttt{cell\_window\_means.csv}.
+All claims in this section trace to the frozen
+\texttt{online\_calib\_results.csv} (1{,}350 rows) and the derived
+\texttt{hypothesis\_summary.json} and \texttt{cell\_window\_means.csv}
+released with the reproducibility artifact.
 
 \input{tables/tab_main}
 
@@ -30,9 +29,9 @@ bars at $K=200, w \in \{2, 3\}$ are the H1 failures.}
 
 \subsection{K = 50: Online Matches the Offline Ceiling}
 
-At the canonical Paper~5 cell, the fixed-weight HygienePrio-full
+At the canonical operating cell, the fixed-weight HygienePrio-full
 W2 mean P@50 is $0.544$. Offline-peek calibration lifts this to
-$0.757$ ($+21.3$~pp, matching Paper~5's H3 number). \textbf{Online
+$0.757$ ($+21.3$~pp, matching the temporal-stability evaluation's H3 number). \textbf{Online
 recalibration with a one-window lag reaches $0.741$ ($+19.7$~pp), a
 $92.5\%$ recovery of the offline gain without future-data leakage.}
 The cell-mean recovery ratio across $w \geq 2$ is $\rho = 1.04$,
@@ -47,13 +46,13 @@ one-window lag's implicit regularisation generalises better.
 \subsection{K = 100: Online Recovers the Bulk of the Gain}
 
 At $K = 100$ the fixed-weight HygienePrio-full W6 has already fallen
-to $0.315$ (the Paper~6 H4-collapse zone). Online recalibration lifts
+to $0.315$ (the capacity-sweep evaluation H4-collapse zone). Online recalibration lifts
 this to $0.355$ ($+4.0$~pp) at W6 and to $0.547$ ($+3.0$~pp) at W3.
 The cell-mean recovery ratio is $\rho = 0.99$ across $w \geq 2$ ---
 online essentially matches the offline ceiling. The absolute floor
-is improved but not restored to the Paper~5 regime; online
+is improved but not restored to the temporal-stability evaluation regime; online
 recalibration is a useful add-on at $K = 100$ but does not rescue
-the cell from the Paper~6 collapse pattern.
+the cell from the capacity-sweep evaluation collapse pattern.
 
 \subsection{K = 200: Online Harms Performance}
 

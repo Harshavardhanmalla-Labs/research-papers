@@ -3,9 +3,9 @@
 \subsection{Pre-Registration}
 
 The cell grid, five-strategy definition, hypotheses H1--H4, decision
-rules, and stop rules in \texttt{paper8/design/PAPER8\_PROTOCOL.md}
-were locked on 2026-06-04 before any multi-history-calibration result
-was computed.
+rules, and stop rules were pre-registered in the protocol archived
+with the reproducibility artifact and locked on 2026-06-04 before any
+multi-history-calibration result was computed.
 
 \subsection{Execution}
 
@@ -28,12 +28,13 @@ follow the pre-registered tolerance thresholds.
 
 \subsection{Reproducibility}
 
-From \texttt{paper8/}:
+From the artifact root:
 {\small\begin{verbatim}
 PYTHONPATH=src python3 src/run_multi_history.py
 PYTHONPATH=src python3 src/analyze.py
 PYTHONPATH=src python3 src/make_figures.py
 \end{verbatim}}
-The runner re-uses Paper~5's window simulator and Paper~4's scorer
-via \texttt{sys.path} injection. Determinism inherited from Paper~5's
-per-(seed, window, step) RNG seeding.
+The runner re-uses the window simulator of~\cite{paper5temporal} and
+the scorer of~\cite{paper4hygieneprio} via \texttt{sys.path} injection.
+Determinism follows the per-(seed, window, step) RNG seeding
+of~\cite{paper5temporal}.

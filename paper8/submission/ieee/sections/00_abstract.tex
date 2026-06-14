@@ -1,14 +1,16 @@
-Paper~7~\cite{paper7online} found that lag-1 rolling-history online
-recalibration of the HygienePrio scorer recovers the offline-peek
-calibration ceiling at moderate capacity (per-cell recovery ratio
-$\rho \in \{1.04, 0.99\}$ at $K \in \{50, 100\}$, $\lambda = 3$) but
-\textit{harms} performance at $K = 200$ ($\rho = -0.66$). Paper~7
-named multi-window-history smoothing as the natural candidate fix.
-This paper evaluates that fix in a pre-registered 2{,}250-row
-five-strategy comparison: \textsf{fixed} (Paper~4 weights),
-\textsf{lag1} (Paper~7 baseline), \textsf{trail3} (equal-weight
-3-window trailing mean), \textsf{ewma3} (exponentially-weighted
-3-window mean, $\alpha = 0.6$), and \textsf{offline} (Paper~7 ceiling).
+Prior work on rolling-history online calibration of the HygienePrio
+scorer~\cite{paper7online} found that lag-1 recalibration recovers the
+offline-peek calibration ceiling at moderate capacity (per-cell
+recovery ratio $\rho \in \{1.04, 0.99\}$ at $K \in \{50, 100\}$,
+$\lambda = 3$) but \textit{harms} performance at $K = 200$
+($\rho = -0.66$), and named multi-window-history smoothing as the
+natural candidate fix. This paper evaluates that fix in a
+pre-registered 2{,}250-row five-strategy comparison: \textsf{fixed}
+(the prior HygienePrio weights~\cite{paper4hygieneprio}), \textsf{lag1}
+(the one-window-lag baseline of~\cite{paper7online}), \textsf{trail3}
+(equal-weight 3-window trailing mean), \textsf{ewma3}
+(exponentially-weighted 3-window mean, $\alpha = 0.6$), and
+\textsf{offline} (the offline-peek ceiling of~\cite{paper7online}).
 
 \textbf{All four pre-registered hypotheses are rejected, and the
 direction of rejection is the contribution.} Multi-window smoothing
@@ -27,7 +29,7 @@ weights \textit{further} from the appropriate-for-window-$w$ optimum,
 not closer to it. The hazard is monotone in history length: less
 history is better when the rate of distributional change is fast.
 
-The operational recommendation that emerges is sharper than Paper~7's:
+The operational recommendation that emerges is sharper than that of~\cite{paper7online}:
 deployable online recalibration in this setting should use the
 shortest possible history (lag-1 at most) and should be turned off
 entirely at high capacity. Future work is needed on more sophisticated

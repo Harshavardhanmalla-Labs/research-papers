@@ -2,7 +2,7 @@
 
 \subsection{Lag-1 Online Recalibration and Its Hazard}
 
-Paper~7~\cite{paper7online} evaluated lag-1 rolling-history grid-search
+the prior online-calibration evaluation~\cite{paper7online} evaluated lag-1 rolling-history grid-search
 recalibration for the HygienePrio scorer. At moderate capacity
 ($K \in \{50, 100\}$), the procedure recovered essentially all of the
 offline-peek calibration ceiling (per-cell recovery ratio $\rho \in
@@ -29,7 +29,7 @@ effective horizon. At $\alpha = 0.6$ the effective lookback is
 $\approx 2.5$ windows.
 
 The question this paper asks is whether either smoothing scheme
-reverses Paper~7's high-capacity hazard \textit{without} breaking the
+reverses the prior online-calibration evaluation's high-capacity hazard \textit{without} breaking the
 moderate-capacity recovery. A naive prediction is that smoothing
 helps at high $K$ (less overfitting to noisy single-window targets)
 and hurts at low $K$ (introduces unnecessary lag when single-window
@@ -38,7 +38,7 @@ favourably is an empirical question.
 
 \subsection{Why This Matters Operationally}
 
-An operations team that adopts Paper~7's online recalibration as
+An operations team that adopts the prior online-calibration evaluation's online recalibration as
 written and runs it on a high-capacity fleet would suffer a measurable
 P@50 penalty in the first weeks of operation. Any deployable
 calibration recipe must therefore include a smoothing knob; this

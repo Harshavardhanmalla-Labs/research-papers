@@ -7,7 +7,7 @@ The measured value is \textbf{7 unique positive distinct CVEs} across 18 monthly
 
 \subsection{Primary execution integrity}
 
-The primary execution comprises 4 batches, \textbf{48 cells}, \textbf{1,440 seed-runs}, and \textbf{8,640 metric rows}. Every row carries a \texttt{freeze\_witness\_id} equal to the Paper-1 manifest SHA-256 (\texttt{750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833}); zero rows are missing the witness ID. All four batches passed five freeze-integrity assertions: pre-flight check OK, post-run check OK, manifest SHA byte-equal, no Paper-1 paths modified, and no freeze bypass invoked. Data-integrity and freeze-violation hard halts did not trigger. No row uses a calibration or learned strategy.
+The primary execution comprises 4 batches, \textbf{48 cells}, \textbf{1,440 seed-runs}, and \textbf{8,640 metric rows}. Every row carries a \texttt{freeze\_witness\_id} equal to the companion-artefact manifest SHA-256~\cite{Malla2026VulnPrio} (\texttt{750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833}); zero rows are missing the witness ID. All four batches passed five freeze-integrity assertions: pre-flight check OK, post-run check OK, manifest SHA byte-equal, no companion-artefact paths modified, and no freeze bypass invoked. Data-integrity and freeze-violation hard halts did not trigger. No row uses a calibration or learned strategy.
 
 \subsection{Operational EHD outcomes}
 
@@ -59,7 +59,7 @@ Twelve paired ablation-vs-full comparisons (two fixed-prior vectors $\times$ six
 
 \subsection{Scheduler feasibility and audit integrity}
 
-\texttt{scheduler\_feasibility\_rate = 1.0} on every primary cell. All four batches passed freeze-integrity verification; the Paper-1 freeze manifest SHA-256 was byte-equal before and after every batch.
+\texttt{scheduler\_feasibility\_rate = 1.0} on every primary cell. All four batches passed freeze-integrity verification; the freeze manifest SHA-256 of~\cite{Malla2026VulnPrio} was byte-equal before and after every batch.
 
 \subsection{Post-run variance analysis}
 

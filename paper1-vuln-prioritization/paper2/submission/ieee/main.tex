@@ -89,10 +89,10 @@ and EPSS~\cite{jacobs2021epss} provide component-level signals, but their
 aggregation into fleet-level priority scores requires weighting decisions that
 are rarely validated against exploit ground truth.
 
-A companion paper (Paper~1) constructed a reproducible, reproducibility-audited
+A companion contribution by the same author~\cite{Malla2026VulnPrio} constructed a reproducible, reproducibility-audited
 benchmark for context-aware vulnerability prioritization on a synthetic fleet,
 and deliberately used \emph{placeholder} weights pending empirical calibration.
-Paper~2---this paper---asks the natural follow-on question: can we calibrate
+The present paper asks the natural follow-on question: can we calibrate
 those weights using real public-feed data drawn from NVD, EPSS~v3, and the CISA
 Known Exploited Vulnerabilities (KEV) catalog~\cite{cisa_kev}?
 
@@ -170,8 +170,8 @@ CVSS~v3.1~\cite{first_cvss_v31} provides Base, Temporal, and Environmental
 score components.  Fleet-level prioritization systems typically combine CVSS
 Base Score, EPSS, asset exposure, and contextual factors using a weighted
 aggregation.  The weights encode organizational risk appetite and are rarely
-empirically calibrated, a gap that motivates the calibration question in
-Paper~1 and~2.
+empirically calibrated, a gap that motivates the calibration question
+addressed here and by the companion benchmark of~\cite{Malla2026VulnPrio}.
 
 \subsection{Prior Work on Exploit Label Sparsity}
 
@@ -240,7 +240,7 @@ CIs; SM-4 descriptive guardrail applies throughout.
 
 \textbf{Q3 (Classes~E and~F, audit).}
 Does the runtime preserve scheduler feasibility, content-addressed
-audit integrity, and Paper~1's freeze invariant on every batch?
+audit integrity, and the freeze invariant of~\cite{Malla2026VulnPrio} on every batch?
 \emph{Pre-registered metrics}: \texttt{scheduler\_feasibility\_rate},
 \texttt{hash\_chain\_validity}, and freeze-verification status.
 
@@ -550,7 +550,7 @@ These test the sensitivity of fleet rankings to feature availability.
 NVD-derived contextual features (attack vector, attack complexity,
 privileges required) relative to the base CVSS score.  One vector collapses
 these to zero (pure CVSS Base Score); the other up-weights them relative
-to the Paper~1 placeholder.
+to the companion placeholder of~\cite{Malla2026VulnPrio}.
 
 Table~\ref{tab:sensitivity-design} summarizes the six vectors.
 
@@ -594,7 +594,7 @@ for that).
 
 \textbf{Rank stability.}  The Wilcoxon signed-rank
 statistic~\cite{wilcoxon1945} comparing each vector's per-CVE rank to the
-Paper~1 placeholder vector, reported as a descriptive summary.  No
+companion placeholder vector of~\cite{Malla2026VulnPrio}, reported as a descriptive summary.  No
 hypothesis-testing interpretation is made, consistent with the descriptive-only
 pre-registration; the statistic is reported solely to characterize
 the magnitude of rank perturbation induced by each design variation.
@@ -719,7 +719,7 @@ decision to PIVOT rather than calibrate.
 Rank stability statistics (Wilcoxon signed-rank descriptive values) are
 omitted from Table~\ref{tab:sensitivity-results} for space; they are
 included in the replication archive.  Across all six vectors, the median
-rank perturbation relative to the Paper~1 placeholder is small (median
+rank perturbation relative to the companion placeholder of~\cite{Malla2026VulnPrio} is small (median
 rank shift $< 5$ positions for CVEs with EPSS $> 0.10$), indicating that
 the placeholder weights are not dramatically out of alignment with any of
 the six design priors, though this observation carries no inferential
@@ -769,7 +769,7 @@ measurement of a real data-density boundary.  A practitioner who proceeds
 with weight calibration without first verifying label density will fit a
 model that has no statistical grounding.
 
-The specific implication for the companion Paper~1 benchmark is that the
+The specific implication for the companion benchmark~\cite{Malla2026VulnPrio} is that its
 placeholder weights must remain placeholder weights for now.  Moving from
 placeholders to calibrated weights requires either (a) a larger product
 catalog, (b) a longer study window, (c) a supplementary exploit-occurrence
@@ -813,8 +813,7 @@ formalize the threshold derivation for specific model families.
 \subsection{The Sensitivity Sweep as Provenance}
 
 Despite the gate PIVOT, the sensitivity sweep serves a useful function: it
-establishes provenance for the design choices in Paper~1's placeholder
-weights by demonstrating that the placeholder is not an outlier relative
+establishes provenance for the design choices in the companion placeholder weights of~\cite{Malla2026VulnPrio} by demonstrating that the placeholder is not an outlier relative
 to the space of six plausible priors.  The wide BCa intervals confirm that
 we cannot draw performance conclusions from the sweep, but the descriptive
 pattern---that EPSS and KEV signals, when present, tend to move positives
@@ -887,8 +886,7 @@ available data cannot distinguish among weight vectors---consistent with the
 gate decision.
 
 We release the full data-acquisition pipeline, gate implementation, and
-sensitivity sweep code alongside this paper for replication.  The companion
-Paper~1 benchmark remains valid and unchanged; its placeholder weights
+sensitivity sweep code alongside this paper for replication.  The companion benchmark~\cite{Malla2026VulnPrio} remains valid and unchanged; its placeholder weights
 remain as-specified pending future calibration when label density permits.
 
 \balance

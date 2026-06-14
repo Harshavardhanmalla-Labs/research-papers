@@ -2,7 +2,7 @@
 
 Single-cell evaluations of vulnerability prioritization methods report
 performance at one operating point: one remediation capacity, one CVE
-arrival rate, one window cadence. Paper~5~\cite{paper5temporal} extended
+arrival rate, one window cadence. Prior temporal-stability work~\cite{paper5temporal} extended
 single-window evaluation~\cite{paper4hygieneprio} to six rolling windows
 at a fixed cell ($K = 50, \lambda = 3$) and showed that EPSS-only
 Precision@50 decays from $0.331$ to $0.034$ as the high-EPSS tail of
@@ -18,11 +18,11 @@ tail? Above some critical $\lambda$, decay should slow or stall.
 
 Both matter operationally: an organisation with $K = 200, \lambda = 12$
 sits in a very different regime from one with $K = 25, \lambda = 1$, and
-Paper~5's single-cell result cannot tell either organisation what to expect.
+a single-cell result~\cite{paper5temporal} cannot tell either organisation what to expect.
 
 This paper sweeps a pre-registered 5$\times$4 grid of $(K, \lambda)$
-on the 25 evaluation seeds inherited from Paper~5, generating 15{,}000
-result rows under the same EEHDA fleet model. We report three
+on 25 evaluation seeds, generating 15{,}000 result rows under the
+EEHDA synthetic-fleet model used in~\cite{paper5temporal}. We report three
 findings honestly against the pre-registration.
 
 \subsection{Contributions}
@@ -30,7 +30,7 @@ findings honestly against the pre-registration.
 \begin{itemize}
 \item \textbf{C1 --- Two-dimensional capacity-arrival sweep.} A
 pre-registered grid of 20 $(K, \lambda)$ cells on the EEHDA fleet,
-extending Paper~5's single-cell simulator with explicit cell-level
+extending the prior temporal-stability evaluation's single-cell simulator with explicit cell-level
 control of capacity and Poisson arrival rate; 15{,}000 frozen result rows.
 
 \item \textbf{C2 --- Universal EPSS decay across the grid.} EPSS-only
@@ -62,16 +62,18 @@ regimes studied, but is not a guarantee of absolute scheduling quality
 at the high-capacity end.
 \end{itemize}
 
-\subsection{Relationship to Prior Papers}
+\subsection{Relationship to Prior Work}
 
-This paper is the sixth in the VulnPrio research sequence. Paper~1~\cite{paper1vulnprio}
-reported a null result for CVE-level augmentation at one window.
-Paper~3~\cite{paper3hygienebench} demonstrated discriminative structure
-in hygiene signals. Paper~4~\cite{paper4hygieneprio} integrated those
-signals into the HygienePrio scorer and showed $\approx 31$~pp Precision@50
-improvement over EPSS-only at one window. Paper~5~\cite{paper5temporal}
-showed the gap is robust across six windows at one cell. The present
-paper sweeps the cell-defining parameters and finds that the absolute
-P@50 of \textit{both} methods is regime-dependent, with HygienePrio's
-absolute floor failing at high capacity --- while its relative
-advantage over EPSS-only is preserved across the grid.
+Prior reproducible work on capacity-constrained
+prioritization~\cite{paper1vulnprio} reported a null result for
+CVE-level augmentation at one window. A subsequent open benchmark for
+cyber-hygiene anomaly detection~\cite{paper3hygienebench} demonstrated
+discriminative structure in hygiene signals. HygienePrio~\cite{paper4hygieneprio}
+integrated those signals into a scorer and showed $\approx 31$~pp
+Precision@50 improvement over EPSS-only at one window. A temporal-stability
+follow-up~\cite{paper5temporal} showed the gap is robust across six
+windows at one operating cell. The present paper sweeps the
+cell-defining parameters and finds that the absolute P@50 of
+\textit{both} methods is regime-dependent, with HygienePrio's absolute
+floor failing at high capacity --- while its relative advantage over
+EPSS-only is preserved across the grid.

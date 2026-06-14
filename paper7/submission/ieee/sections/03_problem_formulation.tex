@@ -3,12 +3,12 @@
 
 \subsection{Setting}
 
-We inherit Paper~5's~\cite{paper5temporal} multi-window simulation
-($W = 6$ bi-weekly windows on the EEHDA fleet) and Paper~6's~\cite{paper6capacity}
+We inherit the temporal-stability evaluation's~\cite{paper5temporal} multi-window simulation
+($W = 6$ bi-weekly windows on the EEHDA fleet) and the capacity-sweep evaluation's~\cite{paper6capacity}
 $(K, \lambda)$ parameterisation. The cell-defining parameters are
 fixed at $\lambda = 3$ Poisson new-CVE arrivals per window, and
 $K \in \{50, 100, 200\}$. The HygienePrio scorer Eq.~(\ref{eq:hp}) and
-HRS components are inherited verbatim from Paper~4~\cite{paper4hygieneprio};
+HRS components are inherited verbatim from HygienePrio~\cite{paper4hygieneprio};
 the only quantity that varies across strategies in this paper is the
 scorer weights $(\alpha, \beta, \gamma, \delta)$.
 
@@ -17,7 +17,7 @@ scorer weights $(\alpha, \beta, \gamma, \delta)$.
 For each cell and each window $w$, we evaluate three strategies:
 
 \begin{description}
-\item[\textsf{fixed}] Weights remain at the Paper~4 calibrated values
+\item[\textsf{fixed}] Weights remain at the HygienePrio calibrated values
 $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$ at every
 window. No refitting.
 \item[\textsf{online}] At $w = 1$, weights are \textsf{fixed}.
@@ -28,16 +28,16 @@ evaluation seeds at \textit{window~$w$}.
 \item[\textsf{offline}] At $w = 1$, weights are \textsf{fixed}.
 At $w \geq 2$, grid-search at the calibration seeds' \textit{window~$w$
 state} (peek) and apply to the evaluation seeds at the same window. This
-replicates Paper~5's H3 procedure and acts as an upper-bound ceiling.
+replicates the temporal-stability evaluation's H3 procedure and acts as an upper-bound ceiling.
 \end{description}
 
-The grid is identical to Paper~5~\cite{paper5temporal} (108 points across
+The grid is identical to the temporal-stability evaluation~\cite{paper5temporal} (108 points across
 $\alpha, \beta, \gamma, \delta$).
 
 \subsection{Ground Truth and Metric}
 
 Ground truth, per-window HRS-threshold recomputation, and Precision@50
-metric are identical to Papers~5 and~6 and are not restated here.
+metric are identical to the temporal-stability and capacity-sweep evaluations and are not restated here.
 
 \subsection{Pre-Registered Hypotheses}
 
@@ -51,4 +51,4 @@ recovers at least 50\% of the (offline $-$ fixed) gap for at least one
 window $w \in \{4, 5, 6\}$, with absolute gain $\geq 5$~pp.
 \end{description}
 
-Decision rules and stop rules are in \texttt{paper7/design/PAPER7\_PROTOCOL.md}.
+Decision rules and stop rules are pre-registered in the protocol archived with the reproducibility artifact.

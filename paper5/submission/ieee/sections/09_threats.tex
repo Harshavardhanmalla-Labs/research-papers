@@ -3,7 +3,7 @@
 
 The threats taxonomy follows Wohlin et al.~\cite{wohlin2012experimentation}.
 
-\textbf{Conclusion validity.} The evaluation comprises 150 window-seed observations summarised with 95\% percentile bootstrap confidence intervals (10{,}000 resamples). The EPSS decay is a deterministic property of the simulation (high-EPSS CVEs are remediated first by HygienePrio-full's policy), not a stochastic artifact, and is robust to bootstrap resampling. No null-hypothesis significance tests are reported; conclusions rely on CI overlap, consistent with Paper~4~\cite{paper4hygieneprio}.
+\textbf{Conclusion validity.} The evaluation comprises 150 window-seed observations summarised with 95\% percentile bootstrap confidence intervals (10{,}000 resamples). The EPSS decay is a deterministic property of the simulation (high-EPSS CVEs are remediated first by HygienePrio-full's policy), not a stochastic artifact, and is robust to bootstrap resampling. No null-hypothesis significance tests are reported; conclusions rely on CI overlap, consistent with HygienePrio~\cite{paper4hygieneprio}.
 
 \textbf{Internal validity.} The fleet-evolution model is simplified. Real EPSS dynamics involve daily updates from threat-intelligence feeds, not a Gaussian random-walk perturbation. Real patch velocity is heterogeneous across hosts and depends on organisational factors absent from the simulation. New-CVE arrivals are modelled as Poisson(3) per window; bursty real-world arrivals could change collapse rates in either direction.
 

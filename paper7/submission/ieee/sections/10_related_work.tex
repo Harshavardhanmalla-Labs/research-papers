@@ -1,6 +1,6 @@
 \section{Related Work}
 
-\textbf{Offline-peek calibration baseline.} Paper~5~\cite{paper5temporal}
+\textbf{Offline-peek calibration baseline.} the temporal-stability evaluation~\cite{paper5temporal}
 established the offline-peek H3 ablation that this paper uses as a
 ceiling. That study reported the gain ($+21.3$~pp at W2 on $K=50,
 \lambda=3$) but explicitly noted the procedure was not deployable.
@@ -8,7 +8,7 @@ The present paper closes that loop by evaluating a deployable
 substitute.
 
 \textbf{Capacity-dependent prioritization performance.}
-Paper~6~\cite{paper6capacity} identified $K \in \{100, 200\}$ as
+The capacity-sweep evaluation~\cite{paper6capacity} identified $K \in \{100, 200\}$ as
 the regime where fixed-weight HygienePrio-full collapses at W6.
 The present paper inherits that finding as the motivation for
 H3 and reports that lag-1 online recalibration does not rescue
@@ -34,7 +34,7 @@ more sophisticated machinery and so we do not survey it in depth.
 \textbf{Cyber-hygiene benchmarking.} HygieneBench~\cite{paper3hygienebench}
 established discriminative structure in hygiene signals;
 HygienePrio~\cite{paper4hygieneprio} integrated them into a single-window
-scorer; Paper~5 added the temporal dimension; Paper~6 added the
+scorer; the temporal-stability evaluation added the temporal dimension; the capacity-sweep evaluation added the
 capacity-arrival dimension; this paper adds the recalibration-strategy
 dimension. The cumulative result is a five-paper map of where
 hygiene-augmented prioritization works, where it collapses, and

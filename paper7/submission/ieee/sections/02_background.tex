@@ -6,7 +6,7 @@ A scorer is \textit{offline-calibrated} when its weights are fit on data
 that includes or post-dates the period it is applied to; it is
 \textit{online-calibrated} when its weights are fit using only information
 available before the prediction time. The distinction matters because
-deployable procedures cannot peek into the future. Paper~5's H3
+deployable procedures cannot peek into the future. The temporal-stability evaluation's H3
 ablation~\cite{paper5temporal} computed per-window weights by grid search
 on the calibration seeds' \textit{same-window} state --- an offline-peek
 procedure that establishes an upper bound on what real-time recalibration
@@ -24,7 +24,7 @@ operational deployment.
 
 \subsection{Why High-Capacity Cells Matter Most}
 
-Paper~6~\cite{paper6capacity} documented that HygienePrio-full's
+The capacity-sweep evaluation~\cite{paper6capacity} documented that HygienePrio-full's
 absolute W6 P@50 collapses at $K \in \{100, 200\}$ even though its
 per-pair relative advantage over EPSS-only is preserved. The natural
 follow-up question --- can online recalibration rescue HygienePrio at

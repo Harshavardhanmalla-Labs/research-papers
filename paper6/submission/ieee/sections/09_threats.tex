@@ -41,7 +41,7 @@ comparability at the cost of entangling capacity with denominator drift.
 \textit{(iii) Synthetic-fleet structural priors.} EPSS and HRS
 distributions, patch-lag dynamics, KEV prevalence, and AD-exposure
 structure are all drawn from the EEHDA fixture distributions inherited
-from Paper~4~\cite{paper4hygieneprio}. Real fleet distributions
+from HygienePrio~\cite{paper4hygieneprio}. Real fleet distributions
 may differ in ways that change the cells at which collapse occurs.
 The qualitative pattern --- universal EPSS decay, capacity-dependent
 HygienePrio collapse, regime-robust per-pair dominance --- is the
@@ -56,11 +56,11 @@ shrinks and P@50 becomes noisier. The decay-slope metric partially
 compensates by aggregating across windows. A complementary
 remediation-latency metric integrating scheduling delay against
 exploitation-event arrival was not in scope for this sweep
-(consistent with Paper~5's deferral).
+(consistent with the deferral in~\cite{paper5temporal}).
 
 \textbf{External validity.} The 14-day window, 0.15 patch-debt
 reduction, 0.02 EPSS random-walk, and (8\%, 12\%) KEV/EPSS prevalence
-calibrations are inherited from Paper~4 and Paper~5. Organisations with
+calibrations follow the priors of~\cite{paper4hygieneprio,paper5temporal}. Organisations with
 substantially different patch-velocity heterogeneity, scanner coverage,
 or AD topology may sit at $(K/\lambda)$ ratios outside the studied
 grid. The qualitative finding --- that both methods exhibit

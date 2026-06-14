@@ -5,13 +5,13 @@ A pre-registered evaluation of rolling-history online calibration for
 hygiene-augmented vulnerability prioritization across three capacity
 levels, six windows, three calibration strategies, and 25 evaluation
 seeds produces 1{,}350 result rows that revise the operational
-recommendation implied by Paper~5's offline-peek ablation.
+recommendation implied by the temporal-stability evaluation's offline-peek ablation.
 
 \textbf{First}, at moderate capacity ($K \leq 100$), the deployable
 lag-1 rolling-history grid search recovers essentially all of the
 offline-peek gain (cell-mean recovery ratio $\rho = 1.04$ at
 $K = 50$, $\rho = 0.99$ at $K = 100$). At $K = 50, w = 2$ the procedure
-adds $+19.7$~pp over fixed Paper~4 weights, against the offline
+adds $+19.7$~pp over fixed HygienePrio weights, against the offline
 ceiling of $+21.3$~pp. Deployable online recalibration is operationally
 viable in this regime.
 
@@ -35,7 +35,7 @@ an implicit regulariser.
 The operational summary is conditional: deploy rolling-history online
 recalibration only when the per-window distributional change is small
 relative to the lag the recalibration window imposes. At high
-capacity, the deployment is a net hazard; either keep fixed Paper~4
+capacity, the deployment is a net hazard; either keep fixed HygienePrio
 weights or develop a longer-history calibration procedure --- both
 of which are out of this paper's scope.
 
@@ -48,5 +48,5 @@ calibration to test whether longer-history smoothing reverses the
 $K = 200$ hazard; (ii) closed-loop calibration in which the selection
 policy is also recalibrated, separating scoring weights from selection
 weights; (iii) external validation on real fleet telemetry, where the
-fixed Paper~4 weights themselves would be re-fit on real exploitation
+fixed HygienePrio weights themselves would be re-fit on real exploitation
 event logs before this online-vs-fixed comparison is meaningful.

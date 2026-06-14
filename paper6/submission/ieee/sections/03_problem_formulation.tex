@@ -3,7 +3,7 @@
 
 \subsection{Sweep Setting}
 
-We extend Paper~5's~\cite{paper5temporal} single-cell multi-window simulation
+We extend the prior temporal-stability evaluation's~\cite{paper5temporal} single-cell multi-window simulation
 to a two-dimensional sweep over remediation capacity $K$ and Poisson
 arrival rate $\lambda$. Let $F_w$ denote the fleet state at window $w \in
 \{1, \ldots, W\}$ with $W = 6$. For each cell $(K, \lambda)$ in the grid,
@@ -19,7 +19,7 @@ fleet evolution for \textit{all} methods scored at this window).
 patch debt and recover telemetry freshness for acted hosts.
 \item \textbf{Disclose.} Draw $n \sim \mathrm{Poisson}(\lambda)$ new
 (host, CVE) rows with EPSS, CVSS, and KEV attributes sampled from the
-Paper~4~\cite{paper4hygieneprio} fixture distributions.
+HygienePrio~\cite{paper4hygieneprio} fixture distributions.
 \item \textbf{Update.} Random-walk perturb EPSS scores ($\sigma = 0.02$);
 accumulate telemetry staleness for non-acted hosts.
 \item \textbf{Advance.} $F_{w+1} \leftarrow$ updated state.
@@ -27,12 +27,12 @@ accumulate telemetry staleness for non-acted hosts.
 
 \subsection{Ground Truth (per Window)}
 
-Identical to Paper~5~\cite{paper5temporal}: $(h, c)$ is a positive at
+Following~\cite{paper5temporal}: $(h, c)$ is a positive at
 window $w$ if $\mathrm{EPSS}(c) > 0.10$, $\mathrm{HRS}(h)$ exceeds the
 fleet's 75th percentile at $w$, and $(h, c) \in V_w$. The HRS-percentile
-threshold is recomputed per window; this is a structural choice
-inherited from Paper~5 and is restated as a threat in
-\S\ref{sec:threats}.
+threshold is recomputed per window; this structural choice, adopted
+from~\cite{paper5temporal} for comparability, is restated as a threat
+in \S\ref{sec:threats}.
 
 \subsection{Metrics}
 
@@ -60,5 +60,4 @@ slope $\geq -0.01$ P@50/window (descriptive; no binary test).
 \end{description}
 
 The full pre-registration protocol, including hypotheses, decision
-rules, and stop rules, is archived at \texttt{paper6/design/PAPER6\_PROTOCOL.md}
-and accompanies the artifact release.
+rules, and stop rules, accompanies the reproducibility artifact release.

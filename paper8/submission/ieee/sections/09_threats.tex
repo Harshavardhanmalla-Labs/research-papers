@@ -12,13 +12,13 @@ and we report them as ties rather than as substantive effects.
 
 \textbf{Internal validity.}
 
-\textit{(i) Selection-policy coupling.} As in Papers~5--7, fleet
+\textit{(i) Selection-policy coupling.} As in the prior multi-window evaluations, fleet
 evolution is driven by HygienePrio-full under the \textsf{fixed}
 weights at every window. All five strategies score against the same
 evolving backlog, isolating the calibration-weights effect. In a real
 closed-loop deployment the selection policy would also be recalibrated
 and the trajectory would diverge across strategies; this is a known
-limitation shared with Paper~7.
+limitation shared with the prior online-calibration evaluation.
 
 \textit{(ii) EWMA $\alpha$ is pre-registered, not tuned.} We fixed
 $\alpha = 0.6$ in the protocol to avoid post-hoc tuning. Different
@@ -36,7 +36,7 @@ windows due to small positive-set sizes. The K=200 hypothesis decisions
 therefore weight earlier-window results (W2--W4) more heavily through
 the cell-mean recovery ratio.
 
-\textbf{External validity.} Inherited from Papers~4--7: synthetic
+\textbf{External validity.} Inherited from the prior HygienePrio-line work~\cite{paper4hygieneprio,paper5temporal,paper6capacity,paper7online}: synthetic
 EEHDA structural priors, 14-day window, 0.15 patch debt reduction,
 0.02 EPSS random walk, 8\% KEV prevalence. Real fleets with different
 rate-of-distributional-shift dynamics would produce different

@@ -1,11 +1,10 @@
 \section{Results}
 \label{sec:results}
 
-All numerical claims in this section trace to
-\texttt{paper6/results/primary\_sweep\_v1/sweep\_results.csv} (15{,}000 rows)
-and the derived
-\texttt{cell\_summary.csv} and
-\texttt{hypothesis\_summary.json}. Three frozen tables and three frozen
+All numerical claims in this section trace to the frozen
+\texttt{sweep\_results.csv} (15{,}000 rows) and the derived
+\texttt{cell\_summary.csv} and \texttt{hypothesis\_summary.json}
+released with the reproducibility artifact. Three frozen tables and three frozen
 figures are reported.
 
 \subsection{Universal EPSS Decay}
@@ -61,7 +60,7 @@ sweep captures the net effect rather than rationalising it.
 
 Table~\ref{tab:w6} and Fig.~\ref{fig:retention} report W6 mean P@50 per
 cell for HygienePrio-full and EPSS-only. At $K \leq 50$, HygienePrio-full
-holds $\geq 0.499$ at every cell --- the regime Paper~5~\cite{paper5temporal}
+holds $\geq 0.499$ at every cell --- the regime the prior temporal-stability evaluation~\cite{paper5temporal}
 reported. At $K = 100$, HygienePrio-full's W6 P@50 sits in
 $[0.315, 0.334]$ across $\lambda$; at $K = 200$, it falls to $[0.062, 0.116]$.
 
@@ -109,7 +108,7 @@ to $\sim 0.06$--$0.12$.}
 \end{figure}
 
 Fig.~\ref{fig:corners} shows P@50 trajectories at the four corner
-cells. The top row ($K = 10$) reproduces Paper~5's qualitative pattern:
+cells. The top row ($K = 10$) reproduces the prior temporal-stability evaluation's qualitative pattern:
 HygienePrio-full is stable, EPSS-only decays, HRS-only and CVSS-only
 sit between. The bottom row ($K = 200$) shows the previously
 unreported collapse pattern: at the highest capacity, all hygiene-

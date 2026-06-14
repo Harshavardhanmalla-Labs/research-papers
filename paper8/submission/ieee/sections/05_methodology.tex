@@ -3,8 +3,8 @@
 \subsection{Scorer (Inherited)}
 
 The HygienePrio scorer Eq.~(\ref{eq:hp}) and HRS components are
-inherited verbatim from Paper~4~\cite{paper4hygieneprio} and used in
-Papers~5--7:
+inherited verbatim from HygienePrio~\cite{paper4hygieneprio} and used in
+the prior multi-window evaluations:
 \begin{equation}
 \begin{aligned}
 S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
@@ -48,7 +48,7 @@ weight $0.6^0 = 1$ and older windows receive $0.6, 0.36, \ldots$.
 
 \subsection{Fleet-State Evolution}
 
-Identical to Paper~7: HygienePrio-full under \textsf{fixed} weights
+Identical to the prior online-calibration evaluation: HygienePrio-full under \textsf{fixed} weights
 drives the top-$K$ selection at every window, producing the same
 trajectory for all strategies. The calibration strategy affects only
 the scoring weights, not the fleet evolution. The selection-policy
