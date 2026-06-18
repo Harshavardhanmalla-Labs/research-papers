@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow serving local files in dev
-  experimental: {},
+  // 'standalone' bundles only what's needed for production — required for Docker
+  output: "standalone",
 };
 
 export default nextConfig;

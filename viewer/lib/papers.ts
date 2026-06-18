@@ -1,4 +1,10 @@
-export const PAPERS_ROOT = "/Users/sowmyasreeogiboyina/Research Papers";
+// On a server: set PAPERS_ROOT env var to the absolute path where the
+// research-papers repo is mounted (e.g. /data/research-papers).
+// Locally it auto-resolves to the repo root two levels above viewer/.
+import path from "path";
+export const PAPERS_ROOT: string =
+  process.env.PAPERS_ROOT ??
+  path.resolve(__dirname, "..", "..", "..");
 
 export type PaperStatus = "complete" | "drafting" | "packaging" | "in-progress";
 
