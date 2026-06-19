@@ -3,28 +3,46 @@ import { useState } from "react";
 import {
   Search, Shield, Scale, FlaskConical, Flame, Clock,
   TrendingDown, RefreshCw, Activity, Target, Zap, ArrowRight,
+  Building2, FileCheck, Lock, CalendarClock, Network,
+  Brain, Terminal, LifeBuoy, Database,
 } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import { STATUS_COLORS } from "@/lib/papers";
 import clsx from "clsx";
 
-const PAPER_ICONS = [Shield, Scale, FlaskConical, Flame, Clock, TrendingDown, RefreshCw, Activity, Target, Zap];
+const PAPER_ICONS = [
+  Shield, Scale, FlaskConical, Flame, Clock,
+  TrendingDown, RefreshCw, Activity, Target, Zap,
+  Building2, FileCheck, Lock, CalendarClock, Network,
+  Brain, Terminal, LifeBuoy, Database,
+];
 const PAPER_ICON_CLS = [
-  "paper-icon-p1", "paper-icon-p2", "paper-icon-p3", "paper-icon-p4", "paper-icon-p5",
-  "paper-icon-p6", "paper-icon-p7", "paper-icon-p8", "paper-icon-p9", "paper-icon-p10",
+  "paper-icon-p1",  "paper-icon-p2",  "paper-icon-p3",  "paper-icon-p4",  "paper-icon-p5",
+  "paper-icon-p6",  "paper-icon-p7",  "paper-icon-p8",  "paper-icon-p9",  "paper-icon-p10",
+  "paper-icon-p11", "paper-icon-p12", "paper-icon-p13", "paper-icon-p14", "paper-icon-p15",
+  "paper-icon-p16", "paper-icon-p17", "paper-icon-p18", "paper-icon-p19",
 ];
 
 const VENUES: Record<string, string> = {
-  paper1: "IEEE",
-  paper2: "CSET",
-  paper3: "ACM AISec",
-  paper4: "IEEE TNSM",
-  paper5: "IEEE TNSM",
-  paper6: "IEEE TNSM",
-  paper7: "IEEE TNSM",
-  paper8: "IEEE TNSM",
-  paper9: "IEEE TNSM",
+  paper1:  "IEEE",
+  paper2:  "CSET",
+  paper3:  "ACM AISec",
+  paper4:  "IEEE TNSM",
+  paper5:  "IEEE TNSM",
+  paper6:  "IEEE TNSM",
+  paper7:  "IEEE TNSM",
+  paper8:  "IEEE TNSM",
+  paper9:  "IEEE TNSM",
   paper10: "IEEE TNSM",
+  paper11: "Gov / Practitioner",
+  paper12: "Gov / Practitioner",
+  paper13: "Gov / Practitioner",
+  paper14: "Gov / Practitioner",
+  paper15: "Gov / Practitioner",
+  paper16: "Gov / Practitioner",
+  paper17: "Gov / Practitioner",
+  paper18: "Gov / Practitioner",
+  paper19: "Gov / Practitioner",
 };
 
 const SERIES = [
@@ -45,6 +63,12 @@ const SERIES = [
     desc: "Integrated self-healing framework",
     pill: "bg-amber-500/12 text-amber-700 border-amber-200 dark:text-amber-400 dark:border-amber-800 dark:bg-amber-500/10",
     ids: ["paper10"],
+  },
+  {
+    label: "Government & Practitioner",
+    desc: "Applied security tools and frameworks for public-sector deployment — in progress",
+    pill: "bg-emerald-500/12 text-emerald-700 border-emerald-200 dark:text-emerald-400 dark:border-emerald-800 dark:bg-emerald-500/10",
+    ids: ["paper11","paper12","paper13","paper14","paper15","paper16","paper17","paper18","paper19"],
   },
 ];
 
