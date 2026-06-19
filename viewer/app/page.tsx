@@ -1,32 +1,35 @@
 "use client";
 import { useState, useEffect } from "react";
-import Sidebar from "@/components/Sidebar";
+import TopBar from "@/components/TopBar";
+import PaperGrid from "@/components/PaperGrid";
 import PaperViewer from "@/components/PaperViewer";
 import { PAPERS } from "@/lib/papers";
 
 export default function Home() {
-  const [activeId, setActiveId] = useState(PAPERS[2].id); // default; overridden by localStorage effect
-  const paper = PAPERS.find((p) => p.id === activeId) ?? PAPERS[0];
+  const [activeId, setActiveId] = useState<string | null>(null); // null = grid/home view
 
-  /* Restore last-viewed paper from localStorage on mount */
+  const paper = activeId ? (PAPERS.find((p) => p.id === activeId) ?? null) : null;
+
+  /* Sync active paper → HTML data-paper attribute so per-paper accent CSS vars cascade */
   useEffect(() => {
+    document.documentElement.dataset.paper = activeId ?? "";
     try {
-      const saved = localStorage.getItem('rp-paper');
-      if (saved && PAPERS.some((p) => p.id === saved)) setActiveId(saved);
+      if (activeId) localStorage.setItem("rp-paper", activeId);
     } catch (_) {}
-  }, []);
-
-  /* Sync active paper → HTML data-paper attribute so CSS vars cascade */
-  useEffect(() => {
-    document.documentElement.dataset.paper = activeId;
-    try { localStorage.setItem('rp-paper', activeId); } catch (_) {}
   }, [activeId]);
 
+  const handleSelect = (id: string) => setActiveId(id);
+  const handleBack   = () => setActiveId(null);
+
   return (
-    <div className="flex h-screen overflow-hidden bg-surface-0">
-      <Sidebar papers={PAPERS} activeId={activeId} onSelect={setActiveId} />
-      <main className="flex-1 min-w-0 overflow-hidden flex flex-col bg-surface-0">
-        <PaperViewer key={paper.id} paper={paper} />
+    <div className="flex flex-col h-screen overflow-hidden bg-surface-0">
+      <TopBar papers={PAPERS} activePaper={paper} onBack={handleBack} />
+      <main className="flex-1 min-h-0 overflow-hidden">
+        {paper ? (
+          <PaperViewer key={paper.id} paper={paper} />
+        ) : (
+          <PaperGrid papers={PAPERS} onSelect={handleSelect} />
+        )}
       </main>
     </div>
   );

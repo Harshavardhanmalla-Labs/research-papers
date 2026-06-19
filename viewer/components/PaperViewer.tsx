@@ -29,27 +29,37 @@ const TABS = [
 
 type Tab = typeof TABS[number]["key"];
 
-/* Left-rail colour per paper index */
+/* Top-rail colour per paper index (full-width layout, no sidebar) */
 const PAPER_RAIL = [
-  "border-l-sky-500",
-  "border-l-teal-500",
-  "border-l-violet-500",
-  "border-l-rose-500",
-  "border-l-amber-500",
+  "border-t-sky-500",
+  "border-t-teal-500",
+  "border-t-violet-500",
+  "border-t-rose-500",
+  "border-t-amber-500",
+  "border-t-emerald-500",
+  "border-t-indigo-500",
+  "border-t-fuchsia-500",
+  "border-t-lime-500",
+  "border-t-red-500",
 ];
 const PAPER_RAIL_BG = [
-  "from-sky-500/5",
-  "from-teal-500/5",
-  "from-violet-500/5",
-  "from-rose-500/5",
-  "from-amber-500/5",
+  "from-sky-500/4",
+  "from-teal-500/4",
+  "from-violet-500/4",
+  "from-rose-500/4",
+  "from-amber-500/4",
+  "from-emerald-500/4",
+  "from-indigo-500/4",
+  "from-fuchsia-500/4",
+  "from-lime-500/4",
+  "from-red-500/4",
 ];
 
 export default function PaperViewer({ paper }: Props) {
   const [tab, setTab] = useState<Tab>("pdf");
 
-  const paperIdx  = ["paper1","paper2","paper3","paper4","paper5"].indexOf(paper.id);
-  const railColor = PAPER_RAIL[paperIdx]  ?? PAPER_RAIL[2];
+  const paperIdx  = ["paper1","paper2","paper3","paper4","paper5","paper6","paper7","paper8","paper9","paper10"].indexOf(paper.id);
+  const railColor = PAPER_RAIL[paperIdx]    ?? PAPER_RAIL[2];
   const railBg    = PAPER_RAIL_BG[paperIdx] ?? PAPER_RAIL_BG[2];
 
   return (
@@ -58,7 +68,7 @@ export default function PaperViewer({ paper }: Props) {
       {/* ── Paper header ── */}
       <div className={clsx(
         "px-7 pt-5 pb-0 flex-shrink-0 border-b border-border backdrop-blur-md",
-        "border-l-4 bg-gradient-to-r to-transparent bg-surface-1/80",
+        "border-t-2 bg-gradient-to-b to-transparent bg-surface-1/80",
         railColor, railBg
       )}>
         <div className="flex items-start justify-between gap-6 mb-4">
