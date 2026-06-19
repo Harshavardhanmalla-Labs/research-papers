@@ -3,94 +3,94 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════════════════════
-   LIGHT MODE — "Warm Paper"
-   Surfaces feel like cream parchment, accent is rich violet.
+   LIGHT MODE — "Arctic Blue"
+   Clean white surfaces, ocean-blue accent. Modern SaaS feel.
    ═══════════════════════════════════════════════════════════════ */
 :root {
   color-scheme: light;
 
-  /* Surfaces — ivory-cream spectrum */
-  --s0: 253 252 248;   /* #fdfc f8  — warm white      */
-  --s1: 246 243 236;   /* #f6f3ec  — parchment        */
-  --s2: 237 233 224;   /* #ede9e0  — card             */
-  --s3: 225 220 209;   /* #e1dcd1  — elevated         */
-  --s4: 210 204 191;   /* #d2ccbf  — raised           */
-  --s5: 192 185 170;   /* #c0b9aa  — highest          */
+  /* Surfaces — slate-white spectrum */
+  --s0: 255 255 255;   /* #ffffff  — pure white        */
+  --s1: 248 250 252;   /* #f8fafc  — slate-50          */
+  --s2: 241 245 249;   /* #f1f5f9  — slate-100         */
+  --s3: 226 232 240;   /* #e2e8f0  — slate-200         */
+  --s4: 203 213 225;   /* #cbd5e1  — slate-300         */
+  --s5: 148 163 184;   /* #94a3b8  — slate-400         */
 
-  /* Accent — royal violet */
-  --accent:       124  58 237;   /* #7c3aed */
-  --accent-dim:   109  40 217;   /* #6d28d9 */
-  --accent-muted: 237 233 254;   /* #ede9fe */
+  /* Accent — ocean blue */
+  --accent:       37  99 235;   /* #2563eb — blue-600   */
+  --accent-dim:   29  78 216;   /* #1d4ed8 — blue-700   */
+  --accent-muted: 219 234 254;  /* #dbeafe — blue-100   */
 
   /* Border */
-  --border-c: 208 202 190;       /* #d0cabe */
+  --border-c: 226 232 240;      /* #e2e8f0 — slate-200  */
 
   /* Foreground text */
-  --fg:   28  24  20;   /* #1c1814 — warm near-black  */
-  --fg-2: 61  55  48;   /* #3d3730 — warm charcoal    */
-  --fg-3: 112 102  92;  /* #70665c — warm gray        */
-  --fg-4: 156 148 138;  /* #9c948a — muted warm       */
-  --fg-5: 192 186 178;  /* #c0bab2 — faint warm       */
+  --fg:   15  23  42;   /* #0f172a — slate-900          */
+  --fg-2: 30  41  59;   /* #1e293b — slate-800          */
+  --fg-3: 71  85 105;   /* #475569 — slate-600          */
+  --fg-4: 148 163 184;  /* #94a3b8 — slate-400          */
+  --fg-5: 203 213 225;  /* #cbd5e1 — slate-300          */
 
-  /* Misc — accent-derived so they update automatically per paper */
-  --blockquote-bg:           rgba(237, 233, 224, 0.70);
-  --dot-color:               rgb(var(--accent) / 0.05);
-  --scrollbar-thumb:         #d0cabe;
-  --scrollbar-thumb-hover:   #b8b0a0;
-  --sidebar-brand-bg:        linear-gradient(145deg, rgb(var(--accent) / 0.12) 0%, rgb(var(--accent-dim) / 0.04) 100%);
-  --active-glow:             0 0 0 1px rgb(var(--accent) / 0.30), 2px 0 0 0 rgb(var(--accent) / 1) inset, 0 4px 20px rgb(var(--accent) / 0.10);
-  --thead-bg:                rgb(225 220 209);
-  --thead-border:            rgb(208 202 190);
-  --table-stripe-even:       rgb(253 252 248);
-  --table-stripe-odd:        rgb(246 243 236);
-  --table-hover:             rgb(var(--accent) / 0.05);
+  /* Misc */
+  --blockquote-bg:           rgba(241, 245, 249, 0.80);
+  --dot-color:               rgb(var(--accent) / 0.04);
+  --scrollbar-thumb:         #cbd5e1;
+  --scrollbar-thumb-hover:   #94a3b8;
+  --sidebar-brand-bg:        linear-gradient(145deg, rgb(var(--accent) / 0.10) 0%, rgb(var(--accent-dim) / 0.03) 100%);
+  --active-glow:             0 0 0 1px rgb(var(--accent) / 0.25), 2px 0 0 0 rgb(var(--accent) / 1) inset, 0 4px 20px rgb(var(--accent) / 0.08);
+  --thead-bg:                rgb(241 245 249);
+  --thead-border:            rgb(226 232 240);
+  --table-stripe-even:       rgb(255 255 255);
+  --table-stripe-odd:        rgb(248 250 252);
+  --table-hover:             rgb(var(--accent) / 0.04);
   --results-num-color:       rgb(var(--accent-dim));
   --code-color:              rgb(var(--accent-dim));
   --prose-blockquote-border: rgb(var(--accent));
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   DARK MODE — "Midnight Violet"
-   Deep blue-purple cosmos + soft lavender glow.
+   DARK MODE — "Deep Ocean"
+   Dark navy-slate surfaces, crisp blue accent.
    ═══════════════════════════════════════════════════════════════ */
 .dark {
   color-scheme: dark;
 
-  /* Surfaces — blue-violet spectrum */
-  --s0:  9   9  16;   /* #09090f — cosmic black       */
-  --s1: 13  13  24;   /* #0d0d18 — sidebar            */
-  --s2: 19  19  34;   /* #131322 — card               */
-  --s3: 27  26  48;   /* #1b1a30 — elevated           */
-  --s4: 36  35  64;   /* #242340 — raised             */
-  --s5: 47  46  82;   /* #2f2e52 — highest            */
+  /* Surfaces — deep navy-slate spectrum */
+  --s0:  8  10  20;   /* #080a14 — deepest navy        */
+  --s1: 10  14  26;   /* #0a0e1a — page bg             */
+  --s2: 15  23  42;   /* #0f172a — slate-900           */
+  --s3: 30  41  59;   /* #1e293b — slate-800           */
+  --s4: 51  65  85;   /* #334155 — slate-700           */
+  --s5: 71  85 105;   /* #475569 — slate-600           */
 
-  /* Accent — soft lavender-violet */
-  --accent:       167 139 250;   /* #a78bfa — violet-400    */
-  --accent-dim:   124  58 237;   /* #7c3aed — violet-600    */
-  --accent-muted:  46  16 101;   /* #2e1065 — violet-950    */
+  /* Accent — bright sky blue */
+  --accent:       96 165 250;   /* #60a5fa — blue-400   */
+  --accent-dim:   59 130 246;   /* #3b82f6 — blue-500   */
+  --accent-muted:  23  37  84;  /* #172554 — blue-950   */
 
   /* Border */
-  --border-c: 30 29 54;          /* #1e1d36 */
+  --border-c: 30 41 59;         /* #1e293b — slate-800  */
 
   /* Foreground */
-  --fg:   241 240 255;  /* #f1f0ff — violet-white      */
-  --fg-2: 196 193 232;  /* #c4c1e8 — lavender-gray     */
-  --fg-3: 139 135 196;  /* #8b87c4 — muted violet      */
-  --fg-4:  88  84 148;  /* #585494 — faint             */
-  --fg-5:  58  55 110;  /* #3a376e — very faint        */
+  --fg:   248 250 252;  /* #f8fafc — slate-50            */
+  --fg-2: 226 232 240;  /* #e2e8f0 — slate-200           */
+  --fg-3: 148 163 184;  /* #94a3b8 — slate-400           */
+  --fg-4:  71  85 105;  /* #475569 — slate-600           */
+  --fg-5:  51  65  85;  /* #334155 — slate-700           */
 
-  /* Misc — accent-derived so they update automatically per paper */
-  --blockquote-bg:           rgba(27, 26, 48, 0.70);
-  --dot-color:               rgb(var(--accent) / 0.045);
-  --scrollbar-thumb:         #1b1a30;
-  --scrollbar-thumb-hover:   #2f2e52;
-  --sidebar-brand-bg:        linear-gradient(145deg, rgb(var(--accent-dim) / 0.30) 0%, rgb(var(--accent) / 0.06) 100%);
-  --active-glow:             0 0 0 1px rgb(var(--accent) / 0.35), 2px 0 0 0 rgb(var(--accent) / 1) inset, 0 4px 24px rgb(var(--accent) / 0.12);
-  --thead-bg:                rgb(27 26 48);
-  --thead-border:            rgb(58 55 110);
-  --table-stripe-even:       rgb(13 13 24);
-  --table-stripe-odd:        rgb(19 19 34);
-  --table-hover:             rgb(var(--accent) / 0.07);
+  /* Misc */
+  --blockquote-bg:           rgba(30, 41, 59, 0.70);
+  --dot-color:               rgb(var(--accent) / 0.035);
+  --scrollbar-thumb:         #1e293b;
+  --scrollbar-thumb-hover:   #334155;
+  --sidebar-brand-bg:        linear-gradient(145deg, rgb(var(--accent-dim) / 0.25) 0%, rgb(var(--accent) / 0.05) 100%);
+  --active-glow:             0 0 0 1px rgb(var(--accent) / 0.30), 2px 0 0 0 rgb(var(--accent) / 1) inset, 0 4px 24px rgb(var(--accent) / 0.10);
+  --thead-bg:                rgb(30 41 59);
+  --thead-border:            rgb(51 65 85);
+  --table-stripe-even:       rgb(10 14 26);
+  --table-stripe-odd:        rgb(15 23 42);
+  --table-hover:             rgb(var(--accent) / 0.06);
   --results-num-color:       rgb(var(--accent));
   --code-color:              rgb(var(--accent));
   --prose-blockquote-border: rgb(var(--accent));
@@ -179,8 +179,7 @@ body {
   --accent-muted:  4  47  46;   /* teal-950  #042f2e */
 }
 
-/* P3 — Violet / Purple — already the default in :root and .dark */
-/* Explicit entry for completeness; matches the base values. */
+/* P3 — Violet / Purple */
 :root[data-paper="paper3"] {
   --accent:       124  58 237;   /* violet-600 */
   --accent-dim:   109  40 217;   /* violet-700 */
@@ -190,6 +189,66 @@ body {
   --accent:       167 139 250;   /* violet-400 */
   --accent-dim:   124  58 237;   /* violet-600 */
   --accent-muted:  46  16 101;   /* violet-950 */
+}
+
+/* P6 — Emerald */
+:root[data-paper="paper6"] {
+  --accent:       5  150 105;   /* emerald-600 */
+  --accent-dim:   4  120  87;   /* emerald-700 */
+  --accent-muted: 209 250 229;  /* emerald-100 */
+}
+.dark[data-paper="paper6"] {
+  --accent:       52 211 153;   /* emerald-400 */
+  --accent-dim:   16 185 129;   /* emerald-500 */
+  --accent-muted:  6  78  59;   /* emerald-950 */
+}
+
+/* P7 — Indigo */
+:root[data-paper="paper7"] {
+  --accent:        79  70 229;   /* indigo-600 */
+  --accent-dim:    67  56 202;   /* indigo-700 */
+  --accent-muted: 224 231 255;   /* indigo-100 */
+}
+.dark[data-paper="paper7"] {
+  --accent:       129 140 248;   /* indigo-400 */
+  --accent-dim:    99 102 241;   /* indigo-500 */
+  --accent-muted:  30  27 75;    /* indigo-950 */
+}
+
+/* P8 — Fuchsia */
+:root[data-paper="paper8"] {
+  --accent:       192  38 211;   /* fuchsia-600 */
+  --accent-dim:   162  28 175;   /* fuchsia-700 */
+  --accent-muted: 250 232 255;   /* fuchsia-50  */
+}
+.dark[data-paper="paper8"] {
+  --accent:       232 121 249;   /* fuchsia-400 */
+  --accent-dim:   217  70 239;   /* fuchsia-500 */
+  --accent-muted:  74   4  78;   /* fuchsia-950 */
+}
+
+/* P9 — Lime */
+:root[data-paper="paper9"] {
+  --accent:       101 163  13;   /* lime-600 */
+  --accent-dim:    77 124  15;   /* lime-700 */
+  --accent-muted: 247 254 231;   /* lime-50  */
+}
+.dark[data-paper="paper9"] {
+  --accent:       190 242 100;   /* lime-300 */
+  --accent-dim:   163 230  53;   /* lime-400 */
+  --accent-muted:  26  46   5;   /* lime-950 */
+}
+
+/* P10 — Red-Orange */
+:root[data-paper="paper10"] {
+  --accent:       220  38  38;   /* red-600  */
+  --accent-dim:   185  28  28;   /* red-700  */
+  --accent-muted: 254 226 226;   /* red-100  */
+}
+.dark[data-paper="paper10"] {
+  --accent:       252 165 165;   /* red-300  */
+  --accent-dim:   248 113 113;   /* red-400  */
+  --accent-muted:  69   10  10;  /* red-950  */
 }
 
 /* P4 — Rose / Coral (light) */
