@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { BookOpen, Image, BarChart2, FolderOpen, FileText } from "lucide-react";
+import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2 } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import clsx from "clsx";
 import ManuscriptViewer from "./ManuscriptViewer";
@@ -8,20 +8,22 @@ import FiguresGallery    from "./FiguresGallery";
 import ResultsExplorer   from "./ResultsExplorer";
 import ArtifactBrowser   from "./ArtifactBrowser";
 import PdfViewer         from "./PdfViewer";
+import LatexViewer       from "./LatexViewer";
 
 interface Props { paper: Paper }
 
 /* PDF badge per paper — P1,P2 are IEEE; P3 is ACM; P4 TBD */
 const PDF_BADGE: Record<string, string> = {
   paper1: "IEEE",
-  paper2: "CSET",
-  paper3: "ACM",
+  paper2:  "IEEE",
+  paper3:  "IEEE",
   paper4: "Draft",
 };
 
 const TABS = [
   { key: "pdf",        label: "Submission PDF", Icon: FileText,   badge: null    },
   { key: "manuscript", label: "Manuscript",     Icon: BookOpen,   badge: null    },
+  { key: "latex",      label: "LaTeX",           Icon: Code2,      badge: null    },
   { key: "figures",    label: "Figures",         Icon: Image,      badge: null    },
   { key: "results",    label: "Results",          Icon: BarChart2,  badge: null    },
   { key: "files",      label: "Files",            Icon: FolderOpen, badge: null    },
@@ -132,6 +134,7 @@ export default function PaperViewer({ paper }: Props) {
       <div key={tab} className="flex-1 min-h-0 overflow-hidden tab-content">
         {tab === "pdf"        && <PdfViewer       paper={paper} />}
         {tab === "manuscript" && <ManuscriptViewer paper={paper} />}
+        {tab === "latex"      && <LatexViewer      paper={paper} />}
         {tab === "figures"    && <FiguresGallery   paper={paper} />}
         {tab === "results"    && <ResultsExplorer  paper={paper} />}
         {tab === "files"      && <ArtifactBrowser  paper={paper} />}

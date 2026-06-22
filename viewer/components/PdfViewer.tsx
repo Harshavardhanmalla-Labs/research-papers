@@ -8,8 +8,8 @@ interface Props { paper: Paper }
 
 const FORMAT_BADGE: Record<string, { label: string; format: string }> = {
   paper1: { label: "IEEE",  format: "Two-column IEEEtran · tectonic / XeTeX" },
-  paper2: { label: "CSET",  format: "IEEE IEEEtran compsoc · tectonic / XeTeX" },
-  paper3: { label: "ACM",   format: "ACM sigconf · tectonic / XeTeX" },
+  paper2: { label: "IEEE",  format: "Two-column IEEEtran journal · tectonic" },
+  paper3: { label: "IEEE",   format: "Two-column IEEEtran journal · tectonic" },
   paper4: { label: "Draft", format: "Two-column IEEEtran · tectonic / XeTeX" },
 };
 
