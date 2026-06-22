@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check } from "lucide-react";
+import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check, EyeOff } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import clsx from "clsx";
+import AnonymousViewer from "./AnonymousViewer";
 
 const REPO_BASE = "https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main";
 import ManuscriptViewer from "./ManuscriptViewer";
@@ -25,6 +26,7 @@ const PDF_BADGE: Record<string, string> = {
 const TABS = [
   { key: "pdf",        label: "Submission PDF", Icon: FileText,   badge: null    },
   { key: "manuscript", label: "Manuscript",     Icon: BookOpen,   badge: null    },
+  { key: "anonymous",  label: "Manuscript (anonymous)", Icon: EyeOff, badge: null },
   { key: "latex",      label: "LaTeX",           Icon: Code2,      badge: null    },
   { key: "figures",    label: "Figures",         Icon: Image,      badge: null    },
   { key: "results",    label: "Results",          Icon: BarChart2,  badge: null    },
@@ -168,6 +170,7 @@ export default function PaperViewer({ paper }: Props) {
       <div key={tab} className="flex-1 min-h-0 overflow-hidden tab-content">
         {tab === "pdf"        && <PdfViewer       paper={paper} />}
         {tab === "manuscript" && <ManuscriptViewer paper={paper} />}
+        {tab === "anonymous"  && <AnonymousViewer   paper={paper} />}
         {tab === "latex"      && <LatexViewer      paper={paper} />}
         {tab === "figures"    && <FiguresGallery   paper={paper} />}
         {tab === "results"    && <ResultsExplorer  paper={paper} />}

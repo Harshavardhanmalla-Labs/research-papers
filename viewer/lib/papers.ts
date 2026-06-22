@@ -35,6 +35,24 @@ export interface Paper {
   artifacts: string[];
 }
 
+/**
+ * Filename-safe version of a paper title: alphanumeric words joined by single
+ * underscores, no dashes/punctuation/special characters. Used to name downloads
+ * after the paper itself (e.g. "Context_Aware_Ensemble_Learning_Framework.pdf").
+ */
+export function paperFileName(title: string, suffix = ""): string {
+  const base =
+    title
+      .normalize("NFKD")
+      .replace(/[‐-―−]/g, " ") // unicode dashes/minus → space
+      .replace(/[^A-Za-z0-9]+/g, "_")          // anything not alnum → underscore
+      .replace(/_+/g, "_")
+      .replace(/^_+|_+$/g, "")
+      .slice(0, 100)
+      .replace(/_+$/, "") || "paper";
+  return suffix ? `${base}_${suffix}` : base;
+}
+
 export const PAPERS: Paper[] = [
   {
     id: "paper1",
