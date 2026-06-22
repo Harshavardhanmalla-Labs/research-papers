@@ -10,7 +10,6 @@ import { PAPERS_ROOT, paperFileName } from "@/lib/papers";
 interface Props { paper: Paper }
 
 /* Author identifiers to redact for double-blind review. */
-const NAME_RE   = /Harshavardhan\s+Malla|H\.\s*Malla/gi;
 const EMAIL_RE  = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 const AFFIL_RE  = /Independent Researcher|Arizona Department of Transportation|Information Systems Security Engineer|\bADOT\b/gi;
 const WITHHELD  = "*[Author name and affiliation withheld for double-blind peer review]*";
@@ -18,13 +17,17 @@ const WITHHELD  = "*[Author name and affiliation withheld for double-blind peer 
 /** Strip author-identifying content from a manuscript so it can be shown / exported blind. */
 function anonymize(md: string): string {
   let out = md;
-  // 1. The author byline (a standalone line that carries the name) → withheld notice.
-  out = out.replace(/^[^\n]*(?:Harshavardhan\s+Malla|H\.\s*Malla)[^\n]*$/gim, WITHHELD);
-  // 2. Any residual inline name / email / affiliation mentions.
-  out = out.replace(NAME_RE, "[Author]");
+  // 1. The author byline (the line carrying the full spelled-out name) → withheld notice.
+  out = out.replace(/^[^\n]*Harshavardhan\s+Malla[^\n]*$/gim, WITHHELD);
+  // 2. Repository URLs whose org slug is the author's name (de-anonymizing) → blind link.
+  out = out.replace(/https?:\/\/github\.com\/Harshavardhanmalla-Labs\/[^\s)>\]`"']*/gi, "[anonymized repository link]");
+  // 3. Residual name tokens: concatenated org slug + abbreviated initial form (e.g. self-citations).
+  //    Self-citations stay in place but are anonymized to "[Author]" (standard blind practice).
+  out = out.replace(/Harshavardhanmalla(?:-Labs)?|Harshavardhan\s+Malla|H\.\s*Malla/gi, "[Author]");
+  // 4. Emails + affiliations.
   out = out.replace(EMAIL_RE, "[email withheld]");
   out = out.replace(AFFIL_RE, "[affiliation withheld]");
-  // 3. Acknowledgments sections often name people/employers — blank the body.
+  // 5. Acknowledgments sections often name people/employers — blank the body.
   out = out.replace(
     /^(#{1,4}\s*Acknowledge?ments?\s*)$([\s\S]*?)(?=^#{1,4}\s|$(?![\s\S]))/gim,
     "$1\n\n*[Withheld for double-blind peer review.]*\n",
