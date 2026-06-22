@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
-import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import clsx from "clsx";
+
+const REPO_BASE = "https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main";
 import ManuscriptViewer from "./ManuscriptViewer";
 import FiguresGallery    from "./FiguresGallery";
 import ResultsExplorer   from "./ResultsExplorer";
@@ -60,6 +62,22 @@ const PAPER_RAIL_BG = [
 export default function PaperViewer({ paper }: Props) {
   const [tab, setTab] = useState<Tab>("pdf");
 
+  // Data-repository link + name (shared with the board tracker; defaults to the GitHub path).
+  const defaultRepo = `${REPO_BASE}/${paper.root}`;
+  const [repoUrl, setRepoUrl] = useState(defaultRepo);
+  const [repoName, setRepoName] = useState("GitHub");
+  const [copiedRepo, setCopiedRepo] = useState(false);
+  useEffect(() => {
+    setRepoUrl(defaultRepo); setRepoName("GitHub");
+    fetch("/api/tracking").then((r) => (r.ok ? r.json() : {})).then((d: Record<string, any>) => {
+      const e = d?.[paper.id];
+      if (e?.dataRepo) setRepoUrl(e.dataRepo);
+      if (e?.repoName) setRepoName(e.repoName);
+    }).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paper.id]);
+  const copyRepo = () => { navigator.clipboard?.writeText(repoUrl).then(() => { setCopiedRepo(true); setTimeout(() => setCopiedRepo(false), 1500); }).catch(() => {}); };
+
   const paperIdx  = ["paper1","paper2","paper3","paper4","paper5","paper6","paper7","paper8","paper9","paper10"].indexOf(paper.id);
   const railColor = PAPER_RAIL[paperIdx]    ?? PAPER_RAIL[2];
   const railBg    = PAPER_RAIL_BG[paperIdx] ?? PAPER_RAIL_BG[2];
@@ -92,6 +110,22 @@ export default function PaperViewer({ paper }: Props) {
           >
             {paper.statusLabel}
           </span>
+        </div>
+
+        {/* ── Data repository (link + name) for journal submission forms ── */}
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          <Github size={13} className="text-fg-4 flex-shrink-0" />
+          <span className="text-[9px] font-bold uppercase tracking-widest text-fg-4 flex-shrink-0">Data repo</span>
+          <a href={repoUrl} target="_blank" rel="noreferrer"
+            className="text-[11px] font-mono text-accent hover:underline truncate max-w-[55%]" title={repoUrl}>
+            {repoUrl.replace(/^https?:\/\//, "")}
+          </a>
+          <span className="text-fg-5 text-[11px]">·</span>
+          <span className="text-[11px] text-fg-3">{repoName}</span>
+          <button onClick={copyRepo} title="Copy data repository link"
+            className="inline-flex items-center gap-1 text-[10px] text-fg-4 hover:text-accent transition-colors flex-shrink-0">
+            {copiedRepo ? <Check size={12} /> : <Copy size={12} />}{copiedRepo ? "Copied" : "Copy"}
+          </button>
         </div>
 
         {/* ── Tab strip ── */}
