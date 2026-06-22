@@ -10,7 +10,8 @@ interface Props {
 }
 
 export default function TopBar({ papers, activePaper, onBack }: Props) {
-  const complete = papers.filter(p => p.status === "complete").length;
+  const published = papers.filter(p => p.status === "published").length;
+  const ready     = papers.filter(p => p.status === "ready").length;
 
   return (
     <header className="flex-shrink-0 h-14 border-b border-border bg-surface-1/95 backdrop-blur-md flex items-center px-6 gap-3 z-10">
@@ -41,7 +42,7 @@ export default function TopBar({ papers, activePaper, onBack }: Props) {
           </div>
         ) : (
           <span className="text-[12px] text-fg-4 truncate">
-            {papers.length} papers · {complete} complete · EB-1A
+            {papers.length} papers · {published} peer-reviewed · {ready} ready · EB-1A
           </span>
         )}
       </div>

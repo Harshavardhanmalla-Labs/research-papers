@@ -1,12 +1,14 @@
-// On a server: set PAPERS_ROOT env var to the absolute path where the
-// research-papers repo is mounted (e.g. /data/research-papers).
-// Locally it auto-resolves to the repo root two levels above viewer/.
-import path from "path";
+// PAPERS_ROOT must be IDENTICAL on the server (API route security check in
+// app/api/{file,serve,tree}/route.ts) and on the client (absolute paths built in
+// PdfViewer / ManuscriptViewer). Next.js only inlines NEXT_PUBLIC_* env vars into the
+// client bundle, so set NEXT_PUBLIC_PAPERS_ROOT at build time and PAPERS_ROOT at runtime
+// to the SAME path.
 export const PAPERS_ROOT: string =
-  process.env.PAPERS_ROOT ??
-  path.resolve(__dirname, "..", "..", "..");
+  process.env.NEXT_PUBLIC_PAPERS_ROOT ||
+  process.env.PAPERS_ROOT ||
+  "/home/sasi/Desktop/dev/RM Orbit/research-papers";
 
-export type PaperStatus = "complete" | "drafting" | "packaging" | "in-progress";
+export type PaperStatus = "published" | "ready" | "complete" | "drafting" | "packaging" | "in-progress";
 
 export interface ResultsConfig {
   dir: string;
@@ -37,10 +39,10 @@ export const PAPERS: Paper[] = [
   {
     id: "paper1",
     title: "Evidence-Based Vulnerability Prioritization",
-    shortTitle: "VulnPrio",
+    shortTitle: "EvidencePrio",
     subtitle: "Exploit likelihood, healthcare data, & EPSS-weighted ranking",
-    status: "packaging",
-    statusLabel: "Packaging",
+    status: "ready",
+    statusLabel: "Ready for Publication",
     root: "paper1-vuln-prioritization",
     manuscript: {
       main: "paper/manuscript/paper_submission_draft.md",
@@ -55,22 +57,23 @@ export const PAPERS: Paper[] = [
     submissionPdf: "paper/submission/ieee/main.pdf",
     figures: "paper/figures",
     results: {
-      dir: "results/primary_full_v1",
-      primaryCSV: "results/primary_full_v1/metrics/aggregated_metrics.csv",
+      dir: "paper/tables",
+      primaryCSV: "paper/tables/table_primary_metric_summary.csv",
       secondaryCSVs: [
-        { label: "Per-seed metrics", path: "results/primary_full_v1/metrics/per_seed_metrics.csv" },
-        { label: "EEHDA report",     path: "results/primary_full_v1/metrics/eehda_report.csv" },
+        { label: "Ranking metrics",     path: "paper/tables/table_ranking_metrics.csv" },
+        { label: "Operational metrics", path: "paper/tables/table_operational_metrics.csv" },
+        { label: "Audit metrics",       path: "paper/tables/table_audit_metrics.csv" },
       ],
     },
-    artifacts: ["paper/manuscript","paper/figures","paper/tables","results/primary_full_v1","src","design"],
+    artifacts: ["paper/manuscript","paper/figures","paper/tables","src","design"],
   },
   {
     id: "paper2",
     title: "When Calibration Fails",
-    shortTitle: "CalibScore",
+    shortTitle: "CalibGate",
     subtitle: "Failure-aware public-feed gate for vulnerability prioritization under sparse exploit labels",
-    status: "packaging",
-    statusLabel: "Packaging",
+    status: "ready",
+    statusLabel: "Ready for Publication",
     root: "paper1-vuln-prioritization/paper2",
     manuscript: {
       main: "manuscript/paper2_full_draft.md",
@@ -101,8 +104,8 @@ export const PAPERS: Paper[] = [
     title: "HygieneBench",
     shortTitle: "HygBench",
     subtitle: "Reproducible synthetic benchmark for cyber-hygiene anomaly detection",
-    status: "packaging",
-    statusLabel: "Packaging",
+    status: "ready",
+    statusLabel: "Ready for Publication",
     root: "paper3",
     manuscript: {
       main: "manuscript/paper_draft_v0.1.md",
@@ -132,8 +135,8 @@ export const PAPERS: Paper[] = [
     title: "HygienePrio: Cyber-Hygiene Signal Augmentation for EPSS-Weighted Vulnerability Prioritization",
     shortTitle: "HygienePrio",
     subtitle: "Integrating patch posture, AD exposure & telemetry freshness into exploit-weighted scoring",
-    status: "packaging",
-    statusLabel: "Packaging",
+    status: "ready",
+    statusLabel: "Ready for Publication",
     root: "paper4",
     manuscript: {
       main: "manuscript/paper4_draft_v0.1.md",
@@ -153,11 +156,11 @@ export const PAPERS: Paper[] = [
   {
     id: "paper5",
     title: "Temporal Stability of Hygiene-Augmented Vulnerability Prioritization Across Rolling Maintenance Windows",
-    shortTitle: "HygienePrio-Temporal",
+    shortTitle: "HygieneTempo",
     subtitle: "EPSS-only decays, hygiene signals persist: a six-window pre-registered evaluation",
-    status: "packaging",
-    statusLabel: "Packaging",
-    root: "paper5",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "archived/HygieneContinuation_Paper5_TemporalStability",
     manuscript: {
       main: "manuscript/paper5_draft_v0.1.md",
       extras: [
@@ -181,11 +184,11 @@ export const PAPERS: Paper[] = [
   {
     id: "paper6",
     title: "Capacity-Indexed Decay of Exploit-Likelihood Vulnerability Prioritization",
-    shortTitle: "Capacity-Decay",
+    shortTitle: "CapDecay",
     subtitle: "Two-dimensional (K, λ) sweep characterising the regime-dependence of EPSS-only ranking",
-    status: "complete",
-    statusLabel: "Complete",
-    root: "paper6",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "archived/HygieneContinuation_Paper6_CapacityDecay",
     manuscript: {
       main: "manuscript/paper6_draft_v0.1.md",
       extras: [
@@ -209,11 +212,11 @@ export const PAPERS: Paper[] = [
   {
     id: "paper7",
     title: "Rolling-History Online Calibration for Hygiene-Augmented Vulnerability Prioritization",
-    shortTitle: "Online-Calibration",
+    shortTitle: "RollCal",
     subtitle: "Deployable lag-1 substitute for the offline-peek H3 ceiling: works at K≤100, harms at K=200",
-    status: "complete",
-    statusLabel: "Complete",
-    root: "paper7",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "archived/HygieneContinuation_Paper7_OnlineRecalibration",
     manuscript: {
       main: "manuscript/paper7_draft_v0.1.md",
       extras: [
@@ -237,11 +240,11 @@ export const PAPERS: Paper[] = [
   {
     id: "paper8",
     title: "Multi-Window-History Calibration: Does Smoothing Reverse the High-Capacity Hazard of Lag-1?",
-    shortTitle: "Smoothing-Falsified",
-    subtitle: "EWMA-3 and trail-3 amplify Paper 7's K=200 hazard rather than fixing it — naive smoothing prior falsified",
-    status: "complete",
-    statusLabel: "Complete",
-    root: "paper8",
+    shortTitle: "SmoothTest",
+    subtitle: "EWMA-3 and trail-3 amplify Paper 7's K=200 hazard rather than fixing it; naive smoothing prior falsified",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "archived/HygieneContinuation_Paper8_Smoothing",
     manuscript: {
       main: "manuscript/paper8_draft_v0.1.md",
       extras: [
@@ -264,11 +267,11 @@ export const PAPERS: Paper[] = [
   {
     id: "paper9",
     title: "Self-Trajectory Evaluation of Hygiene-Augmented Vulnerability Prioritization",
-    shortTitle: "Self-Trajectory",
+    shortTitle: "SelfTraj",
     subtitle: "Paper 6's K=200 collapse re-attributed to closed-loop selection coupling + Closed-Loop Signal Exhaustion Theorem",
-    status: "complete",
-    statusLabel: "Complete",
-    root: "paper9",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "archived/HygieneContinuation_Paper9_SelfTrajectory",
     manuscript: {
       main: "manuscript/paper9_draft_v0.1.md",
       extras: [
@@ -292,9 +295,9 @@ export const PAPERS: Paper[] = [
     id: "paper10",
     title: "AutoHeal: A Pre-Registered Self-Healing Framework for Autonomous Vulnerability Remediation",
     shortTitle: "AutoHeal",
-    subtitle: "Six-stage closed-loop pipeline integrating Papers 3–9 with pre-registered safety bounds — H1 ✓ / H2 ✗ / H3 N/A / H4 ✗",
-    status: "complete",
-    statusLabel: "Complete",
+    subtitle: "Six-stage closed-loop pipeline integrating Papers 3 to 9 with pre-registered safety bounds: H1 ✓ / H2 ✗ / H3 N/A / H4 ✗",
+    status: "ready",
+    statusLabel: "Ready for Publication",
     root: "paper10",
     manuscript: {
       main: "manuscript/paper10_draft_v0.1.md",
@@ -315,133 +318,300 @@ export const PAPERS: Paper[] = [
     },
     artifacts: ["design","src","results/primary_v1","submission/ieee"],
   },
-
-  /* ── PROGRAM B — Government / Practitioner (9 topics, not yet written) ── */
   {
     id: "paper11",
     title: "Context-Aware Vulnerability Prioritization for Government Endpoint Fleets",
-    shortTitle: "GovVulnPrio",
-    subtitle: "Exploit intelligence + asset criticality + endpoint telemetry for public-sector CVE prioritization",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper11",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    shortTitle: "CAP-G",
+    subtitle: "Asset criticality + network zone + data sensitivity layered on HygienePrio: +9.5pp mission precision at triage, H1 partial / H2 ✓ / H3 ✓ / H4 ✓",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper11",
+    manuscript: {
+      main: "manuscript/paper11_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER11_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Cell means",          path: "results/primary_v1/cell_means.csv" },
+        { label: "Homogeneous control", path: "results/primary_v1/homogeneous_control.csv" },
+        { label: "Hypothesis summary",  path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
   },
   {
     id: "paper12",
-    title: "NIST 800-53 as Code: Automated Evidence Collection for Continuous Public-Sector Compliance",
-    shortTitle: "NIST-as-Code",
-    subtitle: "Policy-as-code pipeline for automated NIST 800-53 evidence collection and continuous compliance monitoring",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper12",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    title: "NIST 800-53 as Code: Quantifying the Compliance-Exposure Reduction of Continuous Automated Evidence Collection and Its Automatability Ceiling",
+    shortTitle: "ComplianceCeiling",
+    subtitle: "Continuous monitoring cuts drift detection on automatable controls from 272 days to 1, but the un-automatable remainder caps overall reduction at the automatable share. H1-H4 all supported.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper12",
+    manuscript: {
+      main: "manuscript/paper12_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER12_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
   },
   {
     id: "paper13",
-    title: "CJIS Compliance Automation: A Policy-as-Code Framework for Law-Enforcement Endpoint Fleets",
-    shortTitle: "CJIS-as-Code",
-    subtitle: "Automated policy enforcement and audit trail generation for CJIS Security Policy across law-enforcement endpoints",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper13",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    title: "Policy-as-Code for CJIS Compliance: Prevention versus Detection for Recurring Control Violations on Law-Enforcement Endpoint Fleets",
+    shortTitle: "PolicyGate",
+    subtitle: "Preventive guardrails cut CJI exposure 70% over detection, growing to 81% as violations recur, while the false-block cost stays fixed. H1-H4 all supported.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper13",
+    manuscript: {
+      main: "manuscript/paper13_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER13_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
   },
   {
     id: "paper14",
-    title: "Patch Tuesday Intelligence: Predictive CVE Prioritization Using Exploit Signals and Asset Criticality",
-    shortTitle: "PatchTuesday-Intel",
-    subtitle: "Exploit signal fusion with asset criticality and endpoint telemetry for Patch Tuesday triage at scale",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper14",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    title: "Patch Tuesday Triage: Asset Criticality, Not Early Exploit Signal, Drives Emergent-Risk Vulnerability Prioritization on Government Fleets",
+    shortTitle: "PTI",
+    subtitle: "At disclosure time, asset criticality drives mission precision (+6.5pp) while the immature day-0 EPSS adds almost nothing. H1-H4 all supported.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper14",
+    manuscript: {
+      main: "manuscript/paper14_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER14_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
   },
   {
     id: "paper15",
-    title: "Tanium + SCCM Fusion: Real-Time Vulnerability Heatmaps for State Agency Cyber Operations",
-    shortTitle: "Tanium-SCCM",
-    subtitle: "Unified telemetry fusion from Tanium and SCCM for real-time vulnerability heatmaps in state agency SOCs",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper15",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    title: "Fusing Real-Time and Scheduled Endpoint Telemetry for Vulnerability Visibility: Coverage Gains, the Freshness Mechanism, and the Blind-Spot Floor",
+    shortTitle: "FusionView",
+    subtitle: "Fusing a real-time and a scheduled endpoint feed lifts vuln recall 0.75 to 0.87; the gain is exactly the scheduled-only fresh coverage, bounded by the blind-spot floor. H1-H4 all supported.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper15",
+    manuscript: {
+      main: "manuscript/paper15_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER15_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
   },
   {
     id: "paper16",
-    title: "Machine Learning for Cyber Hygiene: Anomaly Detection Across AD, Endpoint, and Patch Telemetry",
-    shortTitle: "ML-CyberHygiene",
-    subtitle: "Supervised and unsupervised ML for multi-source hygiene anomaly detection in government endpoint environments",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper16",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    title: "Multivariate Machine Learning for Cyber-Hygiene Anomaly Detection Across Active Directory, Endpoint, and Patch Telemetry",
+    shortTitle: "HygieneAD",
+    subtitle: "Joint detection beats per-feature rules by +0.61 AP on cross-channel anomalies but loses on single-channel ones; Isolation Forest fails where Mahalanobis wins. H1-H4 all supported.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper16",
+    manuscript: {
+      main: "manuscript/paper16_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER16_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
   },
   {
     id: "paper17",
-    title: "PowerShell as Policy: Script-Based Guardrails for Large-Scale Government Endpoint Compliance",
-    shortTitle: "PS-Policy",
-    subtitle: "Declarative PowerShell guardrails for enforcing compliance baselines across large government endpoint fleets",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper17",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    title: "Ring Rollout of Script-Based Endpoint Enforcement: Bounding the Blast Radius of a Faulty Policy at a Quantified Convergence Cost",
+    shortTitle: "RingGuard",
+    subtitle: "A four-ring rollout cuts a faulty enforcement script's blast radius 95% at a fixed soak cost; containment scales with canary observability, with diminishing returns to finer staging. H1-H4 supported.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper17",
+    manuscript: {
+      main: "manuscript/paper17_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER17_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
   },
   {
     id: "paper18",
-    title: "Disaster Recovery 2.0: Automated Failover Validation and Chaos Testing for Hybrid Government Infrastructure",
-    shortTitle: "DR-2.0",
-    subtitle: "Pre-registered chaos engineering framework for automated failover validation in hybrid government infrastructure",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper18",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    title: "The Drill Illusion: Latent Failover-Defect Decay and the Recovery-Confidence Gain of Continuous Chaos Testing in Hybrid Government Infrastructure",
+    shortTitle: "DrillGap",
+    subtitle: "Annual DR drills overstate real recovery confidence by 31 points (0.69 true vs ~1.0 at drill); continuous chaos lifts it to 0.95, bounded by coverage. H1-H4 all supported.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper18",
+    manuscript: {
+      main: "manuscript/paper18_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER18_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
   },
   {
     id: "paper19",
-    title: "Self-Healing CMDBs: AI-Driven Asset Intelligence for Public-Sector Security and Cost Optimization",
-    shortTitle: "SelfHeal-CMDB",
-    subtitle: "AI-driven CMDB reconciliation and self-healing for public-sector asset intelligence, security posture, and cost",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    root: "gov-paper19",
-    manuscript: { main: "manuscript/draft.md" },
-    figures: "figures",
-    results: { dir: "results" },
-    artifacts: [],
+    title: "The Two-Sided Cost of CMDB Error: Ghost Assets, Phantom Assets, and the Matching-Precision Ceiling of Self-Healing Reconciliation",
+    shortTitle: "ReconGuard",
+    subtitle: "Continuous reconciliation cuts CMDB error 78%; ghost (security) and phantom (cost) errors trade off via retirement aggressiveness, bounded by a matching-precision floor. H1-H4 all supported.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper19",
+    manuscript: {
+      main: "manuscript/paper19_draft_v0.1.md",
+      extras: [
+        { label: "Protocol",          path: "design/PAPER19_PROTOCOL.md" },
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+        { label: "Run manifest",       path: "results/primary_v1/run_manifest.json" },
+      ],
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Hypothesis summary", path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["design","src","results/primary_v1","submission/ieee","manuscript"],
+  },
+  {
+    id: "paper20",
+    title: "A Context-Aware Ensemble Learning Framework for Vulnerability Prioritization in Critical Infrastructure",
+    shortTitle: "EnsemblePrio",
+    subtitle: "Random Forest + XGBoost ensemble fusing CVE metadata, threat intelligence, and environmental context; on a reproducible, pre-registered synthetic 50,000-endpoint benchmark (25 seeds) it reaches Precision@50 0.74 vs 0.22 for CVSS-only and cuts MTTR 62% (6.2 to 2.3 days). All 5 pre-registered hypotheses supported (BCa CIs exclude zero).",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper20",
+    manuscript: {
+      main: "manuscript/paper20.md",
+    },
+    submissionPdf: "submission/main.pdf",
+    figures: "",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/primary_results.csv",
+      secondaryCSVs: [
+        { label: "Metrics by method",   path: "results/primary_v1/metrics_by_method.csv" },
+        { label: "Hypothesis summary",   path: "results/primary_v1/hypothesis_summary.json" },
+      ],
+    },
+    artifacts: ["src", "results/primary_v1", "submission", "manuscript"],
+  },
+  {
+    id: "paper21",
+    title: "AI-Enhanced Endpoint Compliance and Automated Vulnerability Management Framework for Essential Government Infrastructure",
+    shortTitle: "AI Endpoint Compliance",
+    subtitle: "Published in JENRS 3(1), 2024. Hybrid rule + XGBoost compliance detection, automated SCCM/PowerShell remediation, and predictive disaster recovery: 92% compliance accuracy, 40% faster patching, 70% lower DR delay across 10,000 endpoints.",
+    status: "published",
+    statusLabel: "Published",
+    root: "paper21",
+    manuscript: {
+      main: "manuscript/paper21.md",
+    },
+    submissionPdf: "submission/main.pdf",
+    figures: "submission/figures",
+    results: { dir: "submission" },
+    artifacts: ["submission/figures", "submission", "manuscript"],
   },
 ];
 
-/* ─────────────────────────────────────────────────────────
-   Status badge colours — proper light AND dark variants
-   light: bg-{colour}-100 text-{colour}-800 border-{colour}-300
-   dark:  bg-{colour}-900/50 text-{colour}-300 border-{colour}-700
-   ───────────────────────────────────────────────────────── */
+/* Status badge colours — light AND dark variants. */
 export const STATUS_COLORS: Record<PaperStatus, string> = {
+  published:
+    "bg-emerald-500  text-white        border-emerald-600 " +
+    "dark:bg-emerald-500    dark:text-white       dark:border-emerald-400",
+  ready:
+    "bg-violet-100   text-violet-800   border-violet-300  " +
+    "dark:bg-violet-900/50  dark:text-violet-300  dark:border-violet-700",
   complete:
     "bg-emerald-100  text-emerald-800  border-emerald-300 " +
     "dark:bg-emerald-900/50 dark:text-emerald-300 dark:border-emerald-700",
@@ -454,4 +624,29 @@ export const STATUS_COLORS: Record<PaperStatus, string> = {
   "in-progress":
     "bg-sky-100      text-sky-800      border-sky-300     " +
     "dark:bg-sky-900/50     dark:text-sky-300     dark:border-sky-700",
+};
+
+/* Headline result per paper — verified against frozen results. */
+export const KEY_RESULTS: Record<string, string> = {
+  paper1:  "EPSS-weighted ranking on a synthetic government fleet",
+  paper2:  "Failure-aware gate downgrades unsafe public-feed claims",
+  paper3:  "7-task reproducible cyber-hygiene anomaly benchmark",
+  paper4:  "Hygiene signals augment EPSS on emergent risk",
+  paper5:  "Hygiene signal persists where EPSS-only decays",
+  paper6:  "Capacity-indexed decay of exploit-likelihood ranking",
+  paper7:  "Rolling-history online calibration",
+  paper8:  "High-capacity smoothing hazard falsified",
+  paper9:  "Self-trajectory evaluation isolates the mechanism",
+  paper10: "Pre-registered self-healing remediation loop",
+  paper11: "+9.5pp mission precision@50",
+  paper12: "272× faster drift detection",
+  paper13: "70% CJI exposure cut via prevention",
+  paper14: "+6.5pp precision; day-0 EPSS adds ~0",
+  paper15: "Detection recall 0.75 → 0.87",
+  paper16: "+0.61 AP on cross-channel anomalies",
+  paper17: "95% smaller blast radius (4-ring)",
+  paper18: "Annual drills overstate recovery by 31 pts",
+  paper19: "78% less CMDB inventory error",
+  paper20: "Precision@50 0.74 vs 0.22; MTTR -62% (reproducible synthetic eval)",
+  paper21: "92% compliance accuracy, 40% faster patching",
 };

@@ -48,3 +48,5 @@ venv/
 paper3/dist/
 paper3/build/
 paper3/*.egg-info/
+.gstack/
+.paper-tracking.json
