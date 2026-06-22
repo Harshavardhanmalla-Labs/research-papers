@@ -1,16 +1,16 @@
 \section{Discussion}
 
-\subsection{What the Sweep Adds to Paper~5}
+\subsection{What the Sweep Adds to the temporal-stability study}
 
-Paper~5~\cite{paper5temporal} reported that EPSS-only collapses across
+The temporal-stability study~\cite{paper5temporal} reported that EPSS-only collapses across
 six windows at a single cell and concluded that hygiene augmentation
 sustains prioritization quality. The present sweep confirms the
-\textit{relative} portion of that conclusion --- HygienePrio-full beats
-EPSS-only in $96.0\%$ of (cell, seed, window) triples --- but rejects
+\textit{relative} portion of that conclusion, HygienePrio-full beats
+EPSS-only in $96.0\%$ of (cell, seed, window) triples, but rejects
 the \textit{absolute} portion at high capacity. The W6 P@50 floor
 provided by hygiene augmentation is regime-dependent: at $K \leq 50$
 it sits near $0.5$; at $K = 200$ it sits near $0.1$. A reader of
-Paper~5 alone might assume HygienePrio-full delivers a high absolute
+The temporal-stability study alone might assume HygienePrio-full delivers a high absolute
 P@50 across operating points; the sweep shows this assumption is wrong
 above $K = 100$.
 
@@ -21,25 +21,25 @@ each window, HygienePrio-full's top-$K$ selection is biased toward
 high-EPSS pairs on high-HRS hosts. At $K = 200$, this preferentially
 remediates the most exposed hosts en masse; their patch posture drops,
 their telemetry freshness recovers, and they exit the
-upper tail of the HRS distribution. By W3--W4, the recomputed HRS
-75th-percentile threshold sits over a flatter distribution; by W5--W6,
+upper tail of the HRS distribution. By W3-W4, the recomputed HRS
+75th-percentile threshold sits over a flatter distribution; by W5-W6,
 the binary positive condition is satisfied by a small, low-signal
 residual set with no discriminative structure left for HRS-based
 scoring to recover. The same compositional effect that drains EPSS-only
-also drains HygienePrio-full --- just at a higher capacity threshold.
+also drains HygienePrio-full, just at a higher capacity threshold.
 
 \subsection{Operational Implications}
 
 For an organisation operating at $K \leq 50$ pairs per bi-weekly window,
-the Paper~5 conclusion stands: hygiene augmentation provides a high
+the temporal-stability study's conclusion stands: hygiene augmentation provides a high
 absolute P@50 across windows, and is a strict improvement over EPSS-only.
 For an organisation operating at $K \geq 100$, neither EPSS-only nor
-HygienePrio-full delivers a high absolute P@50 by W6 --- but
+HygienePrio-full delivers a high absolute P@50 by W6, but
 HygienePrio-full remains strictly better than EPSS-only on the
 overwhelming majority of pairs. The honest operational summary is:
 \begin{itemize}
 \item Use HygienePrio-full instead of EPSS-only at \textit{every}
-capacity level studied --- the per-pair advantage is preserved.
+capacity level studied, the per-pair advantage is preserved.
 \item Do not expect a high absolute W6 P@50 from any method at
 $K \geq 100$ on the simulated bi-weekly cadence. The absolute floor
 is regime-dependent and decays as a function of $K/\lambda$ for
@@ -77,10 +77,10 @@ work below.
 
 \subsection{Relationship to the Research Sequence}
 
-Papers~1--5 progressively widened the evaluation lens. Paper~1
+Papers~1-5 progressively widened the evaluation lens. The VulnPrio study
 established a single-window null result for CVE-level augmentation;
 Papers~3 and~4 identified hygiene signals as the missing factor;
-Paper~5 added the temporal dimension at one cell. The present paper
+The temporal-stability study added the temporal dimension at one cell. The present paper
 adds the capacity-arrival dimension and recovers an honest
 qualification: the absolute P@50 ceiling provided by hygiene
 augmentation is regime-dependent, but the per-pair relative

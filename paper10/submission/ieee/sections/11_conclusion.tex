@@ -1,7 +1,7 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-AutoHeal integrates Papers 3--9 of the VulnPrio sequence into a
+AutoHeal integrates the hygiene-augmentation series of the VulnPrio sequence into a
 seven-stage self-healing pipeline with pre-registered safety bounds.
 The 2{,}700-row frozen evaluation reports honestly on which regimes
 admit autonomous remediation and which do not. The substantive
@@ -9,11 +9,11 @@ findings appear in \S\ref{sec:results}; the pre-registered
 hypothesis outcomes appear in Table~\ref{tab:hypotheses}.
 
 \textbf{Synthesis claim.} The components developed in
-Papers 3--9 are sufficient to build a self-healing framework whose
+the hygiene-augmentation series are sufficient to build a self-healing framework whose
 \emph{safety bounds are observable in advance} and whose
 \emph{failure modes are predicted by the program's theoretical
-results} (Paper~9 Theorem~1 predicts the K=200 exclusion;
-Paper~7's lag-1 hazard predicts the calibration recipe choice).
+results} (the self-trajectory study Theorem~1 predicts the K=200 exclusion;
+the online-calibration study's lag-1 hazard predicts the calibration recipe choice).
 Building AutoHeal does not require new theoretical machinery beyond
 what the prior papers established; it requires \emph{integrating}
 them under a pre-registered architecture.
@@ -28,13 +28,13 @@ designed to be transferable to a real-deployment evaluation
 following the same pre-registration discipline.
 
 \textbf{What this paper adds to the program.} AutoHeal is the
-\emph{integration} paper of the VulnPrio sequence. Papers 1--9
+\emph{integration} paper of the VulnPrio sequence. Papers 1-9
 established components and bounds; AutoHeal demonstrates that the
 components fit together in an architecture whose behaviour is
 predicted by the prior papers' findings. The program's
 recommendations now have a concrete object to attach to: ``deploy
 AutoHeal at $K \leq 100$ with the pre-registered triage thresholds
-and safety bounds; do not deploy at $K = 200$ per Paper~9
+and safety bounds; do not deploy at $K = 200$ per the self-trajectory study
 Theorem~1 and Corollary~4.''
 
 \textbf{Reproducibility.} The framework, runner, analysis, and

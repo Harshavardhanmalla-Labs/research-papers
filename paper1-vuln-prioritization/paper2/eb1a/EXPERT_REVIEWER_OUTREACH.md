@@ -1,6 +1,6 @@
-# Paper 2 — Expert Reviewer Outreach Template
+# the CalibScore study, Expert Reviewer Outreach Template
 
-This file is a *template* for asking a domain expert to read the Paper 2
+This file is a *template* for asking a domain expert to read the CalibScore study
 manuscript informally, before any venue submission. It does not assert that
 any expert has accepted, reviewed, or endorsed the work. Each outreach
 message must be customised to the recipient and sent only after attorney /
@@ -8,24 +8,24 @@ mentor sign-off on the recipient list.
 
 ## Audience criteria
 
-A useful expert reviewer for Paper 2 is someone whose own peer-reviewed
+A useful expert reviewer for the CalibScore study is someone whose own peer-reviewed
 research is in one or more of the following areas:
 
 - vulnerability scoring / prioritization research (CVSS / EPSS / KEV /
-  SSVC / NIST LEV);
+ SSVC / NIST LEV);
 - empirical evaluation methodology in security;
 - sparse-label statistical methodology in applied machine learning;
 - multi-time-origin evaluation in cybersecurity datasets.
 
 Avoid contacting people who would have an obvious conflict of interest with
 the manuscript's positioning (e.g., direct co-authors of a method that
-Paper 2 differentiates against). Avoid contacting reviewers who are likely
+The CalibScore study differentiates against). Avoid contacting reviewers who are likely
 to be assigned by the eventual target venue, to preserve double-blind
 integrity.
 
 ## Outreach message template (≤ 250 words)
 
-> Subject: Informal methodology review request — failure-aware gate for
+> Subject: Informal methodology review request, failure-aware gate for
 > sparse-label vulnerability prioritization
 >
 > Dear Dr. {LastName},
@@ -46,7 +46,7 @@ integrity.
 > The manuscript is at draft stage and has not been submitted anywhere. I
 > am specifically interested in feedback on the methodology, on the stop-
 > rule design, and on the framing of the negative result, rather than on
-> presentation polish. Estimated reading time: roughly 30–45 minutes.
+> presentation polish. Estimated reading time: roughly 30-45 minutes.
 >
 > If you do not have bandwidth, no need to respond; I will not follow up.
 > If you are open to it, I can share a private read-only link.
@@ -60,12 +60,12 @@ integrity.
 
 - It does not state or imply that the recipient has agreed to review.
 - It does not state or imply that the paper has been accepted, peer-
-  reviewed, or cited.
+ reviewed, or cited.
 - It does not state or imply that any other expert has reviewed or
-  endorsed the work.
+ endorsed the work.
 - It does not ask for a written endorsement, a referee letter, or any
-  artefact that the recipient may later be asked to repeat in a formal
-  context. It asks for informal methodology feedback only.
+ artefact that the recipient may later be asked to repeat in a formal
+ context. It asks for informal methodology feedback only.
 
 ## Logging discipline
 

@@ -1,6 +1,6 @@
-# Paper 5 — Temporal Stability of Hygiene-Augmented Vulnerability Prioritization
+# the temporal-stability study, Temporal Stability of Hygiene-Augmented Vulnerability Prioritization
 
-This directory is the reproducibility artifact for Paper 5. It contains the
+This directory is the reproducibility artifact for the temporal-stability study. It contains the
 pre-registration protocol, the simulator, the frozen results CSV, the
 recalibration ablation, the figures, and the IEEE TNSM submission LaTeX.
 
@@ -9,36 +9,36 @@ recalibration ablation, the figures, and the IEEE TNSM submission LaTeX.
 ```
 paper5/
 ├── design/
-│   └── PAPER5_PROTOCOL.md          Pre-registered protocol (frozen 2026-06-04)
+│ └── PAPER5_PROTOCOL.md Pre-registered protocol (frozen 2026-06-04)
 ├── manuscript/
-│   └── paper5_draft_v0.1.md        Internal markdown draft
+│ └── paper5_draft_v0.1.md Internal markdown draft
 ├── src/
-│   ├── paper5/
-│   │   ├── window_sim.py           Per-window fleet-state evolution
-│   │   ├── temporal_eval.py        Multi-window evaluation runner
-│   │   └── recalib_ablation.py     H3 grid-search recalibration ablation
-│   ├── run_temporal.py             CLI entry point for primary evaluation
-│   └── make_figures.py             Generates fig1/fig2 from the frozen CSV
+│ ├── paper5/
+│ │ ├── window_sim.py Per-window fleet-state evolution
+│ │ ├── temporal_eval.py Multi-window evaluation runner
+│ │ └── recalib_ablation.py H3 grid-search recalibration ablation
+│ ├── run_temporal.py CLI entry point for primary evaluation
+│ └── make_figures.py Generates fig1/fig2 from the frozen CSV
 ├── results/
-│   └── primary_full_v1/
-│       ├── temporal_results.csv         750 rows: 25 seeds × 6 windows × 5 methods
-│       ├── recalibration_ablation.csv   6 rows: per-window fixed vs recalib P@50
-│       ├── recalibration_summary.json   stop-rule outcome (H3 rejected)
-│       └── run_manifest.json            seed lists, weights, k values
+│ └── primary_full_v1/
+│ ├── temporal_results.csv 750 rows: 25 seeds × 6 windows × 5 methods
+│ ├── recalibration_ablation.csv 6 rows: per-window fixed vs recalib P@50
+│ ├── recalibration_summary.json stop-rule outcome (H3 rejected)
+│ └── run_manifest.json seed lists, weights, k values
 └── submission/ieee/
-    ├── main.tex, references.bib    IEEEtran journal mode
-    ├── sections/                   12 .tex files (00_abstract → 11_conclusion)
-    ├── tables/                     tab_sim_params, tab_pk50_window, tab_recalibration
-    └── figures/                    fig1_pk50_trajectory.pdf, fig2_stability.pdf
+ ├── main.tex, references.bib IEEEtran journal mode
+ ├── sections/ 12 .tex files (00_abstract → 11_conclusion)
+ ├── tables/ tab_sim_params, tab_pk50_window, tab_recalibration
+ └── figures/ fig1_pk50_trajectory.pdf, fig2_stability.pdf
 ```
 
 ## Dependencies
 
 - Python ≥ 3.9
 - numpy, pandas, matplotlib
-- Paper 4's `hygieneprio` package, located at `../paper4/src/hygieneprio`.
-  The simulator imports it via a sys.path injection — no installation needed
-  as long as the `paper4/` sibling directory is present.
+- the HygienePrio scorer's `hygieneprio` package, located at `../paper4/src/hygieneprio`.
+ The simulator imports it via a sys.path injection, no installation needed
+ as long as the `paper4/` sibling directory is present.
 
 ## Reproducing the frozen results
 
@@ -61,7 +61,7 @@ The runs are fully deterministic: same seeds → byte-identical CSVs.
 
 ```bash
 cd submission/ieee
-tectonic main.tex   # or: pdflatex main && bibtex main && pdflatex main && pdflatex main
+tectonic main.tex # or: pdflatex main && bibtex main && pdflatex main && pdflatex main
 ```
 
 The current build produces an 8-page IEEE TNSM single-column journal PDF.

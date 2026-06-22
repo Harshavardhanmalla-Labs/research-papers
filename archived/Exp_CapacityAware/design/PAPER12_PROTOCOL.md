@@ -1,4 +1,4 @@
-# Paper 12 — Pre-Registration Protocol
+# Paper 12, Pre-Registration Protocol
 
 **Working title:** Capacity-Aware Threshold for Adaptive Change-Point
 Recalibration: Can a Per-K $\tau$ Reach the Joint Feasibility Region?
@@ -42,18 +42,18 @@ Pre-registered values:
 
 These values are locked before any capacity-aware-detector P@50 is
 inspected. They are chosen by inspection of Paper 11's per-K |Δ_w|
-distributions in the published cp_log only — no peeking at evaluation-seed
+distributions in the published cp_log only, no peeking at evaluation-seed
 P@50 values for the capacity-aware strategy.
 
 ## 3. Strategies
 
 Six strategies at every (cell, window):
-- `fixed` — Paper 4 weights
-- `lag1` — Paper 7 baseline
-- `adaptive05` — Paper 10 single-τ adaptive at τ=0.05 (control)
-- `cap_aware` — adaptive with τ_K as above
-- `gated` — static (K≤100→lag1, K≥200→fixed)
-- `offline` — Paper 7 ceiling
+- `fixed`, Paper 4 weights
+- `lag1`, Paper 7 baseline
+- `adaptive05`, Paper 10 single-τ adaptive at τ=0.05 (control)
+- `cap_aware`, adaptive with τ_K as above
+- `gated`, static (K≤100→lag1, K≥200→fixed)
+- `offline`, Paper 7 ceiling
 
 ## 4. Pre-registered hypotheses
 
@@ -69,7 +69,7 @@ With large τ_50, |Δ_w| rarely crosses 0.20, so fire fraction is LOW
 at K=50. With small τ_200, |Δ_w| easily crosses 0.02, so fire is HIGH
 at K=200. Monotonicity: as K increases, fire fraction increases.
 Spearman(K, fire_frac) should be ≥ +0.8 (not -0.8 as the protocol's
-verbal description first stated — correcting here before evaluation).
+verbal description first stated, correcting here before evaluation).
 
 **Corrected H3:** Spearman(K, fire_frac) ≥ +0.8.
 

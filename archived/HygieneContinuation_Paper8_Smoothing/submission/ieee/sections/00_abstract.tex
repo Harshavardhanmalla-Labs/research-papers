@@ -1,16 +1,16 @@
-Paper~7 found that lag-1 rolling-history online recalibration of the
+The online-calibration study found that lag-1 rolling-history online recalibration of the
 HygienePrio scorer recovers the offline-peek calibration ceiling at
 moderate capacity (per-cell recovery ratio $\rho \in \{1.04, 0.99\}$
 at $K \in \{50, 100\}$, $\lambda = 3$) but harms performance at
 $K = 200$ ($\rho = -0.66$), and named multi-window-history smoothing
 as the natural candidate fix. This paper evaluates that fix in a
-pre-registered 2{,}250-row five-strategy comparison: fixed (Paper~4
-weights), lag1 (Paper~7 baseline), trail3 (equal-weight 3-window
+pre-registered 2{,}250-row five-strategy comparison: fixed (the HygienePrio scorer
+weights), lag1 (the online-calibration study baseline), trail3 (equal-weight 3-window
 trailing mean), ewma3 (exponentially-weighted 3-window mean,
-$\eta = 0.6$), and offline (Paper~7 ceiling). All four pre-registered
+$\eta = 0.6$), and offline (the online-calibration study ceiling). All four pre-registered
 hypotheses are rejected, and the direction of rejection is the
 contribution: multi-window smoothing does not reverse the
-high-capacity hazard --- it makes the hazard substantially worse. At
+high-capacity hazard, it makes the hazard substantially worse. At
 $K = 100$, EWMA-3's cell-mean recovery ratio is $-1.37$ (versus
 lag-1's $+0.99$); at $K = 200$ it is $-0.94$ (versus lag-1's
 $-0.66$); at $K = 50$, the matched-capacity moderate regime, EWMA-3
@@ -20,7 +20,7 @@ capacity the fleet's distribution at window $w$ has shifted
 substantially from the three preceding windows, so weighting all
 three in the calibration target pulls the selected weights further
 from the appropriate-for-window-$w$ optimum. The hazard is monotone
-in history length --- less history is better when distributional
+in history length, less history is better when distributional
 change is fast. Deployable online recalibration in this setting
 should therefore use the shortest possible history (lag-1 at most)
 and be turned off entirely at high capacity. All results are bounded

@@ -1,4 +1,4 @@
-# Paper 2 — CSET LaTeX scaffold
+# the CalibScore study, CSET LaTeX scaffold
 
 This directory holds the LaTeX scaffold for the USENIX **CSET** submission
 target (primary venue per F9). It is a self-contained directory: `main.tex`
@@ -17,16 +17,16 @@ To finalize for submission:
 
 1. Download the current CSET document class from the venue site.
 2. Replace the `\documentclass` line and the preamble package list with the
-   venue-required equivalents.
+ venue-required equivalents.
 3. Re-check that no section file uses an environment that the venue class
-   forbids. The section files only use: `\section`, `\subsection`,
-   `\subsubsection`, `itemize`, `\textbf`, `\emph`, `\texttt`, the standard
-   LaTeX escapes (`\&`, `\%`, `\$`, `\#`, `\_`, `\{`, `\}`,
-   `\textasciitilde`, `\textasciicircum`), and `\input{sections/...}` in
-   `main.tex`. No custom commands or hand-rolled environments are used.
+ forbids. The section files only use: `\section`, `\subsection`,
+ `\subsubsection`, `itemize`, `\textbf`, `\emph`, `\texttt`, the standard
+ LaTeX escapes (`\&`, `\%`, `\$`, `\#`, `\_`, `\{`, `\}`,
+ `\textasciitilde`, `\textasciicircum`), and `\input{sections/...}` in
+ `main.tex`. No custom commands or hand-rolled environments are used.
 4. Decide on the author-block / anonymization mode required by the
-   submission round; replace `\author{Anonymous (submission scaffold)}` in
-   `main.tex` accordingly.
+ submission round; replace `\author{Anonymous (submission scaffold)}` in
+ `main.tex` accordingly.
 
 ## Compile status
 
@@ -37,7 +37,7 @@ Recommended compile recipe (from this directory):
 
 ```
 pdflatex main.tex
-bibtex   main
+bibtex main
 pdflatex main.tex
 pdflatex main.tex
 ```
@@ -82,7 +82,7 @@ by `scripts/paper2_md_to_latex.py`. The converter:
 - Splits on `## N. Title` H2 headings.
 - Converts `### X` / `#### X` headings to `\subsection{...}` / `\subsubsection{...}`.
 - Converts `**bold**` / `*italic*` / `` `code` `` to `\textbf{...}` /
-  `\emph{...}` / `\texttt{...}`.
+ `\emph{...}` / `\texttt{...}`.
 - Converts `-` / `*` bullets to `\begin{itemize}...\end{itemize}`.
 - LaTeX-escapes the special characters listed above.
 - Does NOT alter wording.
@@ -113,11 +113,11 @@ verifies that wording survived the conversion intact.
 - [ ] Swap `\documentclass{article}` for the venue document class.
 - [ ] Confirm preamble package list matches venue defaults.
 - [ ] Replace `\author{Anonymous (submission scaffold)}` with the venue's
-      required author / affiliation block (or anonymized equivalent).
+ required author / affiliation block (or anonymized equivalent).
 - [ ] Run the compile recipe above and resolve any environment-specific
-      errors.
+ errors.
 - [ ] Re-check figure widths if the venue column width differs from the
-      default 6.5"; figures may need `\includegraphics[width=\columnwidth]{...}`
-      qualifiers that are not present in the current scaffold.
+ default 6.5"; figures may need `\includegraphics[width=\columnwidth]{...}`
+ qualifiers that are not present in the current scaffold.
 - [ ] Confirm `\bibliographystyle{plain}` matches the venue style (CSET has
-      historically used `plain`; verify against the current CFP).
+ historically used `plain`; verify against the current CFP).

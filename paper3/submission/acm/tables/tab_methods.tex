@@ -8,6 +8,7 @@
 \label{tab:methods}
 \small
 \setlength{\tabcolsep}{3pt}
+\adjustbox{max width=\columnwidth}{%
 \begin{tabular}{@{}ll>{\raggedright}p{2.2cm}>{\raggedright\arraybackslash}p{2.7cm}@{}}
 \toprule
 ID & Name & Type & Notes \\
@@ -21,5 +22,5 @@ M6 & Linear-AE        & Reconstruction error   & PCA (latent dim=8); approx.\ ne
 M7 & Temporal z-score & Statistical            & Population z-score, temporal features \\
 M8 & Graph-IF         & Graph + ensemble       & Bipartite features + IF; approx.\ DOMINANT \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}

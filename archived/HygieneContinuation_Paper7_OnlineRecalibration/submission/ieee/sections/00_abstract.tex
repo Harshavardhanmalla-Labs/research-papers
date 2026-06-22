@@ -1,7 +1,7 @@
-Paper~5 reported that grid-searching scorer weights on calibration-seed
+The temporal-stability study reported that grid-searching scorer weights on calibration-seed
 data at the same window being scored adds up to $+21.3$ percentage points
-of Precision@50 over the fixed Paper~4 weights at the canonical operating
-cell ($K=50, \lambda=3$). That procedure is not deployable --- it peeks
+of Precision@50 over the fixed HygienePrio scorer weights at the canonical operating
+cell ($K=50, \lambda=3$). That procedure is not deployable, it peeks
 at the future window. This paper evaluates a deployable alternative:
 rolling-history online calibration, in which weights at window $w$ are
 fit on calibration-seed data at window $w-1$ only. We pre-registered
@@ -12,11 +12,11 @@ and the rejection pattern is the central contribution. First (H1),
 online recalibration does not uniformly match or beat fixed weights: at
 $K = 200$ it loses $-5.9$~pp at W2 and $-7.8$~pp at W3, because the
 fleet state changes faster than one-window-lag calibration can track.
-Second (H2), online sometimes exceeds the offline-peek ceiling --- at
+Second (H2), online sometimes exceeds the offline-peek ceiling, at
 $K = 50, w = 5$ online ($0.580$) beats offline-peek ($0.550$); the
 five-seed offline grid search overfits, and the one-window lag acts as
 a regulariser. Third (H3), online does not rescue the high-capacity
-collapse documented in Paper~6: no qualifying $(K, w)$ point achieves
+collapse documented in the capacity-decay study: no qualifying $(K, w)$ point achieves
 both $\geq 50\%$ gap recovery and a $\geq 5$~pp absolute gain; the
 binding failure is the 5~pp absolute-gain clause. Rolling-history
 recalibration is beneficial at moderate capacity ($K = 50$: recovery

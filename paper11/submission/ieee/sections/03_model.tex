@@ -1,0 +1,17 @@
+\section{Operating Model}
+\label{sec:model}
+
+We model a government security operations team that, each maintenance window, can
+remediate at most $K$ \mbox{(host, CVE)} pairs drawn from a backlog of applicable
+vulnerabilities across an $\sim$830-host fleet ($\sim$3{,}500 pairs per seed). The team
+wants to spend that budget on the pairs that most reduce \emph{mission risk}: high
+exploit-likelihood CVEs on high-context hosts. $K=50$ models a tight triage window;
+$K=250$ models a well-resourced window. The swept axis is capacity $K$, not host count.
+
+No employer or operational data is used at any stage. All fleets are synthetic with
+public structural priors (Section~\ref{sec:method}), and each CVE's EPSS score and KEV
+membership are resampled from the real corpus, a 2026-06-05 snapshot of the FIRST EPSS
+feed intersected with the CISA KEV catalog, filtered to 203{,}174 CVEs disclosed in 2020
+or later. This isolates the contribution of asset context: the exploit signal is real and
+identical in distribution across all compared methods, so any ranking difference is due to
+how each method uses host context, not to differing exploit data.

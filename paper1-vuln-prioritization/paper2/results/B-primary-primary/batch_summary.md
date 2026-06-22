@@ -1,4 +1,4 @@
-# Batch summary — B-primary-primary
+# Batch summary, B-primary-primary
 
 - smoke: False
 - table_group: primary

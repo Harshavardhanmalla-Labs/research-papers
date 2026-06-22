@@ -4,7 +4,7 @@
 The empirical findings of \S\ref{sec:results} demonstrate that
 HygienePrio's Precision@50 at $K = 200, w = 6$ depends on which method
 drives the fleet trajectory: $0.075$ under HygienePrio's own driver,
-$0.701$--$0.713$ under the non-draining drivers (CVSS-only, HRS-only,
+$0.701$-$0.713$ under the non-draining drivers (CVSS-only, HRS-only,
 Random). This section formalises the
 underlying phenomenon as a theorem applicable to any
 scoring-driven closed-loop prioritization system.
@@ -52,7 +52,7 @@ with $S$ on the upper tail: $\mathbb{P}[\phi(h, c) = 1 \mid (h, c) \in
 A_w(S; K)] > \mathbb{P}[\phi(h, c) = 1 \mid (h, c) \in V_w \setminus A_w(S; K)]$.
 \item[(A2)] The new-disclosure rate $n_w$ satisfies $n_w < K$ for all $w$.
 \item[(A3)] The new-disclosure distribution $\mathcal{D}_{\text{new}}$
-has tail density $\rho^{\mathcal{D}}(S) \leq \rho_1(S)$ ---
+has tail density $\rho^{\mathcal{D}}(S) \leq \rho_1(S)$, 
 the disclosure process does not preferentially refill $S$'s upper
 tail beyond its initial density.
 \item[(A4)] The initial tail density does not exceed the positive
@@ -99,7 +99,7 @@ $|P_w(S; K) - P_w(\mathrm{Random}; K)|$ becomes arbitrarily small.
 As an order-of-magnitude heuristic (not a tight bound), the
 exhaustion window scales as
 $w^\star \approx \lceil |T_1 \cap L_1| / (\alpha K -
-\rho^{\mathcal{D}}(S) n_w) \rceil$ --- the initial positive tail mass
+\rho^{\mathcal{D}}(S) n_w) \rceil$, the initial positive tail mass
 divided by the net per-window drain; the exact constant depends on
 the gap between $\alpha K$ and $\rho^{\mathcal{D}}(S) n_w$.
 \hfill$\square$
@@ -107,7 +107,7 @@ the gap between $\alpha K$ and $\rho^{\mathcal{D}}(S) n_w$.
 \subsection{Empirical Consistency}
 
 The data of \S\ref{sec:results} show ceiling-limited precision driven
-by positive-set exhaustion --- the mechanism the theorem formalizes.
+by positive-set exhaustion, the mechanism the theorem formalizes.
 At $K = 200, \lambda = 3$ under the self-driven trajectory, the mean
 surviving positive mass at $w = 6$ is $3.8$ of $\approx 760$ backlog
 pairs, capping P@50 at $0.076$; HygienePrio's measured $0.075$ sits
@@ -120,7 +120,7 @@ preferentially drained, the exhaustion dynamic is absent, and
 $P_w(S; K)$ remains near $0.7$.
 
 The theorem is likewise consistent with the EPSS-self-driven collapse
-to $0.001$--$0.012$: EPSS-only's selection at $K = 200$ drains the
+to $0.001$-$0.012$: EPSS-only's selection at $K = 200$ drains the
 same EPSS-gated positive set, and the disclosure rate $\lambda = 3$
 contributes few high-EPSS pairs per window, so the net drain rate is
 sharp and $w^\star$ is small.
@@ -159,7 +159,7 @@ For $\epsilon \in (0, 1)$, consider the mixed policy $S_\epsilon$ that
 selects each window's top-$K$ from $S$ with probability $1-\epsilon$
 and uniformly at random from $V_w$ with probability $\epsilon$. Then
 the convergence rate of Theorem~\ref{thm:exhaustion} is slowed by a
-factor of $1/(1-\epsilon)$ --- approximately, by the following
+factor of $1/(1-\epsilon)$, approximately, by the following
 heuristic argument. The expected
 positive-mass drain per window becomes $(1-\epsilon) \alpha K
 + \epsilon \mathbb{P}[\phi=1 \mid V_w] K$, which approaches the random
@@ -175,9 +175,9 @@ direction ($\rho^{\mathcal{D}}(S) \geq \alpha$), the net change in
 positive mass within $T_w$ becomes non-negative and the theorem does
 not apply. Empirically, this regime corresponds to a fleet whose
 new-CVE arrival rate exceeds its remediation rate while preserving
-the upper-tail composition --- i.e., a disclosure process biased
+the upper-tail composition, i.e., a disclosure process biased
 toward exactly the signals the policy uses to rank. In the simulated
-$\lambda = 12, K = 10$ cell of Paper~6, this condition is approached
+$\lambda = 12, K = 10$ cell of the capacity-decay study, this condition is approached
 but not crossed; in real fleets it would correspond to a denial-of-service
 attack on the prioritization system (deliberate publication of many
 high-EPSS CVEs targeting the defender's fleet topology).
@@ -192,12 +192,12 @@ is the same evolving distribution as $S$'s; the calibration procedure
 cannot move the labelling threshold $\tau$ faster than the
 positive-mass drain rate. Online recalibration therefore inherits
 Theorem~\ref{thm:exhaustion}'s convergence bound asymptotically.
-\emph{This explains Paper~7's empirical finding that lag-1 online
-recalibration cannot rescue K=200 collapse}~\cite{paper7online}:
+\emph{This explains the online-calibration study's empirical finding that lag-1 online
+recalibration cannot rescue K=200 collapse}:
 the calibration target is itself exhausted by the closed-loop policy.
 The only structural way to escape the bound is to make the labelling
 function depend on signals \emph{outside} the policy's discriminative
-set --- which is exactly what self-trajectory decoupling accomplishes.
+set, which is exactly what self-trajectory decoupling accomplishes.
 \end{corollary}
 
 \subsection{Scope and Limitations}

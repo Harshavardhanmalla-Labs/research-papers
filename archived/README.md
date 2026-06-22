@@ -2,13 +2,13 @@
 
 All directories here are complete papers (protocol, code, frozen CSVs,
 LaTeX + compiled PDF) but are **not part of the current submission program**.
-Kept for reproducibility — can be revived as standalone submissions later.
+Kept for reproducibility, can be revived as standalone submissions later.
 
 ---
 
 ## HygienePrio Continuation Papers (archived 2026-06-18)
 
-Papers 5–9 built incrementally on Paper 4 (HygienePrio) and were archived
+Papers 5-9 built incrementally on the HygienePrio scorer (HygienePrio) and were archived
 so the active list shows only one hygiene paper. Each can be submitted
 independently in the future as its own contribution.
 
@@ -32,7 +32,7 @@ never part of the planned research program.
 | `Exp_AdaptiveSingleTau/` | Single-threshold magnitude detector (τ=0.05) |
 | `Exp_TauSweep/` | Sweep over τ∈{0.02…0.10} across feasibility region |
 | `Exp_CapacityAware/` | Per-K threshold vector τ_K |
-| `Exp_CUSUM/` | One-sided CUSUM — first to beat static gate at K=200 |
+| `Exp_CUSUM/` | One-sided CUSUM, first to beat static gate at K=200 |
 
 ---
 
@@ -41,9 +41,9 @@ never part of the planned research program.
 The 5 unique submission-ready papers live at the repo root:
 
 ```
-paper1-vuln-prioritization/   Paper 1 — VulnPrio       (IEEE)     unique topic
-paper1-vuln-prioritization/   Paper 2 — CalibScore      (CSET)     unique topic
-paper3/                        Paper 3 — HygieneBench   (ACM AISec) unique topic
-paper4/                        Paper 4 — HygienePrio    (IEEE TNSM) unique topic
-paper10/                       Paper 10 — AutoHeal      (IEEE TNSM) unique topic
+paper1-vuln-prioritization/ the VulnPrio study, VulnPrio (IEEE) unique topic
+paper1-vuln-prioritization/ the CalibScore study, CalibScore (CSET) unique topic
+paper3/ the HygieneBench benchmark, HygieneBench (ACM AISec) unique topic
+paper4/ the HygienePrio scorer, HygienePrio (IEEE TNSM) unique topic
+paper10/ the AutoHeal framework, AutoHeal (IEEE TNSM) unique topic
 ```

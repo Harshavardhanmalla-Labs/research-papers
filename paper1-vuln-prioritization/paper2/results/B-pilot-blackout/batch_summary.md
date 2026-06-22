@@ -1,4 +1,4 @@
-# Batch summary — B-pilot-blackout
+# Batch summary, B-pilot-blackout
 
 - smoke: False
 - table_group: blackout_sensitivity

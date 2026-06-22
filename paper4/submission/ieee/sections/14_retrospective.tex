@@ -2,7 +2,7 @@
 \label{sec:retrospective}
 
 The synthetic and real-distribution evaluations of
-\S\S\ref{sec:results}--\ref{sec:adversarial} test HygienePrio on
+\S\S\ref{sec:results} to \ref{sec:adversarial} test HygienePrio on
 distributional aggregates. We close the empirical evaluation with a
 \emph{worked retrospective}: for ten high-profile CVEs of the past
 seven years, we examine what HygienePrio would have produced relative
@@ -15,7 +15,7 @@ reference.
 \subsection{Observations}
 
 \textbf{(i) EPSS catches major CVEs.} All ten high-profile CVEs have
-present-day EPSS scores in $[0.9342, 0.9446]$ --- all within the top
+present-day EPSS scores in $[0.9342, 0.9446]$, all within the top
 $0.2\%$ of the EPSS distribution (per-CVE percentiles range from
 99.825 to 99.996). Every one is in the CISA KEV catalog.
 EPSS-only ranking would correctly elevate any of these CVEs to the
@@ -29,17 +29,17 @@ high-impact CVEs means EPSS-only's relative ranking among them is
 essentially noise. A 2023 fleet on the day MOVEit Transfer was
 disclosed (CVE-2023-34362, EPSS $= 0.9425$, KEV-added $2023$-$06$-$02$)
 faced the question: \emph{which of our hosts running MOVEit
-should we patch first?} EPSS-only provides no answer --- every
+should we patch first?} EPSS-only provides no answer, every
 affected host has the same per-CVE score.
 
 \textbf{(iii) HygienePrio's contribution is host-side discrimination.}
-The Paper~4 scorer's EPSS$\cdot$HRS interaction term
+The HygienePrio scorer's EPSS$\cdot$HRS interaction term
 $\delta \cdot (\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h))$ multiplies
 the high EPSS of a major CVE by the host's hygiene risk, breaking
 the tie in favour of high-HRS hosts (high patch debt, high AD
-exposure, stale telemetry). The HRS dimension that Paper~4
-\S\ref{sec:results} identifies as most informative ---
-\emph{patch posture} --- is exactly the dimension that captures
+exposure, stale telemetry). The HRS dimension that the HygienePrio scorer
+\S\ref{sec:results} evaluation identifies as most informative,
+\emph{patch posture}, is exactly the dimension that captures
 which hosts are likely to have a long-unpatched MOVEit instance.
 On a retrospective Log4Shell-style fleet sweep with thousands of
 hosts running affected software, HygienePrio's ranking would
@@ -50,7 +50,7 @@ return them in arbitrary order.
 CVEs like Log4Shell (disclosed 2021-12-09, KEV-added 2021-12-10),
 KEV inclusion lags disclosure by one day; for Heartbleed (disclosed
 2014-04-07, KEV-added 2022-05-04) the KEV-added date is over
-\emph{eight years} after disclosure --- a function of the KEV
+\emph{eight years} after disclosure, a function of the KEV
 catalog's 2021 inception, not of CVE risk. The HygienePrio
 $\gamma \cdot \mathrm{KEV\_recency}(c)$ term contributes meaningfully
 in the days after KEV inclusion; before KEV inclusion it does not

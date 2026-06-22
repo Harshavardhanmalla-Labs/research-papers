@@ -1,5 +1,5 @@
 <!--
-Paper 2 — full manuscript draft.
+The CalibScore study, full manuscript draft.
 Drafted from Step-9 locked outputs and the Step-3/Step-4 pre-registration
 documents only. No new experiments. No Paper-1 modification.
 All numeric claims trace to paper2/audit/*.json and paper2/tables/*.csv.
@@ -10,8 +10,8 @@ Claim-audit script (scripts/paper2_claim_audit.py) must pass on this file.
 
 ## 1. Abstract
 
-Vulnerability prioritization on public feeds — EPSS exploit probabilities, the
-CISA KEV catalog, CVSS severity, and local-context features — is often discussed
+Vulnerability prioritization on public feeds, EPSS exploit probabilities, the
+CISA KEV catalog, CVSS severity, and local-context features, is often discussed
 as a calibration problem: learn per-feature weights from observed exploitation
 labels and rank vulnerabilities by the calibrated score. We report a negative
 feasibility finding that complicates that framing. Restricting CVE disclosures
@@ -22,13 +22,13 @@ distinct CVEs** across **2,688 catalog-matched CVEs** and **18 monthly t0
 windows**. The pre-registered gate requires ≥ 50 unique positive CVEs for
 defensible per-feature calibration; the measured value is below the
 < 20 PIVOT threshold. Calibration was not attempted under the gate. The primary
-contribution of this paper is the failure-aware gate methodology — chunked,
+contribution of this paper is the failure-aware gate methodology, chunked,
 resumable, paced public-feed acquisition plus a multi-t0 distinct-positive-CVE
-gate plus a stop-rule registry — together with a reproducible execution trail
+gate plus a stop-rule registry, together with a reproducible execution trail
 that documents the negative result. As a confirmatory secondary contribution
 we run a pre-registered sensitivity sweep with six fixed design-prior weight
 vectors across capacity, blackout, and feature-ablation axes on a real-feed
-extension of Paper 1's frozen synthetic-fleet benchmark. The sensitivity
+extension of the VulnPrio study's frozen synthetic-fleet benchmark. The sensitivity
 results are reported descriptively with paired-seed BCa CIs; no calibration
 claim, no model-comparison claim, and no production-readiness claim is made.
 This work does not claim model improvements; the synthetic fleet limits
@@ -45,13 +45,13 @@ remediation cost. Practitioners frequently combine these signals with
 hand-tuned or fitted weights. The fitted-weight path is attractive because
 calibration promises an estimator of risk grounded in observed exploitation
 outcomes. It is also potentially fragile: per-feature weight estimation
-requires *enough labelled positives* — not enough labelled *pairs* (the
-calibration unit is the CVE, not the host-CVE pair) — and the available
+requires *enough labelled positives*, not enough labelled *pairs* (the
+calibration unit is the CVE, not the host-CVE pair), and the available
 public exploit signals are sparse on time-bounded windows.
 
-This paper is a companion to Paper 1, which contributed a benchmark and
+This paper is a companion to the VulnPrio study, which contributed a benchmark and
 scheduler for context-aware prioritization on a synthetic fleet with
-placeholder weights. Paper 1 made no calibration or model-quality claim. The
+placeholder weights. The VulnPrio study made no calibration or model-quality claim. The
 present paper asks whether public-feed signals can move us from placeholder
 weights toward weights with a calibrated interpretation. The honest answer is
 no, at the slice we examined. The negative finding is not a bug; it is a
@@ -72,18 +72,18 @@ is reproducible and that the negative feasibility result is informative.
 
 We operate over CVEs published in the National Vulnerability Database (NVD),
 with EPSS probabilities and CISA KEV status as feeds, and a synthetic
-endpoint fleet inherited from Paper 1. The Paper-1 linear scoring
+endpoint fleet inherited from the VulnPrio study. The Paper-1 linear scoring
 formulation is preserved:
 
-`score = w_E · E + w_K · K + w_S · S + w_C · C + w_X · X + w_U · U − w_R · R`
+`score = w_E · E + w_K · K + w_S · S + w_C · C + w_X · X + w_U · U - w_R · R`
 
 with features `E` (EPSS), `K` (KEV-as-of-t0), `S` (CVSS), `C`
 (criticality), `X` (exposure), `U` (urgency), and `R` (remediation
 complexity, subtracted as cost). A scheduler selects per-cell capacity (top-K
 by score) under blackout policies; the operational outcome metric is the
-Exposure-Host-Day (EHD) burden over a horizon. Paper 1's frozen artefact is
+Exposure-Host-Day (EHD) burden over a horizon. The VulnPrio study's frozen artefact is
 treated as read-only throughout this work and is verified before and after
-every Paper 2 batch.
+every the CalibScore study batch.
 
 Label A is the standard future-exploit label used here: a CVE is positive at
 horizon `(t0, t0 + H]` if it is added to the KEV catalog inside that
@@ -110,7 +110,7 @@ Exploitability Index on 600 Microsoft CVEs across four months. SSVC v2.0
 re-do the cross-system disagreement comparison. We acknowledge SSVC as a
 non-weighted scheme outside the linear-score family we study.
 
-**Context-feature ablations.** Sherif et al. [1] ablate Key Risk Indicator (KRI) components — threat, impact, exposure —
+**Context-feature ablations.** Sherif et al. [1] ablate Key Risk Indicator (KRI) components, threat, impact, exposure, 
 against CVSS / EPSS over ~280,000 CVEs. Our sensitivity sweep is narrower
 (one public-sector-typical 31-product catalog, the EPSS v3 era, 18 monthly
 t0 windows, six fixed design-prior vectors); we do not learn KRI weights. We
@@ -121,7 +121,7 @@ each axis descriptive-only.
 remediation as a mixed-integer multi-objective problem with real SOC scan
 data and reports an exposure-reduction figure. Deep VULMAN [5] uses deep RL plus integer
 programming under fluctuating arrivals. Roytman [3] sweeps capacity tiers across strategies on observed
-enterprise data. We do not propose a new scheduler; we use Paper 1's
+enterprise data. We do not propose a new scheduler; we use the VulnPrio study's
 deterministic scheduler unchanged. Our capacity sensitivity is a
 confirmatory descriptive sweep, not a new algorithm.
 
@@ -151,18 +151,18 @@ We ask three questions, each tied to a pre-registered claim card in
 `STEP3_12_FIX_F3_METRIC_CLAIM_BINDING.md`:
 
 - **Q1 (Class A, calibration feasibility).** Under public-feed labels on a
-  31-product catalog over the EPSS v3 era, is per-feature weight calibration
-  statistically defensible? Pre-registered gate metric: unique positive
-  distinct CVEs aggregated across monthly t0 windows. Gate threshold:
-  ≥ 50 for GO, 20–49 for CONDITIONAL, < 20 for PIVOT.
+ 31-product catalog over the EPSS v3 era, is per-feature weight calibration
+ statistically defensible? Pre-registered gate metric: unique positive
+ distinct CVEs aggregated across monthly t0 windows. Gate threshold:
+ ≥ 50 for GO, 20-49 for CONDITIONAL, < 20 for PIVOT.
 - **Q2 (Class C, sensitivity).** With weights held as fixed design priors,
-  do the operational EHD outcomes vary across capacity ratios, blackout
-  policies, and feature ablations? Pre-registered primary metric:
-  paired-seed ΔEHD with BCa CIs; SM-4 descriptive guardrail.
+ do the operational EHD outcomes vary across capacity ratios, blackout
+ policies, and feature ablations? Pre-registered primary metric:
+ paired-seed ΔEHD with BCa CIs; SM-4 descriptive guardrail.
 - **Q3 (Classes E and F, audit).** Does the runtime preserve scheduler
-  feasibility, content-addressed audit, and Paper 1's freeze invariant on
-  every batch? Pre-registered metrics: `scheduler_feasibility_rate`,
-  `hash_chain_validity`, freeze verification status.
+ feasibility, content-addressed audit, and the VulnPrio study's freeze invariant on
+ every batch? Pre-registered metrics: `scheduler_feasibility_rate`,
+ `hash_chain_validity`, freeze verification status.
 
 We are explicit that ranking-quality metrics (precision/recall/nDCG at K)
 and KEV-deadline-breach metrics are diagnostic-only under K3 (label
@@ -208,11 +208,11 @@ row to the verified freeze state.
 
 The study was pre-registered before any execution; the pre-registration is
 `paper2/manuscript/STEP4_PREREGISTRATION.md` and the individual fixes
-(F1–F9) are in `STEP3_10_*` through `STEP3_18_*`. F2 locks six fixed
+(F1-F9) are in `STEP3_10_*` through `STEP3_18_*`. F2 locks six fixed
 design-prior weight vectors (Step 3.11):
 
 - `w_uniform` (1/7 each),
-- `w_paper1_placeholder` (= Paper 1's `w_hand`),
+- `w_paper1_placeholder` (= the VulnPrio study's `w_hand`),
 - `w_epss_dominant` (E = 0.50),
 - `w_cvss_dominant` (S = 0.50),
 - `w_kev_dominant` (K = 0.50),
@@ -272,20 +272,20 @@ verbatim in `paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv` and the
 batch plan lives in `paper2/design/STEP3_17_PLANNED_BATCHES.yaml`.
 
 - **Primary table (12 cells)**: 6 baseline strategies (random, cvss_only,
-  epss_only, kev_first, cvss_x_epss, cvss_plus_epss_plus_kev) and 6
-  `proposed_fixed_prior` cells (one per F2 weight vector), all at central
-  capacity 0.01, blackout `primary`, approver A, ablation `full`. Supports
-  CLM-B1 / B2 / B3 and CLM-C1.
+ epss_only, kev_first, cvss_x_epss, cvss_plus_epss_plus_kev) and 6
+ `proposed_fixed_prior` cells (one per F2 weight vector), all at central
+ capacity 0.01, blackout `primary`, approver A, ablation `full`. Supports
+ CLM-B1 / B2 / B3 and CLM-C1.
 - **Capacity sensitivity (15 cells)**: 5 strategies across 4 capacities
-  {0.005, 0.01, 0.02, 0.05}, with central blackout / approver / ablation.
-  Five cells are reused from primary at 0.01. Supports CLM-C2.
+ {0.005, 0.01, 0.02, 0.05}, with central blackout / approver / ablation.
+ Five cells are reused from primary at 0.01. Supports CLM-C2.
 - **Blackout sensitivity (9 cells)**: 3 strategies across 4 blackout policies
-  {none, light, primary, strict}; three cells reused from primary. Supports
-  CLM-C3.
+ {none, light, primary, strict}; three cells reused from primary. Supports
+ CLM-C3.
 - **Feature ablation (12 cells)**: 2 vectors
-  (`w_paper1_placeholder`, `w_context_dominant`) × {remove_E, remove_K,
-  remove_S, remove_C, remove_X, remove_R}; two `full` cells reused from
-  primary. Supports CLM-C4.
+ (`w_paper1_placeholder`, `w_context_dominant`) × {remove_E, remove_K,
+ remove_S, remove_C, remove_X, remove_R}; two `full` cells reused from
+ primary. Supports CLM-C4.
 
 Catalog expansion, fuzzy CPE matching, approver-B, EPSS v4, PoC labels, and
 the n = 50 / n = 100 seed sweeps were pre-registered as **deferred** (F6
@@ -304,15 +304,15 @@ headline claim.
 
 The inference policy (F4, Step 3.13) sets the meaningful-effect threshold at
 5,000 host-days (chosen above the Paper-1 per-seed paired-Δ noise floor of
-2,331–3,673 hd) and computes the MDE at n = 30 paired seeds, α = 0.05,
+2,331-3,673 hd) and computes the MDE at n = 30 paired seeds, α = 0.05,
 power = 0.80, two-sided (MDE-d = 0.5292). Under × 1.0 to × 1.5 sparsity
 inflation the MDE in host-days for non-degenerate Paper-1 comparisons sits
-in 1,234–2,916 hd, below the 5,000-hd meaningful threshold.
+in 1,234-2,916 hd, below the 5,000-hd meaningful threshold.
 
 The Holm families are pre-registered as B1, C1, C2, C3, and C4. SM-1 drops
-degenerate-difference comparisons (`kev_first − epss_only` was
+degenerate-difference comparisons (`kev_first - epss_only` was
 identically-zero under Paper-1 fixtures and is auto-dropped under SM-1 in
-Paper 2 if degeneracy is reproduced). SM-3 disables oracle inference (the
+The CalibScore study if degeneracy is reproduced). SM-3 disables oracle inference (the
 oracle is absent from the F6 primary cells, but the rule is honored if it
 appears in any future cell). SM-4 enforces descriptive language whenever a
 Holm rejection sits inside ±5,000 host-days. SM-5 forbids significance
@@ -324,7 +324,7 @@ phrasing near a diagnostic-only metric.
 
 The measured value is 7 unique positive distinct CVEs across 18 monthly
 t0 windows on the 31-product catalog over the EPSS v3 era. The gate
-threshold for GO is ≥ 50; for CONDITIONAL is 20–49; for PIVOT is < 20. K1,
+threshold for GO is ≥ 50; for CONDITIONAL is 20-49; for PIVOT is < 20. K1,
 S-A, and K3 triggered. Calibration was not attempted. The trail is in
 `paper2/feasibility/probe_v2_multit0/aggregate_counts.csv`,
 `decision_gate.json`, and the Step-3.8 report.
@@ -351,24 +351,24 @@ The baseline `epss_only` central-cell mean EHD is ~3.32 × 10⁹ host-days
 (30 seeds). Paired-seed ΔEHD relative to `epss_only`, reported as
 descriptive observations:
 
-- `cvss_only` − `epss_only`: mean ≈ −163 hd, BCa CI [-1,918, +1,329].
-  Within the noise floor; descriptive null.
-- `kev_first` − `epss_only`: mean ≈ +140 hd, BCa CI [-356, +839].
-  Descriptive null.
-- `cvss_x_epss` − `epss_only`: mean ≈ +374 hd, BCa CI [-384, +1,145].
-  Descriptive null.
-- `cvss_plus_epss_plus_kev` − `epss_only`: mean ≈ +103 hd, BCa CI
-  [-224, +431]. Descriptive null.
-- `proposed_fixed_prior::w_epss_dominant` − `epss_only`: mean ≈ −2.21 × 10⁶
-  hd, BCa CI does not overlap zero.
-- `proposed_fixed_prior::w_cvss_dominant` − `epss_only`: mean ≈ −8.82 × 10⁶
-  hd, BCa CI does not overlap zero.
+- `cvss_only` - `epss_only`: mean ≈ -163 hd, BCa CI [-1,918, +1,329].
+ Within the noise floor; descriptive null.
+- `kev_first` - `epss_only`: mean ≈ +140 hd, BCa CI [-356, +839].
+ Descriptive null.
+- `cvss_x_epss` - `epss_only`: mean ≈ +374 hd, BCa CI [-384, +1,145].
+ Descriptive null.
+- `cvss_plus_epss_plus_kev` - `epss_only`: mean ≈ +103 hd, BCa CI
+ [-224, +431]. Descriptive null.
+- `proposed_fixed_prior::w_epss_dominant` - `epss_only`: mean ≈ -2.21 × 10⁶
+ hd, BCa CI does not overlap zero.
+- `proposed_fixed_prior::w_cvss_dominant` - `epss_only`: mean ≈ -8.82 × 10⁶
+ hd, BCa CI does not overlap zero.
 - `proposed_fixed_prior::w_kev_dominant`: similar order to
-  `w_cvss_dominant`.
+ `w_cvss_dominant`.
 - `proposed_fixed_prior::w_uniform`: similar order to `w_epss_dominant`.
 - `proposed_fixed_prior::w_paper1_placeholder`: similar order.
-- `proposed_fixed_prior::w_context_dominant` − `epss_only`: mean ≈
-  −1.61 × 10⁷ hd, BCa CI does not overlap zero.
+- `proposed_fixed_prior::w_context_dominant` - `epss_only`: mean ≈
+ -1.61 × 10⁷ hd, BCa CI does not overlap zero.
 
 We describe these as observed differences relative to EPSS. Several
 descriptive ΔEHD magnitudes sit well outside the 5,000-hd meaningful
@@ -406,7 +406,7 @@ strategy / vector arms × the consecutive-pair list yield the inference
 records. As with the weight family, the records are populated with paired
 BCa CIs and the descriptive guardrail.
 
-![Figure 3: Capacity sensitivity — ΔEHD across consecutive capacity steps. All comparisons use descriptive BCa CIs under the pre-registered inference guardrail.](../figures/fig_capacity_sensitivity_delta_ehd.png)
+![Figure 3: Capacity sensitivity, ΔEHD across consecutive capacity steps. All comparisons use descriptive BCa CIs under the pre-registered inference guardrail.](../figures/fig_capacity_sensitivity_delta_ehd.png)
 
 ### 11.6 Blackout sensitivity (CLM-C3)
 
@@ -417,7 +417,7 @@ and the two pre-registered fixed-prior vectors) × the consecutive-pair
 list. Cells with `scheduler_feasibility = 0` would be excluded per S-C3;
 no such cell occurred (§ 11.8).
 
-![Figure 4: Blackout sensitivity — ΔEHD across blackout policy levels. Reported descriptive-only.](../figures/fig_blackout_sensitivity_delta_ehd.png)
+![Figure 4: Blackout sensitivity, ΔEHD across blackout policy levels. Reported descriptive-only.](../figures/fig_blackout_sensitivity_delta_ehd.png)
 
 ### 11.7 Feature ablation sensitivity (CLM-C4)
 
@@ -429,18 +429,18 @@ ablations). The ablation-effect sign is reported per (vector, ablation);
 where the sign flips between the two vectors, that fact is recorded per
 S-C4 (no convenient vector is selected).
 
-![Figure 5: Feature ablation ΔEHD — effect of removing each feature from the scoring formula, per fixed-prior vector. Sign flips between vectors are noted per S-C4.](../figures/fig_feature_ablation_delta_ehd.png)
+![Figure 5: Feature ablation ΔEHD, effect of removing each feature from the scoring formula, per fixed-prior vector. Sign flips between vectors are noted per S-C4.](../figures/fig_feature_ablation_delta_ehd.png)
 
 ### 11.8 Scheduler feasibility and audit sentinels
 
 `paper2/tables/scheduler_feasibility_summary.csv` reports
-`scheduler_feasibility_rate = 1.0` on every primary cell — the K4 floor
+`scheduler_feasibility_rate = 1.0` on every primary cell, the K4 floor
 (0.95) is not approached. `paper2/audit/batches/B-primary-*/freeze_invariant_result.json`
 records `status = OK` for every batch with all five F7 assertions True. K5
 and K6 did not trigger anywhere in Step 8. The Paper-1 freeze manifest
 SHA-256 was byte-equal before and after every batch.
 
-![Figure 6: Scheduler feasibility sentinel — all primary cells achieve feasibility = 1.0 (above the K4 floor of 0.95 throughout).](../figures/fig_scheduler_feasibility_sentinel.png)
+![Figure 6: Scheduler feasibility sentinel, all primary cells achieve feasibility = 1.0 (above the K4 floor of 0.95 throughout).](../figures/fig_scheduler_feasibility_sentinel.png)
 
 ![Figure 7: Rank churn heatmap across weight-family vectors. Pairwise rank correlation between strategies for each weight vector pair; higher correlation = more stable rankings.](../figures/fig_rank_churn_weight_family_heatmap.png)
 
@@ -450,23 +450,23 @@ SHA-256 was byte-equal before and after every batch.
 post-run evaluations.
 
 - **K2** does not fire: across each primary axis (A1 capacity,
-  A3 weight family, A5 feature ablation, A6 blackout), the absolute median
-  of the paired ΔEHD is well above the 1,000-hd K2 threshold. Sensitivity
-  is *measurable* at the cell-mean level; K2's null-axes branch is not
-  satisfied.
+ A3 weight family, A5 feature ablation, A6 blackout), the absolute median
+ of the paired ΔEHD is well above the 1,000-hd K2 threshold. Sensitivity
+ is *measurable* at the cell-mean level; K2's null-axes branch is not
+ satisfied.
 - **K7** is recorded as SKIPPED. Step 8 produced no catalog-perturbation
-  outputs; we did not run one-product perturbations of the 31-product
-  catalog at scale. The K7 SKIPPED status with rationale is preserved in
-  `paper2/tables/post_run_stop_rules.md`. We list this as a Limitations
-  item rather than a claim.
+ outputs; we did not run one-product perturbations of the 31-product
+ catalog at scale. The K7 SKIPPED status with rationale is preserved in
+ `paper2/tables/post_run_stop_rules.md`. We list this as a Limitations
+ item rather than a claim.
 - **K8** fires on every primary robustness axis. The per-cell EHD
-  coefficient of variation across seeds (`CV_within`) is approximately
-  0.024 on each axis, while the across-cells coefficient (`CV_across`) is
-  about an order of magnitude smaller. Per F5 K8, each axis is demoted to
-  descriptive-only. This is consistent with §11.3: although cell-mean
-  differences are large, the per-cell seed-noise is comparable to the
-  between-cells signal at our 30-seed budget. We do not make sensitivity
-  claims that survive K8; the Results above are descriptive.
+ coefficient of variation across seeds (`CV_within`) is approximately
+ 0.024 on each axis, while the across-cells coefficient (`CV_across`) is
+ about an order of magnitude smaller. Per F5 K8, each axis is demoted to
+ descriptive-only. This is consistent with §11.3: although cell-mean
+ differences are large, the per-cell seed-noise is comparable to the
+ between-cells signal at our 30-seed budget. We do not make sensitivity
+ claims that survive K8; the Results above are descriptive.
 
 ## 12. Discussion
 
@@ -483,7 +483,7 @@ The sensitivity sweeps add reproducibility evidence and a set of axis-level
 descriptive observations: at the cell-mean level the priors do separate
 from each other, but at the seed level the per-cell variance is the same
 order of magnitude as the between-cells variance (K8 fires on every axis).
-This is a useful signal in itself — it cautions against treating
+This is a useful signal in itself, it cautions against treating
 seed-aggregated mean EHD differences as decision evidence at this seed
 budget. A higher seed budget (the F8 fallback `F8-a` and the deferred
 n = 50 / n = 100 sweeps) would let K8 be re-evaluated.
@@ -509,56 +509,56 @@ attempt that generalisation here.
 ## 13. Limitations
 
 - **Synthetic fleet.** The fleet is the Paper-1 synthetic generator; we
-  carry the standing Paper-1 caveat that real-host generalisation is not
-  claimed.
+ carry the standing Paper-1 caveat that real-host generalisation is not
+ claimed.
 - **31-product catalog.** Catalog choice is exogenous; expansion was
-  pre-registered as deferred (F6 §7). A catalog-expansion supplement is
-  required before we can claim that the negative finding is not an artefact
-  of the catalog narrowness.
+ pre-registered as deferred (F6 §7). A catalog-expansion supplement is
+ required before we can claim that the negative finding is not an artefact
+ of the catalog narrowness.
 - **CPE matching.** The matching policy is `cpe_exact` at one
-  configuration; fuzzy / manual matching was deferred.
+ configuration; fuzzy / manual matching was deferred.
 - **KEV-only Label A.** PoC / ExploitDB labels are license-gated and were
-  not used. The negative finding therefore reflects a KEV-only label
-  density at the catalog × era; richer label families may behave
-  differently.
+ not used. The negative finding therefore reflects a KEV-only label
+ density at the catalog × era; richer label families may behave
+ differently.
 - **K7 SKIPPED.** Catalog stability under one-product perturbations was
-  not measured at scale. We list catalog stability as an open question.
+ not measured at scale. We list catalog stability as an open question.
 - **No EPSS v4.** Step-3.9 axis A8 was pre-registered as v3-only because of
-  the model-version-boundary at 2025-03-17.
+ the model-version-boundary at 2025-03-17.
 - **Fixed priors are design priors.** No vector is a published numeric
-  estimate; the citation chains motivate the *direction* of each prior.
+ estimate; the citation chains motivate the *direction* of each prior.
 - **No calibration / no fitted-weight comparator.** K1 forbids learned-weight cells.
 - **Ranking-quality and KEV-deadline metrics are diagnostic-only** under
-  K3. They sit in appendix tables; they do not enter the headline finding.
+ K3. They sit in appendix tables; they do not enter the headline finding.
 - **No production-readiness.** No production validation is claimed; the
-  pipeline is not a production system.
+ pipeline is not a production system.
 - **No government-deployment claim.** No government-deployment claim is
-  made.
+ made.
 - **No compliance claim.** No compliance claim is made.
 - **K8 firing on every axis** demotes each sensitivity axis to
-  descriptive-only at the 30-seed budget; the seed budget is itself a
-  limitation.
+ descriptive-only at the 30-seed budget; the seed budget is itself a
+ limitation.
 - **Statistical helper return paths.** The Wilcoxon + Holm columns in the
-  inference CSVs were not populated by the helper for the descriptive-only
-  comparison set we measured. The paired BCa CI is the inferential quantity
-  populated. A follow-up should examine the helper return paths.
+ inference CSVs were not populated by the helper for the descriptive-only
+ comparison set we measured. The paired BCa CI is the inferential quantity
+ populated. A follow-up should examine the helper return paths.
 
 ## 14. Future Work
 
 - Catalog expansion to a more inclusive product list, with a re-run of the
-  full gate (so the negative finding can be re-tested against catalog
-  width).
+ full gate (so the negative finding can be re-tested against catalog
+ width).
 - Per-t0 EPSS instead of a 2024-09-01 EPSS stand-in (Step-8 used the
-  cached 2024-09-01 EPSS at every t0 because per-t0 caches were not
-  available; a future run with per-t0 EPSS would let `E` vary by t0).
+ cached 2024-09-01 EPSS at every t0 because per-t0 caches were not
+ available; a future run with per-t0 EPSS would let `E` vary by t0).
 - One-product catalog-perturbation drift evaluation, to close K7.
 - A seed-budget sweep at n = 50 and n = 100 (deferred F6) so K8 can be
-  re-evaluated.
+ re-evaluated.
 - A licensed PoC / ExploitDB Label-B path under the explicit license-gate
-  environment, with no redistribution.
+ environment, with no redistribution.
 - A LEV-aware evaluation when LEV scores stabilise.
 - A second gate measurement on the EPSS v4 era after the model-version
-  boundary, treating v3 and v4 as separate slices.
+ boundary, treating v3 and v4 as separate slices.
 
 ## 15. Conclusion
 
@@ -579,19 +579,19 @@ reproducible execution trail.
 ## 16. Reproducibility and Artifact Notes
 
 - Pre-registration: `paper2/manuscript/STEP4_PREREGISTRATION.md`.
-- Fixes F1–F9: `paper2/manuscript/STEP3_10_*.md` ..
-  `paper2/manuscript/STEP3_18_*.md`.
+- Fixes F1-F9: `paper2/manuscript/STEP3_10_*.md` ..
+ `paper2/manuscript/STEP3_18_*.md`.
 - Cell enumeration: `paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv`.
 - Batch plan: `paper2/design/STEP3_17_PLANNED_BATCHES.yaml`.
 - Stop-rule registry: `paper2_runtime/STEP3_14_STOP_RULES_REGISTRY.yaml`.
 - Gate measurement: `paper2/feasibility/probe_v2_multit0/`.
 - Pilot artefacts: `paper2/results/B-pilot-*/`,
-  `paper2/audit/batches/B-pilot-*/`, `paper2/audit/pilot_gate_decision.{json,md}`.
+ `paper2/audit/batches/B-pilot-*/`, `paper2/audit/pilot_gate_decision.{json,md}`.
 - Primary artefacts: `paper2/results/B-primary-*/`,
-  `paper2/audit/batches/B-primary-*/`, `paper2/audit/primary_complete.{json,md}`.
+ `paper2/audit/batches/B-primary-*/`, `paper2/audit/primary_complete.{json,md}`.
 - Step-9 outputs: `paper2/tables/`, `paper2/tables/inference/`,
-  `paper2/figures/`, `paper2/audit/step9_aggregation_complete.{json,md}`,
-  `paper2/audit/post_run_stop_rule_evaluation.json`.
+ `paper2/figures/`, `paper2/audit/step9_aggregation_complete.{json,md}`,
+ `paper2/audit/post_run_stop_rule_evaluation.json`.
 
 Tables referenced by relative path:
 
@@ -622,62 +622,62 @@ Figures referenced by relative path (PNG + PDF generated; embedded inline in §1
 - `paper2/figures/fig_scheduler_feasibility_sentinel.png`
 
 The Paper-1 frozen artefact under `results/primary_full_v1/` was not
-modified at any point during Steps 5–10; `make verify-primary-freeze`
+modified at any point during Steps 5-10; `make verify-primary-freeze`
 returns OK before and after every batch and after Step 9.
 
 ## 17. References
 
 [1] B. Sherif et al., "Bridging the Gap Between Security Metrics and KRIs,"
-    arXiv:2603.12450, March 2026.
+ arXiv:2603.12450, March 2026.
 
 [2] Y. Jiang et al., "A Survey on Vulnerability Prioritization,"
-    arXiv:2502.11070, 2025.
+ arXiv:2502.11070, 2025.
 
 [3] M. Roytman, "Capacity is King," Empirical Security,
-    https://research.empiricalsecurity.com/research/capacity-is-king.
+ https://research.empiricalsecurity.com/research/capacity-is-king.
 
 [4] K. A. Farris, A. Shah, G. Cybenko, R. Ganesan, and S. Jajodia,
-    "VULCON: A System for Vulnerability Prioritization, Mitigation, and
-    Management," ACM Transactions on Privacy and Security, vol. 21, no. 4,
-    pp. 1–28, 2018, doi: 10.1145/3196884.
+ "VULCON: A System for Vulnerability Prioritization, Mitigation, and
+ Management," ACM Transactions on Privacy and Security, vol. 21, no. 4,
+ pp. 1-28, 2018, doi: 10.1145/3196884.
 
 [5] S. Hore, A. Sharma, and B. K. Sahay, "Deep VULMAN: A Deep Reinforcement
-    Learning-Enabled Cyber Vulnerability Management Framework," Expert
-    Systems with Applications, vol. 221, 2023; arXiv:2208.02369.
+ Learning-Enabled Cyber Vulnerability Management Framework," Expert
+ Systems with Applications, vol. 221, 2023; arXiv:2208.02369.
 
 [6] R. Ravalico, F. Farina, M. Trevisan, and A. Bartoli, "Analysing the
-    Temporal Dynamics of EPSS," SSRN 5147459, 2025.
+ Temporal Dynamics of EPSS," SSRN 5147459, 2025.
 
 [7] J. Koscinski et al., "Conflicting Scores, Confusing Signals: Comparing
-    Vulnerability Severity Systems," arXiv:2508.13644, 2025.
+ Vulnerability Severity Systems," arXiv:2508.13644, 2025.
 
 [8] J. Jacobs, S. Romanosky, B. Edwards, I. Adjerid, and M. Roytman,
-    "Exploit Prediction Scoring System (EPSS)," ACM Digital Threats:
-    Research and Practice (DTRAP), 2021, doi: 10.1145/3436242.
+ "Exploit Prediction Scoring System (EPSS)," ACM Digital Threats:
+ Research and Practice (DTRAP), 2021, doi: 10.1145/3436242.
 
 [9] J. Jacobs et al., "Enhancing Vulnerability Prioritization: Data-Driven
-    Exploit Predictions with Community-Driven Insights" (EPSS v3),
-    arXiv:2302.14172, 2023.
+ Exploit Predictions with Community-Driven Insights" (EPSS v3),
+ arXiv:2302.14172, 2023.
 
 [10] L. Allodi and F. Massacci, "Comparing Vulnerability Severity and
-     Exploits Using Case-Control Studies," ACM Transactions on Information
-     and System Security (TISSEC), vol. 17, no. 1, 2014,
-     doi: 10.1145/2576752.
+ Exploits Using Case-Control Studies," ACM Transactions on Information
+ and System Security (TISSEC), vol. 17, no. 1, 2014,
+ doi: 10.1145/2576752.
 
 [11] CISA / CMU-SEI, "Stakeholder-Specific Vulnerability Categorization
-     (SSVC) v2.0," 2023.
+ (SSVC) v2.0," 2023.
 
 [12] P. Mell and J. M. Spring, "Likely Exploited Vulnerabilities: A
-     Proposed Metric for Vulnerability Exploitation Probability," NIST
-     CSWP 41, May 2025,
-     https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.41.pdf.
+ Proposed Metric for Vulnerability Exploitation Probability," NIST
+ CSWP 41, May 2025,
+ https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.41.pdf.
 
 [13] "VulRG: Multi-Level Explainable Vulnerability Patch Ranking for
-     Complex Systems Using Graphs," arXiv:2502.11143, 2025.
+ Complex Systems Using Graphs," arXiv:2502.11143, 2025.
 
 [14] H. S. Alqahtani and M. Almukaynizi, "VulnScore: A Deployed System for
-     Patch Prioritization Combining Human Input and Temporal Threat
-     Intelligence," International Journal of Information Security, vol. 25,
-     no. 1, 2025, doi: 10.1007/s10207-025-01164-3.
+ Patch Prioritization Combining Human Input and Temporal Threat
+ Intelligence," International Journal of Information Security, vol. 25,
+ no. 1, 2025, doi: 10.1007/s10207-025-01164-3.
 
 [15] "Vulnerability Management Chaining," arXiv:2506.01220, 2025.

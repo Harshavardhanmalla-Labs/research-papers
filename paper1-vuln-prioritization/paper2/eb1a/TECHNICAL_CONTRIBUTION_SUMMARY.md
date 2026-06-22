@@ -1,4 +1,4 @@
-# Paper 2 — Technical Contribution Summary
+# the CalibScore study, Technical Contribution Summary
 
 Audience: a technically literate reviewer (cybersecurity researcher,
 applied-statistics reviewer, attorney's technical advisor). Scope: what the
@@ -11,13 +11,13 @@ that combine signals such as CVSS base, EPSS probability, KEV membership, and
 asset-context indicators, and ranks per-CVE-per-host pairs by the resulting
 score. Two questions sit underneath this practice:
 
-1. Are public exploit-signal feeds dense enough — under a leakage-safe label
-   — to support defensible fitting of per-feature weights?
+1. Are public exploit-signal feeds dense enough, under a leakage-safe label
+, to support defensible fitting of per-feature weights?
 2. If they are not, what should the methodology do instead?
 
-Paper 2 addresses both.
+The CalibScore study addresses both.
 
-## Contribution 1 — Failure-aware multi-t0 calibration gate
+## Contribution 1, Failure-aware multi-t0 calibration gate
 
 The gate operates over a set of monthly time origins (`t0`) inside a chosen
 universe window. For each `t0` the design takes a leakage-safe label window
@@ -43,9 +43,9 @@ that fitting is not defensible on this label density, and the pipeline obeys.
 Per-feature weight fitting does not run. No fitted weights enter any
 downstream comparison.
 
-## Contribution 2 — Pre-registered sparse-label methodology
+## Contribution 2, Pre-registered sparse-label methodology
 
-Nine fix documents (F1–F9, locked before any data was collected) commit the
+Nine fix documents (F1-F9, locked before any data was collected) commit the
 study to a fixed set of design priors (six weight vectors:
 `w_uniform`, `w_paper1_placeholder`, `w_epss_dominant`, `w_cvss_dominant`,
 `w_kev_dominant`, `w_context_dominant`), a fixed set of stop rules (28 rules
@@ -54,12 +54,12 @@ policy (effect-size threshold 5,000 host-days; MDE-d ≈ 0.5292 at n = 30 per
 cell), a fixed cell enumeration (48 cells), and a fixed compute envelope.
 The pre-registration is the source-of-truth; downstream code reads it.
 
-The Paper 1 frozen artefact is enforced as an invariant: a SHA-256 manifest
+The VulnPrio study frozen artefact is enforced as an invariant: a SHA-256 manifest
 witness (`750e144b…b022833`) is required to be byte-equal before and after
-every Paper 2 batch, and the same identifier is attached to every metric
+every the CalibScore study batch, and the same identifier is attached to every metric
 row written by the runner.
 
-## Contribution 3 — Audited primary run
+## Contribution 3, Audited primary run
 
 | Quantity | Value | Source field |
 |---|---|---|
@@ -74,7 +74,7 @@ row written by the runner.
 | Hard-halt rules triggered | none | `hard_halt_triggered` |
 | Completion status | PRIMARY_COMPLETE_VALID | `status` |
 
-## Contribution 4 — Confirmatory sensitivity framework with honest demotion
+## Contribution 4, Confirmatory sensitivity framework with honest demotion
 
 Because calibration was not attempted, the remaining study is a fixed-prior
 sensitivity sweep across four axes: capacity (A1), weight family (A3),
@@ -92,22 +92,22 @@ The K7 rule (catalog stability under product perturbations) is **SKIPPED**
 because no perturbation data was generated; the manuscript records that as a
 limitation.
 
-## Contribution 5 — Reproducible artefact chain
+## Contribution 5, Reproducible artefact chain
 
 - `paper2_runtime/` Python package: 13 modules (stop rules, freeze
-  invariant, cell loader, batch loader, weights, inference policy, run
-  planner, batch runner, pilot gate, primary gate, aggregate, inference,
-  figures, post-run stop rules, Step-9 audit).
+ invariant, cell loader, batch loader, weights, inference policy, run
+ planner, batch runner, pilot gate, primary gate, aggregate, inference,
+ figures, post-run stop rules, Step-9 audit).
 - 154 paper2 tests under `tests/test_paper2_*.py`; all pass.
 - Pre-registered batches `paper2/design/STEP3_17_PLANNED_BATCHES.yaml` and
-  cell CSV.
+ cell CSV.
 - Step-9 outputs: 19 aggregation tables, 12 inference tables, 14 figures
-  (7 PNG + 7 PDF), 3 post-run files, 2 audit files.
+ (7 PNG + 7 PDF), 3 post-run files, 2 audit files.
 - Manuscript draft `paper2/manuscript/paper2_full_draft.md` and LaTeX
-  scaffold `paper2/submission/cset/` (`main.tex` + 16 section files + 15
-  verified BibTeX entries).
+ scaffold `paper2/submission/cset/` (`main.tex` + 16 section files + 15
+ verified BibTeX entries).
 - Claim-audit script `scripts/paper2_claim_audit.py` (forbidden-phrase
-  scanner with proximity rules).
+ scanner with proximity rules).
 
 ## Reproducibility statement
 

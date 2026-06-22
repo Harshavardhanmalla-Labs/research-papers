@@ -1,4 +1,4 @@
-# Batch summary — B-primary-blackout
+# Batch summary, B-primary-blackout
 
 - smoke: False
 - table_group: blackout_sensitivity

@@ -1,0 +1,44 @@
+\section{Background}
+\label{sec:background}
+
+\textbf{EPSS, KEV, and CVSS.} EPSS, maintained by the Forum of Incident Response and Security
+Teams, estimates the probability that a CVE is exploited in the wild~\cite{jacobs2021epss,%
+firstepss}. It reframed prioritization away from intrinsic severity and toward predicted
+exploitation, and later data-driven work has refined that prediction with richer
+features~\cite{jacobs2023enhancing}. The CISA Known Exploited Vulnerabilities
+catalog~\cite{cisakev} and Binding Operational Directives 22-01~\cite{cisabod2201} and
+23-01~\cite{cisabod2301} mandate timely remediation of confirmed-exploited CVEs and improved
+asset visibility, binding agencies to remediation timelines that a fixed workforce must meet
+under a finite budget. The Common Vulnerability Scoring System~\cite{cvss31} rates intrinsic
+severity independent of any deployment. All three are CVE-level signals: they describe a
+vulnerability, not the host it sits on, and so two hosts carrying the same CVE receive the same
+exploit-side weight no matter how their mission roles differ. That CVE-level abstraction is the
+right one for predicting exploitation, but it is the wrong granularity for deciding which of two
+equally exploitable hosts to remediate first when only one can be reached in the window.
+
+\textbf{Hygiene-augmented prioritization.} A hygiene-augmented scorer adds a host-level
+hygiene risk score, capturing patch debt, directory exposure, and telemetry freshness, to the
+exploit signal~\cite{paper4hygieneprio}. This is the first move from a purely CVE-level view
+toward a host-level one, and it measurably raises precision on a hygiene-defined target by
+surfacing the poorly-maintained hosts that an exploit-only ranking would miss. But the host
+weight it introduces encodes the probability that a host is a weak link, not the consequence of
+its compromise: a host scores high because it is badly patched and exposed, not because it
+matters. A poorly-patched training kiosk can therefore outrank a well-patched CJIS controller,
+which inverts the order an authorizing official would choose. CAP-G keeps this hygiene-augmented
+scorer as its base and is measured strictly as the increment that asset context adds on top of
+it; the base scorer is defined self-containedly in Section~\ref{sec:method} so that the paper is
+readable without its predecessor~\cite{paper4hygieneprio,paper1vulnprio}.
+
+\textbf{Asset criticality in practice.} FIPS~199~\cite{fips199} and SP~800-60~\cite{nist80060}
+categorize systems by impact level across confidentiality, integrity, and availability, and the
+federal Risk Management Framework built on SP~800-53~\cite{nist80053} requires that remediation
+be driven by that impact categorization rather than by raw severity. The CJIS Security
+Policy~\cite{cjis2023} imposes elevated controls on criminal-justice systems, making the
+data-sensitivity dimension of context a compliance fact rather than a modelling convenience. The
+attributes this paper uses, asset criticality tier, network exposure zone, and data sensitivity,
+are precisely the ones agency configuration management databases already record for inventory
+and authorization purposes. CAP-G therefore operationalizes already-collected attributes as a
+ranking signal rather than introducing new instrumentation: the cost of adopting it is a scoring
+change, not a data-collection program. Reusing an existing signal in this way also keeps the
+intervention auditable, since every input to the ranking is an attribute an agency already
+maintains and can explain.

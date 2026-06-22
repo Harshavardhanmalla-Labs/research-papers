@@ -2,14 +2,14 @@
 
 ## Phase 21 status
 
-- **Drafted in `references.bib` (Tier-1), CONFIRM fields before submission — NOT
-  re-verified in authoring environment:** CVSS spec, EPSS (Jacobs et al.), Allodi &
-  Massacci, Sabottke et al., CISA KEV, CISA BOD 22-01, NIST SP 800-40r4 / 800-53r5 /
-  800-30r1, CIS Controls v8, Wilcoxon 1945, Holm 1979, Efron 1987 (BCa).
-- **Still UNRESOLVED — no bib entry, remain `[VERIFY]` in the manuscript:** Deep
-  VULMAN, VulRG, VulnScore, V-REx, Microsoft Defender VM, Tenable VPR/ACR, Qualys
-  TruRisk, Cisco/Kenna, exact CJIS Security Policy version, and the Abstract numeric
-  re-check.
+- **Drafted in `references.bib` (Tier-1), CONFIRM fields before submission, NOT
+ re-verified in authoring environment:** CVSS spec, EPSS (Jacobs et al.), Allodi &
+ Massacci, Sabottke et al., CISA KEV, CISA BOD 22-01, NIST SP 800-40r4 / 800-53r5 /
+ 800-30r1, CIS Controls v8, Wilcoxon 1945, Holm 1979, Efron 1987 (BCa).
+- **Still UNRESOLVED, no bib entry, remain `[VERIFY]` in the manuscript:** Deep
+ VULMAN, VulRG, VulnScore, V-REx, Microsoft Defender VM, Tenable VPR/ACR, Qualys
+ TruRisk, Cisco/Kenna, exact CJIS Security Policy version, and the Abstract numeric
+ re-check.
 
 The original worklist below remains the master list; "drafted" items still require
 a confirmation pass against the publisher of record.
@@ -52,7 +52,7 @@ Format: Reference/topic | Section(s) | Search target/source | Priority
 - CJIS Security Policy (version used) | §10 | FBI CJIS | low (only if §10 cites)
 - V-REx | §3 | original paper | medium
 - Other ML-prioritization papers (earlier review) | §3 | prior lit review | low-med
-- Efron — bootstrap / BCa | §9 | classic stats reference | low-med
+- Efron, bootstrap / BCa | §9 | classic stats reference | low-med
 - Microsoft Defender VM | §3 | vendor docs | low
 - Tenable VPR / ACR | §3 | vendor docs | low
 - Qualys TruRisk | §3 | vendor docs | low
@@ -64,5 +64,5 @@ Format: Reference/topic | Section(s) | Search target/source | Priority
 1. Confirm authors, year, venue, and a stable identifier (DOI/URL) before use.
 2. For standards (NIST/CISA/CIS/CJIS), pin the exact revision/version cited.
 3. For commercial RBVM, cite vendor documentation and label as "acknowledged, not
-   benchmarked."
+ benchmarked."
 4. Do not paste any reference into the manuscript while still marked `[VERIFY]`.

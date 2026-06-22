@@ -1,4 +1,4 @@
-# Paper 1 — Closeout Summary
+# the VulnPrio study, Closeout Summary
 
 **Title:** Context-Aware Vulnerability Prioritization for Government Endpoint
 Fleets: Integrating Exploit Intelligence, Asset Criticality, and Endpoint
@@ -23,13 +23,13 @@ model.
 ## Artifact summary
 
 - Reference implementation: Python package `paper1` (Phases 1-14) with tests,
-  configs, and Make targets.
+ configs, and Make targets.
 - Frozen primary artifact: `results/primary_full_v1/` (freeze verified;
-  `FREEZE_MANIFEST.json` + `report/report_manifest.json`).
+ `FREEZE_MANIFEST.json` + `report/report_manifest.json`).
 - Generated, frozen-only tables (7) and figures (5): `paper/tables/`,
-  `paper/figures/`; index in `paper/manuscript/table_figure_index.md`.
+ `paper/figures/`; index in `paper/manuscript/table_figure_index.md`.
 - Manuscript: `paper/manuscript/paper_submission_draft.md` (clean) and
-  `paper_full_draft.md` (annotated); ACM scaffold in `paper/acm/`.
+ `paper_full_draft.md` (annotated); ACM scaffold in `paper/acm/`.
 
 ## Empirical result summary
 
@@ -62,7 +62,7 @@ fallbacks: IEEE Access, then Computers & Security. See
 ## Current readiness
 
 Structurally complete; numbers re-verified against the frozen artifact;
-claim-safety clean; ACM scaffold built (not compiled here — no TeX toolchain).
+claim-safety clean; ACM scaffold built (not compiled here, no TeX toolchain).
 **Ready for venue formatting; not yet ready for submission** (citation
 verification, template application, and the calibrated-weights decision remain).
 See `PAPER1_READY_STATE.md`, `PAPER1_BLOCKERS.md`, `PAPER1_NEXT_ACTIONS.md`.

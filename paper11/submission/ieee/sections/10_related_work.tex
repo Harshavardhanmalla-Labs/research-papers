@@ -1,0 +1,63 @@
+\section{Related Work}
+\label{sec:related}
+
+\textbf{Exploit-likelihood prioritization.} EPSS~\cite{jacobs2021epss} reframed prioritization
+from static severity (CVSS)~\cite{cvss31} toward predicted exploitation, replacing a question
+about how bad a vulnerability could be in principle with a question about how likely it is to be
+exploited in fact. Subsequent data-driven work refined exploit prediction with richer signals and
+community-sourced features~\cite{jacobs2023enhancing}, and the published EPSS model
+documentation~\cite{firstepss} fixes the operational form agencies consume. The CISA KEV catalog
+and the Binding Operational Directive program~\cite{cisakev,cisabod2201,cisabod2301} turned
+exploited-in-the-wild evidence into binding remediation mandates and asset-visibility
+requirements, which is what makes a finite remediation budget a hard operational constraint rather
+than a soft preference. All of these signals are CVE-level and host-agnostic: they rank
+vulnerabilities, not the hosts those vulnerabilities sit on. CAP-G is complementary to every one
+of them, adding a host-mission dimension on top of the exploit signal rather than competing with
+it, and inheriting their exploit estimates unchanged.
+
+\textbf{Hygiene- and host-augmented prioritization.} The closest line of work augments exploit
+scores with host-level hygiene, such as patch debt, directory exposure, and telemetry freshness,
+raising precision on a hygiene-defined target by surfacing the badly-maintained hosts that an
+exploit-only ranking overlooks~\cite{paper4hygieneprio}. The base scorer in this paper is exactly
+that hygiene-augmented scorer (Section~\ref{sec:method}), reproduced unchanged so that CAP-G is
+measured as a strict increment on an established baseline rather than against a degraded one. The
+present work continues a line of context-aware prioritization for government
+fleets~\cite{paper1vulnprio}: where the hygiene step moved the unit of analysis from the CVE to
+the host's maintenance posture, CAP-G moves it again from maintenance posture to mission value.
+Such hygiene scorers still weight the probability that a host is a weak link rather than the
+consequence of its compromise, which is precisely the gap CAP-G addresses, and the homogeneous
+control in Section~\ref{sec:results} demonstrates that the mission increment is separable from the
+hygiene base rather than entangled with it.
+
+\textbf{Risk- and asset-aware prioritization.} Federal guidance~\cite{nist80053,fips199,%
+nist80060} and the CJIS policy~\cite{cjis2023} prescribe risk- and impact-driven remediation: the
+Risk Management Framework requires that systems be categorized by mission impact and that
+remediation follow that categorization rather than raw severity. But this guidance specifies an
+objective, not a mechanism. It does not give a ranking algorithm, does not say how to combine an
+impact category with an exploit probability, and does not quantify when asset weighting helps a
+capacity-constrained queue and when it is inert. CAP-G fills that gap with a concrete, untuned
+scorer and, more importantly, with a pre-registered and mechanism-controlled measurement of the
+benefit, including the capacity regime in which it vanishes and the homogeneous case in which it
+is provably zero. To our knowledge the capacity-dependence and the heterogeneity-dependence of the
+asset-weighting benefit have not previously been isolated and bounded in this way,
+and Section~\ref{sec:theory} supplements the measurement with a closed-form account
+of why the multiplicative context factor reorders only near-tied pairs, why the
+gain scales with the variance of the asset context score and vanishes exactly when
+that variance does, and why the realized effect is bounded.
+
+\textbf{Autonomic and self-managing security.} The broader framing for continuously reordering a
+risk queue from changing host and exploit state is the autonomic-computing vision of self-managing
+systems~\cite{kephart2003vision}, which anticipated security operations that monitor, prioritize,
+and remediate with minimal human steering. CAP-G is one concrete scoring component such a system
+would use to decide what to fix first, and our results say where in that loop asset context is
+load-bearing and where it saturates.
+
+\textbf{Honest evaluation.} Methodologically, the study follows the pre-registration discipline
+now standard in empirical software engineering~\cite{wohlin2012experimentation}: hypotheses,
+metrics, thresholds, and seeds are locked in a dated protocol before any evaluation-seed result is
+inspected, failure criteria are explicit, and uncertainty is reported as bias-corrected and
+accelerated bootstrap intervals~\cite{efron1987bca,efron1994introduction} with interval non-overlap
+as the evidentiary standard rather than significance testing. The most visible consequence of that
+posture is the willingness to report the primary hypothesis as partially supported rather than
+re-cut the locked bar to claim a clean pass, which is intended to keep the evaluation credible
+under adversarial review.

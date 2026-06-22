@@ -1,4 +1,4 @@
-# Paper 2 — Citation Audit Report (Step 11)
+# the CalibScore study, Citation Audit Report (Step 11)
 
 **Audit date (UTC):** 2026-05-28
 **Scope:** Every reference cited in `paper2/manuscript/paper2_full_draft.md`
@@ -12,7 +12,7 @@ three were resolved before the LaTeX scaffold was assembled.
 
 | Citation | Verification source | Outcome |
 |---|---|---|
-| Farris et al., **VULCON** (ACM TOPS 21(4), 2018) | Crossref API: `https://api.crossref.org/works/10.1145/3196884` | VERIFIED. Authors confirmed as Farris, Shah, Cybenko, Ganesan, Jajodia (family name **Jajodia**, given name **Sushil** — earlier draft mis-listed "Sushil" as a separate author and has been corrected). Volume 21, issue 4, pages 1-28, ISSN 2471-2566. |
+| Farris et al., **VULCON** (ACM TOPS 21(4), 2018) | Crossref API: `https://api.crossref.org/works/10.1145/3196884` | VERIFIED. Authors confirmed as Farris, Shah, Cybenko, Ganesan, Jajodia (family name **Jajodia**, given name **Sushil**, earlier draft mis-listed "Sushil" as a separate author and has been corrected). Volume 21, issue 4, pages 1-28, ISSN 2471-2566. |
 | Mell & Spring, **Likely Exploited Vulnerabilities** (NIST CSWP 41, May 2025) | NIST press release / official PDF: `https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.41.pdf` | VERIFIED. Authors Peter Mell and Jonathan Spring; published May 2025; document number NIST CSWP 41. |
 | Alqahtani & Almukaynizi, **VulnScore** (IJIS 25(1), 2025) | Crossref API: `https://api.crossref.org/works/10.1007/s10207-025-01164-3` | VERIFIED. Authors Norah Alqahtani and Mohammed Almukaynizi. Full title confirmed: "VulnScore: A deployed system for patch prioritization combining human input and temporal threat intelligence". Volume 25, issue 1, 2025. Springer Nature. |
 
@@ -49,42 +49,42 @@ Step 10 before the draft was finalized.
 
 ## Items removed or downgraded
 
-- **`Roytman2024CapacityIsKing`** — downgraded from a journal/article-style
-  reference to `@misc` because the source is a vendor research note (Empirical
-  Security) rather than a peer-reviewed publication. Cited only as the source
-  of the "capacity is king" phrasing; no quantitative claim depends on this
-  reference.
-- **Author lists with `{...authors}` placeholder** — `VulRG2025` and
-  `VMChaining2025` retain placeholder author surnames pending re-verification
-  against the arXiv preprint PDFs. The DOI / arXiv ID for each is verified.
-  These two entries are flagged for human review below.
+- **`Roytman2024CapacityIsKing`**, downgraded from a journal/article-style
+ reference to `@misc` because the source is a vendor research note (Empirical
+ Security) rather than a peer-reviewed publication. Cited only as the source
+ of the "capacity is king" phrasing; no quantitative claim depends on this
+ reference.
+- **Author lists with `{...authors}` placeholder**, `VulRG2025` and
+ `VMChaining2025` retain placeholder author surnames pending re-verification
+ against the arXiv preprint PDFs. The DOI / arXiv ID for each is verified.
+ These two entries are flagged for human review below.
 
 ## Items requiring human review before submission
 
-1. **`VulRG2025`** (arXiv:2502.11143) — confirm the author list against the
-   current arXiv preprint metadata; replace the `{VulRG authors}` placeholder
-   in `references.bib`. Title and arXiv ID are verified.
-2. **`VMChaining2025`** (arXiv:2506.01220) — same caveat as VulRG; confirm
-   author list against the arXiv metadata. Title and arXiv ID are verified.
-3. **`Sherif2026KRI`** — arXiv ID is given as 2603.12450 by the upstream
-   draft; this is unusual (arXiv IDs of the form YYMM.NNNNN normally encode
-   year/month). Human review should confirm the arXiv identifier and the
-   publication month before submission.
-4. **`Ravalico2025EPSSDynamics`** — SSRN preprint; if a peer-reviewed venue
-   version becomes available before submission, prefer that version's
-   metadata.
+1. **`VulRG2025`** (arXiv:2502.11143), confirm the author list against the
+ current arXiv preprint metadata; replace the `{VulRG authors}` placeholder
+ in `references.bib`. Title and arXiv ID are verified.
+2. **`VMChaining2025`** (arXiv:2506.01220), same caveat as VulRG; confirm
+ author list against the arXiv metadata. Title and arXiv ID are verified.
+3. **`Sherif2026KRI`**, arXiv ID is given as 2603.12450 by the upstream
+ draft; this is unusual (arXiv IDs of the form YYMM.NNNNN normally encode
+ year/month). Human review should confirm the arXiv identifier and the
+ publication month before submission.
+4. **`Ravalico2025EPSSDynamics`**, SSRN preprint; if a peer-reviewed venue
+ version becomes available before submission, prefer that version's
+ metadata.
 
 ## Citation risk assessment
 
 - **Numerical claims dependent on cited prior work:** none. Every numeric
-  claim in the manuscript traces to an artifact in `paper2/audit/` or
-  `paper2/tables/` (see `paper2/submission/REPRODUCIBILITY_APPENDIX.md`).
-  Cited references support framing and context only.
+ claim in the manuscript traces to an artifact in `paper2/audit/` or
+ `paper2/tables/` (see `paper2/submission/REPRODUCIBILITY_APPENDIX.md`).
+ Cited references support framing and context only.
 - **Author-attribution risk:** medium for the two `{...authors}` placeholders
-  (VulRG, VMChaining). Low for the other 13 entries.
+ (VulRG, VMChaining). Low for the other 13 entries.
 - **Publication-venue risk:** low. All entries name a venue (arXiv preprint,
-  ACM TOPS, ACM DTRAP, ACM TISSEC, Expert Systems with Applications,
-  International Journal of Information Security, NIST CSWP, CISA guide, SSRN).
+ ACM TOPS, ACM DTRAP, ACM TISSEC, Expert Systems with Applications,
+ International Journal of Information Security, NIST CSWP, CISA guide, SSRN).
 
 ## Verdict
 
@@ -102,6 +102,6 @@ warnings in tectonic log). `\bibliography{references}` active in `main.tex`.
 PDF recompiled to 81.7 KB including bibliography. Merged portfolio PDF
 updated to 1015 KB (45 pp).
 
-Sections with no citations (00, 02, 04–15): confirmed clean; methodology,
+Sections with no citations (00, 02, 04-15): confirmed clean; methodology,
 results, and reproducibility prose contain no external citations beyond
-Paper 1 self-references and internal artifact paths.
+The VulnPrio study self-references and internal artifact paths.

@@ -2,7 +2,7 @@
 \label{sec:results}
 
 All claims trace to
-\texttt{paper8/results/primary\_v1/multi\_history\_results.csv}
+\texttt{paper8/\allowbreak results/\allowbreak primary\_v1/\allowbreak multi\_history\_results.csv}
 (2{,}250 rows) and the derived
 \texttt{hypothesis\_summary.json} and \texttt{cell\_window\_means.csv}.
 Table~\ref{tab:main} reports the full per-(capacity, window) means for
@@ -41,7 +41,7 @@ The summary statistic across $w \geq 2$ per cell
 \toprule
 $K$ & $\bar\rho^{\textsf{lag1}}$ & $\bar\rho^{\textsf{ewma3}}$ \\
 \midrule
-50  & $+1.04$ & $+0.53$ \\
+50 & $+1.04$ & $+0.53$ \\
 100 & $+0.99$ & $-1.37$ \\
 200 & $-0.66$ & $-0.94$ \\
 \bottomrule
@@ -68,7 +68,7 @@ state, which is closer to the W4 evaluation state.
 $+3.0$~pp over \textsf{fixed}; EWMA-3 \textit{loses} $-5.6$~pp.
 By W6, \textsf{lag1} gains $+4.0$~pp while EWMA-3 gains only
 $+1.4$~pp. The H3 failure cell ($K = 100, w = 5$) is also where
-\textsf{ewma3} and \textsf{trail3} diverge by $+10.6$~pp ---
+\textsf{ewma3} and \textsf{trail3} diverge by $+10.6$~pp, 
 the only window in the entire sweep where the smoothing-strategy
 choice is first-order.
 
@@ -76,8 +76,8 @@ choice is first-order.
 W2 and W3 the two are \textit{identical} (both lose $-5.9$ and
 $-7.8$~pp against \textsf{fixed}, since at these early windows the
 EWMA history reduces to the same selection as lag-1). The EWMA-3 gap
-arises entirely from the dampened W4--W6 recovery: \textsf{lag1}
-regains $+3.4$, $+1.0$, and $0.0$~pp over \textsf{fixed} at W4--W6,
+arises entirely from the dampened W4-W6 recovery: \textsf{lag1}
+regains $+3.4$, $+1.0$, and $0.0$~pp over \textsf{fixed} at W4-W6,
 whereas EWMA-3 regains only $+1.0$, $+0.1$, and $+0.1$~pp, so the
 average over $w \geq 2$ tilts further negative for EWMA-3.
 

@@ -1,4 +1,4 @@
-# Batch summary — B-primary-capacity
+# Batch summary, B-primary-capacity
 
 - smoke: False
 - table_group: capacity_sensitivity

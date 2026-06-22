@@ -5,9 +5,9 @@
 
 ## Triggered rules
 
-- **K1** — calibration_pivot_locked (measured=7, threshold=20)
-- **S-A** — mirrors K1; calibration experiments forbidden (measured=7, threshold=20)
-- **K3** — unique_positive < threshold (OR branch) (measured=7, threshold=20)
+- **K1**, calibration_pivot_locked (measured=7, threshold=20)
+- **S-A**, mirrors K1; calibration experiments forbidden (measured=7, threshold=20)
+- **K3**, unique_positive < threshold (OR branch) (measured=7, threshold=20)
 
 ## Context
 

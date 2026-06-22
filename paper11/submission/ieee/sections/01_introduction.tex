@@ -1,0 +1,61 @@
+\section{Introduction}
+
+Federal and state security programs are required to prioritize remediation by organizational
+risk rather than raw severity~\cite{nist80053} and to categorize systems by mission
+impact~\cite{fips199}. The strongest published prioritization signals do not encode that
+mission dimension. The Exploit Prediction Scoring System (EPSS) estimates the probability that
+a CVE is exploited in the wild within twelve months of disclosure~\cite{jacobs2021epss}.
+Hygiene-augmented scorers add host-level signals such as patch posture and exposure, improving
+precision on a hygiene-defined target~\cite{paper4hygieneprio}. Both remain silent on how much
+a given host matters to the mission. A queue ordered purely by exploit likelihood and hygiene
+can therefore spend a finite remediation budget on poorly-patched but low-value endpoints while
+a freshly-patched Criminal Justice Information Services (CJIS) controller waits.
+
+The gap is structural rather than incidental. EPSS scores a CVE; a hygiene score rates a host
+as a potential weak link; neither answers the question an authorizing official actually asks,
+which is what the organization stands to lose if a particular host is compromised. A government
+endpoint fleet is mission-heterogeneous by construction: a CJIS-bearing domain controller in a
+demilitarized zone and a training-room kiosk may carry the same software and the same exploit
+exposure, yet a compromise of the first is a reportable incident and a compromise of the second
+is an inconvenience. When remediation capacity is the binding constraint, which it almost always
+is in practice, ordering the queue by exploit likelihood and hygiene alone leaves mission value
+on the table precisely when the budget is too small to absorb it. This is the regime in which a
+mission-aware ordering should help most, and it is the regime our study targets.
+
+This paper tests one narrow, falsifiable question: does adding a pre-registered asset context
+score to a hygiene-augmented base scorer improve the prioritization of mission-critical
+exposure under a fixed remediation capacity, and what does it cost? The study uses a
+pre-registered simulation: a synthetic fleet with structural priors taken from public
+guidance, real EPSS and Known Exploited Vulnerability (KEV) signal resampled from a frozen
+corpus of 203{,}174 CVEs, hypotheses and thresholds locked before any evaluation seed is
+inspected, and bias-corrected and accelerated (BCa) bootstrap confidence
+intervals~\cite{efron1987bca,efron1994introduction} as the evidentiary standard. The discipline
+of fixing hypotheses, metrics, and thresholds in a dated protocol before inspecting the
+evaluation data follows the pre-registration practice now standard in empirical software
+engineering~\cite{wohlin2012experimentation}, and it is what lets us report the primary result
+as partially supported rather than re-cut a threshold to manufacture a clean pass.
+
+\noindent\textbf{Contributions.}
+\begin{enumerate}
+\item \textbf{CAP-G}, a context-aware scorer that multiplies a hygiene-augmented base score by
+a host context factor built from FIPS-199 criticality, network zone, and data sensitivity
+(Section~\ref{sec:method}).
+\item A \textbf{mission-weighted evaluation} (MWP@K, CWER@K) appropriate to government fleets
+and distinct from the context-blind precision the base scorer optimizes
+(Section~\ref{sec:eval}).
+\item A \textbf{pre-registered, honestly-reported result} (Section~\ref{sec:results}): a large
+gain at scarce capacity that decays as capacity grows, is fully explained by fleet
+heterogeneity, costs nothing on the context-blind metric, and misses the capacity-flat success
+bar, reported as partial rather than re-cut to a clean pass.
+\item An \textbf{exact mechanism control and ablation} (Section~\ref{sec:results}): a
+homogeneous-fleet control on which the context factor provably collapses to the base scorer,
+isolating fleet heterogeneity as the source of the gain, together with a dimension ablation that
+identifies asset criticality as the load-bearing context attribute.
+\end{enumerate}
+
+The result is deliberately framed as a bounded, regime-specific finding rather than a universal
+improvement. CAP-G helps where a triage budget is scarce and a fleet is mission-heterogeneous,
+which is the common operating condition for a government security operations team; it does
+nothing where capacity is generous or the fleet is uniform. Stating those bounds plainly, and
+holding to a pre-registered bar that the data narrowly miss, is the point of the study rather
+than a concession.

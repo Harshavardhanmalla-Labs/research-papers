@@ -1,4 +1,4 @@
-# Paper 2 multi-t0 feasibility probe summary
+# the CalibScore study multi-t0 feasibility probe summary
 
 **Feasibility probe only; not a calibrated result, not a paper claim.**
 

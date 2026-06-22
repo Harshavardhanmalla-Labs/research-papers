@@ -1,4 +1,4 @@
-# Paper 11 — Threshold Sensitivity of Adaptive Change-Point Recalibration
+# Paper 11, Threshold Sensitivity of Adaptive Change-Point Recalibration
 
 Pre-registered sweep over τ ∈ {0.02, 0.03, 0.05, 0.075, 0.10} mapping
 the H1/H2 Pareto curve for Paper 10's simple magnitude detector.
@@ -7,9 +7,9 @@ the H1/H2 Pareto curve for Paper 10's simple magnitude detector.
 
 ## Headline findings (honest, pre-registered)
 
-- **H3 rejected (the central finding):** No τ in the grid satisfies both Paper 10 tolerances. K=50 cost is between −4.1 and −5.3 pp at every τ, always exceeding the −2.0 pp ceiling. **The simple magnitude detector cannot reach the joint feasible region.**
-- **H1 substantively strengthened:** Worst per-window K=200 adaptive−fixed delta is uniformly 0.0 across the entire τ grid. The K=200 hazard-avoidance property is robust to threshold choice.
-- **H2 and H4 protocol sign reversal:** Pre-registration predicted larger τ → more firing (H4) and more K=50 cost (H2). Data shows the opposite: ρ_H4 = −0.97 (p=0.005), ρ_H2 = +0.87. Larger τ requires larger shift to trigger and therefore fires less. Honest sign-error rejection.
+- **H3 rejected (the central finding):** No τ in the grid satisfies both Paper 10 tolerances. K=50 cost is between -4.1 and -5.3 pp at every τ, always exceeding the -2.0 pp ceiling. **The simple magnitude detector cannot reach the joint feasible region.**
+- **H1 substantively strengthened:** Worst per-window K=200 adaptive-fixed delta is uniformly 0.0 across the entire τ grid. The K=200 hazard-avoidance property is robust to threshold choice.
+- **H2 and H4 protocol sign reversal:** Pre-registration predicted larger τ → more firing (H4) and more K=50 cost (H2). Data shows the opposite: ρ_H4 = -0.97 (p=0.005), ρ_H2 = +0.87. Larger τ requires larger shift to trigger and therefore fires less. Honest sign-error rejection.
 
 ## Operational rule
 

@@ -1,4 +1,4 @@
-# Paper 3 — Step 2: Prior-Art Falsification Report
+# the HygieneBench benchmark, Step 2: Prior-Art Falsification Report
 
 **Date:** 2026-05-28
 **Status:** Complete
@@ -8,17 +8,17 @@
 
 ## Purpose
 
-This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–§6 against verifiable sources, assesses overlap between prior art and the proposed contributions, and delivers a gap-survival verdict for each Step 1 §7 contribution candidate.
+This document resolves every `[VERIFY]` citation placeholder from Step 1 §5-§6 against verifiable sources, assesses overlap between prior art and the proposed contributions, and delivers a gap-survival verdict for each Step 1 §7 contribution candidate.
 
 **Citation discipline:**
-- `[CONFIRMED]` — title, authors, venue, year independently verified.
-- `[CONFIRMED-DOC]` — government or vendor document, no academic venue, confirmed.
-- `[CONFIRMED-TOOL]` — open-source tool or project, no formal academic publication, confirmed.
-- `[VERIFY]` — still unresolved; requires manual library search before submission.
+- `[CONFIRMED]`, title, authors, venue, year independently verified.
+- `[CONFIRMED-DOC]`, government or vendor document, no academic venue, confirmed.
+- `[CONFIRMED-TOOL]`, open-source tool or project, no formal academic publication, confirmed.
+- `[VERIFY]`, still unresolved; requires manual library search before submission.
 
 ---
 
-## Part A: Citation Resolution (Step 1 §5 — Citation Categories)
+## Part A: Citation Resolution (Step 1 §5, Citation Categories)
 
 ### A1. Public Cyber Datasets
 
@@ -29,17 +29,17 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 - AD coverage: Authentication logs only (NTLM/Kerberos-style events); no explicit AD schema, group structure, or posture data.
 - Patch/vulnerability coverage: None.
 - Telemetry freshness/missingness: Not modeled.
-- Threat to Paper 3: **Low.** Attack/anomaly detection on auth and flow data; does not address hygiene state.
+- Threat to the HygieneBench benchmark: **Low.** Attack/anomaly detection on auth and flow data; does not address hygiene state.
 
 **CERT Insider Threat Test Dataset**
 - Organization: SEI CERT Division, Carnegie Mellon University; DARPA I2O sponsored.
 - Reference: Multiple versions (r4.2 through r6.2). Glasser, J. and Lindauer, B. "Bridging the Gap: A Pragmatic Approach to Generating Insider Threat Data." *IEEE SPW*, 2013. `[CONFIRMED]`
 - Dataset access: CMU SEI Library; Figshare. `[CONFIRMED]`
-- Coverage: Synthetic logon, file, email, device, HTTP events; 1,000–4,000 synthetic employees over ~17 months; insider threat scenarios.
+- Coverage: Synthetic logon, file, email, device, HTTP events; 1,000-4,000 synthetic employees over ~17 months; insider threat scenarios.
 - AD coverage: Logon events only; no group structure, no privilege posture, no hygiene state.
 - Patch/vulnerability coverage: None.
 - Telemetry freshness/missingness: Not modeled.
-- Threat to Paper 3: **Low.** Insider threat behavioral modeling; does not address identity/endpoint/patch/vulnerability hygiene posture.
+- Threat to the HygieneBench benchmark: **Low.** Insider threat behavioral modeling; does not address identity/endpoint/patch/vulnerability hygiene posture.
 
 **CICIDS 2018 (CSE-CIC-IDS2018)**
 - Authors: Sharafaldin, I., Habibi Lashkari, A., Ghorbani, A.A.
@@ -48,15 +48,15 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 - Coverage: 10-day network traffic capture; 80+ network flow features; attack classes: DoS, DDoS, brute-force, XSS, SQLi, infiltration, port scan, botnet.
 - AD coverage: None. Network-layer dataset only.
 - Patch/vulnerability coverage: None.
-- Threat to Paper 3: **Low.** Network IDS benchmark; entirely different domain.
+- Threat to the HygieneBench benchmark: **Low.** Network IDS benchmark; entirely different domain.
 
 **DARPA Transparent Computing (TC) Datasets**
 - Organization: DARPA Information Innovation Office (I2O).
-- Reference: No single canonical academic paper; program overview documented in DARPA BAA and associated publications. Datasets released through performers and data.gov-adjacent repositories. `[VERIFY — confirm current public access point]`
-- Coverage: Provenance graphs (OS audit logs, process trees, network flows) from APT engagement scenarios; 5 teams × multiple scenarios (2017–2019 program).
+- Reference: No single canonical academic paper; program overview documented in DARPA BAA and associated publications. Datasets released through performers and data.gov-adjacent repositories. `[VERIFY, confirm current public access point]`
+- Coverage: Provenance graphs (OS audit logs, process trees, network flows) from APT engagement scenarios; 5 teams × multiple scenarios (2017-2019 program).
 - AD coverage: Some host-level events; no explicit AD structure or hygiene state.
 - Patch/vulnerability coverage: None.
-- Threat to Paper 3: **Low.** APT provenance detection; not hygiene benchmarking.
+- Threat to the HygieneBench benchmark: **Low.** APT provenance detection; not hygiene benchmarking.
 
 **Mordor / OTRF Security Datasets**
 - Organization: Open Threat Research Foundation (OTRF); created by Roberto Rodriguez and Jose Luis Rodriguez.
@@ -65,7 +65,7 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 - AD coverage: Windows/Sysmon events that include AD-relevant logs (e.g., 4624, 4672, 4688). AD structural data, group posture, and hygiene state: **None**.
 - Patch/vulnerability coverage: None.
 - Telemetry freshness/missingness: Not modeled.
-- Threat to Paper 3: **Medium** on surface framing ("AD telemetry exists"), **Low** on actual overlap. Differentiation: Mordor provides attack-emulation telemetry; Paper 3 proposes hygiene-state telemetry with freshness/missingness modeling. These are structurally different.
+- Threat to the HygieneBench benchmark: **Medium** on surface framing ("AD telemetry exists"), **Low** on actual overlap. Differentiation: Mordor provides attack-emulation telemetry; the HygieneBench benchmark proposes hygiene-state telemetry with freshness/missingness modeling. These are structurally different.
 
 **Splunk Boss of the SOC v3 (BOTSv3)**
 - Organization: Splunk Inc.
@@ -73,7 +73,7 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 - Coverage: Realistic but fictitious company; endpoints, network, cloud (AWS/Azure) authentication events; Blue Team CTF format.
 - AD coverage: Authentication events implied; no explicit AD group structure or hygiene state.
 - Patch/vulnerability coverage: Not covered.
-- Threat to Paper 3: **Low.** Training/CTF dataset, not a hygiene benchmark. Requires Splunk Enterprise deployment.
+- Threat to the HygieneBench benchmark: **Low.** Training/CTF dataset, not a hygiene benchmark. Requires Splunk Enterprise deployment.
 
 ---
 
@@ -83,21 +83,21 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 - Authors: Strom, B.E., Applebaum, A., Miller, D.P., Nickels, K.C., Pennington, A.G., Thomas, C.B.
 - Reference: "MITRE ATT&CK: Design and Philosophy." The MITRE Corporation, Technical Report, 2018. Updated continuously. `[CONFIRMED]`
 - AD-relevant techniques: T1078 (Valid Accounts), T1098 (Account Manipulation), T1484 (Domain Policy Modification), T1134 (Access Token Manipulation), T1003 (OS Credential Dumping), T1556 (Modify Authentication Process), T1136 (Create Account). `[CONFIRMED]`
-- Use in Paper 3: Map hygiene anomaly classes to ATT&CK techniques *only where a hygiene state directly enables a named technique*. Do not claim Paper 3 detects ATT&CK techniques; hygiene state correlates with enabling conditions, not the techniques themselves.
-- Threat to Paper 3: **None.** ATT&CK is a framework, not a benchmark or dataset.
+- Use in the HygieneBench benchmark: Map hygiene anomaly classes to ATT&CK techniques *only where a hygiene state directly enables a named technique*. Do not claim the HygieneBench benchmark detects ATT&CK techniques; hygiene state correlates with enabling conditions, not the techniques themselves.
+- Threat to the HygieneBench benchmark: **None.** ATT&CK is a framework, not a benchmark or dataset.
 
 **BloodHound (SpecterOps)**
 - Organization: SpecterOps.
 - Reference: No formal academic publication. Tool at https://specterops.github.io/bloodhound/. `[CONFIRMED-TOOL]`
 - Coverage: Graph-based AD attack-path enumeration (users, groups, computers, OUs, GPOs, trusts, ACL edges). Identifies privilege escalation paths.
 - AD hygiene coverage: AD structural relationships only; no patch posture, no vulnerability records, no telemetry freshness.
-- Use in Paper 3: Can serve as *inspiration* for a graph-based anomaly baseline. Not a dataset or benchmark. Structural graph concept (identity as a graph) is applicable.
-- Threat to Paper 3: **Medium** conceptually (graph-based AD analysis); **Low** on actual benchmark overlap. BloodHound finds attack paths, not hygiene anomalies. No patch/vuln/freshness dimension.
+- Use in the HygieneBench benchmark: Can serve as *inspiration* for a graph-based anomaly baseline. Not a dataset or benchmark. Structural graph concept (identity as a graph) is applicable.
+- Threat to the HygieneBench benchmark: **Medium** conceptually (graph-based AD analysis); **Low** on actual benchmark overlap. BloodHound finds attack paths, not hygiene anomalies. No patch/vuln/freshness dimension.
 
-**CIS Benchmarks for Active Directory / Windows Server** `[VERIFY — confirm current version and citation format]`
+**CIS Benchmarks for Active Directory / Windows Server** `[VERIFY, confirm current version and citation format]`
 - Organization: Center for Internet Security (CIS).
-- Use in Paper 3: Background context for hygiene-state definitions (e.g., "inactive account threshold," "privileged group size norm"). Not a dataset. Cite as a normative reference for threshold choices in the synthetic generator.
-- Threat to Paper 3: None.
+- Use in the HygieneBench benchmark: Background context for hygiene-state definitions (e.g., "inactive account threshold," "privileged group size norm"). Not a dataset. Cite as a normative reference for threshold choices in the synthetic generator.
+- Threat to the HygieneBench benchmark: None.
 
 ---
 
@@ -111,48 +111,48 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 - Vulnerability coverage: Not directly in Defender for Identity; integrates with vulnerability data via Defender XDR.
 - Telemetry freshness/missingness: Not modeled as an evaluation dimension.
 - Public/reproducible: No. Closed commercial product.
-- Threat to Paper 3: **High** on the surface framing "ML for AD anomaly detection." **Low** as an actual benchmark threat: it is a closed product, not a reproducible research artifact; it detects attack techniques, not hygiene state; there is no benchmark methodology or evaluation under controlled conditions. Paper 3 does not compete with Defender for Identity — it provides an *open benchmark* for a *different problem* (hygiene state, not attack detection).
+- Threat to the HygieneBench benchmark: **High** on the surface framing "ML for AD anomaly detection." **Low** as an actual benchmark threat: it is a closed product, not a reproducible research artifact; it detects attack techniques, not hygiene state; there is no benchmark methodology or evaluation under controlled conditions. The HygieneBench benchmark does not compete with Defender for Identity, it provides an *open benchmark* for a *different problem* (hygiene state, not attack detection).
 
 **Microsoft Entra ID Protection (formerly Azure AD Identity Protection)**
 - Organization: Microsoft Corporation.
 - Reference: Microsoft documentation. No standalone peer-reviewed publication. `[CONFIRMED-DOC]`
 - Coverage: Risk-based identity protection for cloud (Azure AD/Entra) identities; risk signals include atypical location, leaked credentials, threat intelligence feeds.
 - Scope: Cloud identity only; does not cover on-premises AD group structure, endpoint patch posture, or vulnerability records.
-- Threat to Paper 3: **Medium** positionally; **Low** structurally. On-prem AD hygiene + endpoint + vuln correlation is outside Entra ID Protection's scope.
+- Threat to the HygieneBench benchmark: **Medium** positionally; **Low** structurally. On-prem AD hygiene + endpoint + vuln correlation is outside Entra ID Protection's scope.
 
 **Microsoft Sentinel**
 - Organization: Microsoft Corporation.
 - Reference: Microsoft documentation. `[CONFIRMED-DOC]`
 - Coverage: Cloud SIEM; ingests logs from AD, endpoints, cloud workloads via connectors; correlation rules, KQL analytics, ML fusion detection.
-- Threat to Paper 3: **Medium** positionally ("ML in SIEM"). **Low** structurally: Sentinel is not an open benchmark; it ingests telemetry from live environments; it does not model telemetry freshness/missingness as a controlled evaluation condition; there is no publicly reproducible dataset or evaluation protocol.
+- Threat to the HygieneBench benchmark: **Medium** positionally ("ML in SIEM"). **Low** structurally: Sentinel is not an open benchmark; it ingests telemetry from live environments; it does not model telemetry freshness/missingness as a controlled evaluation condition; there is no publicly reproducible dataset or evaluation protocol.
 
 **Splunk UBA / Exabeam**
 - Organization: Splunk Inc. / Exabeam Inc.
 - Reference: Vendor whitepapers and product documentation. No formal peer-reviewed academic publications confirming methodology. `[CONFIRMED-DOC]`
 - Coverage: Behavioral baselines for users and entities; AD, endpoint, and some vulnerability integration (via connectors). Risk scoring.
-- Threat to Paper 3: **Medium** positionally. **Low** structurally: closed commercial products, no reproducible research artifact, no open evaluation protocol, no telemetry-freshness modeling as a controlled variable.
+- Threat to the HygieneBench benchmark: **Medium** positionally. **Low** structurally: closed commercial products, no reproducible research artifact, no open evaluation protocol, no telemetry-freshness modeling as a controlled variable.
 
 ---
 
 ### A4. Graph-Based Anomaly Detection
 
-**DOMINANT — Deep Anomaly Detection on Attributed Networks**
+**DOMINANT, Deep Anomaly Detection on Attributed Networks**
 - Authors: Ding, K., Li, J., Bhanushali, R., Liu, H.
 - Reference: *Proceedings of the 2019 SIAM International Conference on Data Mining (SDM)*, Calgary, AB, Canada, May 2019. DOI: 10.1137/1.9781611975673.67. `[CONFIRMED]`
 - Coverage: Graph convolutional network autoencoder for node-level anomaly detection on attributed graphs. Application domains: citation networks, social networks, and cybersecurity (mentioned).
 - Cyber-hygiene relevance: Method applicable to a graph where nodes are AD entities (users, groups, computers) with feature vectors (patch state, vulnerability exposure, last-seen, privilege level). However, paper does not address cyber hygiene as a domain.
-- Use in Paper 3: Candidate baseline method; do not claim novelty on the method itself, claim novelty on the *benchmark application*.
-- Threat to Paper 3: **Low.** DOMINANT is a method, not a cyber-hygiene benchmark.
+- Use in the HygieneBench benchmark: Candidate baseline method; do not claim novelty on the method itself, claim novelty on the *benchmark application*.
+- Threat to the HygieneBench benchmark: **Low.** DOMINANT is a method, not a cyber-hygiene benchmark.
 
-**AnomalyDAE — Dual Autoencoder for Anomaly Detection on Attributed Networks**
+**AnomalyDAE, Dual Autoencoder for Anomaly Detection on Attributed Networks**
 - Authors: Fan, H., Zhang, F., Li, Z.
-- Reference: *IEEE ICASSP 2020*. `[VERIFY — confirm exact proceedings]`
-- Use in Paper 3: Same as DOMINANT — candidate baseline; no overlap with cyber-hygiene domain.
+- Reference: *IEEE ICASSP 2020*. `[VERIFY, confirm exact proceedings]`
+- Use in the HygieneBench benchmark: Same as DOMINANT, candidate baseline; no overlap with cyber-hygiene domain.
 
 **PyGOD (Python Graph Outlier Detection Library)**
 - Authors: Liu, Y., et al.
-- Reference: `[VERIFY — check arXiv or JMLR publication, circa 2022–2023]`
-- Use in Paper 3: Could serve as an implementation library for graph-based baselines. Not a benchmark.
+- Reference: `[VERIFY, check arXiv or JMLR publication, circa 2022-2023]`
+- Use in the HygieneBench benchmark: Could serve as an implementation library for graph-based baselines. Not a benchmark.
 
 ---
 
@@ -162,19 +162,19 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 - Title: "Reducing the Significant Risk of Known Exploited Vulnerabilities."
 - Issuer: CISA. Date: November 3, 2021. `[CONFIRMED-DOC]`
 - Relevance: Mandates federal agencies remediate KEV-flagged CVEs within specified timeframes. Provides operational grounding for patch/vulnerability hygiene anomaly definitions.
-- Threat to Paper 3: None. Normative guidance document, not a benchmark.
+- Threat to the HygieneBench benchmark: None. Normative guidance document, not a benchmark.
 
 **CISA Binding Operational Directive 23-01 (BOD 23-01)**
 - Title: "Improving Asset Visibility and Vulnerability Detection on Federal Networks."
 - Issuer: CISA. Date: October 3, 2022. `[CONFIRMED-DOC]`
-- Relevance: Mandates asset discovery and vulnerability enumeration cadence. Directly motivates telemetry-freshness and asset-inventory-mismatch anomaly classes in Paper 3.
-- Threat to Paper 3: None. Normative guidance document.
+- Relevance: Mandates asset discovery and vulnerability enumeration cadence. Directly motivates telemetry-freshness and asset-inventory-mismatch anomaly classes in the HygieneBench benchmark.
+- Threat to the HygieneBench benchmark: None. Normative guidance document.
 
 **NIST Special Publication 800-40 Rev. 4**
 - Title: "Guide to Enterprise Patch Management Planning: Preventive Maintenance for Technology."
 - Authors: Souppaya, M., Scarfone, K.
 - Reference: NIST SP 800-40 Rev. 4, April 2022. `[CONFIRMED-DOC]`
-- Relevance: Defines patch management lifecycle; informs patch-lag anomaly class definitions in Paper 3.
+- Relevance: Defines patch management lifecycle; informs patch-lag anomaly class definitions in the HygieneBench benchmark.
 
 **NIST Special Publication 800-53 Rev. 5**
 - Title: "Security and Privacy Controls for Information Systems and Organizations."
@@ -198,14 +198,14 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 **Verizon Data Breach Investigations Report 2026 (DBIR)**
 - Reference: Verizon DBIR 2026, published May 2026. `[CONFIRMED-DOC]`
 - Key statistics for structural priors:
-  - Average remediation time for critical vulnerabilities: **43 days** (up from 32 days).
-  - Rate of critical vulnerabilities patched: **~25%** within the observation window.
-  - Vulnerability exploitation: 31% of breaches initiated via exploitation (first time overtaking credential theft).
-- Use in Paper 3: Cite as empirical grounding for patch-lag parameter distributions in synthetic generator. Note explicitly that these are aggregate statistics, not granular distributions.
+ - Average remediation time for critical vulnerabilities: **43 days** (up from 32 days).
+ - Rate of critical vulnerabilities patched: **~25%** within the observation window.
+ - Vulnerability exploitation: 31% of breaches initiated via exploitation (first time overtaking credential theft).
+- Use in the HygieneBench benchmark: Cite as empirical grounding for patch-lag parameter distributions in synthetic generator. Note explicitly that these are aggregate statistics, not granular distributions.
 
-**Vulnerability Life-Cycle / Exposure Management Literature** `[VERIFY — search specifically for Nayak et al. vulnerability life cycle OR Chen et al. patch deployment time]`
+**Vulnerability Life-Cycle / Exposure Management Literature** `[VERIFY, search specifically for Nayak et al. vulnerability life cycle OR Chen et al. patch deployment time]`
 - Several academic papers study CVE exploitation timelines and patch deployment gaps. The NVD (National Vulnerability Database) publication timeline data is publicly queryable and can serve as a structural prior for CVE-age distributions.
-- NVD: https://nvd.nist.gov/ — public, citable as a U.S. government database. `[CONFIRMED-DOC]`
+- NVD: https://nvd.nist.gov/, public, citable as a U.S. government database. `[CONFIRMED-DOC]`
 
 ---
 
@@ -213,11 +213,11 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 
 **No single canonical academic reference** for generating AD/endpoint/patch/vulnerability hygiene telemetry was found. The closest adjacent works are:
 
-- Attack emulation frameworks (MITRE CALDERA, Atomic Red Team) — generate attack telemetry, not hygiene-state telemetry. `[CONFIRMED-TOOL]`
-- CERT Insider Threat dataset generator — generates behavioral logs, not hygiene state. `[CONFIRMED]`
-- SimBlock, SEEDLabs, or similar — not directly relevant to identity/endpoint/patch domain.
+- Attack emulation frameworks (MITRE CALDERA, Atomic Red Team), generate attack telemetry, not hygiene-state telemetry. `[CONFIRMED-TOOL]`
+- CERT Insider Threat dataset generator, generates behavioral logs, not hygiene state. `[CONFIRMED]`
+- SimBlock, SEEDLabs, or similar, not directly relevant to identity/endpoint/patch domain.
 
-**Key implication:** The absence of a published synthetic cyber-hygiene telemetry generator strengthens Paper 3's contribution claim on C1.
+**Key implication:** The absence of a published synthetic cyber-hygiene telemetry generator strengthens the HygieneBench benchmark's contribution claim on C1.
 
 ---
 
@@ -258,18 +258,18 @@ This document resolves every `[VERIFY]` citation placeholder from Step 1 §5–�
 | Microsoft Sentinel | Partial (via connectors) | Partial (via connectors) | Partial | No | No (closed) | No | Medium | SIEM ≠ research benchmark |
 | BloodHound | Yes (attack paths) | No | No | No | Yes (OSS) | No (tool) | Medium | Attack path enumeration ≠ hygiene anomaly scoring |
 | DOMINANT / AnomalyDAE | No (generic method) | No | No | No | Yes | Yes (SDM 2019 / ICASSP 2020) | Low | Method only; no cyber-hygiene benchmark application |
-| MITRE ATT&CK | Framework | — | — | — | Yes | Yes (MITRE 2018) | None | Framework, not a dataset |
+| MITRE ATT&CK | Framework |, |, |, | Yes | Yes (MITRE 2018) | None | Framework, not a dataset |
 | CISA BOD 22-01 / 23-01 | Guidance | Guidance | Guidance | No | Yes | Guidance doc | None | Normative context |
 | NIST SP 800-40 / 800-53 / 800-207 | Guidance | Guidance | Guidance | No | Yes | Guidance doc | None | Normative context |
 | Verizon DBIR 2026 | No | Yes (aggregate) | Yes (aggregate) | No | Yes | Industry report | Low | Provides aggregate priors; not a benchmark |
 | NVD | No | No | Yes (raw) | No | Yes | Gov database | None | Data source for CVE priors |
-| No joint cyber-hygiene benchmark found | — | — | — | — | — | — | **Gap confirmed** | — |
+| No joint cyber-hygiene benchmark found |, |, |, |, |, |, | **Gap confirmed** |, |
 
 ---
 
 ## Part C: Gap Survival Analysis (Step 1 §7 Contributions)
 
-### C1 — Synthetic identity–endpoint–patch–vulnerability cyber-hygiene telemetry generator
+### C1, Synthetic identity-endpoint-patch-vulnerability cyber-hygiene telemetry generator
 
 **Verdict: SURVIVES.**
 
@@ -279,7 +279,7 @@ No existing public dataset or tool jointly generates identity state (AD), endpoi
 
 ---
 
-### C2 — Cyber-hygiene anomaly taxonomy
+### C2, Cyber-hygiene anomaly taxonomy
 
 **Verdict: SURVIVES.**
 
@@ -289,7 +289,7 @@ No published paper formally taxonomizes cyber-hygiene anomaly classes across AD 
 
 ---
 
-### C3 — Benchmark tasks under stale/missing telemetry
+### C3, Benchmark tasks under stale/missing telemetry
 
 **Verdict: SURVIVES STRONGLY.**
 
@@ -297,31 +297,31 @@ No existing benchmark systematically varies telemetry freshness, source missingn
 
 ---
 
-### C4 — Comparative evaluation of unsupervised anomaly detectors under class imbalance
+### C4, Comparative evaluation of unsupervised anomaly detectors under class imbalance
 
 **Verdict: PARTIALLY SURVIVES.**
 
-The *methods* (Isolation Forest, LOF, OCSVM, autoencoders) are well-established. Comparative evaluations of these methods on generic anomaly detection are common. The *application domain* — cyber-hygiene signals under class imbalance, stale/missing telemetry, and the joint identity/endpoint/patch/vulnerability schema — is novel. The contribution is in the *benchmark application and evaluation conditions*, not in the detection methods themselves.
+The *methods* (Isolation Forest, LOF, OCSVM, autoencoders) are well-established. Comparative evaluations of these methods on generic anomaly detection are common. The *application domain*, cyber-hygiene signals under class imbalance, stale/missing telemetry, and the joint identity/endpoint/patch/vulnerability schema, is novel. The contribution is in the *benchmark application and evaluation conditions*, not in the detection methods themselves.
 
 **Paper framing note:** Do not claim novelty on the methods; claim novelty on the evaluation protocol and findings within this domain.
 
 ---
 
-### C5 — Joint identity–endpoint–vulnerability hybrid risk score
+### C5, Joint identity-endpoint-vulnerability hybrid risk score
 
 **Verdict: PARTIALLY SURVIVES.**
 
-Microsoft Secure Score, Qualys TruRisk, and similar vendor products compute hybrid risk scores, but all are closed and none is a reproducible research artifact. An open, reproducible hybrid scorer — exposed as a baseline, not as a product claim — survives as a contribution. However, this is the *weakest* of the five candidates and adds implementation complexity. Recommended for Step 3: include as a baseline within C4 rather than a standalone contribution.
+Microsoft Secure Score, Qualys TruRisk, and similar vendor products compute hybrid risk scores, but all are closed and none is a reproducible research artifact. An open, reproducible hybrid scorer, exposed as a baseline, not as a product claim, survives as a contribution. However, this is the *weakest* of the five candidates and adds implementation complexity. Recommended for Step 3: include as a baseline within C4 rather than a standalone contribution.
 
 ---
 
-### C6 — Reproducibility and audit pipeline
+### C6, Reproducibility and audit pipeline
 
-**Verdict: SURVIVES** but is better positioned as an *enabler* of C1–C4 than a standalone contribution. Consistent with Paper 1's reproducibility ethos; do not overclaim as a novel methodology.
+**Verdict: SURVIVES** but is better positioned as an *enabler* of C1-C4 than a standalone contribution. Consistent with the VulnPrio study's reproducibility ethos; do not overclaim as a novel methodology.
 
 ---
 
-### C7 — Failure-aware / negative-result reporting
+### C7, Failure-aware / negative-result reporting
 
 **Verdict: SURVIVES.**
 
@@ -331,19 +331,19 @@ Failure-aware reporting (explicit documentation of conditions where ML does not 
 
 ## Part D: Locked Contribution Menu
 
-After falsification, the following **5 contributions** are locked for Paper 3:
+After falsification, the following **5 contributions** are locked for the HygieneBench benchmark:
 
 | # | Contribution | Gap survival |
 |---|---|---|
-| **C1** | Synthetic identity–endpoint–patch–vulnerability cyber-hygiene telemetry generator (seeded, reproducible, schema-documented) | SURVIVES |
+| **C1** | Synthetic identity-endpoint-patch-vulnerability cyber-hygiene telemetry generator (seeded, reproducible, schema-documented) | SURVIVES |
 | **C2** | Cyber-hygiene anomaly taxonomy (formal definitions, ATT&CK enabling-condition mapping, benchmark-task linkage) | SURVIVES |
-| **C3** | Benchmark task suite under stale/missing telemetry (tasks T1–T7 parameterized over freshness, missingness, imbalance, label sparsity) | SURVIVES STRONGLY |
-| **C4** | Comparative evaluation of unsupervised anomaly detectors under class imbalance (rule baseline, Isolation Forest, LOF, OCSVM, autoencoder, temporal z-score, graph baseline; failure-aware reporting) | PARTIALLY SURVIVES — novelty in evaluation protocol and domain, not methods |
+| **C3** | Benchmark task suite under stale/missing telemetry (tasks T1-T7 parameterized over freshness, missingness, imbalance, label sparsity) | SURVIVES STRONGLY |
+| **C4** | Comparative evaluation of unsupervised anomaly detectors under class imbalance (rule baseline, Isolation Forest, LOF, OCSVM, autoencoder, temporal z-score, graph baseline; failure-aware reporting) | PARTIALLY SURVIVES, novelty in evaluation protocol and domain, not methods |
 | **C7** | Failure-aware (negative-result) evaluation protocol | SURVIVES |
 
 **Dropped from standalone status:**
 - C5 (hybrid risk score): Folded into C4 as a baseline scorer, not a standalone contribution.
-- C6 (reproducibility pipeline): Treated as an enabler of C1–C4; mentioned in paper but not foregrounded as a contribution.
+- C6 (reproducibility pipeline): Treated as an enabler of C1-C4; mentioned in paper but not foregrounded as a contribution.
 
 ---
 
@@ -351,11 +351,11 @@ After falsification, the following **5 contributions** are locked for Paper 3:
 
 The following items could not be fully confirmed without library access and must be resolved before submitting or circulating a draft:
 
-1. DARPA TC dataset — confirm current public access point and cite the most authoritative associated publication.
-2. AnomalyDAE (Fan, Zhang, Li — ICASSP 2020) — confirm full proceedings citation.
-3. PyGOD library — confirm arXiv or JMLR publication and cite if used as an implementation tool.
-4. CIS Benchmarks for Active Directory — confirm current version number and citation format.
-5. Vulnerability life-cycle / patch deployment academic papers — search specifically for peer-reviewed papers on enterprise patch lag distributions (not DBIR aggregate).
+1. DARPA TC dataset, confirm current public access point and cite the most authoritative associated publication.
+2. AnomalyDAE (Fan, Zhang, Li, ICASSP 2020), confirm full proceedings citation.
+3. PyGOD library, confirm arXiv or JMLR publication and cite if used as an implementation tool.
+4. CIS Benchmarks for Active Directory, confirm current version number and citation format.
+5. Vulnerability life-cycle / patch deployment academic papers, search specifically for peer-reviewed papers on enterprise patch lag distributions (not DBIR aggregate).
 
 ---
 

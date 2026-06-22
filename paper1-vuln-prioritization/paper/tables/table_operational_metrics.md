@@ -1,5 +1,5 @@
 | strategy | kev_breach_rate_mean | capacity_efficiency_mean | scheduled_count_mean | scheduler_feasibility_mean | risk_acceptance_rate_mean |
-| --- | --- | --- | --- | --- | --- |
+|, |, |, |, |, |, |
 | cve_max | 0.991816 | 0.7 | 100 | 1 | 0.00262826 |
 | cve_mean | 0.993856 | 0.533333 | 100 | 1 | 0.00239185 |
 | cve_sum | 0.994369 | 0.8 | 100 | 1 | 0.00360328 |

@@ -1,4 +1,4 @@
-# Paper 13 — Pre-Registration Protocol
+# Paper 13, Pre-Registration Protocol
 
 **Working title:** CUSUM Detector for Adaptive Change-Point Recalibration:
 Can Multi-Window Evidence Accumulation Break the Static-Gate Collapse?
@@ -45,20 +45,20 @@ next window. The detector uses Paper 10's magnitude statistic
 - h = 0.10 (alarm threshold; the Paper 11 largest single-τ that still
   failed feasibility)
 
-The intuition: a single |Δ|=0.05 contributes 0.05−0.04 = 0.01 to the
+The intuition: a single |Δ|=0.05 contributes 0.05-0.04 = 0.01 to the
 accumulator and is unlikely to cross h=0.10. Two consecutive |Δ|=0.05
-contribute 0.02 total and still don't fire. But sustained shifts —
-e.g., three consecutive |Δ|=0.10 — accumulate to 0.18 well above h.
+contribute 0.02 total and still don't fire. But sustained shifts, 
+e.g., three consecutive |Δ|=0.10, accumulate to 0.18 well above h.
 
 ## 3. Strategies
 
 Six strategies at every (cell, window):
-- `fixed`        — Paper 4 weights
-- `lag1`         — Paper 7 baseline
-- `cap_aware`    — Paper 12 capacity-aware (control)
-- `cusum`        — CUSUM(k=0.04, h=0.10) over |Δ_w|
-- `gated`        — static rule (K≤100→lag1, K≥200→fixed)
-- `offline`      — Paper 7 ceiling
+- `fixed`, Paper 4 weights
+- `lag1`, Paper 7 baseline
+- `cap_aware`, Paper 12 capacity-aware (control)
+- `cusum`, CUSUM(k=0.04, h=0.10) over |Δ_w|
+- `gated`, static rule (K≤100→lag1, K≥200→fixed)
+- `offline`, Paper 7 ceiling
 
 ## 4. Pre-registered hypotheses
 
@@ -73,7 +73,7 @@ Six strategies at every (cell, window):
 - If H2 is rejected, the abstract leads with "CUSUM also collapses to
   static gate" before discussion is drafted.
 - If H1 is rejected, the abstract leads with "CUSUM cannot reach
-  feasibility" — feasibility takes precedence over improvement claims.
+  feasibility", feasibility takes precedence over improvement claims.
 
 ## 5. Cell grid
 
@@ -82,7 +82,7 @@ seeds, 6 strategies. Total rows: **2,700**.
 
 ## 6. Out of scope
 
-- (k, h) sensitivity sweep — future work.
+- (k, h) sensitivity sweep, future work.
 - Two-sided CUSUM, EWMA-CUSUM, Bayesian online change-point.
 - Real fleet data.
 

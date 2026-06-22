@@ -1,4 +1,4 @@
-# Paper 3 — Experimental Design v0.1
+# the HygieneBench benchmark, Experimental Design v0.1
 
 **Date:** 2026-05-28
 **Status:** Locked for Step 3. No implementation yet. Specification document only.
@@ -14,10 +14,10 @@ Lock the experimental design before any implementation begins (Step 4). Defines:
 
 ## 1. Benchmark Overview
 
-The benchmark evaluates **7 anomaly-detection tasks (T1–T7)** across **5 experimental conditions** that independently vary telemetry quality and dataset characteristics. For each task × condition cell, **8 methods** are evaluated. The evaluation produces per-task, per-condition metric tables with explicit failure-aware reporting.
+The benchmark evaluates **7 anomaly-detection tasks (T1-T7)** across **5 experimental conditions** that independently vary telemetry quality and dataset characteristics. For each task × condition cell, **8 methods** are evaluated. The evaluation produces per-task, per-condition metric tables with explicit failure-aware reporting.
 
 ```
-Tasks T1–T7  ×  Conditions C-A through C-E  ×  8 Methods
+Tasks T1-T7 × Conditions C-A through C-E × 8 Methods
 = 7 × 5 × 8 = 280 primary evaluation runs
 + 3 seed replications per run = 840 total primary runs
 ```
@@ -36,9 +36,9 @@ Five primary conditions, crossing freshness and missingness regimes, at a fixed 
 |---|---|---|---|---|---|---|
 | **C-BASE** | Clean baseline | Medium (1,000 users) | None (all fresh) | None | Medium (1:50) | Fully labeled |
 | **C-FRESH** | Fresh + one-source gap | Medium | None (all fresh) | One source missing | Medium (1:50) | Fully labeled |
-| **C-STALE** | Heavy staleness, no missingness | Medium | Heavy (3–10× interval) | None | Medium (1:50) | Fully labeled |
-| **C-MISS** | Heavy staleness + two-source gap | Medium | Heavy (3–10× interval) | Two sources missing | Medium (1:50) | Fully labeled |
-| **C-UNSUP** | Unsupervised (no labels at train) | Medium | Mild (1–2× interval) | One source missing | Medium (1:50) | Unlabeled |
+| **C-STALE** | Heavy staleness, no missingness | Medium | Heavy (3-10× interval) | None | Medium (1:50) | Fully labeled |
+| **C-MISS** | Heavy staleness + two-source gap | Medium | Heavy (3-10× interval) | Two sources missing | Medium (1:50) | Fully labeled |
+| **C-UNSUP** | Unsupervised (no labels at train) | Medium | Mild (1-2× interval) | One source missing | Medium (1:50) | Unlabeled |
 
 **Rationale for condition selection:**
 - C-BASE establishes a clean-telemetry floor; all methods should perform best here.
@@ -66,22 +66,22 @@ Supplemental results are reported in full in the appendix; the paper body summar
 
 Eight methods evaluated across all tasks and conditions. Methods are grouped into three tiers.
 
-### Tier 1 — Rule Baselines (no training)
+### Tier 1, Rule Baselines (no training)
 
-**M1 — Rule Baseline (task-specific thresholds)**
+**M1, Rule Baseline (task-specific thresholds)**
 - Description: Threshold-based scoring function with hand-coded thresholds on the most salient hygiene signals for each task (see `TASK_SPECS.md` §3). Deterministic; no hyperparameters.
 - Feature set: Task-specific core signals (e.g., T1: `days_since_last_logon`, `is_privileged`, `privileged_group_count`).
 - Score: Weighted sum of threshold-exceeding indicators; ranked descending.
 - Purpose: Establishes the non-ML floor. All ML methods must beat this to claim value.
 
-**M2 — Hybrid Risk Scorer**
+**M2, Hybrid Risk Scorer**
 - Description: Deterministic weighted combination of three sub-scores: identity hygiene score + endpoint patch score + vulnerability exposure score, with a telemetry-freshness penalty multiplier.
 - Feature set: Cross-domain features from `users`, `computers`, `endpoint_patch_state`, `vulnerability_records`, `telemetry_freshness_log`.
 - Score: `risk_score = w_id * identity_score + w_ep * endpoint_score + w_vx * vuln_score * freshness_penalty`.
 - Weights: fixed at 1/3 each for v0.1; sensitivity swept in supplemental.
 - Purpose: A stronger, more principled rule baseline. No training.
 
-### Tier 2 — Classical Unsupervised Anomaly Detectors
+### Tier 2, Classical Unsupervised Anomaly Detectors
 
 All Tier 2 methods use the same **tabular feature set** unless noted, normalized per-feature to [0, 1] using train-split statistics.
 
@@ -108,27 +108,27 @@ All Tier 2 methods use the same **tabular feature set** unless noted, normalized
 | `group_change_rate_30d` | group_membership_events | Group change events per 30 days for user |
 | `remediation_delay_days_max` | remediation_events | Max delay for open critical remediations |
 
-**M3 — Isolation Forest**
+**M3, Isolation Forest**
 - Library: scikit-learn `IsolationForest`.
 - Hyperparameter grid (swept in val split): `n_estimators` ∈ {100, 200}, `contamination` ∈ {0.01, 0.02, 0.05}; `max_features` = 1.0.
 - Feature set: full tabular set above.
 - Score: negative anomaly score from `decision_function`; higher = more anomalous.
 
-**M4 — Local Outlier Factor (LOF)**
+**M4, Local Outlier Factor (LOF)**
 - Library: scikit-learn `LocalOutlierFactor` (novelty=True for test-time scoring).
 - Hyperparameter grid: `n_neighbors` ∈ {10, 20, 30}; `metric` = euclidean.
 - Feature set: full tabular set (LOF sensitive to dimensionality; apply PCA to 10 components if feature count > 15 in a given task).
 - Score: negative LOF score; higher = more anomalous.
 
-**M5 — One-Class SVM (OCSVM)**
+**M5, One-Class SVM (OCSVM)**
 - Library: scikit-learn `OneClassSVM`.
 - Hyperparameter grid: `kernel` = rbf; `nu` ∈ {0.01, 0.05, 0.10}; `gamma` ∈ {scale, auto}.
 - Feature set: full tabular set.
 - Score: decision function; higher = more anomalous.
 
-### Tier 3 — Deep / Structural Methods
+### Tier 3, Deep / Structural Methods
 
-**M6 — Autoencoder**
+**M6, Autoencoder**
 - Architecture: Fully connected; input → 64 → 32 → 16 → 32 → 64 → output (reconstruction). Depth and width fixed for v0.1; swept in supplemental.
 - Loss: Mean squared reconstruction error (MSE).
 - Training: Train on normal (non-anomaly) entities only in train split (since C-BASE and C-STALE have known labels; for C-UNSUP, train on full train split without label access).
@@ -136,21 +136,21 @@ All Tier 2 methods use the same **tabular feature set** unless noted, normalized
 - Library: PyTorch (version locked in reproducibility manifest).
 - Feature set: full tabular set.
 
-**M7 — Temporal Z-Score / Rolling Baseline**
+**M7, Temporal Z-Score / Rolling Baseline**
 - Description: For each entity and each time-series feature, compute a rolling mean and standard deviation over a 30-day lookback window. Score each observation by its z-score; aggregate across features per entity.
 - Applicable tasks: T1 (account inactivity trend), T6 (reactivation spike), T7 (escalation rate drift). For purely cross-sectional tasks (T4, T5), M7 falls back to a single-observation z-score against population distribution.
 - Score: max z-score across features per entity; higher = more anomalous.
 - Feature set: temporal features only (`days_since_last_logon`, `login_frequency_7d`, `group_change_rate_30d`, `remediation_delay_days_max`).
 
-**M8 — Graph Anomaly Detector (DOMINANT-style)**
+**M8, Graph Anomaly Detector (DOMINANT-style)**
 - Graph construction:
-  - Nodes: users, computers, groups (multi-type).
-  - Edges: user → group (membership), user → computer (primary assignment), computer → vulnerability (open CVE).
-  - Node features: task-specific subset of tabular feature set.
+ - Nodes: users, computers, groups (multi-type).
+ - Edges: user → group (membership), user → computer (primary assignment), computer → vulnerability (open CVE).
+ - Node features: task-specific subset of tabular feature set.
 - Architecture: GCN-based dual autoencoder (structure + attribute reconstruction); following Ding et al. SDM 2019.
 - Score: Combined structure-reconstruction + attribute-reconstruction error per node; higher = more anomalous.
 - Library: PyTorch Geometric (version locked in reproducibility manifest). Optional: PyGOD if publication is confirmed.
-- Applicable tasks: T2 (group drift), T3 (endpoint–identity correlation), T7 (escalation drift). For tasks with no meaningful graph signal (T4, T5), M8 is reported as N/A and excluded from that task's result table.
+- Applicable tasks: T2 (group drift), T3 (endpoint-identity correlation), T7 (escalation drift). For tasks with no meaningful graph signal (T4, T5), M8 is reported as N/A and excluded from that task's result table.
 
 ---
 
@@ -165,7 +165,7 @@ For every task × condition × method combination:
 | Precision at k | P@k | True positives in top-k ranked entities / k | k is task-specific; see §4.3 |
 | Recall at k | R@k | True positives in top-k ranked entities / total anomalies | Paired with P@k |
 | Average Precision | AP | Area under P-R curve (across all thresholds) | Primary summary metric; preferred over AUC under imbalance |
-| False-Positive Burden | FPB | (k − true positives in top-k) / k | Analyst-review waste rate; directly interpretable for SOC context |
+| False-Positive Burden | FPB | (k - true positives in top-k) / k | Analyst-review waste rate; directly interpretable for SOC context |
 
 ### 4.2 Conditional Metrics
 
@@ -174,7 +174,7 @@ For every task × condition × method combination:
 | ROC-AUC | AUC | Only when imbalance ratio ≤ 1:20 | AUC is misleading under heavy imbalance (Davis & Goadrich, ICML 2006) |
 | Rank Stability | τ | Supplemental, across 3 seeds | Kendall's τ between rank orders across seed replications |
 | Time-to-Detection | TTD | Tasks T1, T4, T6, T7 | Rank position of the first injected anomaly at each time step; lower rank = better |
-| Calibration | CAL | Not reported in v0.1 | Calibration is Paper 2's primary contribution; excluded from Paper 3 to maintain distinctness |
+| Calibration | CAL | Not reported in v0.1 | Calibration is the CalibScore study's primary contribution; excluded from the HygieneBench benchmark to maintain distinctness |
 
 ### 4.3 Task-Specific k Values
 
@@ -182,7 +182,7 @@ For every task × condition × method combination:
 |---|---|---|
 | T1 (stale privileged account) | 10 | Daily SOC review budget for privileged-account hygiene |
 | T2 (group membership drift) | 20 | Weekly review of group-change events |
-| T3 (endpoint–identity correlation) | 15 | Weekly review of high-risk asset–identity pairs |
+| T3 (endpoint-identity correlation) | 15 | Weekly review of high-risk asset-identity pairs |
 | T4 (telemetry missingness) | 20 | Weekly review of coverage gaps |
 | T5 (patch/vuln hygiene) | 25 | Weekly review of patch-risk assets |
 | T6 (dormant reactivation) | 10 | Daily review of reactivation events |
@@ -202,8 +202,8 @@ Each task × condition × method cell in the results table reports: `AP ± σ (3
 
 For a given task × condition pair, a method M is declared **"does not outperform rule baseline"** if **both** of the following hold:
 
-1. **AP criterion:** `AP(M) − AP(M1) < δ_AP` where `δ_AP = 0.05` across all three seed replications.
-2. **P@k criterion:** `P@k(M) − P@k(M1) < δ_pk` where `δ_pk = 0.05` in at least two of three seed replications.
+1. **AP criterion:** `AP(M) - AP(M1) < δ_AP` where `δ_AP = 0.05` across all three seed replications.
+2. **P@k criterion:** `P@k(M) - P@k(M1) < δ_pk` where `δ_pk = 0.05` in at least two of three seed replications.
 
 Note: thresholds δ_AP = 0.05 and δ_pk = 0.05 represent a *minimum meaningful improvement* for SOC operational decision-making, not a statistical significance test. Reporting against fixed thresholds is more interpretable than p-values in a single-lab benchmark setting with small seed counts.
 
@@ -252,33 +252,33 @@ Each run produces a JSON manifest file:
 
 ```json
 {
-  "run_id": "uuid",
-  "timestamp": "ISO-8601",
-  "task_id": "T1",
-  "condition_id": "C-BASE",
-  "method_id": "M3",
-  "seed": 42,
-  "generator_version": "v0.1",
-  "schema_version": "v0.1",
-  "dataset_id": "...",
-  "hyperparameters": {"n_estimators": 200, "contamination": 0.02},
-  "split": {"train": 600, "val": 200, "test": 200},
-  "metrics": {
-    "AP": 0.72,
-    "AP_baseline": 0.65,
-    "P_at_k": 0.60,
-    "R_at_k": 0.30,
-    "FPB": 0.40,
-    "AUC": null,
-    "failure_flag": false
-  },
-  "library_versions": {
-    "scikit-learn": "1.x.x",
-    "torch": "2.x.x",
-    "torch-geometric": "2.x.x",
-    "numpy": "1.x.x",
-    "pandas": "2.x.x"
-  }
+ "run_id": "uuid",
+ "timestamp": "ISO-8601",
+ "task_id": "T1",
+ "condition_id": "C-BASE",
+ "method_id": "M3",
+ "seed": 42,
+ "generator_version": "v0.1",
+ "schema_version": "v0.1",
+ "dataset_id": "...",
+ "hyperparameters": {"n_estimators": 200, "contamination": 0.02},
+ "split": {"train": 600, "val": 200, "test": 200},
+ "metrics": {
+ "AP": 0.72,
+ "AP_baseline": 0.65,
+ "P_at_k": 0.60,
+ "R_at_k": 0.30,
+ "FPB": 0.40,
+ "AUC": null,
+ "failure_flag": false
+ },
+ "library_versions": {
+ "scikit-learn": "1.x.x",
+ "torch": "2.x.x",
+ "torch-geometric": "2.x.x",
+ "numpy": "1.x.x",
+ "pandas": "2.x.x"
+ }
 }
 ```
 
@@ -315,9 +315,9 @@ The following constraints carry forward from Step 1 and Step 2 and are re-confir
 
 - **No code yet.** Step 3 is design-only.
 - **No employer data.** All telemetry is synthetic.
-- **No calibration as a primary result.** Calibration is Paper 2's contribution.
-- **No attack-detection claims.** Paper 3 detects hygiene-state anomalies.
-- **No product-comparison claims.** Paper 3 does not compete with Sentinel, Defender, or UBA products.
+- **No calibration as a primary result.** Calibration is the CalibScore study's contribution.
+- **No attack-detection claims.** the HygieneBench benchmark detects hygiene-state anomalies.
+- **No product-comparison claims.** the HygieneBench benchmark does not compete with Sentinel, Defender, or UBA products.
 - **No ATT&CK technique detection claims.** Anomaly classes map to ATT&CK *enabling conditions* only.
 - **No generalization claims beyond the synthetic evaluation.** Real-data validation is explicitly stated as future work.
 

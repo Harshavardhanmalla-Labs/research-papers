@@ -1,5 +1,5 @@
 | strategy | metric | mean | std | count |
-| --- | --- | --- | --- | --- |
+|, |, |, |, |, |
 | cve_max | audit_hash_chain_valid | 1 | 0 | 30 |
 | cve_max | audit_record_count | 127.733 | 17.8768 | 30 |
 | cve_max | capacity_efficiency | 0.7 | 0.466092 | 30 |

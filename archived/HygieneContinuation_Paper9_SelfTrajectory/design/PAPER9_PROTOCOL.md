@@ -1,4 +1,4 @@
-# Paper 9 — Pre-Registration Protocol
+# the self-trajectory study, Pre-Registration Protocol
 
 **Working title:** Self-Trajectory Evaluation: Is HygienePrio's
 Capacity-Driven Collapse Intrinsic or Selection-Policy-Induced?
@@ -14,11 +14,11 @@ Capacity-Driven Collapse Intrinsic or Selection-Policy-Induced?
 
 Papers 5--8 share one acknowledged internal-validity threat: at every
 window of every cell, fleet evolution is driven by HygienePrio-full's
-top-$K$ selection with the calibrated Paper~4 weights. EPSS-only,
+top-$K$ selection with the calibrated the HygienePrio scorer weights. EPSS-only,
 HRS-only, CVSS-only, and Random are scored against the HygienePrio-driven
 evolving backlog rather than against their own counterfactual trajectories.
 
-In particular, Paper~6 reported that HygienePrio-full's W6 P@50 collapses
+In particular, the capacity-decay study reported that HygienePrio-full's W6 P@50 collapses
 at $K \in \{100, 200\}$ via high-HRS-tail exhaustion. The collapse was
 measured on the HygienePrio-driven trajectory. \textbf{We do not know
 whether the same collapse would occur if HygienePrio's own selection were
@@ -34,12 +34,12 @@ much is induced by which method drives the trajectory?}
 ## 2. Research questions
 
 - **RQ1.** Does HygienePrio-full's W6 P@50 collapse at $K = 200$ survive
-  when EPSS-only or CVSS-only drives the trajectory?
-- **RQ2.** Is EPSS-only's universal decay (Paper~6) sharper, equal to, or
-  shallower on its own self-trajectory?
+ when EPSS-only or CVSS-only drives the trajectory?
+- **RQ2.** Is EPSS-only's universal decay (the capacity-decay study) sharper, equal to, or
+ shallower on its own self-trajectory?
 - **RQ3.** Does HygienePrio-full's per-pair dominance over EPSS-only
-  (Paper~6's $96\%$ at canonical cell) survive on \textit{each} method's
-  own trajectory?
+ (the capacity-decay study's $96\%$ at canonical cell) survive on \textit{each} method's
+ own trajectory?
 
 ## 3. Hypotheses
 
@@ -51,17 +51,17 @@ much is induced by which method drives the trajectory?}
 
 **Stop rules:**
 - If H1 is rejected (selection-policy effect dominates), the abstract is
-  rewritten to qualify Paper~6's H4-collapse interpretation before the
-  discussion is drafted.
+ rewritten to qualify the capacity-decay study's H4-collapse interpretation before the
+ discussion is drafted.
 - If H3 is rejected (HP does not dominate on EPSS-driven trajectory),
-  Paper~5's ``$96\%$ per-pair dominance'' claim is qualified as
-  trajectory-conditional in our retroactive commentary.
+ the temporal-stability study's ``$96\%$ per-pair dominance'' claim is qualified as
+ trajectory-conditional in our retroactive commentary.
 
 ## 4. Cell grid (locked)
 
 | Axis | Values |
 |------|--------|
-| Capacity $K$ | $\{50, 200\}$ (low control + Paper~6 collapse cell) |
+| Capacity $K$ | $\{50, 200\}$ (low control + the capacity-decay study collapse cell) |
 | Arrival rate $\lambda$ | 3 (fixed; matches Papers 7--8) |
 | Windows $W$ | 6 |
 | Driving methods | HygienePrio-full, EPSS-only, HRS-only, CVSS-only, Random |
@@ -76,7 +76,7 @@ Total rows: $2 \text{ cells} \times 5 \text{ driving} \times 5
 
 At each window, the \textit{driving method} for the run selects the top-$K$
 pairs. Those pairs are remediated, new CVEs disclosed, EPSS random-walked,
-and telemetry updated --- identical mechanics to Paper~5's
+and telemetry updated, identical mechanics to the temporal-stability study's
 \texttt{advance\_window}. The \textit{scoring methods} are evaluated on the
 state \textit{before} that window's evolution and recorded; their selections
 have no effect on the trajectory.
@@ -85,7 +85,7 @@ have no effect on the trajectory.
 
 - **P@50** per (cell, driver, scorer, seed, window).
 - **Per-pair dominance fraction**: $\Pr[\mathrm{P@50}^{\mathrm{HP}} > \mathrm{P@50}^{\mathrm{m}}]$
-  per (cell, driver) over the 150 seed-window pairs.
+ per (cell, driver) over the 150 seed-window pairs.
 
 ## 7. Statistical reporting
 
@@ -98,17 +98,17 @@ From `paper9/`:
 ```
 PYTHONPATH=src python3 src/run_self_traj.py
 ```
-Reuses Paper 4/5 code via sys.path injection.
+Reuses the HygienePrio scorer/5 code via sys.path injection.
 
 ## 9. Out of scope
 
-- Sweeping $\lambda$ or extending the K grid — held to canonical points
-  for tractability.
-- Online recalibration: this paper uses fixed Paper~4 weights to isolate
-  the trajectory question (consistent with the Paper~7 + Paper~8
-  finding that fixed weights are the operationally correct baseline at
-  high capacity).
-- Cross-trajectory rank stability beyond P@50 — future work.
+- Sweeping $\lambda$ or extending the K grid, held to canonical points
+ for tractability.
+- Online recalibration: this paper uses fixed the HygienePrio scorer weights to isolate
+ the trajectory question (consistent with the online-calibration study + the multi-history smoothing study
+ finding that fixed weights are the operationally correct baseline at
+ high capacity).
+- Cross-trajectory rank stability beyond P@50, future work.
 
 ## 10. Author certification
 

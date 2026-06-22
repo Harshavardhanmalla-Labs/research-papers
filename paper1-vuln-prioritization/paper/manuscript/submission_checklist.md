@@ -3,7 +3,7 @@
 Updated through Phase 21. ☐ = open, ☑ = done, ◑ = partial.
 
 | Item | Status | Notes |
-| --- | --- | --- |
+|, |, |, |
 | Manuscript structurally complete? | ☑ | All Sections 1-17 + Abstract present in `paper_full_draft.md` and `paper_submission_draft.md`. |
 | Citations verified? | ☐ | **0 independently verified in this environment.** Tier-1 drafted in `references.bib` with "CONFIRM at camera-ready"; must be checked against publishers. |
 | Unverified citations remaining? | ☑ (tracked) | `[VERIFY]` retained for Deep VULMAN, VulRG, VulnScore, V-REx, Microsoft Defender VM, Tenable VPR/ACR, Qualys TruRisk, Cisco/Kenna, CJIS version, + Abstract numeric re-check. |
@@ -19,11 +19,11 @@ Updated through Phase 21. ☐ = open, ☑ = done, ◑ = partial.
 | Target venue selected? | ◑ | Recommended primary: **ACM DTRAP** (fallbacks IEEE Access, Computers & Security); see `venue_formatting_plan.md`. Final author decision pending. |
 | Ready for formatting? | ☑ | Submission-style Markdown (`paper_submission_draft.md`) ready to port into a venue template. |
 | Formatting template applied? | ☐ | Not yet (Markdown only). |
-| Ready for submission? | ☐ | **No** — blocked on citation verification, template application, and the calibrated-weights decision. |
+| Ready for submission? | ☐ | **No**, blocked on citation verification, template application, and the calibrated-weights decision. |
 | Author/affiliation finalized? | ◑ | "Harshavardhan Malla, Independent Researcher"; confirm contact/ORCID at submission. |
 | No EB1A/USCIS language in manuscript? | ☑ | None present. |
 | Statistical tests applied to results? | ☐ | Helpers implemented but not applied (differences within noise); decide descriptive-only vs paired tests/CIs. |
-| Calibrated-weights rerun before submission? | ☐ | **Decision needed** — placeholder weights used; a calibrated rerun likely strengthens any outcome but the paper is submittable as a benchmark/feasibility contribution without it. |
+| Calibrated-weights rerun before submission? | ☐ | **Decision needed**, placeholder weights used; a calibrated rerun likely strengthens any outcome but the paper is submittable as a benchmark/feasibility contribution without it. |
 
 ## Gating decision
 

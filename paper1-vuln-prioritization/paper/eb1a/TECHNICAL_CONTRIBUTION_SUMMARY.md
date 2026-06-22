@@ -11,10 +11,10 @@ Severity (CVSS) and exploitation-likelihood (EPSS) scores are defined at the CVE
 level, but remediation happens on a specific host. The framework therefore treats
 the **vulnerability-host pair** `(v, h)` as the unit of decision and explanation:
 the same CVE on a domain controller and on a kiosk are distinct decisions with
-distinct exposure and criticality. Each pair carries a seven-feature vector —
+distinct exposure and criticality. Each pair carries a seven-feature vector, 
 EPSS, KEV status, CVSS severity, telemetry-derived asset criticality, per-pair
 local exposure, an urgency term derived from KEV deadlines, and remediation
-complexity — and a linear scoring function ranks pairs, with a family of
+complexity, and a linear scoring function ranks pairs, with a family of
 strategies (baselines, ablations, and an evaluation-only oracle) for comparison.
 
 ## Capacity-constrained scheduling
@@ -24,7 +24,7 @@ ranking and fills a maintenance window subject to a fixed per-window capacity,
 blackout windows, an approval policy, and documented risk acceptance. This is a
 scheduling *simulation* that models approval and timing; it does not execute or
 guarantee patches. Evaluating ranking jointly with scheduling exposes effects that
-ranking-only studies miss — for example, when capacity, not the ranking policy,
+ranking-only studies miss, for example, when capacity, not the ranking policy,
 dominates an operational outcome.
 
 ## Synthetic public-sector-shaped fleet
@@ -71,6 +71,6 @@ strategies are statistically indistinguishable on the primary operational metric
 (simulated expected exploited-host-days): the proposed context-aware model neither
 beats the EPSS baseline nor a random ordering, with all inter-strategy differences
 inside seed-to-seed variation. This neutral result is reported plainly. It is
-scientifically useful — it establishes a falsification condition and a clean
-baseline — and it motivates the calibrated, larger-scale, and externally validated
+scientifically useful, it establishes a falsification condition and a clean
+baseline, and it motivates the calibrated, larger-scale, and externally validated
 studies that the framework is built to support.

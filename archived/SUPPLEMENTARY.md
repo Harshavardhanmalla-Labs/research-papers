@@ -1,14 +1,14 @@
-# Paper 7 Supplementary Experiments
+# the online-calibration study Supplementary Experiments
 
 The directories under `paper7/experiments/` contain experimental
 artifacts (protocols, code, frozen CSVs) for **extension experiments
-that are NOT part of Paper 7's primary submission**. They are
+that are NOT part of the online-calibration study's primary submission**. They are
 preserved here for reproducibility and to support potential
 follow-up papers.
 
 These experiments were generated during exploratory `/loop` runs
 on 2026-06-04 and 2026-06-05 as natural next-steps motivated by
-Paper 7's K=200 hazard finding. They were not in the original
+the online-calibration study's K=200 hazard finding. They were not in the original
 9-topic research plan and are not currently planned as standalone
 submissions.
 

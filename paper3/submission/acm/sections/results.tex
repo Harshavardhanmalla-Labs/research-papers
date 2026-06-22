@@ -11,7 +11,7 @@ across all conditions, tasks, and seeds (810 runs). Figure~\ref{fig:ap_heatmap}
 breaks the same runs down by method and task. The rule baseline (M1) achieves
 the highest mean AP (0.916). M5 (OCSVM) is the closest ML competitor (AP\,=\,0.913,
 P@$k$\,=\,0.447 vs.\ M1 P@$k$\,=\,0.444). M2 (hybrid scorer) performs worst among
-all methods (AP\,=\,0.709), despite incorporating domain knowledge---indicating that
+all methods (AP\,=\,0.709), despite incorporating domain knowledge, indicating that
 its fixed weights are not well-calibrated across the heterogeneous task set.
 
 \input{tables/tab_overall}
@@ -32,7 +32,7 @@ aggregation across the three seeds.
 Per the pre-registered secondary metrics, AP stability ($1-\text{CV}$ across the
 three seeds, computed per (condition, task, method) group) is high for all
 methods: mean $1-\text{CV}$ ranges from 0.859 (M8) to 0.967 (M1), with M5 at
-0.951 and M2--M7 between 0.879 and 0.951. Full per-configuration stability
+0.951 and M2-M7 between 0.879 and 0.951. Full per-configuration stability
 values, along with the remaining secondary metrics R@$k$ and FPB, are included
 in the released evaluation artifact.
 
@@ -43,7 +43,7 @@ Despite the dominant negative-result finding, two tasks show consistent ML
 improvement over the rule baseline (Table~\ref{tab:ml_gain};
 Figure~\ref{fig:ml_gain} shows the full per-method AP comparison on both tasks).
 
-\paragraph{T2---Group Membership Drift.}
+\paragraph{T2, Group Membership Drift.}
 The rule baseline (M1) achieves mean AP\,=\,0.766 on C-BASE and C-STALE. The best
 ML method is M7 (temporal z-score), achieving AP\,=\,0.951 ($+$0.185 AP). M5
 (OCSVM) is second at AP\,=\,0.913 ($+$0.147) and M4 (LOF) third at AP\,=\,0.890
@@ -52,7 +52,7 @@ arises because group-membership anomalies involve multi-dimensional population-l
 deviations that temporal z-score and kernel-based one-class models capture more
 precisely than fixed-threshold rules.
 
-\paragraph{T5---Patch--Vulnerability Hygiene.}
+\paragraph{T5, Patch-Vulnerability Hygiene.}
 This is the hardest task overall (mean AP\,=\,0.617 across all methods). The rule
 baseline achieves AP\,=\,0.458 on C-BASE/C-STALE, while the best ML method achieves
 AP\,=\,0.668 ($+$0.210 AP) via M5 (OCSVM). T5 combines multiple vulnerability
@@ -66,19 +66,19 @@ low for all methods, indicating genuine task difficulty.
 
 Five of seven tasks are dominated by the rule baseline under most conditions
 (Table~\ref{tab:rule_dominated}): T1 (stale privileged accounts), T3
-(endpoint--identity correlation), T4 (telemetry coverage gaps), T6 (dormant
+(endpoint-identity correlation), T4 (telemetry coverage gaps), T6 (dormant
 reactivation), and T7 (escalation drift). For these tasks under C-BASE, both M1
 and the best ML method achieve AP\,$\approx$\,1.000.
 
 \textbf{T3} is a partial exception. Under C-BASE its AP is 0.782, but under
-C-STALE it degrades sharply to 0.613 ($\Delta$\,=\,$-$0.169)---the largest
+C-STALE it degrades sharply to 0.613 ($\Delta$\,=\,$-$0.169), the largest
 condition sensitivity of any task. T3 combines identity-side and endpoint-side
 features, making it susceptible to staleness in either domain.
 
 \textbf{T7} is rule-dominated despite extreme rarity: with only 2 anomalous
 entities per dataset instance (imbalance $\approx$1:500), the rule-based methods
 M1 and M7 achieve AP\,=\,1.000, while several ML methods rank the two rare
-anomalies poorly---M2 has mean T7 AP\,=\,0.319, M5 0.786, M4 0.830, and M3/M8
+anomalies poorly, M2 has mean T7 AP\,=\,0.319, M5 0.786, M4 0.830, and M3/M8
 0.861 (task mean 0.822). No ML method closes the gap to the rule baseline.
 
 \input{tables/tab_rule_dominated}
@@ -98,8 +98,8 @@ is a data-quality effect, not a freshness-flag artifact.
 The C-UNSUP gap deserves an honest caveat: all eight methods are unsupervised, so
 withholding labels cannot raise AP. The C-UNSUP/C-BASE difference instead reflects
 independent RNG draws across separately generated dataset instances. Consequently,
-between-condition gaps of similar magnitude---including part of the C-FRESH
-effect---should be read with instance-level sampling variation in mind.
+between-condition gaps of similar magnitude, including part of the C-FRESH
+effect, should be read with instance-level sampling variation in mind.
 
 \input{tables/tab_conditions}
 
@@ -119,7 +119,7 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   on T2 or T5, the two tasks where ML adds value (it does fail Eq.~\eqref{eq:failure}
   on T2 in occasional individual seeds, but never in $\geq$2/3 seeds).
 
-\item \textbf{M2 (hybrid scorer) is failure-flagged on 94.3\% of configs}---worst
+\item \textbf{M2 (hybrid scorer) is failure-flagged on 94.3\% of configs}, worst
   among non-graph methods. Its fixed-weight combination is dominated by the
   task-specific rule baseline.
 
@@ -129,9 +129,9 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   \centering
   \includegraphics[width=\columnwidth]{figures/fig2_failure_heatmap.pdf}
   \caption{Failure-flag rate heatmap (method $\times$ task). Red cells indicate
-    flagged configurations---ML fails to improve on the rule baseline by the
+    flagged configurations, ML fails to improve on the rule baseline by the
     pre-registered $\Delta$=0.05 threshold (Eq.~\eqref{eq:failure}) in
-    $\geq$2/3 seeds; white cells (M8, T4--T5) are not applicable.}
+    $\geq$2/3 seeds; white cells (M8, T4-T5) are not applicable.}
   \label{fig:failure_heatmap}
 \end{figure}
 
@@ -148,7 +148,7 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   \centering
   \includegraphics[width=\textwidth]{figures/fig4_t2_t5_ml_gain.pdf}
   \caption{AP by method for T2 (group membership drift) and T5
-    (patch--vulnerability hygiene), averaged over all conditions and seeds---the
+    (patch-vulnerability hygiene), averaged over all conditions and seeds, the
     two tasks where ML consistently adds value over the rule baseline.}
   \label{fig:ml_gain}
 \end{figure*}

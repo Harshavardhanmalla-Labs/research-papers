@@ -5,7 +5,7 @@
 - failure_reason: (none)
 - freeze_witness_id: 4717e5fa9822f8ff97e508078ebc2718c3481d44b61e2188921cd09b6f951f14
 - manifest_sha_before: 750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833
-- manifest_sha_after:  750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833
+- manifest_sha_after: 750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833
 
 ## Assertions
 

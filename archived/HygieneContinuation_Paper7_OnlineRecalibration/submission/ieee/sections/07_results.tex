@@ -2,7 +2,7 @@
 \label{sec:results}
 
 All claims in this section trace to
-\texttt{paper7/results/primary\_v1/online\_calib\_results.csv}
+\texttt{paper7/\allowbreak results/\allowbreak primary\_v1/\allowbreak online\_calib\_results.csv}
 (1{,}350 rows) and the derived
 \texttt{hypothesis\_summary.json} and
 \texttt{cell\_window\_means.csv}. Table~\ref{tab:main} reports the
@@ -33,10 +33,10 @@ bars at $K=200, w \in \{2, 3\}$ are the H1 failures.}
 
 \subsection{K = 50: Online Matches the Offline Ceiling}
 
-At the canonical Paper~5 cell, the fixed-weight HygienePrio-full
+At the canonical temporal-stability study cell, the fixed-weight HygienePrio-full
 W2 mean P@50 is $0.544$ (Table~\ref{tab:main}, top block;
 Fig.~\ref{fig:trajectories}, left panel). Offline-peek calibration
-lifts this to $0.757$ ($+21.3$~pp, matching Paper~5's H3 number).
+lifts this to $0.757$ ($+21.3$~pp, matching the temporal-stability study's H3 number).
 Online recalibration with a one-window lag reaches $0.741$
 ($+19.7$~pp), a $92.5\%$ recovery of the offline gain without
 future-data leakage.
@@ -52,13 +52,13 @@ one-window lag's implicit regularisation generalises better.
 \subsection{K = 100: Online Recovers the Bulk of the Gain}
 
 At $K = 100$ the fixed-weight HygienePrio-full W6 has already fallen
-to $0.315$ (the Paper~6 H4-collapse zone). Online recalibration lifts
+to $0.315$ (the capacity-decay study H4-collapse zone). Online recalibration lifts
 this to $0.355$ ($+4.0$~pp) at W6 and to $0.547$ ($+3.0$~pp) at W3.
-The cell-mean recovery ratio is $\rho = 0.99$ across $w \geq 2$ ---
+The cell-mean recovery ratio is $\rho = 0.99$ across $w \geq 2$, 
 online essentially matches the offline ceiling. The absolute floor
-is improved but not restored to the Paper~5 regime; online
+is improved but not restored to the temporal-stability study regime; online
 recalibration is a useful add-on at $K = 100$ but does not rescue
-the cell from the Paper~6 collapse pattern.
+the cell from the capacity-decay study collapse pattern.
 
 \subsection{K = 200: Online Harms Performance}
 
@@ -67,7 +67,7 @@ Fig.~\ref{fig:bars}). The fixed-weight HygienePrio-full
 W2 mean is $0.518$; online \textit{drops} it to $0.458$ ($-5.9$~pp).
 At W3, fixed is $0.346$ and online falls to $0.269$ ($-7.8$~pp).
 Offline-peek at the same windows produces $+3.8$ and $+4.9$~pp,
-showing that better weights for those windows do exist --- they
+showing that better weights for those windows do exist, they
 simply cannot be inferred from the previous window's calibration
 state. By W4 online recovers a small positive gain ($+3.4$~pp); by
 W6 the residual backlog is so depleted that all three strategies
@@ -99,11 +99,12 @@ and $K \in \{100, 200\}$, \textit{both} (i) recovery of $\geq 50\%$
 of the offline-fixed gap and (ii) an absolute online-over-fixed gain
 of $\geq 5$~pp. The ratio clause~(i) is in fact met at several
 points: $K = 100, w = 4$ ($\rho = 1.00$), $K = 100, w = 6$
-($\rho = 1.32$), and $K = 200, w = 4$ ($\rho = 1.16$); it fails at
+($\rho = 1.32$), $K = 200, w = 4$ ($\rho = 1.16$), and
+$K = 200, w = 5$ ($\rho = 1.63$); it fails at
 $K = 100, w = 5$ ($\rho = 0.49$). But the absolute-gain clause~(ii)
-fails at every qualifying point --- the largest gain is $+4.0$~pp at
-$K = 100, w = 6$, with $+3.4$~pp at $K = 200, w = 4$ and $+1.3$ to
-$+1.8$~pp elsewhere. The binding failure is therefore the $5$~pp
+fails at every qualifying point, the largest gain is $+4.0$~pp at
+$K = 100, w = 6$, with $+3.4$~pp at $K = 200, w = 4$ and $+1.0$ to
+$+1.3$~pp elsewhere. The binding failure is therefore the $5$~pp
 absolute-gain clause, not the recovery-ratio clause: the residual
 offline-fixed gaps at $w \geq 4$ are themselves small, so even full
 recovery cannot reach $5$~pp.

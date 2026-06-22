@@ -1,4 +1,4 @@
-# Batch summary — B-pilot-primary
+# Batch summary, B-pilot-primary
 
 - smoke: False
 - table_group: primary

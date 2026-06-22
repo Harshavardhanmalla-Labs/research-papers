@@ -11,12 +11,12 @@ Let $K$ be the remediation capacity: the number of (host, CVE) pairs that a team
 A pair $(h, c)$ is a \emph{true positive} (also referred to as a high-priority pair) if all of the following hold (pre-registered definition):
 
 \begin{enumerate}
-  \item $\mathrm{EPSS}(c) > 0.10$ --- the CVE has non-trivial exploit likelihood. This threshold corresponds approximately to the 85th--90th percentile of the EPSS score distribution~\cite{jacobs2021epss}, separating CVEs with meaningful exploitation probability from the long tail with near-zero scores.
-  \item $\mathrm{HRS}(h) >$ fleet 75th percentile --- the host is in the worst quartile of hygiene posture (top quartile of HRS). The 75th percentile is chosen as a pre-registered conservative boundary that identifies genuine hygiene outliers while avoiding sensitivity to the exact threshold value for the large majority of pairs.
-  \item $(h, c) \in V$ --- the CVE is applicable to the host.
+ \item $\mathrm{EPSS}(c) > 0.10$, the CVE has non-trivial exploit likelihood. This threshold corresponds approximately to the 85th-90th percentile of the EPSS score distribution~\cite{jacobs2021epss}, separating CVEs with meaningful exploitation probability from the long tail with near-zero scores.
+ \item $\mathrm{HRS}(h) >$ fleet 75th percentile, the host is in the worst quartile of hygiene posture (top quartile of HRS). The 75th percentile is chosen as a pre-registered conservative boundary that identifies genuine hygiene outliers while avoiding sensitivity to the exact threshold value for the large majority of pairs.
+ \item $(h, c) \in V$, the CVE is applicable to the host.
 \end{enumerate}
 
-Condition~1 ensures the CVE is at meaningful risk of exploitation. Condition~2 ensures the host is a hygiene outlier rather than a well-managed endpoint. The conjunction ensures HygienePrio's design goal --- identifying high-exploit-likelihood CVEs on hygiene-poor hosts --- has an operational ground truth against which to evaluate.
+Condition~1 ensures the CVE is at meaningful risk of exploitation. Condition~2 ensures the host is a hygiene outlier rather than a well-managed endpoint. The conjunction ensures HygienePrio's design goal, identifying high-exploit-likelihood CVEs on hygiene-poor hosts, has an operational ground truth against which to evaluate.
 
 \textbf{Note on circularity:} The use of HRS in both the scorer (via $\mathrm{HRS}(h)$) and the ground truth (via the HRS $>$ 75th percentile condition) creates a structural advantage for HygienePrio over baselines that do not use HRS. This is acknowledged and discussed in \S9 (Threats to Validity). The ground truth definition is pre-registered and fixed; it is not modified post-hoc to favor any method.
 
@@ -24,18 +24,18 @@ Condition~1 ensures the CVE is at meaningful risk of exploitation. Condition~2 e
 
 \textbf{Precision@$K$ (P@$K$):} The proportion of true positive pairs in the top-$K$ positions of the ranked list $R$:
 \[
-  P@K = \frac{|\{(h,c) \in \mathrm{top}_K(R) : (h,c) \text{ is true positive}\}|}{K}
+ P@K = \frac{|\{(h,c) \in \mathrm{top}_K(R) : (h,c) \text{ is true positive}\}|}{K}
 \]
 Evaluated at $K = 50, 100, 250$.
 
 \textbf{NDCG@$K$ (Normalized Discounted Cumulative Gain at $K$):} Standard information-retrieval ranking quality metric, weighting gains by position with logarithmic discount:
 \[
-  \mathrm{NDCG}@K = \frac{\mathrm{DCG}@K}{\mathrm{IDCG}@K}
+ \mathrm{NDCG}@K = \frac{\mathrm{DCG}@K}{\mathrm{IDCG}@K}
 \]
 where $\mathrm{DCG}@K = \sum_{i=1}^{K} \mathrm{rel}_i / \log_2(i+1)$, $\mathrm{rel}_i \in \{0,1\}$ is the relevance of the $i$-th ranked pair, and $\mathrm{IDCG}@K$ is the DCG of the ideal ranking. Evaluated at $K = 50, 100, 250$.
 
 \textbf{Oracle-gap (\%):} The fraction of theoretically achievable P@$K$ that each method captures:
 \[
-  \mathrm{Oracle\text{-}gap}(\text{method}, K) = \frac{P@K_{\mathrm{oracle}} - P@K_{\mathrm{method}}}{P@K_{\mathrm{oracle}}} \times 100
+ \mathrm{Oracle\text{-}gap}(\text{method}, K) = \frac{P@K_{\mathrm{oracle}} - P@K_{\mathrm{method}}}{P@K_{\mathrm{oracle}}} \times 100
 \]
 where $P@K_{\mathrm{oracle}}$ is the P@$K$ of an oracle ranker that places all true positives first. Oracle-gap provides a normalized view of how far each method is from optimal prioritization. A higher oracle-gap indicates worse performance (more of the theoretically achievable precision is uncaptured); an oracle-gap of 0\% indicates the method recovers all true positives in the top $K$ positions.

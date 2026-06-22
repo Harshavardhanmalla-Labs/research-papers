@@ -4,7 +4,7 @@
 A pre-registered two-dimensional sweep over remediation capacity $K$
 and CVE arrival rate $\lambda$, evaluated on 25 seeds across six
 maintenance windows and five prioritization methods, produces 15{,}000
-result rows that revise Paper~5's single-cell conclusion in three
+result rows that revise the temporal-stability study's single-cell conclusion in three
 places.
 
 \textbf{First}, EPSS-only Precision@50 decays in every cell of the
@@ -21,12 +21,12 @@ rather than smoothing.
 \textbf{Third, and most importantly, the pre-registered claim that
 HygienePrio-full retains a high absolute floor across all cells (H4)
 is rejected.} At $K \in \{100, 200\}$, HygienePrio-full's W6 mean
-P@50 collapses to 0.32 and 0.06--0.12 respectively --- not because
+P@50 collapses to 0.32 and 0.06-0.12 respectively, not because
 hygiene signals fail to discriminate but because, under self-driven
 (closed-loop) selection, high-throughput remediation exhausts the
 high-HRS tail of the fleet, leaving the residual backlog with little
 discriminative structure for any host-level signal to recover.
-Paper~9~\cite{paper9selftraj} shows the collapse is specific to
+A later self-trajectory analysis in this line shows the collapse is specific to
 self-driven selection and does not occur under independent drivers.
 
 The robustness claim that survives the sweep is per-pair: across all
@@ -34,9 +34,9 @@ The robustness claim that survives the sweep is per-pair: across all
 EPSS-only at P@50 in $96.0\%$ of pairs (minimum per-cell $76.7\%$).
 Hygiene augmentation is a strict improvement over EPSS-only across
 the studied regimes, but is not a guarantee of high absolute scheduling
-quality at high capacity. Follow-up work in this program --- online
-recalibration (Paper~7), multi-history smoothing (Paper~8), and
-self-trajectory evaluation (Paper~9~\cite{paper9selftraj}) --- now
+quality at high capacity. Follow-up work in this program, online
+recalibration (the online-calibration study), multi-history smoothing (the multi-history smoothing study), and
+self-trajectory evaluation (a later self-trajectory analysis in this line), now
 reports results across $(K, \lambda)$ cells rather than at one
 operating point, and external comparison work should do the same.
 

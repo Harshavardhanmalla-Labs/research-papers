@@ -1,6 +1,6 @@
-# Paper 2 — Reproducibility Appendix (Step 11)
+# the CalibScore study, Reproducibility Appendix (Step 11)
 
-This appendix maps every major numeric claim in the Paper 2 manuscript to its
+This appendix maps every major numeric claim in the CalibScore study manuscript to its
 source file and field. Every row is verified against artifacts produced by the
 pre-registered Step 7 (pilot), Step 8 (primary), and Step 9 (aggregation +
 inference + post-run stop rules) runs. No claim in the manuscript exceeds what
@@ -28,7 +28,7 @@ Paths are relative to the repository root
 | 13 | Hard-halt rules triggered | none | `paper2/audit/primary_complete.json` | `hard_halt_triggered` | Empty list. |
 | 14 | Primary completion status | PRIMARY_COMPLETE_VALID | `paper2/audit/primary_complete.json` | `status` | Reason field documents validity criteria. |
 | 15 | Freeze status on every primary batch | OK | `paper2/audit/primary_complete.json` | `freeze_status_all_batches` and `per_batch[*].freeze_status` | All four batches OK. |
-| 16 | Paper 1 freeze manifest SHA-256 | `750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833` | `paper/report/report_manifest.json` | `freeze_manifest_sha` | Carried as `freeze_witness_id` on every per-batch entry in `paper2/audit/primary_complete.json` and on every metric row. |
+| 16 | the VulnPrio study freeze manifest SHA-256 | `750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833` | `paper/report/report_manifest.json` | `freeze_manifest_sha` | Carried as `freeze_witness_id` on every per-batch entry in `paper2/audit/primary_complete.json` and on every metric row. |
 | 17 | Step-9 tables generated | 19 (10 CSV/MD pairs + `primary_per_seed_wide.csv`) | `paper2/audit/step9_aggregation_complete.json` | `tables_generated` (array of 19 paths) | All copied into `paper2/submission/cset/tables/`. |
 | 18 | Step-9 inference files generated | 12 | `paper2/audit/step9_aggregation_complete.json` | `inference_files_generated` | 5 family pairs (B1, C1, C2, C3, C4) + 1 policy-drops pair = 12 files. |
 | 19 | Step-9 figures generated | 14 (7 PNG + 7 PDF) | `paper2/audit/step9_aggregation_complete.json` | `figures_generated` | All 14 copied into `paper2/submission/cset/figures/`. |
@@ -42,7 +42,7 @@ Paths are relative to the repository root
 
 ## Cross-cuts
 
-- **Stop-rule registry**: 28 rules total (K1–K8 plus S-A..S-G1 plus SM-1..SM-6), source-of-truth at `paper2_runtime/stop_rules.py`. Triggers recorded in `paper2/tables/post_run_stop_rules.csv` and `paper2/audit/post_run_stop_rule_evaluation.json`.
+- **Stop-rule registry**: 28 rules total (K1-K8 plus S-A..S-G1 plus SM-1..SM-6), source-of-truth at `paper2_runtime/stop_rules.py`. Triggers recorded in `paper2/tables/post_run_stop_rules.csv` and `paper2/audit/post_run_stop_rule_evaluation.json`.
 - **F2 design-prior weight vectors**: six vectors (`w_uniform`, `w_paper1_placeholder`, `w_epss_dominant`, `w_cvss_dominant`, `w_kev_dominant`, `w_context_dominant`), source-of-truth at `paper2_runtime/weights.py`. No weight was re-fit during the primary run.
 - **F4 inference policy**: meaningful-effect threshold = 5,000 host-days; MDE-d = 0.5292 at n = 30 per cell. Drops recorded in `paper2/tables/inference/inference_policy_drops.csv`.
 - **F7 freeze invariant**: every per-batch summary records the witness ID equal to the SHA-256 above; metric rows carry the same ID.
@@ -60,17 +60,17 @@ The values in this appendix can be regenerated from raw artifacts by running:
 
 ```
 python -c "import json,pathlib; \
-  d=json.load(open('paper2/audit/primary_complete.json')); \
-  print('seed_runs', d['total_seed_runs_completed']); \
-  print('cells', d['total_cells_completed']); \
-  print('status', d['status']); \
-  print('stop_rules', d['stop_rules_triggered'])"
+ d=json.load(open('paper2/audit/primary_complete.json')); \
+ print('seed_runs', d['total_seed_runs_completed']); \
+ print('cells', d['total_cells_completed']); \
+ print('status', d['status']); \
+ print('stop_rules', d['stop_rules_triggered'])"
 
 python -c "import json; \
-  d=json.load(open('paper2/feasibility/probe_v2_multit0/summary.json')); \
-  print('unique_pos', d['aggregate']['unique_positive_cves']); \
-  print('catalog', d['aggregate']['catalog_matched_cves']); \
-  print('windows', d['aggregate']['n_windows'])"
+ d=json.load(open('paper2/feasibility/probe_v2_multit0/summary.json')); \
+ print('unique_pos', d['aggregate']['unique_positive_cves']); \
+ print('catalog', d['aggregate']['catalog_matched_cves']); \
+ print('windows', d['aggregate']['n_windows'])"
 ```
 
 Both invocations reproduce the figures listed above. Any drift between the

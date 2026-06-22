@@ -39,7 +39,7 @@ between the fixed-baseline reference and the lag-1 fit, which is
 common across cells). Beyond W2, the per-cell fire pattern reflects
 window-specific calibration-target dynamics.
 
-\subsection{H1 --- Adaptive Avoids the K=200 Hazard (Supported)}
+\subsection{H1, Adaptive Avoids the K=200 Hazard (Supported)}
 
 At $K = 200$ the per-window deltas $(\textsf{adaptive} -
 \textsf{fixed})$ are $0, +3.4, +0.5, +0.5, +0.4, +0.0$~pp at
@@ -55,7 +55,7 @@ window where the detector does not fire ($w = 4$), the lag-1 fit
 happens to be benign (delta vs fixed $= +0.5$~pp, not a harm). The
 procedure effectively gates lag-1 to windows where it is safe.
 
-\subsection{H2 --- Moderate-Capacity Penalty (Rejected)}
+\subsection{H2, Moderate-Capacity Penalty (Rejected)}
 
 At $K = 50$, lag-1 averaged $+3.1$~pp over fixed in Paper~7. With
 \textsf{adaptive}, three of the five post-W1 windows are gated to
@@ -75,7 +75,7 @@ of lag-1's recovery in windows where the lag-1 fit was already
 working. The K=50 penalty is the price the threshold $\tau = 0.05$
 extracts.
 
-\subsection{H3 --- Firing Not Monotone in K (Rejected)}
+\subsection{H3, Firing Not Monotone in K (Rejected)}
 
 Spearman$(K, \text{fire fraction})$ is $+0.5$ ($p = 0.67$), well
 below the pre-registered $+0.8$ threshold. The fire fractions are
@@ -90,7 +90,7 @@ at $K = 50$ the W6 window happens to have a larger $\Delta$
 distributional shift, not to capacity directly, and the relationship
 between capacity and shift is non-linear in this regime.
 
-\subsection{H4 --- Adaptive Marginally Beats Static Gate (Supported)}
+\subsection{H4, Adaptive Marginally Beats Static Gate (Supported)}
 
 At $K = 200$, cell-mean \textsf{adaptive} = $0.273$ vs cell-mean
 \textsf{gated} = $0.266$, a margin of $+0.7$~pp. H4 is supported.

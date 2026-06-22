@@ -1,0 +1,103 @@
+{
+  "n_eval_seeds": 25,
+  "summary": {
+    "automatable_fraction": {
+      "mean": 0.492,
+      "ci_lo": 0.4786,
+      "ci_hi": 0.5044
+    },
+    "mttd_auto_annual": {
+      "mean": 272.0392,
+      "ci_lo": 269.0783,
+      "ci_hi": 274.9912
+    },
+    "mttd_auto_continuous": {
+      "mean": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0
+    },
+    "reduction_vs_annual": {
+      "mean": 0.5669,
+      "ci_lo": 0.5531,
+      "ci_hi": 0.5806
+    },
+    "automatable_exposure_share": {
+      "mean": 0.6435,
+      "ci_lo": 0.6283,
+      "ci_hi": 0.6598
+    },
+    "days_saved_vs_annual": {
+      "mean": 33265.615,
+      "ci_lo": 32203.9861,
+      "ci_hi": 34386.588
+    },
+    "days_saved_vs_quarter": {
+      "mean": 15584.126,
+      "ci_lo": 15074.0108,
+      "ci_hi": 16210.8354
+    },
+    "top_quartile_capture": {
+      "mean": 0.7862,
+      "ci_lo": 0.7769,
+      "ci_hi": 0.7956
+    }
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "continuous reduces MTTD on automatable controls by >=10x vs annual",
+      "mttd_ratio": {
+        "mean": 272.0392,
+        "ci_lo": 269.1391,
+        "ci_hi": 274.9489
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H2": {
+      "statement": "exposure reduction <= automatable-exposure share + 0.03 (automatability ceiling)",
+      "ceiling_gap": {
+        "mean": -0.0766,
+        "ci_lo": -0.079,
+        "ci_hi": -0.0746
+      },
+      "reduction": {
+        "mean": 0.5669,
+        "ci_lo": 0.5532,
+        "ci_hi": 0.5809
+      },
+      "ceiling": {
+        "mean": 0.6435,
+        "ci_lo": 0.6274,
+        "ci_hi": 0.6593
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H3": {
+      "statement": "absolute control-days saved is smaller vs quarterly than vs annual",
+      "days_saved_annual": {
+        "mean": 33265.615,
+        "ci_lo": 32225.1893,
+        "ci_hi": 34378.3673
+      },
+      "days_saved_quarter": {
+        "mean": 15584.126,
+        "ci_lo": 15066.6245,
+        "ci_hi": 16216.3705
+      },
+      "difference_quarter_minus_annual": {
+        "mean": -17681.4889,
+        "ci_lo": -18299.4691,
+        "ci_hi": -17069.5768
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H4": {
+      "statement": "automating the top-drift quartile captures >=70% of achievable reduction",
+      "capture": {
+        "mean": 0.7862,
+        "ci_lo": 0.777,
+        "ci_hi": 0.7955
+      },
+      "verdict": "SUPPORTED"
+    }
+  }
+}

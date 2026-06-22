@@ -2,8 +2,8 @@
 
 \subsection{Pre-Registration}
 
-The protocol --- including research questions, $(K, \lambda)$ grid,
-hypotheses, statistical decision rules, and stop rules --- was fixed
+The protocol, including research questions, $(K, \lambda)$ grid,
+hypotheses, statistical decision rules, and stop rules, was fixed
 before any sweep result was inspected. The full protocol is archived as
 \texttt{paper6/design/PAPER6\_PROTOCOL.md} and accompanies the artifact
 release.
@@ -13,9 +13,9 @@ release.
 No calibration is performed in this study. Scorer weights
 $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$ and HRS
 weights $(0.5, 0.3, 0.2)$ are inherited verbatim from
-Paper~4~\cite{paper4hygieneprio}. This is intentional: the question is
+the HygienePrio scorer~\cite{paper4hygieneprio}. This is intentional: the question is
 how a \textit{fixed} HygienePrio configuration behaves across operating
-regimes, not whether per-cell re-fitting could rescue it. Paper~5's H3
+regimes, not whether per-cell re-fitting could rescue it. The temporal-stability study's H3
 ablation already established that per-window recalibration improves
 P@50 by up to $+21$~pp at fixed $(K, \lambda)$; the present sweep
 isolates the regime-sensitivity question.
@@ -61,7 +61,7 @@ PYTHONPATH=src python3 src/run_sweep.py
 PYTHONPATH=src python3 src/analyze_sweep.py
 PYTHONPATH=src python3 src/make_figures.py
 \end{verbatim}}
-The driver re-uses Paper~5's \texttt{window\_sim} and Paper~4's
+The driver re-uses the temporal-stability study's \texttt{window\_sim} and the HygienePrio scorer's
 \texttt{hygieneprio} packages via \texttt{sys.path} injection (no
-code copy). Determinism is inherited from Paper~5's per-(seed, window,
+code copy). Determinism is inherited from the temporal-stability study's per-(seed, window,
 step) RNG seeding.

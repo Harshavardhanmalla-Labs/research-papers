@@ -1,13 +1,13 @@
 \section{Related Work}
 
 \textbf{Lag-1 online calibration baseline.}
-Paper~7~\cite{paper7online} introduced the rolling-history grid-search
+The online-calibration study~\cite{paper7online} introduced the rolling-history grid-search
 recalibration procedure and reported the capacity-conditional hazard
-that motivates this paper. The present sweep inherits Paper~7's
+that motivates this paper. The present sweep inherits the online-calibration study's
 \textsf{fixed}/\textsf{lag1}/\textsf{offline} strategies and adds the
 two smoothing variants.
 
-\textbf{High-capacity collapse.} Paper~6~\cite{paper6capacity}
+\textbf{High-capacity collapse.} our earlier capacity-decay study
 identified the high-capacity regime where HygienePrio-full collapses
 even with fixed weights. The present paper does not attempt to rescue
 the absolute floor (that question is taken up in the future-work
@@ -19,14 +19,15 @@ collapse cells.
 The EWMA estimator dates back at least to Holt's seasonal-forecasting
 work~\cite{holt2004ewma}; in machine-learning settings it appears
 under the name ``geometric averaging'' as a low-variance bias-bearing
-substitute for sliding-window means. The use here --- weighting a
-finite past history of grid-search calibration scores --- is a direct
+substitute for sliding-window means. The use here, weighting a
+finite past history of grid-search calibration scores, is a direct
 adaptation; no novel estimator is claimed.
 
 \textbf{Multi-paper sequence.}
-HygieneBench~\cite{paper3hygienebench}, HygienePrio~\cite{paper4hygieneprio},
-Temporal Stability~\cite{paper5temporal}, Capacity-Indexed Decay~\cite{paper6capacity},
-and Online Calibration~\cite{paper7online} together define the
+A connected line of our prior work, spanning the HygieneBench synthetic
+benchmark, the HygienePrio scorer~\cite{paper4hygieneprio}, a temporal-stability
+study across rolling maintenance windows, a capacity-indexed decay analysis,
+and the online-calibration study~\cite{paper7online}, together defines the
 methodological substrate within which this paper sits. This paper
 extends the calibration-strategy dimension by one step (single-lag $\to$
 finite-history weighted aggregation).

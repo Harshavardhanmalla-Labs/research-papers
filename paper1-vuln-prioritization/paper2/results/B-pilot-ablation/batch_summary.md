@@ -1,4 +1,4 @@
-# Batch summary — B-pilot-ablation
+# Batch summary, B-pilot-ablation
 
 - smoke: False
 - table_group: feature_ablation

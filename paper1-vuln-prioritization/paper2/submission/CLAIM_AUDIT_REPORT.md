@@ -1,21 +1,21 @@
-# Paper 2 — Claim Audit Report (Step 11)
+# the CalibScore study, Claim Audit Report (Step 11)
 
 **Audit script:** `scripts/paper2_claim_audit.py`
 **Audit date (UTC):** 2026-05-28
-**Scope:** Paper 2 manuscript draft AND the LaTeX section files copied into the submission tree.
+**Scope:** the CalibScore study manuscript draft AND the LaTeX section files copied into the submission tree.
 
-The audit script enforces Paper 2's pre-registered claim discipline (F3 §6 +
+The audit script enforces the CalibScore study's pre-registered claim discipline (F3 §6 +
 F5 SM-4 / SM-5 + the Step-10 brief). Three categories of violation are
 detected:
 
 1. **Always-forbidden phrases** (single-token / fixed bigram match).
-2. **Negatable phrases** ("validated", "production") — flagged unless a
-   negation token appears within ~6 words / ~60 chars preceding.
-3. **Proximity rules** — "significant" within 100 chars of any
-   diagnostic-only metric token (`precision_at_k`, `recall_at_k`, `ndcg`,
-   `kev_breach`, `diagnostic`, ...); "pair count" within 200 chars of
-   "sample size" or "effective N"; positive calibration-was-performed claims
-   without a negation within 80 chars; context-priors-beat-EPSS claims.
+2. **Negatable phrases** ("validated", "production"), flagged unless a
+ negation token appears within ~6 words / ~60 chars preceding.
+3. **Proximity rules**, "significant" within 100 chars of any
+ diagnostic-only metric token (`precision_at_k`, `recall_at_k`, `ndcg`,
+ `kev_breach`, `diagnostic`, ...); "pair count" within 200 chars of
+ "sample size" or "effective N"; positive calibration-was-performed claims
+ without a negation within 80 chars; context-priors-beat-EPSS claims.
 
 ## Audit invocations and results
 
@@ -23,7 +23,7 @@ detected:
 
 ```
 $ python3 scripts/paper2_claim_audit.py paper2/manuscript/paper2_full_draft.md
-PASS  paper2/manuscript/paper2_full_draft.md (0 violations)
+PASS paper2/manuscript/paper2_full_draft.md (0 violations)
 ```
 
 ### B. Concatenated LaTeX section files
@@ -31,7 +31,7 @@ PASS  paper2/manuscript/paper2_full_draft.md (0 violations)
 ```
 $ cat paper2/submission/cset/sections/*.tex > /tmp/paper2_concat.tex
 $ python3 scripts/paper2_claim_audit.py /tmp/paper2_concat.tex
-PASS  /tmp/paper2_concat.tex (0 violations)
+PASS /tmp/paper2_concat.tex (0 violations)
 ```
 
 Both invocations exit with code 0. **0 violations** in either pass.
@@ -78,10 +78,10 @@ fails.) The current draft uses neither in positive sense.
 
 **Proximity-flagged:**
 - "significant" within 100 chars of `precision_at_k` / `recall_at_k` /
-  `ndcg` / `kev breach` / `diagnostic` (and underscore variants).
+ `ndcg` / `kev breach` / `diagnostic` (and underscore variants).
 - "pair count" within 200 chars of "sample size" or "effective N".
 - Positive calibration-was-performed claims (`calibration was performed`,
-  `we calibrated`, ...) without a preceding negation in 80 chars.
+ `we calibrated`, ...) without a preceding negation in 80 chars.
 - "context-priors beat EPSS" / "context priors outperform EPSS" patterns.
 
 **Vocabulary the draft deliberately avoids beyond the audit list** (per

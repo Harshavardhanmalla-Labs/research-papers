@@ -7,7 +7,7 @@ lag-1-fit weights in every window, including windows where the
 calibration-target shift was too large for the lag-1 fit to
 generalise. The adaptive detector identifies those windows directly
 through the magnitude of the calibration-target shift and gates lag-1
-out of them. At $K = 200$ this gating fires four of five times --- the
+out of them. At $K = 200$ this gating fires four of five times, the
 detector and the capacity-conditional reality agree at this capacity.
 
 Paper~8's smoothers attempted the opposite intervention: keep using
@@ -61,7 +61,7 @@ A practitioner who knows their fleet's per-window capacity is stable
 and falls below $K = 100$ can deploy lag-1 directly without any
 detector; if above $K \approx 100$ they can deploy fixed weights
 without any detector. The adaptive procedure adds value primarily
-when capacity is variable across deployment cycles --- for example,
+when capacity is variable across deployment cycles, for example,
 a team whose patching capacity drops during change-window-restricted
 periods and rises during regular operations.
 
@@ -82,7 +82,7 @@ detector~\cite{page1954cusum} that accumulates evidence across
 windows might fire more selectively than the one-threshold magnitude
 test, reducing the H2 cost.
 \item \textbf{Capacity-aware detector.} A detector that conditions on
-$K$ explicitly --- e.g., separate $\tau$ per capacity --- could
+$K$ explicitly, e.g., separate $\tau$ per capacity, could
 recover H3 monotonicity by construction at the cost of additional
 pre-registration discipline.
 \end{itemize}

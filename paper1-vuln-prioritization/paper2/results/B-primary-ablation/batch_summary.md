@@ -1,4 +1,4 @@
-# Batch summary — B-primary-ablation
+# Batch summary, B-primary-ablation
 
 - smoke: False
 - table_group: feature_ablation

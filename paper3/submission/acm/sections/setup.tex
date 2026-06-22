@@ -23,7 +23,7 @@ as N/A).
 
 \subsection{Feature Engineering}
 
-For each task, \texttt{TaskFeatureExtractor.extract(task\_id, seed)} computes a
+For each task, \texttt{TaskFeatureExtractor.\allowbreak extract(task\_id, seed)} computes a
 feature matrix from raw CSVs. Features include task-relevant identity state
 attributes, temporal aggregates (e.g., 30-day login frequency, off-hours rate,
 cross-segment rate), patch compliance scores, vulnerability counts, KEV exposure
@@ -36,7 +36,7 @@ training-set column means before fitting.
 Average Precision (AP) and Precision@$k$ (P@$k$) at task-specific $k$ values
 (Table~\ref{tab:tasks}). AP is the standard interpolated area under the
 precision-recall curve. P@$k$ is the fraction of true anomalies in the top-$k$
-ranked entities---the operationally relevant metric for SOC review budgets.
+ranked entities, the operationally relevant metric for SOC review budgets.
 
 \paragraph{Secondary metrics.}
 Recall@$k$ (R@$k$), False Positive Burden (FPB $= 1 - $P@$k$), and AP stability

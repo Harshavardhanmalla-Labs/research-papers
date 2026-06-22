@@ -1,4 +1,4 @@
-# Paper 10 — Pre-Registration Protocol
+# Paper 10, Pre-Registration Protocol
 
 **Working title:** Change-Point-Aware Adaptive Recalibration for
 Hygiene-Augmented Vulnerability Prioritization: Capacity-Conditional
@@ -18,8 +18,8 @@ Paper~7 found lag-1 online recalibration works at moderate capacity
 ($K \in \{50, 100\}$: $\rho \approx 1.0$) but harms at high capacity
 ($K = 200$: $\rho = -0.66$). Paper~8 falsified the natural fix
 (multi-window smoothing): EWMA and trailing-mean degrade further.
-Paper~8 explicitly named *adaptive procedures* --- change-point
-detection plus capacity-conditional gating --- as the remaining
+Paper~8 explicitly named *adaptive procedures*, change-point
+detection plus capacity-conditional gating, as the remaining
 candidate.
 
 This paper evaluates the simplest such adaptive procedure: monitor a

@@ -2,25 +2,25 @@
 
 \subsection{HygienePrio Scorer}
 
-The scorer is unchanged from Paper~4~\cite{paper4hygieneprio}:
+The scorer is unchanged from the HygienePrio scorer~\cite{paper4hygieneprio}:
 \begin{equation}
 \begin{aligned}
 S(h,c) =\;& 0.7 \cdot \mathrm{EPSS}(c) + 0.5 \cdot \mathrm{HRS}(h) \\
-          & + 0.1 \cdot \mathrm{KEV\_recency}(c) \\
-          & + 0.2 \cdot \bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+ & + 0.1 \cdot \mathrm{KEV\_recency}(c) \\
+ & + 0.2 \cdot \bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
 \end{aligned}
 \label{eq:scorer}
 \end{equation}
-Weights are fixed at the calibration values reported in Paper~4 and are \textit{not} re-calibrated between windows in the primary evaluation. Hypothesis H3 (\S3.4) tests whether per-window re-calibration would have helped.
+Weights are fixed at the calibration values reported in the HygienePrio scorer and are \textit{not} re-calibrated between windows in the primary evaluation. Hypothesis H3 (\S3.4) tests whether per-window re-calibration would have helped.
 
 \subsection{Hygiene Risk Score}
 
-HRS is computed identically to Paper~4 as the weighted combination of three components:
+HRS is computed identically to the HygienePrio scorer as the weighted combination of three components:
 \begin{equation}
 \begin{aligned}
 \mathrm{HRS}(h) =\;& 0.50 \cdot \mathrm{PatchPosture}(h) \\
-                  & + 0.30 \cdot \mathrm{ADExposure}(h) \\
-                  & + 0.20 \cdot \mathrm{TelemetryFreshness}(h).
+ & + 0.30 \cdot \mathrm{ADExposure}(h) \\
+ & + 0.20 \cdot \mathrm{TelemetryFreshness}(h).
 \end{aligned}
 \end{equation}
 At each window, all three components are recomputed from the current fleet state $F_w$. Patch posture decreases for hosts whose pairs are selected and remediated; AD exposure remains stable absent group-membership changes; telemetry freshness improves for acted hosts (recovery $-0.30$) and degrades for non-acted hosts (drift $+0.08$).

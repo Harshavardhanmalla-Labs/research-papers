@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Mission-Weighted Precision@K (mean over 25 seeds). CAP-G leads at every capacity; the gap shrinks as $K$ grows.}
+\label{tab:mwp}
+\footnotesize
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Method & MWP@50 & MWP@100 & MWP@250 \\
+\midrule
+\textbf{CAP-G} & \textbf{0.350} & \textbf{0.235} & \textbf{0.107} \\
+Hygiene-augmented base & 0.255 & 0.205 & 0.100 \\
+EPSS-only & 0.249 & 0.247 & 0.125 \\
+Context-only & 0.053 & 0.051 & 0.043 \\
+HRS-only & 0.010 & 0.008 & 0.009 \\
+\bottomrule
+\end{tabular}
+\end{table}
