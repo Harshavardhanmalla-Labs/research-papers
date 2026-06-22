@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { ExternalLink, FileText, ZoomIn, ZoomOut, RotateCcw, Download } from "lucide-react";
 import type { Paper } from "@/lib/papers";
-import { PAPERS_ROOT } from "@/lib/papers";
+import { PAPERS_ROOT, paperFileName } from "@/lib/papers";
 
 interface Props { paper: Paper }
 
@@ -84,7 +84,7 @@ export default function PdfViewer({ paper }: Props) {
         {/* Download */}
         <a
           href={serveUrl}
-          download={`${paper.id}_submission.pdf`}
+          download={`${paperFileName(paper.title)}.pdf`}
           className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] text-fg-3 hover:text-fg hover:bg-surface-3 border border-transparent hover:border-border transition-all"
           title="Download PDF"
         >
