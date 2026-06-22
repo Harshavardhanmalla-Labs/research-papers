@@ -4,17 +4,17 @@
 
 We evaluate three strategies on the same fleet trajectory per seed:
 
-\textbf{AutoHeal} — the full seven-stage pipeline described in
+\textbf{AutoHeal}, the full seven-stage pipeline described in
 \S\ref{sec:architecture}.
 
-\textbf{Human-in-loop baseline} — every (host, CVE) pair is treated
+\textbf{Human-in-loop baseline}, every (host, CVE) pair is treated
 as REVIEW; the team manually selects the top-30 pairs per window
 (matching the 2026 DBIR survey baseline for human triage capacity)
 ordered by HygienePrio score. The 30-pair budget is fixed
 regardless of the cell's capacity $K$. No safety hard-stops;
 rollbacks are absorbed by the manual process.
 
-\textbf{Fixed-policy baseline} — same capacity $K$ as AutoHeal, no
+\textbf{Fixed-policy baseline}, same capacity $K$ as AutoHeal, no
 triage step (all top-$K$ pairs by HygienePrio score are acted on),
 no rollback escalation. This isolates the value of AutoHeal's
 triage + safety machinery relative to a calibrated-scoring-with-no-gating
@@ -44,7 +44,7 @@ flag; see \S\ref{sec:safety_bounds}).
 
 \textbf{H1 (Coverage).} AutoHeal's cell-mean coverage at Window~6
 (a 12-week horizon) is $\geq 0.80$ at $K \in \{50, 100\}$.
-$K = 200$ is excluded from H1 by Paper~9 Corollary~4: at that
+$K = 200$ is excluded from H1 by the self-trajectory study Corollary~4: at that
 capacity, closed-loop calibration is structurally unable to escape
 the signal-exhaustion bound, so a coverage hypothesis is not
 warranted.
@@ -82,7 +82,7 @@ From \texttt{paper10/}:
 PYTHONPATH=src python3 src/run_autoheal.py
 PYTHONPATH=src python3 src/analyze.py
 \end{verbatim}}
-Re-uses Paper~4's \texttt{hygieneprio}~\cite{paper4hygieneprio} and
-Paper~5's
-\texttt{window\_sim}~\cite{paper5temporal} via \texttt{sys.path}; reads
+Re-uses the HygienePrio scorer's \texttt{hygieneprio}~\cite{paper4hygieneprio} and
+the temporal-stability stage's
+\texttt{window\_sim} via \texttt{sys.path}; reads
 the real corpus from \texttt{real\_data/processed/}.

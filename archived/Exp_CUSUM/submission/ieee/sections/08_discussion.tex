@@ -25,7 +25,7 @@ The H1 rejection is structural to single-parameter CUSUM. At K=50
 the $|\Delta_w|$ sequence has its own large early-window value
 ($|\Delta_{W2}| = 0.144$, the same first-window jump that fires
 every strategy). CUSUM with $k = 0.04$ accumulates $0.104$ at W2,
-crosses $h = 0.10$, fires, and reverts to fixed --- which at K=50
+crosses $h = 0.10$, fires, and reverts to fixed, which at K=50
 loses the lag-1 benefit. The detector cannot distinguish K=50 W2
 (``large but the lag-1 fit is still good'') from K=200 W2 (``large
 and the lag-1 fit is bad''); both look identical at the
@@ -81,7 +81,7 @@ at K=50.
 \textit{Opens:}
 \begin{itemize}
 \item A per-K CUSUM $(k_K, h_K)$ vector evaluation under
-pre-registration --- the natural next paper.
+pre-registration, the natural next paper.
 \item Two-sided CUSUM, EWMA-CUSUM, and Bayesian online change-point
 detectors with pre-registered hyperparameters.
 \item Real fleet validation: the K=200 W4 noise-excursion pattern

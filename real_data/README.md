@@ -1,9 +1,9 @@
-# real_data/ — Public CVE/EPSS/KEV Snapshot + Validation
+# real_data/, Public CVE/EPSS/KEV Snapshot + Validation
 
 Snapshot of FIRST.org EPSS scores + CISA KEV catalog (2026-06-05) used
 for partial external-validity evaluation of Papers 4 and 9.
 
-This is **public-feed data only** — no private fleet telemetry, no
+This is **public-feed data only**, no private fleet telemetry, no
 proprietary data. All sources are free and re-fetchable.
 
 ## Sources
@@ -43,8 +43,8 @@ quantitative magnitude is not robust to attribute-distribution shift.
 ## Adversarial finding
 
 Under a Stackelberg attacker who games 5% of low-HRS pairs, HygienePrio
-degrades by only −1.4 pp while EPSS-only degrades by −13.6 pp. The
-HP−EPSS gap **widens** from +26.4 pp to +38.6 pp under attack.
+degrades by only -1.4 pp while EPSS-only degrades by -13.6 pp. The
+HP-EPSS gap **widens** from +26.4 pp to +38.6 pp under attack.
 
 ## Reproduce
 
@@ -53,4 +53,4 @@ python3 real_data/real_dist_evaluator.py
 python3 real_data/adversarial_eval.py
 ```
 
-Both runners deterministic from seed list (105–129 from Paper 4).
+Both runners deterministic from seed list (105-129 from Paper 4).

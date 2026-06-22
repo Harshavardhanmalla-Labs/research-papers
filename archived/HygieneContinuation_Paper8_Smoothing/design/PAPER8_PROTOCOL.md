@@ -1,4 +1,4 @@
-# Paper 8 — Pre-Registration Protocol
+# the multi-history smoothing study, Pre-Registration Protocol
 
 **Working title:** Multi-Window-History Calibration: Does Smoothing
 Reverse the High-Capacity Hazard of Lag-1 Online Recalibration?
@@ -6,34 +6,34 @@ Reverse the High-Capacity Hazard of Lag-1 Online Recalibration?
 **Authors:** Harshavardhan Malla
 **Target venue:** IEEE Transactions on Network and Service Management (TNSM)
 **Date locked:** 2026-06-04 (before any multi-history-calibration result was inspected)
-**Builds on:** Paper 7 (lag-1 rolling-history calibration), Paper 6
-(capacity sweep), Paper 5 (multi-window simulator), Paper 4 (scorer).
+**Builds on:** the online-calibration study (lag-1 rolling-history calibration), the capacity-decay study
+(capacity sweep), the temporal-stability study (multi-window simulator), the HygienePrio scorer (scorer).
 
 ---
 
 ## 1. Motivation
 
-Paper 7 evaluated lag-1 rolling-history online calibration and found:
+The online-calibration study evaluated lag-1 rolling-history online calibration and found:
 - At $K = 50$, $\rho_{\text{recovery}} = 1.04$ (online matches offline-peek).
 - At $K = 100$, $\rho_{\text{recovery}} = 0.99$ (online matches).
 - At $K = 200$, $\rho_{\text{recovery}} = -0.66$ (online HARMS).
 
-Paper 7 §11 explicitly named multi-window-history smoothing as the
+The online-calibration study §11 explicitly named multi-window-history smoothing as the
 candidate fix. This paper tests two operationally simple smoothing
-schemes --- exponentially-weighted moving average (EWMA) and trailing
-arithmetic mean --- and asks whether either reverses the $K = 200$
+schemes, exponentially-weighted moving average (EWMA) and trailing
+arithmetic mean, and asks whether either reverses the $K = 200$
 hazard without breaking the $K \in \{50, 100\}$ recovery.
 
 ## 2. Research questions
 
 - **RQ1.** Does EWMA-3 (exponentially-weighted last 3 windows) reverse
-  the lag-1 hazard at $K = 200$?
+ the lag-1 hazard at $K = 200$?
 - **RQ2.** Does trailing-mean-3 (arithmetic mean of last 3 windows of
-  calibration history) reverse the hazard?
+ calibration history) reverse the hazard?
 - **RQ3.** Does smoothing degrade performance at $K = 50, 100$ where
-  lag-1 already worked?
+ lag-1 already worked?
 - **RQ4.** Is the choice between EWMA and trailing-mean a second-order
-  decision (similar outcomes) or first-order (substantially different)?
+ decision (similar outcomes) or first-order (substantially different)?
 
 ## 3. Calibration strategies (locked)
 
@@ -42,13 +42,13 @@ strategies reduce to `fixed`. At $w \geq 2$:
 
 | Tag | Strategy |
 |-----|----------|
-| `fixed` | Paper 4 weights, never refit |
-| `lag1` | Grid-search on calib seeds at window $w-1$ (Paper 7 baseline) |
+| `fixed` | the HygienePrio scorer weights, never refit |
+| `lag1` | Grid-search on calib seeds at window $w-1$ (the online-calibration study baseline) |
 | `trail3` | Grid-search on calib seeds aggregated over windows $\max(1, w-3) \ldots w-1$ (P@50 averaged across windows in the trailing window) |
 | `ewma3` | Same calibration windows as `trail3`, but with weights $w_i \propto \alpha^{i}$ where $i$ counts back from current window and $\alpha = 0.6$ |
-| `offline` | Grid-search at window $w$ (Paper 7 offline-peek ceiling) |
+| `offline` | Grid-search at window $w$ (the online-calibration study offline-peek ceiling) |
 
-Grid identical to Paper 7 (108 points).
+Grid identical to the online-calibration study (108 points).
 
 ## 4. Hypotheses
 
@@ -61,10 +61,10 @@ Grid identical to Paper 7 (108 points).
 
 **Stop rules:**
 - If H1 is rejected, the abstract is rewritten to qualify the EWMA-rescue
-  claim before drafting the discussion.
+ claim before drafting the discussion.
 - If H2 is rejected, the paper reports that smoothing has a non-zero
-  cost in the regimes where lag-1 worked, and the operational
-  recommendation is qualified accordingly.
+ cost in the regimes where lag-1 worked, and the operational
+ recommendation is qualified accordingly.
 
 ## 5. Cell grid
 
@@ -91,14 +91,14 @@ From `paper8/`:
 ```
 PYTHONPATH=src python3 src/run_multi_history.py
 ```
-Reuses Paper 4 / 5 / 7 code via sys.path.
+Reuses the HygienePrio scorer / 5 / 7 code via sys.path.
 
 ## 9. Out of scope
 
 - Smoothing strategies beyond EWMA and trailing-mean (e.g., Kalman filter,
-  Bayesian update) — future work.
-- Sweeping $\lambda$ — held at 3 to control scope.
-- Real fleet data — bounded to synthetic.
+ Bayesian update), future work.
+- Sweeping $\lambda$, held at 3 to control scope.
+- Real fleet data, bounded to synthetic.
 
 ## 10. Author certification
 

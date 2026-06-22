@@ -1,5 +1,5 @@
 | strategy | absolute_EHD_mean | absolute_EHD_std | relative_to_random_mean | relative_to_epss_mean | fraction_of_oracle_mean |
-| --- | --- | --- | --- | --- | --- |
+|, |, |, |, |, |, |
 | cvss_only | 1.11898e+06 | 3440.42 | 0.00204478 | 0.00260272 | 1.17682 |
 | oracle | 1.11933e+06 | 3436.37 | 0.00173754 | 0.00229565 | 1 |
 | cve_sum | 1.12072e+06 | 4942.72 | 0.000495953 | 0.00105476 | 0.285433 |

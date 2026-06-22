@@ -6,7 +6,7 @@
 
 ---
 
-**Subject:** Request for technical feedback — reproducible vulnerability-prioritization benchmark
+**Subject:** Request for technical feedback, reproducible vulnerability-prioritization benchmark
 
 Dear Dr. [Name],
 
@@ -31,7 +31,7 @@ If you're willing, I'd appreciate candid technical feedback on any of: the
 pair-level evaluation design, the metric definitions (including the simulated
 expected-exploited-host-days measure and the oracle's behavior under capacity), the
 no-future-leakage and freeze/verify methodology, or the synthetic-fleet
-assumptions. Critical feedback is especially welcome — including reasons the
+assumptions. Critical feedback is especially welcome, including reasons the
 approach may not generalize.
 
 I'm happy to share the manuscript draft, the code, and the frozen artifact. Thank

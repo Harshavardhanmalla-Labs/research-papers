@@ -10,7 +10,7 @@
 label table (Table~\ref{tab:schema}). The generator
 (\texttt{Synthetic\allowbreak Hygiene\allowbreak Generator}) is implemented in
 Python using NumPy and Pandas, with all randomness gated through
-\texttt{numpy.random.\allowbreak default\_rng(seed)}. Entity identifiers are
+\texttt{numpy.\allowbreak random.\allowbreak default\_rng(seed)}. Entity identifiers are
 deterministic UUIDs derived from
 \texttt{hashlib.md5(\allowbreak seed\_tag + index)}, ensuring reproducibility
 across platforms.

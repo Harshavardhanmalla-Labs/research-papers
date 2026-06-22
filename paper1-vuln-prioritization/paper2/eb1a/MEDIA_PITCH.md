@@ -1,4 +1,4 @@
-# Paper 2 — Short Media Pitch (Internal Draft)
+# the CalibScore study, Short Media Pitch (Internal Draft)
 
 **Status.** Internal draft for possible use with technical-press contacts
 *only after* the manuscript has been submitted and the author's attorney /
@@ -9,10 +9,10 @@ and an honest negative result.
 ## Headline options (rank in order of safety)
 
 1. *"When calibration shouldn't be attempted: a failure-aware methodology
-   for vulnerability prioritization under sparse exploit labels."*
+ for vulnerability prioritization under sparse exploit labels."*
 2. *"A negative-result methodology for vulnerability prioritization."*
 3. *"How to build a sparse-label feasibility gate for vulnerability
-   prioritization research."*
+ prioritization research."*
 
 (Do not use headlines with words like "beats", "best", "ready", "accepted",
 "published", "in use", "endorsed", "approved".)
@@ -32,8 +32,8 @@ catalog).
 Vulnerability prioritization decides which software flaws an organization
 should patch first. Many recent papers combine CVSS, EPSS, and KEV signals
 by fitting per-feature weights on public exploit data. A pre-condition for
-that kind of fitting is having enough unique positive examples — CVEs that
-were actually exploited — under a leakage-safe label window. The author
+that kind of fitting is having enough unique positive examples, CVEs that
+were actually exploited, under a leakage-safe label window. The author
 built a methodology that measures the count first.
 
 On a 31-product synthetic catalog, 18 monthly time-origin windows from

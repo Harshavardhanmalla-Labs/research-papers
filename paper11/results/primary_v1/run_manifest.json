@@ -1,0 +1,105 @@
+{
+  "evaluation_seeds": [
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219,
+    220,
+    221,
+    222,
+    223,
+    224
+  ],
+  "calibration_seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
+  "k_values": [
+    50,
+    100,
+    250
+  ],
+  "rho_grid": [
+    0.5,
+    1.0,
+    2.0,
+    4.0,
+    8.0
+  ],
+  "selected_rho": 8.0,
+  "calibration": {
+    "grid": [
+      0.5,
+      1.0,
+      2.0,
+      4.0,
+      8.0
+    ],
+    "objective": "mean MWP@50 (CAP-G-full)",
+    "calibration_seeds": [
+      11,
+      22,
+      33,
+      44,
+      55
+    ],
+    "per_rho": {
+      "0.5": 0.272,
+      "1.0": 0.28,
+      "2.0": 0.308,
+      "4.0": 0.344,
+      "8.0": 0.356
+    },
+    "selected_rho": 8.0,
+    "selected_mwp50": 0.356,
+    "hygieneprio_mwp50": 0.252,
+    "calibration_gain_pp": 10.4
+  },
+  "real_corpus": "/home/sasi/Desktop/dev/RM Orbit/research-papers/paper11/data/cve_corpus_for_sampling.csv",
+  "n_corpus_cves": 203174,
+  "acs_weights": {
+    "crit": 0.5,
+    "zone": 0.3,
+    "sens": 0.2
+  },
+  "hygieneprio_weights": {
+    "alpha": 0.7,
+    "beta": 0.5,
+    "gamma": 0.1,
+    "delta": 0.2
+  },
+  "n_rows_primary": 275,
+  "n_rows_homogeneous": 50,
+  "methods": [
+    "CAP-G-full",
+    "CAP-G-hwm",
+    "CAP-G-noCrit",
+    "CAP-G-noSens",
+    "CAP-G-noZone",
+    "CVSS-only",
+    "Context-only",
+    "EPSS-only",
+    "HRS-only",
+    "HygienePrio",
+    "Random"
+  ]
+}

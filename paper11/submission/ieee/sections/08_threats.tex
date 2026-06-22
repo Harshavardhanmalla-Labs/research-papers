@@ -1,0 +1,50 @@
+\section{Threats to Validity}
+\label{sec:threats}
+
+\emph{Construct validity.} The central construct is mission-critical exposure, which we
+operationalize through the Mission-Critical True Positive target and the Mission-Weighted
+Precision metric. Because both the target and CAP-G reference the Asset Context Score, a reader
+must ask whether the advantage is a measurement of mission precision or an artifact of a shared
+term. We mitigate this circularity three ways. The MCTP target is fixed to the primary weighted
+ACS and applied identically to every method, including the ablations and the baselines, so no
+ranker gains a labelling advantage. The homogeneous-fleet control (H3) shows that a shared term
+cannot by itself manufacture an advantage, since the realized delta there is exactly zero. And
+the context-blind tradeoff check (H4) confirms that CAP-G does not dominate the
+\emph{independent} hygiene-defined target the base scorer was tuned for, so the gain on the
+mission target is not bought by degrading the original one. The pre-registered
+circularity-investigation rule, which would have triggered had CAP-G dominated both opposing
+targets, was checked and not triggered. A residual construct risk remains in the definition of
+the MCTP threshold itself ($\mathrm{EPSS}>0.10$ and ACS above the fleet 75th percentile), which
+is a reasonable but not unique encoding of what mission-critical means.
+
+\emph{Internal validity.} The study is pre-registered: hypotheses, thresholds, metrics, and the
+evaluation seed range were fixed in a dated protocol before any evaluation-seed result was
+inspected~\cite{wohlin2012experimentation}, and calibration used five disjoint held-out seeds, so
+no analytic choice could be steered by the outcome. The calibrated context-emphasis $\rho$
+saturated the locked grid; per the pre-registered stop rule we did not expand the grid post hoc,
+so the evaluation uses a conservative lower bound on context emphasis and the reported gains are
+if anything understated with respect to $\rho$, not cherry-picked. Every reported number is read
+mechanically from the frozen results files rather than hand-entered, which removes a transcription
+path for error.
+
+\emph{External validity.} Hosts, context attributes, and fleet structure are synthetic with
+public priors drawn from FIPS~199, the CISA directives, and the CJIS policy; only the EPSS and KEV
+CVE signal is real, resampled from the vendored 203{,}174-CVE corpus and identical in distribution
+across all compared methods. The category shares are documented priors, not a census of any
+agency, so the absolute MWP values should be read as illustrative of the model rather than as
+field estimates; the comparative deltas are the result. A single fleet scale ($\sim$830 hosts) was
+evaluated because capacity, not host count, is the swept axis, and the heterogeneity mechanism
+does not depend on the specific scale. Different context mixes would shift magnitudes but not the
+qualitative findings, which follow from the structure of the model rather than its constants;
+calibrating the mixes against a real agency asset inventory is the natural next step and would
+convert the illustrative magnitudes into estimates.
+
+\emph{Statistical validity.} All intervals are 95\% bias-corrected and accelerated bootstrap
+intervals over 25 seeds with 10{,}000 resamples~\cite{efron1987bca,efron1994introduction}, a
+choice appropriate to the small-sample, possibly skewed statistics reported here. The evidentiary
+standard throughout is interval non-overlap rather than null-hypothesis significance testing,
+which avoids the multiple-comparison pitfalls of repeated $p$-values across many hypotheses,
+capacities, and ablations. The primary hypothesis is reported as partial precisely because the
+realized capacity-averaged advantage of $4.4$~pp falls below the locked $5$~pp bar even though
+every individual interval excludes zero, which is the conservative reading the interval-based
+standard requires.

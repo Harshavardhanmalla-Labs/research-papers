@@ -7,18 +7,18 @@
 \toprule
 Parameter & Value \\
 \midrule
-Hosts per seed                       & 830 \\
-CVEs per seed                        & 200 \\
-Scored unpatched backlog at W1       & $\sim$1{,}650--1{,}850 pairs \\
-\quad (declines by W6 to)            & $\sim$1{,}410--1{,}630 pairs \\
-Windows                              & 6 (bi-weekly, 14 days each) \\
-Patch-debt reduction (acted host)    & $-0.15$ \\
-New CVE disclosures per window       & $\mathrm{Poisson}(3)$ \\
-EPSS update model                    & $\mathcal{N}(0, 0.02)$ rw, clipped $[0,1]$ \\
-Telemetry staleness drift            & $+0.08$/window (non-acted) \\
-Telemetry freshness recovery         & $-0.30$ (acted) \\
-Calibration seeds                    & 5 (100--104), Window~1 only \\
-Evaluation seeds                     & 25 (105--129), all windows \\
+Hosts per seed & 830 \\
+CVEs per seed & 200 \\
+Scored unpatched backlog at W1 & $\sim$1{,}650-1{,}850 pairs \\
+\quad (declines by W6 to) & $\sim$1{,}410-1{,}630 pairs \\
+Windows & 6 (bi-weekly, 14 days each) \\
+Patch-debt reduction (acted host) & $-0.15$ \\
+New CVE disclosures per window & $\mathrm{Poisson}(3)$ \\
+EPSS update model & $\mathcal{N}(0, 0.02)$ rw, clipped $[0,1]$ \\
+Telemetry staleness drift & $+0.08$/window (non-acted) \\
+Telemetry freshness recovery & $-0.30$ (acted) \\
+Calibration seeds & 5 (100-104), Window~1 only \\
+Evaluation seeds & 25 (105-129), all windows \\
 \bottomrule
 \end{tabular}%
 }

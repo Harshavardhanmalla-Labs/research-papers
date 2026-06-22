@@ -1,6 +1,6 @@
-# HygieneBench — Supplemental Appendix
+# HygieneBench, Supplemental Appendix
 
-**Draft v0.1 — 2026-05-28**
+**Draft v0.1, 2026-05-28**
 
 Companion to: "HygieneBench: A Reproducible Synthetic Benchmark for Cyber-Hygiene Anomaly Detection Across Identity, Endpoint, and Patch Telemetry"
 
@@ -10,15 +10,15 @@ Companion to: "HygieneBench: A Reproducible Synthetic Benchmark for Cyber-Hygien
 
 All hyperparameters below are fixed (not tuned on validation split). Grid values were pre-registered in `paper3/design/EXPERIMENTAL_DESIGN_v0_1.md` before any results were examined.
 
-**M1 — Rule Baseline**
+**M1, Rule Baseline**
 
 Task-specific weighted threshold rules. No trainable parameters. Feature thresholds specified per task in `paper3/design/TASK_SPECS.md`. Score = weighted sum of threshold indicator functions.
 
-**M2 — Hybrid Risk Scorer**
+**M2, Hybrid Risk Scorer**
 
 Fixed weights: identity score (30%), endpoint score (30%), vulnerability score (30%), freshness penalty (10%). No trainable parameters.
 
-**M3 — Isolation Forest**
+**M3, Isolation Forest**
 
 | Parameter | Value | Rationale |
 |---|---|---|
@@ -28,16 +28,16 @@ Fixed weights: identity score (30%), endpoint score (30%), vulnerability score (
 | random_state | seed (per run) | Deterministic |
 | Preprocessing | MinMaxScaler | Required for feature scale invariance |
 
-**M4 — Local Outlier Factor**
+**M4, Local Outlier Factor**
 
 | Parameter | Value | Rationale |
 |---|---|---|
-| n_neighbors | min(20, n_train−1) | Standard LOF; clipped to avoid errors on small splits |
+| n_neighbors | min(20, n_train-1) | Standard LOF; clipped to avoid errors on small splits |
 | novelty | True | Required for test-time scoring |
 | metric | euclidean | Default |
 | Preprocessing | MinMaxScaler | Required |
 
-**M5 — One-Class SVM**
+**M5, One-Class SVM**
 
 | Parameter | Value | Rationale |
 |---|---|---|
@@ -46,7 +46,7 @@ Fixed weights: identity score (30%), endpoint score (30%), vulnerability score (
 | gamma | scale | Auto-scaled to feature variance |
 | Preprocessing | MinMaxScaler | Required for RBF kernel |
 
-**M6 — Linear Autoencoder (PCA-based)**
+**M6, Linear Autoencoder (PCA-based)**
 
 | Parameter | Value | Rationale |
 |---|---|---|
@@ -55,7 +55,7 @@ Fixed weights: identity score (30%), endpoint score (30%), vulnerability score (
 | Preprocessing | MinMaxScaler | Required |
 | Note | Implemented as PCA; equivalent to linear AE with MSE loss | PyTorch not available |
 
-**M7 — Temporal Z-score**
+**M7, Temporal Z-score**
 
 Task-specific temporal features (see Table A.1). Anomaly score = max absolute z-score over task features. Population statistics computed on training split.
 
@@ -71,11 +71,11 @@ Task-specific temporal features (see Table A.1). Anomaly score = max absolute z-
 | T6 | dormant_days_at_react, off_hours_rate |
 | T7 | priv_adds, priv_add_rate |
 
-**M8 — Graph-augmented Isolation Forest**
+**M8, Graph-augmented Isolation Forest**
 
 | Parameter | Value | Rationale |
 |---|---|---|
-| Graph | Bipartite user–group graph (networkx) | AD group membership edges |
+| Graph | Bipartite user-group graph (networkx) | AD group membership edges |
 | Node features | degree, privileged_degree, clustering_coefficient | Standard graph anomaly features |
 | Isolation Forest | Same as M3 (n_estimators=200, contamination=0.02) | Consistent with M3 |
 | Feature set | Concatenation of graph features + task tabular features | |
@@ -85,7 +85,7 @@ Task-specific temporal features (see Table A.1). Anomaly score = max absolute z-
 
 ## B. Full Per-Condition Results Tables
 
-All values are mean across 3 seeds (42, 137, 2024). AP = Average Precision (interpolated). P@k = Precision@k at task-specific k. FPB = False Positive Burden = 1−P@k. ⚑ = failure-flagged (negative result).
+All values are mean across 3 seeds (42, 137, 2024). AP = Average Precision (interpolated). P@k = Precision@k at task-specific k. FPB = False Positive Burden = 1-P@k. ⚑ = failure-flagged (negative result).
 
 All values are mean AP across 3 seeds (42, 137, 2024) for the given condition.
 † M8 excluded from T4, T5 by design (N/A).
@@ -163,7 +163,7 @@ All values are mean AP across 3 seeds (42, 137, 2024) for the given condition.
 
 ## C. Failure-Flag Detail by Method × Task × Condition
 
-Failure flag = True if AP(method)−AP(rule) < 0.05 AND P@k(method)−P@k(rule) < 0.05 in ≥2/3 seeds (2 of 3 seeds).
+Failure flag = True if AP(method)-AP(rule) < 0.05 AND P@k(method)-P@k(rule) < 0.05 in ≥2/3 seeds (2 of 3 seeds).
 
 | Method | T1 | T2 | T3 | T4 | T5 | T6 | T7 | Total flagged |
 |---|---|---|---|---|---|---|---|---|
@@ -180,7 +180,7 @@ Failure flag = True if AP(method)−AP(rule) < 0.05 AND P@k(method)−P@k(rule) 
 Key patterns:
 - T2 consistently NOT flagged for M4, M5, M7 (these methods genuinely beat the rule on group-membership drift)
 - T5 NOT flagged for M5 and partially M3, M4 (patch/vulnerability hygiene benefits from ML)
-- M6 and M2 are flagged on all tasks under all conditions — their fixed-parameter designs do not adapt to task heterogeneity
+- M6 and M2 are flagged on all tasks under all conditions, their fixed-parameter designs do not adapt to task heterogeneity
 
 ---
 
@@ -188,40 +188,40 @@ Key patterns:
 
 ### D.1 Table Descriptions
 
-**`users`** — One row per AD user account.
+**`users`**, One row per AD user account.
 Key columns: `user_id`, `username`, `department`, `ou_path`, `account_enabled`, `account_last_logon`, `days_since_last_logon`, `is_privileged`, `privileged_group_count`, `is_service_account`, `source_freshness_flag`.
 
-**`groups`** — One row per AD group.
+**`groups`**, One row per AD group.
 Key columns: `group_id`, `group_name`, `group_type`, `is_privileged`, `member_count`.
 
-**`computers`** — One row per managed endpoint.
+**`computers`**, One row per managed endpoint.
 Key columns: `computer_id`, `hostname`, `os_type`, `network_segment`, `asset_criticality`, `endpoint_agent_installed`, `days_since_agent_heartbeat`.
 
-**`assets`** — One row per asset inventory entry (correlated with computers).
+**`assets`**, One row per asset inventory entry (correlated with computers).
 Key columns: `asset_id`, `asset_type`, `asset_criticality`, `in_inventory`, `in_endpoint_mgmt`, `inventory_mismatch_flag`.
 
-**`login_events`** — One row per authentication event (30-day window).
+**`login_events`**, One row per authentication event (30-day window).
 Key columns: `event_id`, `user_id`, `computer_id`, `event_timestamp`, `logon_type`, `success`, `is_off_hours`, `is_cross_segment`, `is_anomalous`, `anomaly_class`.
 
-**`group_membership_events`** — One row per group add/remove event.
+**`group_membership_events`**, One row per group add/remove event.
 Key columns: `event_id`, `user_id`, `group_id`, `action`, `event_timestamp`, `actor_user_id`, `is_privileged_group`, `is_anomalous`, `anomaly_class`.
 
-**`endpoint_patch_state`** — One row per endpoint, snapshot of patch posture.
+**`endpoint_patch_state`**, One row per endpoint, snapshot of patch posture.
 Key columns: `record_id`, `computer_id`, `patch_compliance_score`, `critical_missing_patch_count`, `open_kev_count`.
 
-**`vulnerability_records`** — One row per (endpoint, CVE) exposure record.
+**`vulnerability_records`**, One row per (endpoint, CVE) exposure record.
 Key columns: `record_id`, `computer_id`, `cve_id`, `cvss_score`, `cvss_severity`, `is_kev_flagged`, `days_open`, `remediation_status`.
 
-**`remediation_events`** — One row per remediation action.
+**`remediation_events`**, One row per remediation action.
 Key columns: `event_id`, `computer_id`, `cve_id`, `action_type`, `action_timestamp`, `remediation_latency_days`.
 
-**`account_lifecycle_events`** — One row per account create/enable/disable event.
+**`account_lifecycle_events`**, One row per account create/enable/disable event.
 Key columns: `event_id`, `user_id`, `action`, `event_timestamp`, `actor_user_id`.
 
-**`telemetry_freshness_log`** — One row per (entity, data source) freshness record.
+**`telemetry_freshness_log`**, One row per (entity, data source) freshness record.
 Key columns: `log_id`, `entity_type`, `entity_id`, `source_system`, `expected_refresh_interval_days`, `actual_gap_days`, `freshness_flag`.
 
-**`anomaly_labels`** — Ground-truth annotations. One row per injected anomaly.
+**`anomaly_labels`**, Ground-truth annotations. One row per injected anomaly.
 Key columns: `label_id`, `entity_type`, `entity_id`, `anomaly_class`, `anomaly_severity`, `injected_at`, `benchmark_task_id`, `split`.
 
 ### D.2 Structural Priors
@@ -261,17 +261,17 @@ All citations verified as of 2026-05-28. References renumbered: [11] Noonan et a
 
 | Ref | Description | Status |
 |---|---|---|
-| [1] CISA BOD 23-01 | October 2022 directive | [CONFIRMED] — cisa.gov |
-| [2] NIST SP 800-40 Rev. 4 | April 2022 | [CONFIRMED] — csrc.nist.gov |
-| [3] Kent 2015 LANL | Los Alamos dataset | [CONFIRMED] — doi.org/10.2172/1259877 |
-| [4] Glasser & Lindauer 2013 | CERT insider threat | [CONFIRMED] — IEEE SPW 2013 |
-| [5] Sharafaldin et al. 2018 | CICIDS2017 | [CONFIRMED] — ICISSP 2018 |
-| [6] Rodriguez 2019 Mordor | GitHub: OTRF/Security-Datasets | [CONFIRMED] — active repo |
-| [7] DARPA I2O 2018 | TC-E3 data release | [CONFIRMED] — github.com/darpa-i2o/Transparent-Computing; updated from placeholder "DARPA GARD Program" to confirmed GitHub URL |
-| [8] Ding et al. 2019 SDM | DOMINANT: deep graph anomaly detection | [CONFIRMED] — SIAM SDM 2019; replaced unverified Ma et al. VLDB 2021 (no such paper found) |
-| [9] Liu et al. 2024 JMLR | PyGOD JMLR 25(141) | [CONFIRMED] — jmlr.org/papers/v25/23-0963.html; author list corrected to Kay Liu, Yingtong Dou, Xueying Ding, Xiyang Hu, et al. |
-| [10] Creech & Hu 2013 | KDD replacement dataset | [CONFIRMED] — IEEE WCNC 2013 |
-| [11] Sculley et al. 2018 | Winner's curse / empirical rigor | [CONFIRMED] — ICLR Workshop on Reproducibility in ML 2018; renumbered from [12] |
-| ~~[11] Noonan et al. 2020~~ | ~~Synthetic insider threat datasets~~ | [REMOVED] — not found in AISec 2020 proceedings (11 papers, none by Noonan); in-text citation removed from §2 |
+| [1] CISA BOD 23-01 | October 2022 directive | [CONFIRMED], cisa.gov |
+| [2] NIST SP 800-40 Rev. 4 | April 2022 | [CONFIRMED], csrc.nist.gov |
+| [3] Kent 2015 LANL | Los Alamos dataset | [CONFIRMED], doi.org/10.2172/1259877 |
+| [4] Glasser & Lindauer 2013 | CERT insider threat | [CONFIRMED], IEEE SPW 2013 |
+| [5] Sharafaldin et al. 2018 | CICIDS2017 | [CONFIRMED], ICISSP 2018 |
+| [6] Rodriguez 2019 Mordor | GitHub: OTRF/Security-Datasets | [CONFIRMED], active repo |
+| [7] DARPA I2O 2018 | TC-E3 data release | [CONFIRMED], github.com/darpa-i2o/Transparent-Computing; updated from placeholder "DARPA GARD Program" to confirmed GitHub URL |
+| [8] Ding et al. 2019 SDM | DOMINANT: deep graph anomaly detection | [CONFIRMED], SIAM SDM 2019; replaced unverified Ma et al. VLDB 2021 (no such paper found) |
+| [9] Liu et al. 2024 JMLR | PyGOD JMLR 25(141) | [CONFIRMED], jmlr.org/papers/v25/23-0963.html; author list corrected to Kay Liu, Yingtong Dou, Xueying Ding, Xiyang Hu, et al. |
+| [10] Creech & Hu 2013 | KDD replacement dataset | [CONFIRMED], IEEE WCNC 2013 |
+| [11] Sculley et al. 2018 | Winner's curse / empirical rigor | [CONFIRMED], ICLR Workshop on Reproducibility in ML 2018; renumbered from [12] |
+| ~~[11] Noonan et al. 2020~~ | ~~Synthetic insider threat datasets~~ | [REMOVED], not found in AISec 2020 proceedings (11 papers, none by Noonan); in-text citation removed from §2 |
 
 No outstanding verification items. All references are confirmed or removed.

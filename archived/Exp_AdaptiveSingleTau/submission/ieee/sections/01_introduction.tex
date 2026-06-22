@@ -7,8 +7,8 @@ and found it recovers the offline-peek ceiling at $K \in \{50, 100\}$
 but \textit{harms} performance at $K = 200$. Paper~8 evaluated
 multi-window smoothers (EWMA-3, trailing-mean-3) and found they
 amplify the harm rather than reversing it. Paper~8 explicitly
-identified adaptive procedures --- change-point detection, Bayesian
-forgetting, capacity-conditional gating --- as the remaining
+identified adaptive procedures, change-point detection, Bayesian
+forgetting, capacity-conditional gating, as the remaining
 candidate class.
 
 This paper evaluates the simplest adaptive procedure in that class:
@@ -22,29 +22,29 @@ pre-registered threshold.
 \subsection{Contributions}
 
 \begin{itemize}
-\item \textbf{C1 --- A pre-registered evaluation of adaptive
+\item \textbf{C1, A pre-registered evaluation of adaptive
 switching.} The first pre-registered comparison of a change-point
 detector against Paper~7's lag-1 baseline, Paper~8's smoothers, a
 static capacity-conditional gate, and the offline-peek ceiling.
 
-\item \textbf{C2 --- High-capacity hazard avoided.} Adaptive
+\item \textbf{C2, High-capacity hazard avoided.} Adaptive
 switching is the first procedure in the sequence that does not harm
 at $K = 200$: cell-mean delta vs \textsf{fixed} is $+0.7$~pp, and
 no individual window shows a loss exceeding the $-0.01$ pre-registered
 tolerance. H1 is supported.
 
-\item \textbf{C3 --- Moderate-capacity penalty.} At $K = 50$ the
+\item \textbf{C3, Moderate-capacity penalty.} At $K = 50$ the
 detector fires in $60\%$ of post-W1 windows and the cell-mean adaptive
 P@50 is $5.3$~pp below lag-1's. The procedure trades moderate-capacity
 recovery for high-capacity safety; H2 is rejected.
 
-\item \textbf{C4 --- Marginal advantage over static gating.} Adaptive
+\item \textbf{C4, Marginal advantage over static gating.} Adaptive
 beats a static $(K \leq 100 \to \textsf{lag1}, K \geq 200 \to
 \textsf{fixed})$ gate by $+0.7$~pp at $K = 200$. H4 is supported but
 the margin is small; in deployment regimes with stable known
 capacity, the simpler gate may suffice.
 
-\item \textbf{C5 --- Non-monotone firing.} Spearman$(K, \text{fire
+\item \textbf{C5, Non-monotone firing.} Spearman$(K, \text{fire
 fraction})$ is $+0.5$, well below the pre-registered $+0.8$
 threshold. The detector responds to per-window distributional shifts
 that are not cleanly capacity-indexed; H3 is rejected. This is itself

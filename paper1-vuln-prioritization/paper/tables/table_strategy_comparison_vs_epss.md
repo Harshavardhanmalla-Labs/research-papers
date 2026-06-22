@@ -1,5 +1,5 @@
 | strategy | mean_EHD | delta_vs_epss | relative_delta_vs_epss | interpretation_direction |
-| --- | --- | --- | --- | --- |
+|, |, |, |, |, |
 | cvss_only | 1.11898e+06 | -2920 | -0.00260272 | better (lower EHD than epss_only) |
 | cve_sum | 1.12072e+06 | -1183.33 | -0.00105476 | better (lower EHD than epss_only) |
 | random | 1.12128e+06 | -627.233 | -0.00055908 | better (lower EHD than epss_only) |

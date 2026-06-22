@@ -1,5 +1,5 @@
 | strategy | audit_hash_chain_valid_mean | audit_record_count_mean |
-| --- | --- | --- |
+|, |, |, |
 | cve_max | 1 | 127.733 |
 | cve_mean | 1 | 121.367 |
 | cve_sum | 1 | 131.067 |

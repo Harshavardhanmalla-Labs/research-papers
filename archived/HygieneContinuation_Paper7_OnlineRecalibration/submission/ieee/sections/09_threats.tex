@@ -36,25 +36,25 @@ lag-1 rolling-history grid search and does not generalise to all
 online calibration procedures.
 
 \textit{(iii) Grid coarseness.} The 108-point $(\alpha, \beta, \gamma,
-\delta)$ grid is identical to Paper~5's; finer grids could expose
+\delta)$ grid is identical to the temporal-stability study's; finer grids could expose
 different local optima. Sensitivity to grid coarseness was not
 pre-registered and is left to future work.
 
 \textbf{Construct validity.} The per-window ground-truth definition is
-inherited from Paper~5 (EPSS $> 0.10$ and HRS $>$ 75th percentile,
+inherited from the temporal-stability study (EPSS $> 0.10$ and HRS $>$ 75th percentile,
 both recomputed per window). At $K = 200$ the W6 mean P@50 is
 $0.075$, i.e., fewer than four of each top-50 list are ground-truth
 positive on average, and P@50 with binary relevance is noisy at such
 small hit counts. This affects the absolute level but not the sign of the
-\textsf{online} -- \textsf{fixed} comparison.
+\textsf{online} - \textsf{fixed} comparison.
 
 \textbf{External validity.} The 14-day window, 0.15 patch-debt
 reduction, 0.02 EPSS random-walk, 8\% KEV prevalence, and structural
-priors are inherited from Paper~4~\cite{paper4hygieneprio} and
-Paper~5~\cite{paper5temporal}. Real fleets with different patch-velocity
+priors are inherited from the HygienePrio scorer~\cite{paper4hygieneprio} and
+the temporal-stability study. Real fleets with different patch-velocity
 heterogeneity may exhibit different distributional shift rates between
 windows, and the capacity threshold at which online recalibration
 turns from helpful to harmful would shift accordingly. The qualitative
-finding --- that there exists a critical capacity threshold above
-which lag-1 online recalibration is harmful --- is more robust than
+finding, that there exists a critical capacity threshold above
+which lag-1 online recalibration is harmful, is more robust than
 the specific $K = 200$ figure.

@@ -2,14 +2,14 @@
 
 \subsection{Scorer (Inherited)}
 
-The HygienePrio scorer Eq.~(\ref{eq:hp}) and HRS components are
-inherited verbatim from Paper~4~\cite{paper4hygieneprio} and used in
-Papers~5--7:
+The scorer Eq.~(\ref{eq:hp}) and HRS components are
+inherited verbatim from the HygienePrio scorer~\cite{paper4hygieneprio} and used in
+Papers~5-7:
 \begin{equation}
 \begin{aligned}
 S(h,c) =\;& \alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
-          & + \gamma\,\mathrm{KEV\_recency}(c) \\
-          & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
+ & + \gamma\,\mathrm{KEV\_recency}(c) \\
+ & + \delta\,\bigl(\mathrm{EPSS}(c) \cdot \mathrm{HRS}(h)\bigr).
 \end{aligned}
 \label{eq:hp}
 \end{equation}
@@ -50,7 +50,7 @@ $0.6, 0.36, \ldots$.
 
 \subsection{Fleet-State Evolution}
 
-Identical to Paper~7: HygienePrio-full under \textsf{fixed} weights
+Identical to the online-calibration study: HygienePrio-full under \textsf{fixed} weights
 drives the top-$K$ selection at every window, producing the same
 trajectory for all strategies. The calibration strategy affects only
 the scoring weights, not the fleet evolution. The selection-policy
@@ -63,10 +63,10 @@ gap, we report:
 \begin{equation}
 \rho_{K, w}^{\text{ewma}} =
 \frac{\text{P@50}^{\textsf{ewma3}}_{K, w} - \text{P@50}^{\textsf{fixed}}_{K, w}}
-     {\text{P@50}^{\textsf{offline}}_{K, w} - \text{P@50}^{\textsf{fixed}}_{K, w}}.
+ {\text{P@50}^{\textsf{offline}}_{K, w} - \text{P@50}^{\textsf{fixed}}_{K, w}}.
 \end{equation}
 $\rho \approx 1$ matches the offline ceiling; $\rho < 0$ is a hazard.
-The ratio is reported only where the offline--fixed gap exceeds the
+The ratio is reported only where the offline-fixed gap exceeds the
 pre-registered threshold of $0.01$
 ($\text{P@50}^{\textsf{offline}} - \text{P@50}^{\textsf{fixed}} > 0.01$);
 windows below the threshold are excluded as numerically unstable

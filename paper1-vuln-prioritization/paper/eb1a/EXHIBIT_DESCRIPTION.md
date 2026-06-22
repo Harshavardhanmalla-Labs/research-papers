@@ -10,24 +10,24 @@ Vulnerability Prioritization for Government Endpoint Fleets*.
 ## What the exhibit contains
 
 - A complete research **manuscript** (Abstract + 17 sections) in submission-style
-  Markdown and as an ACM `acmart` LaTeX scaffold (not yet submitted or published).
+ Markdown and as an ACM `acmart` LaTeX scaffold (not yet submitted or published).
 - A **reference software implementation** (Python package `paper1`) with an
-  automated test suite (currently 743 passing tests), configuration files, and
-  Make targets.
+ automated test suite (currently 743 passing tests), configuration files, and
+ Make targets.
 - A **frozen result artifact** (`results/primary_full_v1/`): 30 seeds, 13
-  prioritization strategies, 4,290 per-seed metric rows, 390 hash-chain-valid audit
-  logs, sealed with a content-addressed freeze manifest (per-file SHA-256) that
-  verifies.
+ prioritization strategies, 4,290 per-seed metric rows, 390 hash-chain-valid audit
+ logs, sealed with a content-addressed freeze manifest (per-file SHA-256) that
+ verifies.
 - **Generated tables (7) and figures (5)** produced solely from the frozen
-  artifact, with an index and a reproducibility appendix.
+ artifact, with an index and a reproducibility appendix.
 - Supporting **audits**: claim-safety audit, citation audit, references worklist,
-  and a submission checklist.
+ and a submission checklist.
 
 ## Why it supports original contribution
 
 The exhibit demonstrates the independent design and construction of a reproducible,
 audit-evidence-producing benchmark for vulnerability-host pair prioritization under
-operational capacity constraints — an original methodological framework (pair-level
+operational capacity constraints, an original methodological framework (pair-level
 decision unit, tamper-evident decision records, capacity-constrained scheduling
 simulation, and a freeze/verify integrity pipeline). The artifact is internally
 verifiable: numbers trace to a frozen, integrity-checked result, and the pipeline

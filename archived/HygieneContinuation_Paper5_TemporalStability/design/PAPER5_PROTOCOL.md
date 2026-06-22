@@ -1,4 +1,4 @@
-# Paper 5 — Pre-Registration Protocol
+# the temporal-stability study, Pre-Registration Protocol
 
 **Title:** Temporal Stability of Hygiene-Augmented Vulnerability Prioritization Across Rolling Maintenance Windows
 
@@ -15,7 +15,7 @@
 
 **RQ3 (Re-calibration frequency):** How often must the HygienePrio weights be re-calibrated to maintain performance comparable to the initial calibration?
 
-**RQ4 (EHD consistency):** Are the P@K findings from Paper 4 consistent with the Expected Exploited Host-Days (EHD) metric from Paper 1 under multi-window evaluation?
+**RQ4 (EHD consistency):** Are the P@K findings from the HygienePrio scorer consistent with the Expected Exploited Host-Days (EHD) metric from the VulnPrio study under multi-window evaluation?
 
 ---
 
@@ -36,19 +36,19 @@ Each seed generates a fleet at time T=0. The simulation runs W=6 consecutive bi-
 
 ### 2.2 Evaluation Metrics
 
-- **P@K** at K=50,100,250 per window (primary; consistent with Paper 4)
-- **EHD** per window (primary Paper 1 metric; enables cross-paper comparison)
+- **P@K** at K=50,100,250 per window (primary; consistent with the HygienePrio scorer)
+- **EHD** per window (primary the VulnPrio study metric; enables cross-paper comparison)
 - **Stability index:** Mean absolute deviation of P@50 across W windows per seed
 - **Advantage persistence:** Fraction of windows where HygienePrio-full > EPSS-only
 
 ### 2.3 Seeds
 
-- 30 seeds total; 5 calibration, 25 evaluation (same split as Paper 4)
+- 30 seeds total; 5 calibration, 25 evaluation (same split as the HygienePrio scorer)
 - Calibration uses only Window 1 data (to avoid future-data leakage)
 
 ### 2.4 Baselines
 
-Same 9 methods as Paper 4. Additionally:
+Same 9 methods as the HygienePrio scorer. Additionally:
 - **HygienePrio-recalibrated:** Re-calibrates weights at each window using the most recent 5 seeds' Window N data (tests whether recalibration helps)
 - **EPSS-dynamic:** Uses the updated EPSS score at each window (not a single snapshot)
 
@@ -69,7 +69,7 @@ Same 9 methods as Paper 4. Additionally:
 ## 4. Analysis Plan
 
 - BCa bootstrap CIs (10,000 resamples) across 25 evaluation seeds per window
-- Report P@K and EHD time-series plots (Window 1–6)
+- Report P@K and EHD time-series plots (Window 1-6)
 - Report stability index distribution across seeds
 - All comparisons pre-registered; no post-hoc method additions
 

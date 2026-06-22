@@ -1,6 +1,6 @@
 % ============================================================
 %  EB-1A Research Exhibit Cover Pages
-%  Harshavardhan Malla — Cybersecurity Research Portfolio
+%  Harshavardhan Malla, Cybersecurity Research Portfolio
 %  Compile: pdflatex exhibit_cover
 % ============================================================
 
@@ -29,7 +29,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0.5pt}
-\fancyhead[L]{\small\textcolor{darkgray}{EB-1A Research Portfolio --- Harshavardhan Malla}}
+\fancyhead[L]{\small\textcolor{darkgray}{EB-1A Research Portfolio, Harshavardhan Malla}}
 \fancyhead[R]{\small\textcolor{darkgray}{\thepage}}
 
 \titleformat{\section}{\large\bfseries\color{headblue}}{}{0em}{}[\vspace{-0.5em}\hrule\vspace{0.5em}]
@@ -64,7 +64,7 @@
 
   {\LARGE\bfseries Harshavardhan Malla}\\[0.5em]
   {\large Independent Researcher}\\[0.5em]
-  {\large Cybersecurity --- Vulnerability Management \& Anomaly Detection}\\[2em]
+  {\large Cybersecurity, Vulnerability Management \& Anomaly Detection}\\[2em]
 
   \hrule height 2pt
   \vspace{2em}
@@ -83,10 +83,10 @@
   \begin{exhibitbox}
     \textbf{Contents of This Portfolio:}
     \begin{enumerate}[leftmargin=*]
-      \item \textbf{Exhibit A} --- Paper 1: VulnPrio --- Vulnerability Prioritization Benchmark
-      \item \textbf{Exhibit B} --- Paper 2: CalibScore --- Failure-Aware Calibration Gate
-      \item \textbf{Exhibit C} --- Paper 3: HygieneBench --- Cyber-Hygiene Anomaly Detection Benchmark
-      \item \textbf{Exhibit D} --- Paper 4: HygienePrio --- Hygiene-Augmented Exploit-Weighted Scorer
+      \item \textbf{Exhibit A}, Paper 1: VulnPrio, Vulnerability Prioritization Benchmark
+      \item \textbf{Exhibit B}, Paper 2: CalibScore, Failure-Aware Calibration Gate
+      \item \textbf{Exhibit C}, Paper 3: HygieneBench, Cyber-Hygiene Anomaly Detection Benchmark
+      \item \textbf{Exhibit D}, Paper 4: HygienePrio, Hygiene-Augmented Exploit-Weighted Scorer
     \end{enumerate}
 
     \vspace{0.5em}
@@ -108,7 +108,7 @@
 \begin{center}
   \textbf{\large Context-Aware Vulnerability Prioritization for Government Endpoint Fleets:\\
   Integrating Exploit Intelligence, Asset Criticality, and Endpoint Telemetry}\\[0.5em]
-  \textit{Harshavardhan Malla} --- Independent Researcher\\[0.5em]
+  \textit{Harshavardhan Malla}, Independent Researcher\\[0.5em]
   Target venue: IEEE/USENIX Security Workshop on Measurement and Practice
 \end{center}
 
@@ -117,7 +117,7 @@
 
 Government agencies receive thousands of new software vulnerability reports each month
 but can only fix a fraction of them before the next wave arrives. The standard approach
---- ranking by ``severity score'' (CVSS) --- does not account for whether a vulnerability
+,  ranking by ``severity score'' (CVSS), does not account for whether a vulnerability
 is actually being exploited in the wild, how critical the affected computer is, or how
 complex the patch is to apply. This paper introduces \textbf{VulnPrio}, a mathematical
 framework that combines seven signals (exploit probability, known exploitation status,
@@ -127,18 +127,18 @@ automatically handles regulatory deadlines and records every decision in a
 tamper-evident log.
 
 The key finding is deliberately honest: under the current research conditions,
-VulnPrio performs no better than simpler approaches --- and the paper says so
+VulnPrio performs no better than simpler approaches, and the paper says so
 explicitly. This ``null result'' reported with full statistical rigor is the
 contribution: it establishes a reproducible testing framework that any future
 system can be compared against, and proves that data-driven superiority claims
-require real calibrated data --- not placeholder weights.
+require real calibrated data, not placeholder weights.
 
 \vspace{0.5em}
 \noindent\textbf{Field Impact:}
 \begin{itemize}[leftmargin=*,itemsep=2pt]
   \item First benchmark combining EPSS signals, capacity constraints,
         KEV-deadline overrides, and hash-chained audit logs in one reproducible pipeline
-  \item 390 hash-chained audit logs, all verifying without error ---
+  \item 390 hash-chained audit logs, all verifying without error, 
         a tamper-evident decision record mechanism suitable for regulatory environments
   \item Honest null-result reporting with full statistical apparatus
         (Wilcoxon + Holm + BCa bootstrap) across 30 seeds and 13 strategies
@@ -175,7 +175,7 @@ not a performance claim. All 390 audit logs hash-verify correctly.
 \begin{center}
   \textbf{\large When Calibration Fails: A Failure-Aware Public-Feed Gate for\\
   Vulnerability Prioritization Under Sparse Exploit Labels}\\[0.5em]
-  \textit{Harshavardhan Malla} --- Independent Researcher\\[0.5em]
+  \textit{Harshavardhan Malla}, Independent Researcher\\[0.5em]
   Target venues: USENIX CSET (primary); LASER Workshop; ACM DTRAP
 \end{center}
 
@@ -185,7 +185,7 @@ not a performance claim. All 390 audit logs hash-verify correctly.
 Paper 1 uses placeholder (estimated) weights in its scoring formula because no
 one had measured whether real public data could calibrate them. Paper 2 asks that
 question directly: can we use publicly available exploit records to find better
-weights for a realistic government fleet? The answer is no --- and this paper
+weights for a realistic government fleet? The answer is no, and this paper
 explains precisely why, with a formal measurement.
 
 The paper introduces a \textbf{failure-aware gate}: a step-by-step procedure
@@ -193,8 +193,8 @@ for deciding whether you have enough data to calibrate a model before you try.
 The gate was written down (pre-registered) before any data was collected, so
 there was no possibility of changing the rules after seeing the results. When
 applied to a realistic 31-product government fleet, the gate found only 7
-confirmed exploitation events over two years --- far below the minimum of 20
-needed to safely fit a calibration model. The gate said ``PIVOT --- do not
+confirmed exploitation events over two years, far below the minimum of 20
+needed to safely fit a calibration model. The gate said ``PIVOT, do not
 calibrate,'' and the paper reports exactly that outcome as its primary finding.
 
 \vspace{0.5em}
@@ -203,13 +203,13 @@ calibrate,'' and the paper reports exactly that outcome as its primary finding.
   \item First paper to propose a formal ``feasibility gate'' before attempting
         public-feed calibration of vulnerability prioritization weights
   \item Pre-registration of analysis plan (8 stop rules) before any API queries
-        were executed --- a clinical-trial-grade methodological standard applied to
+        were executed, a clinical-trial-grade methodological standard applied to
         cybersecurity research
   \item Quantified data-density boundary: provides a scaling formula
         ($E[\text{positives}] \approx p \cdot r \cdot m \cdot T$) for practitioners
         to estimate feasibility before committing to a calibration study
   \item BCa confidence intervals so wide (Top-10 coverage: [0.00, 0.71]) that
-        they honestly communicate irreducible uncertainty --- no false precision
+        they honestly communicate irreducible uncertainty, no false precision
 \end{itemize}
 
 \vspace{0.5em}
@@ -225,7 +225,7 @@ aggregation that maximizes observable distinct positive CVEs; and a three-tier
 decision rule (PROCEED $\geq$50, CAUTION 20--49, PIVOT $<$20) backed by a
 pre-registered stop-rule registry. Applied to 2,688 catalog-matched CVEs over
 the EPSS v3 era (2023-03-07 to 2025-03-16), we observe only \textbf{7 unique
-positive CVEs} across 18 windows --- triggering a gate decision of
+positive CVEs} across 18 windows, triggering a gate decision of
 \textbf{PIVOT}: calibration is not attempted. The gate PIVOT is the primary
 contribution. A pre-registered sensitivity sweep of six design-prior weight
 vectors produces descriptive statistics with wide BCa CIs, confirming that
@@ -243,7 +243,7 @@ no vector can be distinguished under this sparsity regime.
 \begin{center}
   \textbf{\large HygieneBench: A Reproducible Synthetic Benchmark for\\
   Cyber-Hygiene Anomaly Detection Across Identity, Endpoint, and Patch Telemetry}\\[0.5em]
-  \textit{Harshavardhan Malla} --- Independent Researcher\\[0.5em]
+  \textit{Harshavardhan Malla}, Independent Researcher\\[0.5em]
   Target venues: ACM CCS AISec Workshop (primary); IEEE S\&P Workshop
 \end{center}
 
@@ -255,7 +255,7 @@ closed, computer agents are running, patches are applied on time, and data
 is being collected reliably. When these hygiene checks fail, the conditions
 exist for attackers to exploit dormant accounts, unmonitored computers, or
 unpatched vulnerabilities. Detecting hygiene failures automatically is
-therefore a fundamental security task --- but there is no public testing
+therefore a fundamental security task, but there is no public testing
 dataset for this problem. Researchers developing AI tools for hygiene
 monitoring have had no standard way to compare their methods.
 
@@ -277,13 +277,13 @@ consistently benefit from machine learning.
         hygiene, endpoint patch posture, vulnerability exposure, and telemetry
         freshness as first-class evaluation dimensions
   \item Fully open, seeded synthetic generator grounded in public structural priors
-        (NIST NVD, Verizon DBIR 2026, CISA BOD 23-01) ---
+        (NIST NVD, Verizon DBIR 2026, CISA BOD 23-01), 
         reproducible across platforms and research groups
   \item Pre-registered failure protocol ($\Delta \geq 0.05$ AP in $\geq$2/3 seeds) applied
-        rigorously across all 810 evaluation runs --- 86.2\% failure rate reported
+        rigorously across all 810 evaluation runs, 86.2\% failure rate reported
         without filtering or selective presentation
   \item Telemetry staleness quantified: $-0.168$ AP on endpoint--identity correlation
-        under 20\% stale entity rate --- the first benchmark-level evidence for
+        under 20\% stale entity rate, the first benchmark-level evidence for
         the detection cost of stale data pipelines
   \item Motivates three changes to benchmark practice: task-stratified reporting,
         negative-result protocols, and telemetry freshness as a mandatory axis
@@ -320,7 +320,7 @@ released.
 \begin{center}
   \textbf{\large HygienePrio: Cyber-Hygiene Signal Augmentation for\\
   EPSS-Weighted Vulnerability Prioritization}\\[0.5em]
-  \textit{Harshavardhan Malla} --- Independent Researcher\\[0.5em]
+  \textit{Harshavardhan Malla}, Independent Researcher\\[0.5em]
   Target venues: IEEE Transactions on Network and Service Management (TNSM);
   ACM Digital Threats: Research and Practice (DTRAP)
 \end{center}
@@ -331,8 +331,8 @@ released.
 Paper 1 showed that combining public vulnerability signals (exploit likelihood,
 CVSS severity, KEV status) did not improve over a simple exploit-likelihood
 baseline when only CVE-level features were used. Paper 3 showed that host-level
-hygiene signals --- how many patches are overdue, how exposed the machine is
-through network accounts, how recently data was collected from it --- carry
+hygiene signals, how many patches are overdue, how exposed the machine is
+through network accounts, how recently data was collected from it, carry
 genuine discriminative structure in a realistic synthetic fleet. \textbf{HygienePrio}
 connects these two findings: it asks whether the ``missing signal'' from Paper 1
 was host-level hygiene posture rather than more CVE-level detail.
@@ -354,13 +354,13 @@ findings; real-fleet validation is explicitly identified as future work.
         (EPSS) and host-level hygiene posture (patch debt, AD exposure,
         telemetry freshness) for (host, CVE) pair prioritization
   \item Closes the null-result loop opened by Paper 1: demonstrates that
-        host-level hygiene signals --- not additional CVE-level features ---
+        host-level hygiene signals, not additional CVE-level features, 
         are the missing link for meaningful prioritization improvement
   \item Pre-registered 25-seed evaluation with BCa 95\% CIs; no post-hoc
         metric selection; ground-truth definition fixed before scoring
   \item Ground-truth circularity (HRS in both scorer and labels)
         explicitly acknowledged in both the pre-registration and the
-        threats-to-validity section --- clinical-trial-grade transparency
+        threats-to-validity section, clinical-trial-grade transparency
   \item Open Python implementation (HygienePrio scorer + EEHDA fleet generator
         + 225-row frozen results) released for community replication
 \end{itemize}
@@ -375,8 +375,8 @@ System (EPSS) is asset-agnostic by design: it scores a CVE, not a host. Prior
 work (\textbf{VulnPrio}, Paper 1) found that augmenting EPSS with CVE-level
 features did not improve prioritization, suggesting the missing signal is
 host-level hygiene posture. We present \textbf{HygienePrio}, a scoring framework
-integrating a three-dimensional Hygiene Risk Score (HRS) --- patch posture, Active
-Directory exposure, and telemetry freshness --- into an EPSS-weighted scorer via
+integrating a three-dimensional Hygiene Risk Score (HRS), patch posture, Active
+Directory exposure, and telemetry freshness, into an EPSS-weighted scorer via
 an additive combination with an explicit EPSS$\times$HRS interaction term.
 In a pre-registered synthetic evaluation across 25 fleet seeds of the EEHDA
 synthetic fleet, HygienePrio achieves mean Precision@50 of 0.509 compared with

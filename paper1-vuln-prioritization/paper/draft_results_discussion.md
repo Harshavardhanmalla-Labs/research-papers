@@ -119,17 +119,17 @@ model from this run.
 Operational metrics (Table `table_operational_metrics`):
 
 - **Scheduler feasibility** is 1.0 for every strategy and seed: scheduling
-  completed within capacity with no infeasible escalations.
+ completed within capacity with no infeasible escalations.
 - **Scheduled count** equals the configured capacity (100) for every strategy,
-  i.e. capacity was the binding constraint throughout.
+ i.e. capacity was the binding constraint throughout.
 - **Capacity efficiency** (fraction of scheduled pairs that are labeled
-  positives) ranges from 0.30 (`proposed_no_criticality`) to 1.0 (`cvss_only`,
-  `oracle`); `proposed_full` is 0.65 and `random` is 0.73. Here too
-  `proposed_full` does not exceed `random`.
+ positives) ranges from 0.30 (`proposed_no_criticality`) to 1.0 (`cvss_only`,
+ `oracle`); `proposed_full` is 0.65 and `random` is 0.73. Here too
+ `proposed_full` does not exceed `random`.
 - **KEV-deadline breach rate** is uniformly high (~0.985-0.996) across all
-  strategies, because the per-window capacity (100) is far below the number of
-  KEV-due pairs; the binding capacity constraint, not the prioritization policy,
-  dominates this metric in the current configuration.
+ strategies, because the per-window capacity (100) is far below the number of
+ KEV-due pairs; the binding capacity constraint, not the prioritization policy,
+ dominates this metric in the current configuration.
 - **Risk-acceptance rate** is near zero for all strategies (0-0.004).
 
 Audit metrics (Table `table_audit_metrics`): every strategy's audit log has a
@@ -144,19 +144,19 @@ Future Work.
 ## 13.7 Summary of Findings
 
 - The benchmark **executes reproducibly** across 30 seeds, producing 4,290
-  integrity-verified metric rows and 390 valid hash-chained audit logs.
+ integrity-verified metric rows and 390 valid hash-chained audit logs.
 - The **audit and scheduler pipeline behaves correctly** end to end: chains
-  verify, scheduling is feasible, and capacity is never exceeded.
+ verify, scheduling is feasible, and capacity is never exceeded.
 - The oracle/random reference bounds are **nearly flat** in this configuration;
-  combined with sub-0.5% inter-strategy spread, this shows the metrics are
-  dominated by the capacity constraint and the toy-fixture positive base rate.
+ combined with sub-0.5% inter-strategy spread, this shows the metrics are
+ dominated by the capacity constraint and the toy-fixture positive base rate.
 - The proposed linear model (`proposed_full`) **did not dominate** the baselines:
-  it is statistically indistinguishable from `epss_only` and nominally worse than
-  `random` on absolute EHD, capacity efficiency, and top-10 precision, under
-  toy-fixture inputs and placeholder (uncalibrated) weights.
+ it is statistically indistinguishable from `epss_only` and nominally worse than
+ `random` on absolute EHD, capacity efficiency, and top-10 precision, under
+ toy-fixture inputs and placeholder (uncalibrated) weights.
 - The artifact nonetheless **exposes measurable operational trade-offs** and
-  provides a reproducible, auditable basis for the calibrated and sensitivity
-  studies required to make any method-quality claim.
+ provides a reproducible, auditable basis for the calibrated and sensitivity
+ studies required to make any method-quality claim.
 
 ---
 
@@ -193,7 +193,7 @@ intended discipline.
 hold independent of the (currently inconclusive) method comparison. (i)
 Decision-level audit records and verifiable hash chains provide a traceable basis
 for after-the-fact review. (ii) Capacity constraints and approval gates
-materially shape outcomes — here capacity, not policy, dominated KEV breach — so
+materially shape outcomes, here capacity, not policy, dominated KEV breach, so
 prioritization must be evaluated jointly with operational limits. (iii) The
 vulnerability-host *pair* is a useful, traceable unit of decision and explanation.
 
@@ -211,70 +211,70 @@ during Phase 19 citation finalization.]
 # 15. Limitations
 
 - **Synthetic, toy-fixture evaluation.** The frozen run uses a small bundled toy
-  vulnerability/KEV/PoC fixture set and a deterministic synthetic fleet, not real
-  agency data. Absolute EHD magnitudes and base rates are properties of these
-  fixtures, not field measurements.
+ vulnerability/KEV/PoC fixture set and a deterministic synthetic fleet, not real
+ agency data. Absolute EHD magnitudes and base rates are properties of these
+ fixtures, not field measurements.
 - **Placeholder (uncalibrated) weights.** The proposed linear model used
-  placeholder weights (`w_logit_placeholder`), not weights calibrated on
-  historical exploitation data. No method-quality conclusion can be drawn until
-  calibration is performed.
+ placeholder weights (`w_logit_placeholder`), not weights calibrated on
+ historical exploitation data. No method-quality conclusion can be drawn until
+ calibration is performed.
 - **Differences within noise.** Inter-strategy EHD differences are sub-0.5% and
-  smaller than per-seed standard deviation; the study is not powered to separate
-  strategies in this configuration.
+ smaller than per-seed standard deviation; the study is not powered to separate
+ strategies in this configuration.
 - **No live or production data.** No live feed clients were called and no external
-  real-world exploitation outcomes were used to validate predictions.
+ real-world exploitation outcomes were used to validate predictions.
 - **No commercial RBVM baseline.** The comparison set is limited to documented
-  open strategies; commercial risk-based vulnerability-management tools are not
-  benchmarked.
+ open strategies; commercial risk-based vulnerability-management tools are not
+ benchmarked.
 - **No robustness or sensitivity sweeps yet.** Only the single primary cell
-  (Label A, Policy A, primary blackout, AD/Entra identity) was executed; Label B,
-  alternative policies/blackouts, and parameter sweeps are not yet run.
+ (Label A, Policy A, primary blackout, AD/Entra identity) was executed; Label B,
+ alternative policies/blackouts, and parameter sweeps are not yet run.
 - **Feed caveats.** EPSS, KEV, and PoC signals carry their own coverage, timing,
-  and labeling biases; the KEV/PoC-derived labels are proxies for exploitation,
-  not ground-truth compromise.
+ and labeling biases; the KEV/PoC-derived labels are proxies for exploitation,
+ not ground-truth compromise.
 - **Local-exposure observability assumptions.** Exposure and criticality features
-  assume telemetry/CMDB observability that may be incomplete or stale in practice.
+ assume telemetry/CMDB observability that may be incomplete or stale in practice.
 - **Synthetic fleet generalization.** The public-sector-shaped synthetic fleet may
-  not reflect any specific agency's topology, identity tiering, or software mix.
+ not reflect any specific agency's topology, identity tiering, or software mix.
 - **Audit evidence is not compliance.** Verifiable audit logs support review but do
-  not by themselves establish conformance with any regulation or framework.
+ not by themselves establish conformance with any regulation or framework.
 - **Scheduler models timing, not patch success.** Approvals and remediation timing
-  are simulated; actual patch deployment success/failure and rollback are not
-  modeled in the EHD accounting used here.
+ are simulated; actual patch deployment success/failure and rollback are not
+ modeled in the EHD accounting used here.
 - **Oracle is not a strict lower bound.** Under capacity constraints and the
-  current EHD accounting, the label-prioritizing oracle is not guaranteed to be
-  EHD-minimal, which is why some strategies report fraction-of-oracle outside
-  [0, 1]. This is a metric/artifact limitation to address before relying on the
-  fraction-of-oracle scale.
+ current EHD accounting, the label-prioritizing oracle is not guaranteed to be
+ EHD-minimal, which is why some strategies report fraction-of-oracle outside
+ [0, 1]. This is a metric/artifact limitation to address before relying on the
+ fraction-of-oracle scale.
 - **GBT comparator excluded.** The gradient-boosted-tree comparator was excluded
-  from the primary cell because no fitted model artifact was supplied; it is not
-  part of these results.
+ from the primary cell because no fitted model artifact was supplied; it is not
+ part of these results.
 
 ---
 
 # 16. Future Work
 
 - **Calibrated weights over larger historical windows**, replacing placeholder
-  weights, with the calibration protocol and temporal splits already implemented.
+ weights, with the calibration protocol and temporal splits already implemented.
 - **Label B / PoC-only robustness** runs to bound EPSS-KEV entanglement.
 - **Sensitivity sweeps** over capacity ratio, blackout configuration, approver
-  policy, identity configuration, CMDB staleness, and telemetry missingness.
+ policy, identity configuration, CMDB staleness, and telemetry missingness.
 - **Public-source feed snapshots** (point-in-time NVD/EPSS/KEV/PoC) beyond the toy
-  fixtures, preserving the no-future-leakage discipline.
+ fixtures, preserving the no-future-leakage discipline.
 - **Real-agency pilot** under anonymized and approved telemetry, with governance
-  review, to test external validity.
+ review, to test external validity.
 - **Additional learning-to-rank baselines** and the **GBT comparator** once a
-  fitted model artifact is available, for a fuller comparison.
+ fitted model artifact is available, for a fuller comparison.
 - **Audit-quality metrics in the primary set**: per-record explanation
-  completeness and per-feature imputation rate, plus automated model-card and
-  audit-report generation.
+ completeness and per-feature imputation rate, plus automated model-card and
+ audit-report generation.
 - **Richer operational models**: more realistic blackout/CAB calendars,
-  patch-success/rollback modeling in the EHD accounting, and a corrected or
-  clearly-bounded oracle for the fraction-of-oracle scale.
+ patch-success/rollback modeling in the EHD accounting, and a corrected or
+ clearly-bounded oracle for the fraction-of-oracle scale.
 - **Power analysis** to determine the seed count and effect size needed to
-  separate strategies once calibrated.
+ separate strategies once calibrated.
 - **Public release of the reproducibility artifact** (code, configs, frozen
-  result, freeze manifest) to enable independent verification.
+ result, freeze manifest) to enable independent verification.
 
 ---
 
@@ -293,7 +293,7 @@ uncalibrated weights**, not as evidence of real-world superiority; in this
 configuration the proposed model is indistinguishable from the EPSS baseline and
 does not outperform a random ordering, with all inter-strategy differences inside
 seed-to-seed noise. The primary contribution is therefore the reproducible,
-auditable evaluation structure itself — a falsifiable basis on which calibrated,
+auditable evaluation structure itself, a falsifiable basis on which calibrated,
 production-scale studies can build. Establishing whether context-aware
 prioritization yields operational benefit over EPSS-style baselines remains future
 work requiring calibration, robustness and sensitivity analysis, and external
@@ -314,9 +314,9 @@ decision. We evaluate the framework on a deterministic, public-sector-shaped
 synthetic fleet using a frozen 30-seed primary artifact spanning 13 prioritization
 strategies and a simulated expected-exploited-host-days (EHD) operational metric,
 with strict output inspection and a content-addressed freeze/verify protocol. The
-evaluation validates artifact integrity end to end — 4,290 metric rows with no
+evaluation validates artifact integrity end to end, 4,290 metric rows with no
 missing or non-finite values, 390 audit logs that all verify, feasible scheduling
-within capacity — and computes operational and ranking metrics reproducibly from
+within capacity, and computes operational and ranking metrics reproducibly from
 the frozen outputs. Under the current synthetic fixtures and uncalibrated
 (placeholder) weights, the strategies are statistically indistinguishable on EHD:
 the proposed context-aware model neither beats the EPSS baseline nor a random

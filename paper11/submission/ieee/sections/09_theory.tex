@@ -1,0 +1,208 @@
+\section{Theoretical Analysis}
+\label{sec:theory}
+
+The empirical picture of Section~\ref{sec:results} is consistent and, in two
+places, exact: the advantage is positive and interval-separated at every
+capacity, it is largest where capacity is scarce, and it is precisely zero on
+the homogeneous control. This section asks why those three facts hold as a
+matter of the scorer's algebra rather than as an empirical accident, and why the
+benefit, though real, is bounded in a way that is congruent with the partial H1
+verdict. We derive closed forms where the multiplicative structure of
+Eq.~\ref{eq:capg} permits one and fall back to a qualitative mechanism where it
+does not. No quantity stated here is new: every numeric anchor is the frozen
+value already reported in Section~\ref{sec:results}.
+
+\subsection{When the multiplier can reorder a pair}
+\label{sec:theory_reorder}
+
+Fix a seed and consider two candidate pairs $(h,c)$ and $(h',c')$ with base
+scores $S\equiv S_{\mathrm{base}}(h,c)$ and $S'\equiv S_{\mathrm{base}}(h',c')$
+and host context scores $a\equiv\mathrm{ACS}(h)$ and $a'\equiv\mathrm{ACS}(h')$.
+Under CAP-G the pair $(h,c)$ outranks $(h',c')$ iff
+%
+\begin{equation}
+\label{eq:reorder_condition}
+S\,\bigl(1+\rho a\bigr)\;>\;S'\,\bigl(1+\rho a'\bigr).
+\end{equation}
+%
+Suppose the base scorer ranks them the other way, $S'>S>0$, so that CAP-G
+reorders the pair exactly when Eq.~\ref{eq:reorder_condition} holds. Dividing
+through by $S'(1+\rho a')>0$ and rearranging gives the clean reordering
+criterion
+%
+\begin{equation}
+\label{eq:reorder_ratio}
+\frac{S}{S'}\;>\;\frac{1+\rho a'}{1+\rho a}.
+\end{equation}
+%
+The left side is the base-score ratio, which lies in $(0,1)$ by assumption; the
+right side is below $1$ precisely when $a>a'$, that is, when the lower-base pair
+sits on the higher-context host. So CAP-G promotes a pair over a higher-scored
+competitor only if it has both higher context and a base-score ratio close
+enough to one to be overturned by the context gap. Writing the base scores as
+close, $S'=S(1+\epsilon)$ with small $\epsilon>0$, a first-order expansion of
+Eq.~\ref{eq:reorder_ratio} yields the reordering condition
+%
+\begin{equation}
+\label{eq:reorder_firstorder}
+\rho\,(a-a')\;>\;\epsilon\;+\;O(\epsilon^2,\rho^2),
+\end{equation}
+%
+which states the mechanism compactly: \emph{a reordering occurs only among pairs
+whose base scores are separated by less than the context-weighted gap
+$\rho(a-a')$}. Pairs whose base scores are far apart, $\epsilon\gg\rho(a-a')$,
+keep their order regardless of context. The context factor therefore acts only
+in the neighborhood of base-score ties, and it acts there in the direction of
+the more mission-critical host. This is the algebraic content of the H4 result
+(Section~\ref{sec:results}): because CAP-G perturbs the order only within
+near-tied bands rather than rewriting it wholesale, its context-blind precision
+is statistically indistinguishable from the base scorer's (difference
+$+0.1$~pp, interval $[-1.5,+1.6]$), since the wholesale ordering on the blind
+target is left intact.
+
+\subsection{Why heterogeneity is the lever}
+\label{sec:theory_heterogeneity}
+
+Eq.~\ref{eq:reorder_firstorder} makes the benefit a function of context
+\emph{gaps} $a-a'$ between near-tied pairs, not of context \emph{levels}. The
+number of order-changing pairs, and hence the mission-precision the reordering
+can recover, grows with how widely the context score is spread across the fleet.
+Let the fleet context scores have mean $\bar a$ and variance
+$\sigma_a^2=\operatorname{Var}_h[\mathrm{ACS}(h)]$. For a randomly drawn pair of
+near-tied hosts the expected squared context gap is
+%
+\begin{equation}
+\label{eq:gap_variance}
+\mathbb{E}\bigl[(a-a')^2\bigr]\;=\;2\,\sigma_a^2,
+\end{equation}
+%
+so the typical magnitude of the reordering term $\rho(a-a')$ in
+Eq.~\ref{eq:reorder_firstorder} scales with the context standard deviation
+$\sigma_a$. As $\sigma_a$ rises, more near-tied bands contain a context gap large
+enough to clear the local base-score separation $\epsilon$, more mission-critical
+pairs are lifted into the top-$K$, and the mission-weighted precision gain over
+the base scorer grows. The gain is thus governed by the heterogeneity (variance)
+of the asset context score across the fleet: it is monotone increasing in
+$\sigma_a$ from a floor of zero, with the exact scaling of the realized
+precision lift through that variance depending on the local density of base
+scores near each tie, which is fleet-specific and not available in closed form.
+We state that residual dependence qualitatively rather than assign it a constant
+the data do not pin down. The direction, however, is unambiguous and is exactly
+what the mechanism control measures: dispersion in context is the resource CAP-G
+converts into mission precision.
+
+\subsection{The homogeneous limit: an exact zero}
+\label{sec:theory_homogeneous}
+
+The variance argument has a sharp boundary case. On a homogeneous fleet every
+host carries the same context score, $\mathrm{ACS}(h)\equiv a_0$, so
+$\sigma_a^2=0$ and every context gap $a-a'$ in
+Eq.~\ref{eq:reorder_firstorder} is identically zero. The CAP-G multiplier
+collapses to a single global constant,
+%
+\begin{equation}
+\label{eq:homogeneous}
+\begin{split}
+S_{\mathrm{CAP\text{-}G}}(h,c) &= S_{\mathrm{base}}(h,c)\,\bigl(1+\rho a_0\bigr) \\
+&= \kappa\,S_{\mathrm{base}}(h,c),\qquad \kappa=1+\rho a_0>0,
+\end{split}
+\end{equation}
+%
+and multiplying every pair's score by the same positive $\kappa$ is an
+order-preserving transformation: it cannot change which $K$ pairs are ranked
+highest, so every rank-based metric, MWP@K included, is identical to the base
+scorer's at every capacity. The gain is therefore not merely small but
+\emph{exactly zero}, for every $K$, as an algebraic identity rather than an
+empirical near-miss. This is precisely the H3 mechanism-control result of
+Section~\ref{sec:results}, where the realized homogeneous-fleet advantage is
+$0.0$~pp at every $K$ (interval $[0,0]$); the derivation here shows that outcome
+was forced by the multiplicative form of Eq.~\ref{eq:capg} and not contingent on
+the choice of constants. Conversely, any non-zero advantage observed on the
+heterogeneous fleet must originate in $\sigma_a>0$, which is the sense in which
+the heterogeneous gain is attributable to fleet dispersion and not to the
+scoring transform.
+
+\subsection{Why the benefit is bounded}
+\label{sec:theory_bounded}
+
+The same algebra that makes the gain positive also caps it, and the cap is
+consistent with reporting H1 as partial. Three bounds compound. First, by
+Eq.~\ref{eq:reorder_firstorder} the multiplier touches only the near-tied bands;
+pairs whose base scores are well separated are immovable, so the reachable set of
+reorderings is a strict subset of all pairs and the precision the reordering can
+recover is bounded above by the mission mass sitting inside those bands. Second,
+the context factor is itself bounded: $\mathrm{ACS}(h)\in[0,1]$ gives
+$1+\rho\,\mathrm{ACS}(h)\in[1,\,1+\rho]$, so the largest relative re-weighting any
+pair can receive is $1+\rho$, and the most a low-base mission-critical pair can be
+promoted over a high-base competitor is fixed by that finite ratio rather than
+being unbounded. Third, the benefit interacts with capacity. As $K$ grows the
+top-$K$ set absorbs most high-base pairs regardless of order, so the marginal
+mission mass that reordering can still rescue shrinks; this is the capacity-decay
+mechanism whose monotone realization is the H2 result, and it drives the observed
+decline of the advantage from $+9.5$~pp at $K=50$ to $+3.0$~pp at $K=100$ to
+$+0.7$~pp at $K=250$.
+
+These three bounds together explain the shape of the primary finding without
+softening it. The advantage is genuinely positive and interval-separated at every
+capacity, and it is largest exactly where remediation budget is scarcest, but
+because it decays toward zero as capacity grows, its average across the three
+pre-registered capacities is a bounded quantity, and the realized average of
+$4.4$~pp sits just below the locked $5$~pp bar. The theory predicts a positive but
+capacity-attenuated effect that is strongest at small $K$; that is exactly the
+partial verdict the frozen results record, and we present it as a bounded effect
+rather than a stronger claim than the data support. Framed in the information
+terms of~\cite{cover2006elements}, the context dimension can only reorder pairs to
+the extent that mission value carries information the base ranking has not already
+expressed; where the budget is large enough to cover the high-base pairs anyway,
+that incremental information has little left to act on, and the bounded gain is the
+visible signature of a bounded information increment.
+
+\subsection{Robustness and Sensitivity}
+\label{sec:theory_robustness}
+
+\textbf{An adversary who hides in low-context hosts.} The reordering analysis
+exposes a specific worst case for a context-aware queue. Section~\ref{sec:results}
+showed the dual of this for the base scorer's hygiene channel; here we reason about
+the mission channel. Suppose a strategic attacker, knowing the defender ranks with
+CAP-G, deliberately concentrates exploitation on \emph{low}-context hosts, where
+$\mathrm{ACS}(h)$ is small and the multiplier $1+\rho\,\mathrm{ACS}(h)$ is nearest
+its floor of $1$. On exactly those hosts the context factor gives the least lift,
+so a compromise there is the case CAP-G is least able to surface relative to the
+base scorer. Two structural facts bound the damage. First, the mission-weighted
+objective is, by design, indifferent to such hosts in proportion to their low
+mission value: a successful compromise of a low-context host costs little
+mission-weighted exposure precisely because the MCTP target counts a host as
+mission-critical only when its ACS exceeds the fleet 75th percentile
+(Section~\ref{sec:eval}), so the attack lands where the loss the objective is
+defined to minimize is smallest. The attacker buys access to the hosts the
+multiplier ignores by accepting the hosts the mission objective also discounts;
+the two are the same hosts by construction. Second, on those low-context pairs CAP-G
+reduces toward the base scorer, since when $\mathrm{ACS}(h)\!\to\!0$ the factor
+$1+\rho\,\mathrm{ACS}(h)\!\to\!1$ and Eq.~\ref{eq:capg} returns
+$S_{\mathrm{base}}$; the defender therefore retains the full hygiene-augmented base
+ranking on exactly the hosts where context adds nothing, rather than being left
+defenseless. The residual risk is real and we do not minimize it: an attacker
+willing to operate only against genuinely low-value hosts faces a queue that has
+correctly deprioritized them, which is the intended behavior of a mission-weighted
+objective, but a defender who disputes the mission valuation, for instance one who
+believes a nominally low-context host is a stepping stone to a critical one, should
+revisit the context assignment itself rather than the scorer, because CAP-G faithfully
+propagates whatever mission values the fleet model encodes.
+
+\textbf{Sensitivity to the context emphasis.} The bounds above are stated for
+fixed $\rho$, and the realized study used the locked-grid value $\rho{=}8.0$
+selected on five held-out calibration seeds with the pre-registered stop rule
+(Section~\ref{sec:method}). Because the multiplier range $1+\rho$ is monotone in
+$\rho$, larger $\rho$ widens the band of base-score ties that context can overturn
+in Eq.~\ref{eq:reorder_firstorder}, which is consistent with the monotone rise of
+calibration MWP@50 across the locked grid reported in Section~\ref{sec:method};
+the chosen boundary value is therefore a conservative lower bound on context
+emphasis, and the bounded-gain conclusion is if anything understated with respect
+to $\rho$. Sensitivity to \emph{which} context dimension drives the effect is
+settled empirically by the ablation of Section~\ref{sec:results}, where removing
+asset criticality is the only deletion whose MWP@50 change separates from zero;
+the variance lever $\sigma_a$ of Section~\ref{sec:theory_heterogeneity} is, on this
+target, carried predominantly by the criticality dimension, and the network-zone
+and data-sensitivity terms contribute little dispersion that the mission target
+rewards. We change none of those calibration or ablation values here; the theory
+explains their direction and leaves their magnitudes to the frozen results.

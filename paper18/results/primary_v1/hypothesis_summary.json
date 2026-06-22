@@ -1,0 +1,96 @@
+{
+  "n_eval_seeds": 25,
+  "reference": {
+    "rec_random_annual": {
+      "mean": 0.6875,
+      "ci_lo": 0.6797,
+      "ci_hi": 0.6951
+    },
+    "rec_random_chaos": {
+      "mean": 0.9489,
+      "ci_lo": 0.9443,
+      "ci_hi": 0.9533
+    },
+    "gain": {
+      "mean": 0.2614,
+      "ci_lo": 0.2549,
+      "ci_hi": 0.2678
+    }
+  },
+  "sweeps": {
+    "coverage_gain": {
+      "0.3": 0.2184,
+      "0.5": 0.2399,
+      "0.7": 0.2614,
+      "0.9": 0.2907
+    },
+    "cadence_gain": {
+      "1": 0.2698,
+      "7": 0.2614,
+      "30": 0.2313,
+      "90": 0.1651
+    },
+    "drill_illusion": {
+      "365": 0.3125,
+      "180": 0.2023,
+      "90": 0.1186,
+      "30": 0.0437
+    }
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "continuous chaos raises at-random recovery by >=0.10 vs annual drills",
+      "gain": {
+        "mean": 0.2614,
+        "ci_lo": 0.2549,
+        "ci_hi": 0.268
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H2": {
+      "statement": "gain is bounded by the coverage ceiling and rises with coverage",
+      "ceiling_gap": {
+        "mean": -0.0098,
+        "ci_lo": -0.0102,
+        "ci_hi": -0.0094
+      },
+      "coverage_gains": [
+        0.2184,
+        0.2399,
+        0.2614,
+        0.2907
+      ],
+      "verdict": "SUPPORTED"
+    },
+    "H3": {
+      "statement": "gain saturates as chaos cadence tightens (diminishing marginal gain)",
+      "gain_by_cadence_loose_to_tight": [
+        0.1651,
+        0.2313,
+        0.2614,
+        0.2698
+      ],
+      "marginal_gains": [
+        0.0662,
+        0.0301,
+        0.0084
+      ],
+      "verdict": "SUPPORTED"
+    },
+    "H4": {
+      "statement": "the drill illusion grows with the drill interval (annual overstates recovery)",
+      "illusion_short_to_long": [
+        0.0437,
+        0.1186,
+        0.2023,
+        0.3125
+      ],
+      "annual_illusion": {
+        "mean": 0.3125,
+        "ci_lo": 0.3051,
+        "ci_hi": 0.3204
+      },
+      "verdict": "SUPPORTED"
+    }
+  }
+}

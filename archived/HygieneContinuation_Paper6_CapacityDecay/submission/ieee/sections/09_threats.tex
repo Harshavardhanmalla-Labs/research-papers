@@ -41,10 +41,10 @@ comparability at the cost of entangling capacity with denominator drift.
 \textit{(iii) Synthetic-fleet structural priors.} EPSS and HRS
 distributions, patch-lag dynamics, KEV prevalence, and AD-exposure
 structure are all drawn from the EEHDA fixture distributions inherited
-from Paper~4~\cite{paper4hygieneprio}. Real fleet distributions
+from the HygienePrio scorer~\cite{paper4hygieneprio}. Real fleet distributions
 may differ in ways that change the cells at which collapse occurs.
-The qualitative pattern --- universal EPSS decay, capacity-dependent
-HygienePrio collapse, regime-robust per-pair dominance --- is the
+The qualitative pattern, universal EPSS decay, capacity-dependent
+HygienePrio collapse, regime-robust per-pair dominance, is the
 result of compositional dynamics that are unlikely to be artifacts of
 the specific distribution choices, but the exact cell boundaries
 ($K = 100$ vs.\ $K = 200$ for the HygienePrio inflection) are
@@ -56,15 +56,15 @@ shrinks and P@50 becomes noisier. The decay-slope metric partially
 compensates by aggregating across windows. A complementary
 remediation-latency metric integrating scheduling delay against
 exploitation-event arrival was not in scope for this sweep
-(consistent with Paper~5's deferral).
+(consistent with the temporal-stability study's deferral).
 
 \textbf{External validity.} The 14-day window, 0.15 patch-debt
 reduction, 0.02 EPSS random-walk, and (8\%, 12\%) KEV/EPSS prevalence
-calibrations are inherited from Paper~4 and Paper~5. Organisations with
+calibrations are inherited from the HygienePrio scorer and the temporal-stability study. Organisations with
 substantially different patch-velocity heterogeneity, scanner coverage,
 or AD topology may sit at $(K/\lambda)$ ratios outside the studied
-grid. The qualitative finding --- that both methods exhibit
+grid. The qualitative finding, that both methods exhibit
 capacity-dependent absolute collapse while preserving HygienePrio's
-per-pair advantage --- is more generalisable than any specific cell-level
+per-pair advantage, is more generalisable than any specific cell-level
 number; no claim is made about generalisation to real fleets in the
 absence of external validation on real exploitation outcome data.

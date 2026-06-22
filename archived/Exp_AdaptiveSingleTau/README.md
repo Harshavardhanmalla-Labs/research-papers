@@ -1,4 +1,4 @@
-# Paper 10 — Change-Point-Aware Adaptive Recalibration
+# Paper 10, Change-Point-Aware Adaptive Recalibration
 
 Pre-registered evaluation of the simplest adaptive calibration
 procedure (one-threshold magnitude test on calibration-target shift)

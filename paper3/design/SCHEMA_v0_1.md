@@ -1,4 +1,4 @@
-# Paper 3 — Synthetic Telemetry Schema v0.1
+# the HygieneBench benchmark, Synthetic Telemetry Schema v0.1
 
 **Date:** 2026-05-28
 **Status:** Locked for Step 2. No implementation yet. This is a specification document only.
@@ -8,7 +8,7 @@
 
 ## Overview
 
-This schema defines the structure of the synthetic cyber-hygiene telemetry dataset generated for Paper 3. All data is synthetic and seeded. No real user, device, or organizational data is used. The schema covers six entity classes and seven event/state record types.
+This schema defines the structure of the synthetic cyber-hygiene telemetry dataset generated for the HygieneBench benchmark. All data is synthetic and seeded. No real user, device, or organizational data is used. The schema covers six entity classes and seven event/state record types.
 
 Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorized).
 
@@ -27,7 +27,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ## Entity Tables
 
-### E1 — `users`
+### E1, `users`
 
 | Field | Type | Description |
 |---|---|---|
@@ -51,7 +51,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### E2 — `groups`
+### E2, `groups`
 
 | Field | Type | Description |
 |---|---|---|
@@ -67,7 +67,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### E3 — `computers`
+### E3, `computers`
 
 | Field | Type | Description |
 |---|---|---|
@@ -86,7 +86,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### E4 — `assets`
+### E4, `assets`
 
 | Field | Type | Description |
 |---|---|---|
@@ -104,7 +104,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ## Event/State Record Tables
 
-### R1 — `login_events`
+### R1, `login_events`
 
 | Field | Type | Description |
 |---|---|---|
@@ -121,7 +121,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### R2 — `group_membership_events`
+### R2, `group_membership_events`
 
 | Field | Type | Description |
 |---|---|---|
@@ -137,7 +137,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### R3 — `endpoint_patch_state`
+### R3, `endpoint_patch_state`
 
 | Field | Type | Description |
 |---|---|---|
@@ -146,7 +146,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 | `snapshot_timestamp` | datetime | When this patch state was observed |
 | `missing_patch_count` | int | Count of missing patches |
 | `critical_missing_patch_count` | int | Count of missing critical/KEV patches |
-| `patch_compliance_score` | float | 0.0–1.0 |
+| `patch_compliance_score` | float | 0.0-1.0 |
 | `days_since_last_patch_applied` | int | Patch lag signal |
 | `open_kev_count` | int | Count of open KEV-flagged CVEs |
 | `source_freshness_flag` | enum | `fresh` / `stale_mild` / `stale_heavy` / `missing` |
@@ -156,7 +156,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### R4 — `vulnerability_records`
+### R4, `vulnerability_records`
 
 | Field | Type | Description |
 |---|---|---|
@@ -179,7 +179,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### R5 — `remediation_events`
+### R5, `remediation_events`
 
 | Field | Type | Description |
 |---|---|---|
@@ -195,7 +195,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### R6 — `account_lifecycle_events`
+### R6, `account_lifecycle_events`
 
 | Field | Type | Description |
 |---|---|---|
@@ -210,7 +210,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ---
 
-### R7 — `telemetry_freshness_log`
+### R7, `telemetry_freshness_log`
 
 | Field | Type | Description |
 |---|---|---|
@@ -229,7 +229,7 @@ Version 0.1 is a design spec. Implementation begins at Step 3 (not yet authorize
 
 ## Anomaly Label Table
 
-### L1 — `anomaly_labels`
+### L1, `anomaly_labels`
 
 Stored separately from observation tables to enforce strict train/test discipline.
 
@@ -243,7 +243,7 @@ Stored separately from observation tables to enforce strict train/test disciplin
 | `injected_at` | datetime | When this anomaly was injected in synthetic time |
 | `observable_from` | datetime | Earliest timestamp at which the anomaly is detectable |
 | `source_record_ids` | list[UUID] | FKs to the source records that constitute this anomaly |
-| `benchmark_task_id` | str | Which benchmark task (T1–T7) this anomaly belongs to |
+| `benchmark_task_id` | str | Which benchmark task (T1-T7) this anomaly belongs to |
 | `split` | enum | `train` / `val` / `test` |
 
 ---
@@ -260,12 +260,12 @@ Stored separately from observation tables to enforce strict train/test disciplin
 | AH-06 | `endpoint_identity_risk_correlation` | Computer, User | computers, vulnerability_records, users | T3 | Enables T1078 (access via unpatched host) |
 | AH-07 | `patch_noncompliance_cluster` | Computer | endpoint_patch_state | T5 | Enables exploitation via unpatched CVE |
 | AH-08 | `kev_exposure_aging` | Computer | vulnerability_records, endpoint_patch_state | T5 | CISA KEV mandate violation |
-| AH-09 | `asset_inventory_mismatch` | Asset | assets | T4 | Unmanaged asset — unknown exposure surface |
+| AH-09 | `asset_inventory_mismatch` | Asset | assets | T4 | Unmanaged asset, unknown exposure surface |
 | AH-10 | `missing_endpoint_agent` | Computer | computers, telemetry_freshness_log | T4 | Loss of EDR visibility |
 | AH-11 | `telemetry_missingness_cluster` | Computer/OU | telemetry_freshness_log | T4 | Systematic loss of detection coverage |
 | AH-12 | `abnormal_remediation_delay` | Computer | remediation_events, vulnerability_records | T5 | Prolonged exposure of open critical CVE |
 
-**ATT&CK mapping caveat (mandatory in paper):** These mappings describe *enabling conditions*, not detection claims. Paper 3 does not claim to detect the listed ATT&CK techniques; it detects hygiene-state anomalies that *could enable* those techniques if exploited.
+**ATT&CK mapping caveat (mandatory in paper):** These mappings describe *enabling conditions*, not detection claims. The HygieneBench benchmark does not claim to detect the listed ATT&CK techniques; it detects hygiene-state anomalies that *could enable* those techniques if exploited.
 
 ---
 

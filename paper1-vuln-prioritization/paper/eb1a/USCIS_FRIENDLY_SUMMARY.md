@@ -2,7 +2,7 @@
 
 Most organizations, including government-style technology environments, discover
 far more security weaknesses than their teams can fix at once. Deciding which
-weaknesses to fix first — and being able to show later why each decision was made —
+weaknesses to fix first, and being able to show later why each decision was made, 
 is a hard, practical problem. This research studied that problem in a careful,
 repeatable way.
 
@@ -16,7 +16,7 @@ computers shaped like a public-sector environment.
 
 Importantly, the work is honest about its limits. It does not claim the software
 was installed in any real government system, and it does not claim the author's new
-scoring method beat the existing industry signals — in these controlled tests, the
+scoring method beat the existing industry signals, in these controlled tests, the
 methods performed about the same. Reporting that result openly, instead of
 overstating it, is part of doing trustworthy research: serious cybersecurity work
 should be testable and reproducible by others.

@@ -15,7 +15,7 @@ Let $F_t$ denote the fleet state at time $t$. The simulation advances through $W
 
 \subsection{Ground Truth per Window}
 
-At each window, ground truth is defined identically to Paper~4~\cite{paper4hygieneprio}: a pair $(h, c)$ is a true positive if $\mathrm{EPSS}(c) > 0.10$, $\mathrm{HRS}(h)$ exceeds the fleet's 75th percentile at window $w$, and $(h, c) \in V_w$. The threshold is recomputed at each window because the HRS distribution shifts as patches are applied; this is acknowledged as a structural feature of the evaluation (\S\ref{sec:threats}).
+At each window, ground truth is defined identically to the HygienePrio scorer~\cite{paper4hygieneprio}: a pair $(h, c)$ is a true positive if $\mathrm{EPSS}(c) > 0.10$, $\mathrm{HRS}(h)$ exceeds the fleet's 75th percentile at window $w$, and $(h, c) \in V_w$. The threshold is recomputed at each window because the HRS distribution shifts as patches are applied; this is acknowledged as a structural feature of the evaluation (\S\ref{sec:threats}).
 
 \subsection{Metrics}
 
@@ -29,6 +29,6 @@ At each window, ground truth is defined identically to Paper~4~\cite{paper4hygie
 
 \begin{description}
 \item[H1] HygienePrio-full maintains P@50 $>$ EPSS-only (non-overlapping 95\% CIs; reported as bias-corrected percentile bootstrap, an approximation to the pre-registered BCa, see \S\ref{sec:threats}) for at least 4 of 6 windows.
-\item[H2] The HygienePrio advantage is largest at Window~1 (before high-HRS hosts are remediated) and attenuates monotonically. (\textit{Rejected at evaluation --- direction reversed}; see \S\ref{sec:results}.)
+\item[H2] The HygienePrio advantage is largest at Window~1 (before high-HRS hosts are remediated) and attenuates monotonically. (\textit{Rejected at evaluation, direction reversed}; see \S\ref{sec:results}.)
 \item[H3] Per-window re-calibration does not substantially outperform fixed-weight HygienePrio ($<$ 5 pp improvement at P@50), suggesting the initial calibration is sufficiently stable. (\textit{Rejected at evaluation}; see \S\ref{sec:results}.)
 \end{description}

@@ -10,14 +10,14 @@
 HygieneBench is the first open synthetic benchmark covering identity
 (Active Directory) state, endpoint patch posture, and telemetry freshness
 jointly under a controlled anomaly-injection model. It defines **7
-anomaly-detection tasks** (T1–T7) and **12 anomaly classes** (AH-01
+anomaly-detection tasks** (T1-T7) and **12 anomaly classes** (AH-01
 through AH-12), evaluated by an 8-method panel combining rule baselines
 with unsupervised ML.
 
 ## Why HygieneBench
 
 Most ML-for-security benchmarks evaluate one telemetry source at a
-time. Real cyber-hygiene anomalies cross sources — a stale privileged
+time. Real cyber-hygiene anomalies cross sources, a stale privileged
 account (identity), a host with patch debt (endpoint), and missing
 telemetry checkins (freshness) often co-occur in a single incident.
 HygieneBench is the first open dataset that models these jointly with
@@ -29,19 +29,19 @@ field.
 **Rule baselines beat ML on 86.2% of (condition × task × method)
 configurations.** ML adds value on two specific tasks:
 - **T2 (group-membership drift):** M7 temporal z-score AP = 0.951
-  vs. rule baseline 0.766 (Δ = +0.185 in the C-BASE condition).
+ vs. rule baseline 0.766 (Δ = +0.185 in the C-BASE condition).
 - **T5 (patch / vulnerability hygiene):** M5 OCSVM AP = 0.668 vs.
-  rule baseline 0.458 (Δ = +0.210).
+ rule baseline 0.458 (Δ = +0.210).
 
-The 86.2% null-result is itself a contribution — most hygiene anomaly
+The 86.2% null-result is itself a contribution, most hygiene anomaly
 detection literature claims ML wins without comparing against
 task-specific rule baselines.
 
 ## Install
 
 ```bash
-pip install hygienebench           # from PyPI (after first deposit)
-pip install -e .                   # editable from this repo
+pip install hygienebench # from PyPI (after first deposit)
+pip install -e . # editable from this repo
 ```
 
 ## Quick start
@@ -69,7 +69,7 @@ This reproduces the 810-run evaluation from the paper.
 ### Add a new detection method
 
 Implement a detector class with `fit(X_train)` and `score(X_test)` methods
-matching the existing M1–M8 interface in `src/hygienebench/evaluation/methods/`,
+matching the existing M1-M8 interface in `src/hygienebench/evaluation/methods/`,
 then add it to the evaluation registry. See `src/hygienebench/evaluation/methods/`
 for canonical examples (M1 rule baseline, M5 OCSVM, M7 temporal z-score).
 
@@ -77,15 +77,15 @@ for canonical examples (M1 rule baseline, M5 OCSVM, M7 temporal z-score).
 
 ```
 src/hygienebench/
-├── generator/           # EEHDA synthetic fleet generator
-├── injector/            # Controlled anomaly injection (12 classes)
-├── splitter/            # Train/test/calibration splits
-├── evaluation/          # 8 detection methods + metrics
-│   ├── methods/         #   M1 (rule), M2 (hybrid), M3-M8 (ML)
-│   └── runner/          #   evaluation harness + frozen-seed support
-├── cards/               # Dataset cards + provenance
-├── validate/            # Schema + consistency checks
-└── cli/                 # Command-line interface
+├── generator/ # EEHDA synthetic fleet generator
+├── injector/ # Controlled anomaly injection (12 classes)
+├── splitter/ # Train/test/calibration splits
+├── evaluation/ # 8 detection methods + metrics
+│ ├── methods/ # M1 (rule), M2 (hybrid), M3-M8 (ML)
+│ └── runner/ # evaluation harness + frozen-seed support
+├── cards/ # Dataset cards + provenance
+├── validate/ # Schema + consistency checks
+└── cli/ # Command-line interface
 ```
 
 ## Tasks and methods
@@ -113,7 +113,7 @@ src/hygienebench/
 | M5 | OCSVM | One-Class SVM |
 | M6 | Linear AE | PCA-based reconstruction |
 | M7 | Temporal z-score | Statistical |
-| M8 | Graph IF | Graph isolation forest (T1–T3 only) |
+| M8 | Graph IF | Graph isolation forest (T1-T3 only) |
 
 ## Frozen evaluation results
 
@@ -122,9 +122,9 @@ The paper's 810-run evaluation is shipped frozen in
 
 ```bash
 python -m hygienebench.evaluation.runner \
-  --datasets ./datasets/ \
-  --methods all \
-  --output ./results/
+ --datasets ./datasets/ \
+ --methods all \
+ --output ./results/
 ```
 
 Determinism: deterministic from seed list (no random state). The
@@ -133,44 +133,44 @@ generator, injector, and evaluation harness use only seeded RNGs.
 ## Reproducibility
 
 - **Frozen datasets:** 15 condition × seed combinations in `datasets/`,
-  bit-identical reproduction with `--seed`
+ bit-identical reproduction with `--seed`
 - **Frozen results:** `results/primary_full_v1/primary_results.csv` (810 rows)
 - **Per-task dataset cards:** `cards/` documents the schema, anomaly
-  injection model, and label provenance for each task
+ injection model, and label provenance for each task
 - **Pre-registered decision protocol:** `decision_logs/` documents
-  every protocol decision before evaluation, including the
-  pre-registered failure rule that produced the 86.2% null result
+ every protocol decision before evaluation, including the
+ pre-registered failure rule that produced the 86.2% null result
 
 ## Paper
 
 The accompanying paper is *"A Reproducible Synthetic Benchmark for
 Cyber-Hygiene Anomaly Detection Across Identity, Endpoint, and Patch
-Telemetry"* — target venue ACM CCS AISec Workshop. The submission
+Telemetry"*, target venue ACM CCS AISec Workshop. The submission
 manuscript is in `submission/acm/`.
 
 Cite:
 
 ```bibtex
 @misc{hygienebench2026,
-  author = {Malla, Harshavardhan},
-  title  = {{HygieneBench}: A Reproducible Synthetic Benchmark for Cyber-Hygiene Anomaly Detection Across Identity, Endpoint, and Patch Telemetry},
-  year   = {2026},
-  url    = {https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper3},
-  note   = {Manuscript on file; Zenodo DOI at camera-ready}
+ author = {Malla, Harshavardhan},
+ title = {{HygieneBench}: A Reproducible Synthetic Benchmark for Cyber-Hygiene Anomaly Detection Across Identity, Endpoint, and Patch Telemetry},
+ year = {2026},
+ url = {https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper3},
+ note = {Manuscript on file; Zenodo DOI at camera-ready}
 }
 ```
 
 ## Contributing
 
-PRs welcome — particularly:
+PRs welcome, particularly:
 - New detection methods following the `BaseDetector` interface
 - New anomaly classes following the `AnomalyInjector` interface
 - New tasks (with a pre-registered protocol document in
-  `decision_logs/`)
+ `decision_logs/`)
 - Sensitivity-sweep results on the existing tasks
 
 For new detection methods, please include a comparison against M1
-(rule baseline) — the paper's 86.2% null finding means rule baselines
+(rule baseline), the paper's 86.2% null finding means rule baselines
 remain the relevant comparator.
 
 ## License
@@ -179,4 +179,4 @@ MIT (see `LICENSE`).
 
 ## Author
 
-Harshavardhan Malla — Independent Researcher.
+Harshavardhan Malla, Independent Researcher.

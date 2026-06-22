@@ -1,6 +1,6 @@
-# Paper 2 — Exhibit Description
+# the CalibScore study, Exhibit Description
 
-This file describes each technical artefact that Paper 2 produces, in the
+This file describes each technical artefact that the CalibScore study produces, in the
 order an attorney would likely list them as exhibits. Each entry records:
 what the artefact is, where it lives in the repository, what it shows, and
 what *cannot* be inferred from it.
@@ -11,13 +11,13 @@ the author built and audited inside this repository.
 
 ---
 
-## Exhibit P2-1 — Pre-registration (F1–F9)
+## Exhibit P2-1, Pre-registration (F1-F9)
 
 **Location.** `paper2/manuscript/STEP4_PREREGISTRATION.md` and the nine
 fix documents under `paper2/manuscript/STEP3_*FIX_*.md`.
 
-**What it shows.** The author committed in writing — before any data was
-collected — to a specific design: six weight vectors, 28 stop rules, a
+**What it shows.** The author committed in writing, before any data was
+collected, to a specific design: six weight vectors, 28 stop rules, a
 fixed inference policy (5,000 host-day effect threshold; MDE-d ≈ 0.5292 at
 n = 30), a fixed cell enumeration (48 cells), a freeze invariant tied to a
 SHA-256 manifest, and a compute envelope.
@@ -28,7 +28,7 @@ author's own code.
 
 ---
 
-## Exhibit P2-2 — Runtime package
+## Exhibit P2-2, Runtime package
 
 **Location.** `paper2_runtime/` (13 Python modules) and `tests/test_paper2_*.py`
 (154 tests, all passing).
@@ -44,7 +44,7 @@ audited outside this repository.
 
 ---
 
-## Exhibit P2-3 — Public-feed feasibility probe
+## Exhibit P2-3, Public-feed feasibility probe
 
 **Location.** `paper2/feasibility/probe_v2_multit0/summary.json` and
 companion calibration / acquisition status files.
@@ -63,14 +63,14 @@ produce the same count.
 
 ---
 
-## Exhibit P2-4 — Pilot run + pilot gate decision
+## Exhibit P2-4, Pilot run + pilot gate decision
 
 **Location.** `paper2/audit/pilot_gate_decision.json` and per-batch
 artefacts under `paper2/results/B-pilot-*/`.
 
 **What it shows.** Four pilot batches (288 seed-runs total) executed in
 459.5 wall-clock seconds with a measured per-seed-run cost of 1.596 s,
-projecting a primary runtime of 0.83 h under a 1.3× safety factor — well
+projecting a primary runtime of 0.83 h under a 1.3× safety factor, well
 under the pre-registered 18-h compute ceiling. Pilot gate decision:
 `PROCEED_TO_PRIMARY_NO_FALLBACK`. All four pilot batches verified
 freeze-OK; K1, K3, S-A triggered on every batch.
@@ -81,7 +81,7 @@ weights.
 
 ---
 
-## Exhibit P2-5 — Primary run
+## Exhibit P2-5, Primary run
 
 **Location.** `paper2/audit/primary_complete.json` and per-cell metric
 CSVs under `paper2/results/B-primary-*/`.
@@ -98,7 +98,7 @@ measurements, not a ranking of strategies.
 
 ---
 
-## Exhibit P2-6 — Aggregation + inference + post-run stop rules
+## Exhibit P2-6, Aggregation + inference + post-run stop rules
 
 **Location.** `paper2/tables/` (19 aggregation tables + 12 inference
 tables), `paper2/figures/` (14 figures), `paper2/audit/step9_aggregation_complete.json`,
@@ -117,7 +117,7 @@ axes descriptively only.
 
 ---
 
-## Exhibit P2-7 — Manuscript draft
+## Exhibit P2-7, Manuscript draft
 
 **Location.** `paper2/manuscript/paper2_full_draft.md` (17 sections).
 
@@ -132,7 +132,7 @@ accepted, or sent to a venue.
 
 ---
 
-## Exhibit P2-8 — Submission scaffold
+## Exhibit P2-8, Submission scaffold
 
 **Location.** `paper2/submission/cset/` (LaTeX scaffold for USENIX CSET as
 primary target; `main.tex` + 16 section files + 15 verified BibTeX
@@ -151,7 +151,7 @@ placeholder.
 
 ---
 
-## Exhibit P2-9 — Claim-audit script
+## Exhibit P2-9, Claim-audit script
 
 **Location.** `scripts/paper2_claim_audit.py` and the
 `paper2/submission/CLAIM_AUDIT_REPORT.md` it produced.
@@ -160,14 +160,14 @@ placeholder.
 enumerated set of overclaim phrases, with proximity rules (e.g.,
 "significant" within 100 chars of `precision_at_k`) and a negation window
 (e.g., "validated" preceded by "not" within ~6 words is allowed). The
-report on the current draft reads `PASS  (0 violations)`.
+report on the current draft reads `PASS (0 violations)`.
 
 **What cannot be inferred.** That every possible overclaim has been
 caught. The script catches what it is configured to catch.
 
 ---
 
-## Exhibit P2-10 — Citation-audit report
+## Exhibit P2-10, Citation-audit report
 
 **Location.** `paper2/submission/CITATION_AUDIT_REPORT.md` and
 `paper2/submission/cset/references.bib`.
@@ -182,16 +182,16 @@ their work is summarised in the manuscript.
 
 ---
 
-## Exhibit P2-11 — Paper 1 freeze invariant evidence
+## Exhibit P2-11, the VulnPrio study freeze invariant evidence
 
-**Location.** `paper/report/report_manifest.json` (Paper 1) and the
+**Location.** `paper/report/report_manifest.json` and the
 per-batch `freeze_invariant_result.json` files under
 `paper2/results/B-primary-*/`.
 
-**What it shows.** The Paper 1 freeze SHA-256 manifest
-`750e144b…b022833` is byte-equal in both Paper 1's report manifest and as
-the freeze-witness on every Paper 2 primary batch summary. Paper 1's
-frozen outputs were not modified during Paper 2's execution.
+**What it shows.** The VulnPrio study freeze SHA-256 manifest
+`750e144b…b022833` is byte-equal in both the VulnPrio study's report manifest and as
+the freeze-witness on every the CalibScore study primary batch summary. the VulnPrio study's
+frozen outputs were not modified during the CalibScore study's execution.
 
-**What cannot be inferred.** That Paper 1 has been peer-reviewed, accepted,
+**What cannot be inferred.** That the VulnPrio study has been peer-reviewed, accepted,
 or cited. The invariant proves byte-equality, not external recognition.

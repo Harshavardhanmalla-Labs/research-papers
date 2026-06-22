@@ -1,5 +1,5 @@
 % ============================================================
-% HygieneBench — IEEE Conference Paper
+% HygieneBench, IEEE Conference Paper
 % Target venue: ACM CCS AISec Workshop (or IEEE S&P Workshop)
 % Class: IEEEtran (conference mode)
 %
@@ -15,7 +15,7 @@
 
 \documentclass[conference]{IEEEtran}
 
-% ---- Packages -------------------------------------------------------
+%, - Packages,,,,,,,,,  -
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{cite}
@@ -26,6 +26,7 @@
 \usepackage{array}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{xurl}
 \usepackage{xspace}
 \usepackage{enumitem}
 \usepackage{microtype}
@@ -33,11 +34,11 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds, calc}
 
-% ---- Macros ---------------------------------------------------------
+%, - Macros,,,,,,,,,, 
 \newcommand{\hb}{\textsc{HygieneBench}\xspace}
 \newcommand{\fp}{$\blacktriangleright$\xspace}   % failure flag
 
-% ---- TikZ styles ----------------------------------------------------
+%, - TikZ styles,,,,,,,,, -
 \tikzset{
   box/.style={rectangle, rounded corners=3pt, draw, thick,
               align=center, minimum height=1.6em, font=\small},
@@ -64,16 +65,16 @@
 
 \maketitle
 
-% ---- Abstract -------------------------------------------------------
+%, - Abstract,,,,,,,,,  -
 \begin{abstract}
-Cyber-hygiene anomaly detection---identifying stale privileged accounts,
+Cyber-hygiene anomaly detection, identifying stale privileged accounts,
 dormant-account reactivations, endpoint-agent coverage gaps, patch noncompliance
-clusters, and telemetry missingness---is operationally important but poorly served
+clusters, and telemetry missingness, is operationally important but poorly served
 by existing public benchmarks, which focus predominantly on network intrusion or
 attack-emulation telemetry. We introduce \hb, an open, reproducible benchmark that
 jointly covers Active Directory identity state, endpoint patch posture,
 vulnerability exposure, and telemetry freshness across seven evaluation tasks
-(T1--T7) and twelve anomaly classes. All telemetry is generated from a seeded
+(T1-T7) and twelve anomaly classes. All telemetry is generated from a seeded
 synthetic pipeline grounded in public structural priors (NIST NVD severity
 distributions, Verizon DBIR 2026 patch-lag aggregates, CISA BOD 23-01
 cadence requirements). We evaluate eight detection methods under five telemetry
@@ -103,14 +104,14 @@ Binding Operational Directive 23-01 deadlines \cite{cisa_bod2301_2022}, and
 telemetry gaps that silently degrade detection confidence. NIST SP 800-40 Rev.\ 4
 \cite{nist_sp800_40} frames enterprise patch management as a risk-based discipline
 requiring current, accurate asset and patch telemetry. Hygiene-state monitoring
-is a prerequisite for downstream identity and endpoint detection---without knowing
+is a prerequisite for downstream identity and endpoint detection, without knowing
 which accounts are dormant, which agents are missing, and which patches are overdue,
 higher-order anomalies cannot be reliably attributed.
 
-Yet no public benchmark exists for this problem class. Existing collections---the
+Yet no public benchmark exists for this problem class. Existing collections, the
 LANL Unified Host and Network Dataset \cite{kent2015lanl}, the CERT Insider Threat
 Dataset \cite{glasser2013cert}, CICIDS \cite{sharafaldin2018cicids}, and
-attack-emulation repositories \cite{rodriguez2019mordor}---provide rich telemetry
+attack-emulation repositories \cite{rodriguez2019mordor}, provide rich telemetry
 for network intrusion or insider-threat detection but do not model identity hygiene
 state, patch posture, vulnerability exposure, or telemetry freshness as first-class
 evaluation axes.
@@ -176,7 +177,7 @@ splitter partitions entities into train/val/test splits. The evaluation harness
 extracts task-specific features, fits eight detection methods, and applies the
 pre-registered failure protocol to produce primary results and failure flags.
 
-% ---- Architecture TikZ Diagram --------------------------------------
+%, - Architecture TikZ Diagram,,,,,,  -
 \begin{figure}[t]
 \centering
 \scalebox{0.78}{%
@@ -211,7 +212,7 @@ pre-registered failure protocol to produce primary results and failure flags.
 
   % Row 3: Feature Extraction
   \node[greenbox, minimum width=3.0cm, text width=2.8cm, below=0.45cm of datasets] (feat)
-    {Task Feature Extractor (T1--T7)};
+    {Task Feature Extractor (T1-T7)};
   \node[graybox, minimum width=3.6cm, text width=3.4cm, right=0.4cm of feat] (split)
     {Splitter (60/20/20 stratified)};
 
@@ -248,7 +249,7 @@ pre-registered failure protocol to produce primary results and failure flags.
   layer (blue), evaluation harness (green), injector (orange), and outputs (gray/red).}
 \label{fig:architecture}
 \end{figure}
-% ---- End Diagram ----------------------------------------------------
+%, - End Diagram,,,,,,,,, -
 
 \subsection{Schema and Generator}
 
@@ -320,7 +321,7 @@ AH-02 & Privilege escalation drift     & Domain Policy Modification    & T7 \\
 AH-03 & Group membership drift         & Domain Policy Mod. (T1484)    & T2 \\
 AH-04 & Dormant account reactivation   & Valid Accounts (T1078.002)    & T6 \\
 AH-05 & Impossible/unusual login       & Lateral Movement enabling     & T1,T3 \\
-AH-06 & Endpoint--identity risk corr.  & Initial Access enabling       & T3 \\
+AH-06 & Endpoint-identity risk corr.  & Initial Access enabling       & T3 \\
 AH-07 & Patch noncompliance cluster    & Exploit Public-Facing (T1190) & T5 \\
 AH-08 & KEV exposure aging             & Exploit Public-Facing (T1190) & T5 \\
 AH-09 & Asset inventory mismatch       & Defense Evasion enabling      & T4 \\
@@ -349,9 +350,9 @@ Task & Description & Scope & $k$ & Imbalance \\
 \midrule
 T1 & Stale privileged account risk      & Priv. users        & 10 & 1:50  \\
 T2 & Group membership drift             & Users w/ grp events & 20 & 1:167 \\
-T3 & Endpoint--identity risk correlation & Users w/ endpoints  & 15 & 1:333 \\
+T3 & Endpoint-identity risk correlation & Users w/ endpoints  & 15 & 1:333 \\
 T4 & Telemetry coverage gaps            & All computers/assets & 20 & 1:14  \\
-T5 & Patch--vulnerability hygiene       & All computers       & 25 & 1:59  \\
+T5 & Patch-vulnerability hygiene       & All computers       & 25 & 1:59  \\
 T6 & Dormant account reactivation       & Users w/ lifecycle  & 10 & 1:250 \\
 T7 & Escalation drift detection         & Users w/ grp adds   & 10 & 1:500 \\
 \bottomrule
@@ -399,7 +400,7 @@ Table~\ref{tab:features} lists the primary feature groups per task.
 
 \begin{table}[t]
 \centering
-\caption{Primary task features (3--5 per task). All features computed from raw
+\caption{Primary task features (3-5 per task). All features computed from raw
   tables; no features constructed post-hoc.}
 \label{tab:features}
 \scriptsize
@@ -469,14 +470,14 @@ aggregation across the three seeds.
 \begin{table}[t]
 \centering
 \caption{Mean AP and P@$k$ across all 810 runs. \fp\ = failure-flagged.
-  $\dagger$M8 covers T1--T3,T6--T7 only ($n$=25 configs).}
+  $\dagger$M8 covers T1-T3,T6-T7 only ($n$=25 configs).}
 \label{tab:overall}
 \small
 \begin{tabular}{@{}lrrl@{}}
 \toprule
 Method & AP & P@$k$ & Failure rate \\
 \midrule
-M1 Rule baseline    & \textbf{0.916} & 0.444 & --- \\
+M1 Rule baseline    & \textbf{0.916} & 0.444 &, \\
 M5 OCSVM            & 0.913 & \textbf{0.447} & 68.6\%~\fp \\
 M8 Graph-IF$^\dagger$ & 0.801 & 0.348 & \textbf{100\%}~\fp \\
 M4 LOF              & 0.800 & 0.445 & 71.4\%~\fp \\
@@ -508,14 +509,14 @@ lower-difficulty bound.
 ML consistently outperforms the rule baseline on two tasks
 (Table~\ref{tab:ml_gain}; Figure~\ref{fig:ml_gain} shows full per-condition breakdowns).
 
-\textbf{T2 --- Group Membership Drift.} The rule baseline achieves AP~=~0.766
+\textbf{T2, Group Membership Drift.} The rule baseline achieves AP~=~0.766
 (C-BASE). Three ML methods consistently improve on this: M7 temporal z-score
 (AP~=~0.951, $\Delta$AP~=~$+$0.185), M5 OCSVM (AP~=~0.913, $+$0.147), and M4 LOF
 (AP~=~0.890, $+$0.124). Group-membership anomalies involve multi-dimensional
 population-level deviations that temporal z-score and kernel-based methods capture
 more precisely than fixed-threshold rules.
 
-\textbf{T5 --- Patch--Vulnerability Hygiene.} Rule AP~=~0.458 (C-BASE). Best ML:
+\textbf{T5, Patch-Vulnerability Hygiene.} Rule AP~=~0.458 (C-BASE). Best ML:
 M5 OCSVM (AP~=~0.668, $\Delta$AP~=~$+$0.210). T5 combines multiple vulnerability
 signals (CVSS score, KEV exposure, remediation latency, days open) in ways that
 benefit from learned combinations. Absolute AP remains low across all methods,
@@ -551,7 +552,7 @@ T5 & M5 OCSVM   & 0.726 & 0.837 & $+$\textbf{0.111} & C-MISS \\
 
 Figure~\ref{fig:ap_by_condition} plots the AP distributions by condition.
 C-STALE produces the lowest mean AP (0.741 vs.\ C-BASE 0.772, $\Delta$~=~$-$0.031).
-The largest staleness degradation is T3 (endpoint--identity correlation): AP drops
+The largest staleness degradation is T3 (endpoint-identity correlation): AP drops
 from 0.782 (C-BASE) to 0.613 (C-STALE, $\Delta$~=~$-$0.169). T3 combines
 identity-side and endpoint-side features; staleness in either degrades the joint
 signal, making T3 the strongest argument for staleness-aware detection methods.
@@ -560,13 +561,13 @@ Table~\ref{tab:conditions} summarizes mean AP by condition.
 C-FRESH, C-MISS, and C-UNSUP show higher mean AP than C-BASE (0.856, 0.845, 0.844
 respectively). The primary contributor is T5, which gains $+$0.238 AP under C-FRESH.
 Fresh telemetry improves patch compliance scores and KEV exposure count reliability,
-making underlying feature signals more discriminating---a data-quality effect, not a
+making underlying feature signals more discriminating, a data-quality effect, not a
 freshness-flag artifact.
 The C-UNSUP gap deserves an honest caveat: all eight methods are unsupervised, so
 withholding labels cannot raise AP. The C-UNSUP/C-BASE difference instead reflects
 independent RNG draws across separately generated dataset instances. Consequently,
-between-condition gaps of similar magnitude---including part of the C-FRESH
-effect---should be read with instance-level sampling variation in mind.
+between-condition gaps of similar magnitude, including part of the C-FRESH
+effect, should be read with instance-level sampling variation in mind.
 
 \begin{table}[t]
 \centering
@@ -580,7 +581,7 @@ Condition & Mean AP & $\Delta$ vs C-BASE & Primary driver \\
 C-FRESH & 0.856 & $+$0.084 & T5 $+$0.238, T1 $+$0.101 \\
 C-MISS  & 0.845 & $+$0.073 & Similar to C-FRESH \\
 C-UNSUP & 0.844 & $+$0.072 & Instance-level sampling \\
-C-BASE  & 0.772 & ---       & Reference \\
+C-BASE  & 0.772 &,       & Reference \\
 C-STALE & 0.741 & $-$0.031 & T3 $-$0.169 \\
 \bottomrule
 \end{tabular}
@@ -616,7 +617,7 @@ fixed-weight combination is not well-calibrated across the heterogeneous task se
 T7 (escalation drift) is rule-dominated despite extreme rarity: with only 2
 anomalous entities per dataset instance (imbalance $\approx$1:500), the rule-based
 methods M1 and M7 achieve AP~=~1.000, while several ML methods rank the two rare
-anomalies poorly---M2 has mean T7 AP~=~0.319, M5 0.786, M4 0.830, and M3/M8 0.861
+anomalies poorly, M2 has mean T7 AP~=~0.319, M5 0.786, M4 0.830, and M3/M8 0.861
 (task mean 0.822). No ML method closes the gap to the rule baseline.
 
 % =====================================================================
@@ -675,7 +676,7 @@ as well as unsupervised ML on \textbf{83.8\%} of (condition, task, method)
 configurations. ML adds consistent value on group membership drift (T2, $+$0.185 AP,
 M7 temporal z-score) and patch-vulnerability hygiene (T5, $+$0.210 AP, M5 OCSVM).
 M8 (graph-IF) is failure-flagged on all 25 applicable configurations. Telemetry
-staleness consistently degrades performance; T3 (endpoint--identity correlation) is
+staleness consistently degrades performance; T3 (endpoint-identity correlation) is
 the most sensitive task ($-$0.169 AP under C-STALE), quantifying the detection cost
 of stale data pipelines.
 

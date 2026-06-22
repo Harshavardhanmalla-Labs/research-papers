@@ -28,9 +28,9 @@ Three distributional facts that motivate the experiment:
 \begin{itemize}
 \item Real EPSS heavy-tail ($\mathrm{EPSS} > 0.10$) covers
 \textbf{3.64\%} of the 2020+ CVE corpus; the EEHDA synthetic fixture
-produces $\approx$12\% --- a \textbf{3.3$\times$} overestimate.
+produces $\approx$12\%, a \textbf{3.3$\times$} overestimate.
 \item Real KEV prevalence is \textbf{0.52\%} of the same corpus;
-the EEHDA synthetic fixture uses 8\% --- a \textbf{15$\times$}
+the EEHDA synthetic fixture uses 8\%, a \textbf{15$\times$}
 overestimate.
 \item Among real KEV-flagged CVEs, mean EPSS $= 0.49$ (median $0.52$,
 vs.\ a mean of $0.02$ for non-KEV CVEs), confirming the KEV catalog
@@ -48,14 +48,14 @@ We resample each EEHDA evaluation seed's
 \texttt{vulnerability\_records} table by drawing
 $(\mathrm{epss}, \mathrm{in\_kev})$ tuples uniformly without
 replacement from the frozen real corpus. Fleet topology (1{,}000 users,
-830 hosts, host--CVE assignment), HRS computation, ground-truth
+830 hosts, host-CVE assignment), HRS computation, ground-truth
 labels (EPSS > 0.10 AND HRS > 75th percentile), and the calibrated
-Paper~4 scorer weights are unchanged. We re-score a set of 25
-evaluation seeds (105--129) drawn from the same generator family as
+HygienePrio scorer weights are unchanged. We re-score a set of 25
+evaluation seeds (105-129) drawn from the same generator family as
 the primary evaluation. Note that this is \emph{not} identical to the
-primary evaluation's seed set (100--124,
-\texttt{primary\_results\_v1/run\_manifest.json}); the two sets
-overlap on 20 seeds (105--124). The ``Synthetic'' column of
+primary evaluation's seed set (100-124,
+\texttt{primary\_results\_v1/\allowbreak run\_manifest.json}); the two sets
+overlap on 20 seeds (105-124). The ``Synthetic'' column of
 Table~\ref{tab:external_validity} is computed from the frozen primary
 results restricted to those 20 overlapping seeds, which is why its
 EPSS-only baseline (0.211) differs slightly from the \S\ref{sec:results}
@@ -79,7 +79,7 @@ discriminative signal under the real distribution
 ($0.211 \to 0.353$, $+14.2$~pp).
 \item HRS-only collapses ($0.295 \to 0.041$) because the real CVE
 attribute distribution exhausts the supply of high-EPSS pairs HRS
-can co-rank with --- the ground-truth positive set shrinks by an
+can co-rank with, the ground-truth positive set shrinks by an
 order of magnitude.
 \item HygienePrio-full also drops ($0.520 \to 0.377$) for the same
 reason, but less steeply because its EPSS term retains the same
@@ -107,26 +107,26 @@ EPSS/KEV statistics before further synthetic evaluations are used
 as the primary basis for HygienePrio claims. Re-calibration is left
 as immediate future work; the corpus and processing pipeline
 necessary to perform it are released as
-\texttt{real\_data/processed/cve\_corpus\_2020plus.csv} alongside
+\texttt{real\_data/\allowbreak processed/\allowbreak cve\_corpus\_2020plus.csv} alongside
 this paper.
 
-\textit{(iv) The mechanism Paper~6 names becomes more salient.}
-Paper~6's high-capacity collapse mechanism --- the high-EPSS tail
-gets exhausted by capacity-constrained remediation --- is
+\textit{(iv) The mechanism the capacity-decay study names becomes more salient.}
+The capacity-decay study's high-capacity collapse mechanism, the high-EPSS tail
+gets exhausted by capacity-constrained remediation, is
 substantially more aggressive under the real distribution than
 under the synthetic one, because the real tail is thinner to begin
-with. Paper~6's K=200 collapse should therefore appear
+with. The capacity-decay study's K=200 collapse should therefore appear
 \textit{earlier} (smaller K) on real distributions, sharpening
-rather than weakening Paper~6's central finding.
+rather than weakening the capacity-decay study's central finding.
 
 \subsection{What This Section Does Not Establish}
 
 This is partial external validity. The real CVE attribute corpus
 replaces synthetic per-CVE attributes only. The fleet topology,
-host--CVE assignment, HRS components (patch posture, AD exposure,
+host-CVE assignment, HRS components (patch posture, AD exposure,
 telemetry freshness), and ground-truth definition remain synthetic.
 A full external-validity test would require longitudinal
-exploitation-outcome data from real fleets --- which is not
+exploitation-outcome data from real fleets, which is not
 available in any public dataset and is documented in
 \S\ref{sec:threats} as the program's most consequential remaining
 gap.
@@ -136,17 +136,17 @@ gap.
 The frozen real CVE corpus, evaluator, and results are released under
 \texttt{real\_data/} at the \emph{repository root} (not under
 \texttt{paper4/}):
-{\small\begin{verbatim}
-real_data/raw/epss.csv            # FIRST.org snapshot 2026-06-05
-real_data/raw/kev.json            # CISA KEV snapshot
+{\small{\footnotesize\begin{verbatim}
+real_data/raw/epss.csv # FIRST.org snapshot 2026-06-05
+real_data/raw/kev.json # CISA KEV snapshot
 real_data/processed/cve_corpus_2020plus.csv
 real_data/processed/manifest.json
 real_data/real_dist_evaluator.py
 real_data/results/real_dist_results.csv
 real_data/results/comparison_summary.json
-\end{verbatim}}
+\end{verbatim}}}
 \noindent
 Reproduce with:
-{\small\begin{verbatim}
+{\small{\footnotesize\begin{verbatim}
 python3 real_data/real_dist_evaluator.py
-\end{verbatim}}
+\end{verbatim}}}

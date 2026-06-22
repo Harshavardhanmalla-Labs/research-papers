@@ -3,8 +3,8 @@
 
 \section{Introduction}
 
-Maintaining cyber hygiene---keeping privileged accounts active and monitored,
-endpoint agents deployed, patches current, and telemetry fresh---is a persistent
+Maintaining cyber hygiene, keeping privileged accounts active and monitored,
+endpoint agents deployed, patches current, and telemetry fresh, is a persistent
 operational challenge for security operations centers (SOCs), particularly in
 public-sector environments subject to compliance mandates such as CISA Binding
 Operational Directives~\cite{cisa_bod2301_2022} and NIST SP
@@ -15,11 +15,11 @@ invisible to behavioral analytics requiring recent baselines.
 
 Despite the operational importance of hygiene-state monitoring, the anomaly-detection
 research community lacks a dedicated public benchmark for this problem. Existing
-benchmarks---the LANL Unified Host and Network Dataset~\cite{kent2015lanl},
+benchmarks, the LANL Unified Host and Network Dataset~\cite{kent2015lanl},
 CERT Insider Threat datasets~\cite{glasser2013cert},
 CICIDS~\cite{sharafaldin2018cicids},
 and attack-emulation repositories such as
-Mordor/Security Datasets~\cite{rodriguez2019mordor}---provide rich telemetry for
+Mordor/Security Datasets~\cite{rodriguez2019mordor}, provide rich telemetry for
 network intrusion or insider-threat detection but do not model identity hygiene
 state, patch posture, vulnerability exposure, or telemetry freshness as first-class
 evaluation axes. Commercial platforms (Microsoft Defender for Identity, Splunk~UBA,
@@ -30,7 +30,7 @@ This gap matters for two reasons. First, researchers who develop anomaly-detecti
 methods for security operations have no way to compare their methods on
 hygiene-specific telemetry under controlled conditions. Second, there is no
 principled accounting of when unsupervised ML methods add value over simpler
-rule-based approaches for hygiene anomalies---a question with real operational
+rule-based approaches for hygiene anomalies, a question with real operational
 implications, since rule maintenance is expensive and ML deployment requires
 justification.
 
@@ -48,7 +48,7 @@ This paper makes the following contributions:
   (AH-01 through AH-12) with ATT\&CK enabling-condition mappings (not technique
   detection claims), injection protocols, and class imbalance specifications.
 
-\item \textbf{C3: Benchmark task suite.} Seven evaluation tasks (T1--T7) under
+\item \textbf{C3: Benchmark task suite.} Seven evaluation tasks (T1-T7) under
   five telemetry conditions, with pre-registered $k$ values, feature sets, and
   method applicability flags.
 

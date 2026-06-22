@@ -1,4 +1,4 @@
-# EB1A Evidence Summary — Paper 1
+# EB1A Evidence Summary, the VulnPrio study
 
 > This document is supporting material *about* the research artifact. It is not
 > part of the academic manuscript and contains no language inserted into the paper.
@@ -6,20 +6,20 @@
 > peer review, citation, deployment, compliance, or model superiority.
 
 - **Title:** Context-Aware Vulnerability Prioritization for Government Endpoint
-  Fleets: Integrating Exploit Intelligence, Asset Criticality, and Endpoint
-  Telemetry.
+ Fleets: Integrating Exploit Intelligence, Asset Criticality, and Endpoint
+ Telemetry.
 - **Author:** Harshavardhan Malla, Independent Researcher.
 - **Research area:** cybersecurity / vulnerability management; reproducible
-  security-research methodology; security operations under resource constraints.
+ security-research methodology; security operations under resource constraints.
 
 ## Problem addressed
 
-Organizations — especially public-sector-style endpoint environments — disclose
+Organizations, especially public-sector-style endpoint environments, disclose
 more vulnerabilities than they can remediate within limited maintenance capacity,
 and prioritization decisions are often made without traceable, reviewable evidence.
 The work asks whether a reproducible, auditable benchmark can be built to compare
 prioritization strategies under realistic operational constraints, and whether
-adding asset context to exploit-intelligence signals helps — treated as an open
+adding asset context to exploit-intelligence signals helps, treated as an open
 question, not an assumed result.
 
 ## What was built
@@ -37,13 +37,13 @@ result.
 ## Artifact summary
 
 - 30-seed frozen primary artifact across 13 prioritization strategies;
-  4,290 per-seed metric rows; 390 hash-chain-valid audit logs; 0 missing and 0
-  non-finite values; scheduling within the configured capacity (100); strict
-  structural inspection passed with zero issues; content-addressed freeze manifest
-  verified.
+ 4,290 per-seed metric rows; 390 hash-chain-valid audit logs; 0 missing and 0
+ non-finite values; scheduling within the configured capacity (100); strict
+ structural inspection passed with zero issues; content-addressed freeze manifest
+ verified.
 - Reference implementation with an automated test suite (currently 743 passing
-  tests), configuration files, Make targets, and a freeze/verify integrity
-  protocol.
+ tests), configuration files, Make targets, and a freeze/verify integrity
+ protocol.
 - Generated tables (7) and figures (5), an index, and a reproducibility appendix.
 
 ## Manuscript status

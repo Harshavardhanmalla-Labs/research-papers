@@ -1,6 +1,6 @@
 \section{Related Work}
 
-\textbf{Single-cell temporal evaluation.} Paper~5~\cite{paper5temporal}
+\textbf{Single-cell temporal evaluation.} the temporal-stability study~\cite{paper5temporal}
 established the multi-window evaluation framework at a single cell
 $(K = 50, \lambda = 3)$ and demonstrated EPSS-only decay and
 HygienePrio retention at that operating point. The present paper
@@ -28,15 +28,15 @@ inverts in 6 of 20 cells (all at $K \in \{25, 50\}$).
 of vulnerability-prioritization methods to capacity and arrival rate
 are uncommon in the open literature; most published comparisons fix
 both. The present paper documents a case where the choice of
-$(K, \lambda)$ would have changed the headline conclusion --- and
+$(K, \lambda)$ would have changed the headline conclusion, and
 provides a frozen 15{,}000-row artifact for downstream
 sensitivity-analysis work.
 
 \textbf{Cyber-hygiene benchmarking.}
-HygieneBench (Paper~3)~\cite{paper3hygienebench} established the
+The reproducible hygiene benchmark in this line established the
 discriminative structure of patch posture and AD group drift in
 synthetic anomaly-detection tasks.
-HygienePrio (Paper~4)~\cite{paper4hygieneprio} integrated those
+HygienePrio~\cite{paper4hygieneprio} integrated those
 signals into a scorer. Both are single-window studies. The present
 paper inherits both as fixed inputs and varies the multi-window
 operating point.

@@ -8,6 +8,7 @@
 \label{tab:conditions}
 \small
 \setlength{\tabcolsep}{4pt}
+\adjustbox{max width=\columnwidth}{%
 \begin{tabular}{@{}lrr>{\raggedright\arraybackslash}p{2.6cm}@{}}
 \toprule
 Condition & Mean AP & $\Delta$ vs BASE & Primary driver \\
@@ -15,8 +16,8 @@ Condition & Mean AP & $\Delta$ vs BASE & Primary driver \\
 C-FRESH & 0.856 & $+$0.084 & T5 $+$0.238; T1 $+$0.101 \\
 C-MISS  & 0.845 & $+$0.073 & T5, T1 dominate \\
 C-UNSUP & 0.844 & $+$0.072 & Instance-level sampling variation \\
-C-BASE  & 0.772 & ---       & Reference \\
+C-BASE  & 0.772 &        & Reference \\
 C-STALE & 0.741 & $-$0.031 & T3 $-$0.169; staleness \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}

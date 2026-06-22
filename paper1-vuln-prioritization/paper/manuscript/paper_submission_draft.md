@@ -33,8 +33,8 @@ management; reproducible benchmark; auditability; public-sector security operati
 
 ## 1. Introduction
 
-Public-sector endpoint fleets — the workstations, servers, domain controllers, and
-special-purpose hosts operated by government agencies — accumulate disclosed
+Public-sector endpoint fleets, the workstations, servers, domain controllers, and
+special-purpose hosts operated by government agencies, accumulate disclosed
 vulnerabilities faster than constrained operations teams can remediate them. The
 publication rate of Common Vulnerabilities and Exposures (CVEs) continues to grow,
 while each maintenance window admits only a bounded number of changes under
@@ -59,7 +59,7 @@ We do not claim a better predictor. We ask whether an open, reproducible,
 audit-evidence-producing benchmark can be built that ranks vulnerability-host pairs
 under public-sector-shaped operational constraints, and whether combining exploit
 intelligence with asset criticality and endpoint exposure improves prioritization
-over EPSS-style baselines — treated as an open empirical question. Our
+over EPSS-style baselines, treated as an open empirical question. Our
 contributions are (i) an integrated framework (feed normalization, exploit
 enrichment, synthetic endpoint telemetry, asset-criticality and local-exposure
 modeling, vulnerability-host pair construction, scoring/ranking strategies, a
@@ -114,7 +114,7 @@ repeatable evaluation; we are explicit that this bounds external validity (Secti
 We consume these as features/baselines rather than proposing a new predictor.
 
 **Risk-based vulnerability management and commercial RBVM.** Commercial RBVM
-products — Microsoft Defender Vulnerability Management, Tenable VPR/ACR, Qualys TruRisk, and Cisco/Kenna — combine exploit
+products, Microsoft Defender Vulnerability Management, Tenable VPR/ACR, Qualys TruRisk, and Cisco/Kenna, combine exploit
 signals with proprietary context. They are acknowledged as industry practice but
 are **not** benchmarked here: their models are closed and not independently
 reproducible.
@@ -155,7 +155,7 @@ evidence.
 capacity-constrained scheduling simulation modeling approval and timing, not patch
 execution or success); we do not perform production validation (the fleet is
 public-sector-shaped synthetic); we do not benchmark commercial RBVM products; and
-we do not claim the framework guarantees or proves compliance — it produces
+we do not claim the framework guarantees or proves compliance, it produces
 evidence that supports review.
 
 ## 5. Proposed Framework
@@ -174,7 +174,7 @@ an Identity Privilege Exposure Score) and a per-pair **local-exposure** feature
 **Pair construction** builds applicable (v, h) pairs with match-method and
 match-confidence provenance, excluding future-disclosure vulnerabilities. A linear
 model **scores** each pair as
-`w_E·E + w_K·K + w_S·S + w_C·C + w_X·X + w_U·U − w_R·R` (R subtracted, since higher
+`w_E·E + w_K·K + w_S·S + w_C·C + w_X·X + w_U·U - w_R·R` (R subtracted, since higher
 complexity lowers priority), with weights from a registry of placeholder and (when
 fitted) calibrated weights. A five-phase **capacity-constrained scheduler** fills a
 window under capacity. Every score and scheduling decision is recorded in an
@@ -249,9 +249,9 @@ quality** (precision@k, recall@k, nDCG@k, censored labels excluded);
 **KEV-deadline breach rate**; **capacity efficiency** (share of scheduled
 non-censored pairs that are positives); **scheduler feasibility**;
 **risk-acceptance rate**; and **audit integrity** (hash-chain validity and audit
-record counts). Paired statistical comparison helpers — the Wilcoxon signed-rank
+record counts). Paired statistical comparison helpers, the Wilcoxon signed-rank
 test [10], Holm-Bonferroni correction [11], and BCa bootstrap
-confidence intervals [12] — are implemented; we do not apply them as
+confidence intervals [12], are implemented; we do not apply them as
 significance claims here because the observed differences are within seed-to-seed
 noise (Section 13). This paper uses descriptive-only reporting: no hypothesis tests
 are applied to the results, because the null result (no strategy is separable from
@@ -266,17 +266,17 @@ results.
 
 The framework is designed to *support evidence for review* under common
 public-sector control families; it does not satisfy or prove any control. We map
-cautiously: NIST SP 800-53 RA-5 (vulnerability monitoring) [8] — 
+cautiously: NIST SP 800-53 RA-5 (vulnerability monitoring) [8], 
 pair-level prioritization and decision records support evidence for how findings
-are triaged; SI-2 (flaw remediation) — scheduling/timing records support evidence
-for remediation handling under capacity; CM-8 (component inventory) — the synthetic
+are triaged; SI-2 (flaw remediation), scheduling/timing records support evidence
+for remediation handling under capacity; CM-8 (component inventory), the synthetic
 inventory models the asset context such evidence depends on; AU-2/AU-3 (audit
-events/content) — append-only, hash-chained records support evidence for auditable
-event capture; NIST SP 800-40 Rev. 4 [7] — the scheduling simulation
-reflects documented patch-management structure; CISA BOD 22-01 [6] —
+events/content), append-only, hash-chained records support evidence for auditable
+event capture; NIST SP 800-40 Rev. 4 [7], the scheduling simulation
+reflects documented patch-management structure; CISA BOD 22-01 [6], 
 KEV-deadline handling and breach metrics support evidence for directive-driven
 prioritization; CIS Controls v8 [9] and the CJIS Security Policy
-[13] — relevant control intent is acknowledged for
+[13], relevant control intent is acknowledged for
 context. In every case the framing is "supports evidence for review," not
 "satisfies" or "proves"; audit evidence is necessary for, but not equivalent to,
 compliance.
@@ -305,7 +305,7 @@ these are reported as observed.
 The contribution is methodological infrastructure for falsifiable evaluation,
 framed conservatively: (i) a **reproducible vulnerability-host pair benchmark** for
 public-sector-shaped fleets with deterministic seeding and a frozen, verifiable
-artifact; (ii) **audit-evidence-producing decision records** — an append-only,
+artifact; (ii) **audit-evidence-producing decision records**, an append-only,
 hash-chained log whose integrity is independently verifiable, supporting
 after-the-fact review (not a compliance determination); (iii) a
 **capacity-constrained scheduling simulation** with blackout windows, an approval
@@ -313,7 +313,7 @@ policy, and documented risk acceptance, so prioritization is evaluated jointly w
 operational limits (not autonomous remediation); (iv) a **frozen result artifact
 and freeze/verify protocol** making every reported number traceable to a
 content-addressed, integrity-checked output set; and (v) an **honest, neutral
-empirical finding** — under toy fixtures and placeholder weights, the proposed model
+empirical finding**, under toy fixtures and placeholder weights, the proposed model
 is statistically indistinguishable from EPSS and does not outperform a random
 ordering. This is explicitly not a claim of a superior model, not autonomous
 remediation, and not a proof of compliance.
@@ -321,12 +321,12 @@ remediation, and not a proof of compliance.
 ## 13. Results
 
 All quantitative statements are taken from tables and figures generated from the
-frozen artifact (30 seeds, 13 strategies; freeze verified — see Appendix A). EHD is
+frozen artifact (30 seeds, 13 strategies; freeze verified, see Appendix A). EHD is
 a simulated operational quantity for which lower is better.
 
 **13.1 Experimental integrity and artifact validation.** The evaluation comprises
-30 seeds, 13 strategies, and 11 metrics per (seed, strategy) cell — 4,290 per-seed
-metric rows (Table 1) — and 390 hash-chained audit logs, all of which verify.
+30 seeds, 13 strategies, and 11 metrics per (seed, strategy) cell, 4,290 per-seed
+metric rows (Table 1), and 390 hash-chained audit logs, all of which verify.
 Strict inspection reported zero issues, the freeze manifest verifies, there are no
 NaN and no infinite values, and the per-window capacity (100 pair-actions) is
 respected by every strategy in every seed.
@@ -350,8 +350,8 @@ inside the noise band, we treat the ordering as effectively flat (Section 11).
 **13.3 Relative performance against EPSS.** Table 3 and Figure 3 express each
 non-oracle strategy relative to epss_only; lower EHD is better, so a negative delta
 is an improvement. Several strategies show nominally lower EHD than epss_only
-(cvss_only −0.26%, cve_sum −0.11%, random −0.056%, cve_max −0.050%,
-proposed_no_exposure −0.030%, proposed_full −0.017%); others are nominally worse;
+(cvss_only -0.26%, cve_sum -0.11%, random -0.056%, cve_max -0.050%,
+proposed_no_exposure -0.030%, proposed_full -0.017%); others are nominally worse;
 kev_first equals epss_only. proposed_full's nominal improvement (~0.017%, ~186
 host-days) is an order of magnitude smaller than the seed standard deviation and is
 not evidence of beating EPSS; random also appears nominally "better than EPSS" by a
@@ -363,7 +363,7 @@ similar margin, confirming these sub-0.1% gaps are noise (Figure 5).
 
 **13.4 Fraction-of-oracle analysis.** Figure 2 and the fraction-of-oracle column of
 Table 2 place each strategy on the random(0)-to-oracle(1) scale. Observed values
-fall outside [0, 1] for several strategies (cvss_only 1.18; proposed_full −0.23);
+fall outside [0, 1] for several strategies (cvss_only 1.18; proposed_full -0.23);
 values below 0 indicate worse-than-random behavior under this metric, and a value
 above 1 most plausibly reflects a metric/artifact effect (the oracle is not a
 strict lower bound under capacity here) rather than a genuine result. They are
@@ -390,7 +390,7 @@ valid hash chain (1.0); audit record counts vary (~101-292).
 
 ![Figure 4: EHD distribution across seeds for selected strategies. The distributions overlap substantially; no strategy is separable.](../figures/fig_ehd_distribution_selected.png)
 
-![Figure 6: Scheduler feasibility sentinel — scheduling success rate across all seeds and strategies. Feasibility = 1.0 throughout.](../figures/fig_scheduler_feasibility_sentinel.png)
+![Figure 6: Scheduler feasibility sentinel, scheduling success rate across all seeds and strategies. Feasibility = 1.0 throughout.](../figures/fig_scheduler_feasibility_sentinel.png)
 
 **13.7 Summary.** The benchmark executes reproducibly (4,290 integrity-verified
 rows, 390 valid audit logs); the audit and scheduler pipeline behaves correctly end
@@ -464,7 +464,7 @@ read as benchmark validation under synthetic, toy-fixture conditions with
 uncalibrated weights, not as evidence of real-world superiority; in this
 configuration the proposed model is indistinguishable from the EPSS baseline and
 does not outperform a random ordering. The primary contribution is the reproducible,
-auditable evaluation structure itself — a falsifiable basis on which calibrated,
+auditable evaluation structure itself, a falsifiable basis on which calibrated,
 production-scale studies can build. Whether context-aware prioritization yields
 operational benefit over EPSS-style baselines remains future work requiring
 calibration, robustness and sensitivity analysis, and external validation.
@@ -473,11 +473,11 @@ calibration, robustness and sensitivity analysis, and external validation.
 
 [1] Forum of Incident Response and Security Teams (FIRST). *Common Vulnerability Scoring System Version 3.1: Specification Document*. FIRST.org, 2019. https://www.first.org/cvss/v3.1/specification-document
 
-[2] J. Jacobs, S. Romanosky, B. Edwards, M. Roytman, and I. Adjerid. "Exploit Prediction Scoring System (EPSS)." *Digital Threats: Research and Practice*, 2(3):14:1–14:17, 2021. DOI: 10.1145/3474369
+[2] J. Jacobs, S. Romanosky, B. Edwards, M. Roytman, and I. Adjerid. "Exploit Prediction Scoring System (EPSS)." *Digital Threats: Research and Practice*, 2(3):14:1-14:17, 2021. DOI: 10.1145/3474369
 
-[3] L. Allodi and F. Massacci. "Comparing Vulnerability Severity and Exploits Using Case-Control Studies." *ACM Transactions on Information and System Security*, 17(1):1:1–1:20, 2014. DOI: 10.1145/2576752
+[3] L. Allodi and F. Massacci. "Comparing Vulnerability Severity and Exploits Using Case-Control Studies." *ACM Transactions on Information and System Security*, 17(1):1:1-1:20, 2014. DOI: 10.1145/2576752
 
-[4] C. Sabottke, O. Suciu, and T. Dumitraș. "Vulnerability Disclosure in the Age of Social Media: Exploiting Twitter for Predicting Real-World Exploits." In *Proc. 24th USENIX Security Symposium*, pp. 1041–1056, 2015.
+[4] C. Sabottke, O. Suciu, and T. Dumitraș. "Vulnerability Disclosure in the Age of Social Media: Exploiting Twitter for Predicting Real-World Exploits." In *Proc. 24th USENIX Security Symposium*, pp. 1041-1056, 2015.
 
 [5] Cybersecurity and Infrastructure Security Agency (CISA). *Known Exploited Vulnerabilities Catalog*. 2021. https://www.cisa.gov/known-exploited-vulnerabilities-catalog
 
@@ -489,11 +489,11 @@ calibration, robustness and sensitivity analysis, and external validation.
 
 [9] Center for Internet Security. *CIS Critical Security Controls Version 8*. 2021. https://www.cisecurity.org/controls/v8
 
-[10] F. Wilcoxon. "Individual Comparisons by Ranking Methods." *Biometrics Bulletin*, 1(6):80–83, 1945. DOI: 10.2307/3001968
+[10] F. Wilcoxon. "Individual Comparisons by Ranking Methods." *Biometrics Bulletin*, 1(6):80-83, 1945. DOI: 10.2307/3001968
 
-[11] S. Holm. "A Simple Sequentially Rejective Multiple Test Procedure." *Scandinavian Journal of Statistics*, 6(2):65–70, 1979.
+[11] S. Holm. "A Simple Sequentially Rejective Multiple Test Procedure." *Scandinavian Journal of Statistics*, 6(2):65-70, 1979.
 
-[12] B. Efron. "Better Bootstrap Confidence Intervals." *Journal of the American Statistical Association*, 82(397):171–185, 1987. DOI: 10.1080/01621459.1987.10478410
+[12] B. Efron. "Better Bootstrap Confidence Intervals." *Journal of the American Statistical Association*, 82(397):171-185, 1987. DOI: 10.1080/01621459.1987.10478410
 
 [13] Federal Bureau of Investigation. *Criminal Justice Information Services (CJIS) Security Policy*. Version 5.9.4. U.S. Department of Justice, 2023. https://www.fbi.gov/file-repository/cjis-security-policy-v5-9-3-01272023-1.pdf
 

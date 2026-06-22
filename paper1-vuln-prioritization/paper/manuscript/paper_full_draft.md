@@ -1,9 +1,9 @@
 <!--
 FULL MANUSCRIPT (Phase 20 assembly).
 - Sections 1-12 reconstructed as full prose from repository artifacts (README,
-  configs, code modules, generated tables/figures) in Phase 20.
+ configs, code modules, generated tables/figures) in Phase 20.
 - Sections 13-17 + Abstract are the Phase 18 draft, inlined verbatim; every number
-  traces to a Phase 17 frozen table/figure.
+ traces to a Phase 17 frozen table/figure.
 Citations are placeholders ([CITATION: ...], [VERIFY]); none are fabricated.
 No external-process or immigration language appears in this manuscript. The
 empirical result is neutral: under toy fixtures + placeholder weights,
@@ -29,9 +29,9 @@ decision. We evaluate the framework on a deterministic, public-sector-shaped
 synthetic fleet using a frozen 30-seed primary artifact spanning 13 prioritization
 strategies and a simulated expected-exploited-host-days (EHD) operational metric,
 with strict output inspection and a content-addressed freeze/verify protocol. The
-evaluation validates artifact integrity end to end — 4,290 metric rows with no
+evaluation validates artifact integrity end to end, 4,290 metric rows with no
 missing or non-finite values, 390 audit logs that all verify, feasible scheduling
-within capacity — and computes operational and ranking metrics reproducibly from
+within capacity, and computes operational and ranking metrics reproducibly from
 the frozen outputs. Under the current synthetic fixtures and uncalibrated
 (placeholder) weights, the strategies are statistically indistinguishable on EHD:
 the proposed context-aware model neither beats the EPSS baseline nor a random
@@ -47,7 +47,7 @@ reconfirm at camera-ready.)*
 ## Manuscript assembly status (delete before submission)
 
 | Section | Source | Status |
-| --- | --- | --- |
+|, |, |, |
 | 1-12 | reconstructed in Phase 20 from repo artifacts | **complete (prose below)** |
 | 13-17 + Abstract | Phase 18 draft (inlined) | **complete** |
 
@@ -58,8 +58,8 @@ verification; numeric values trace to the frozen Phase 17 tables.
 
 ## 1. Introduction
 
-Public-sector endpoint fleets — the workstations, servers, domain controllers,
-and special-purpose hosts operated by government agencies — accumulate disclosed
+Public-sector endpoint fleets, the workstations, servers, domain controllers,
+and special-purpose hosts operated by government agencies, accumulate disclosed
 vulnerabilities far faster than constrained operations teams can remediate them.
 The publication rate of Common Vulnerabilities and Exposures (CVEs) continues to
 grow, while each maintenance window admits only a bounded number of changes under
@@ -156,8 +156,8 @@ data-driven exploitation scoring, including the lineage leading to EPSS
 baselines rather than proposing a new exploitation predictor.
 
 **Risk-based vulnerability management and commercial RBVM.** Commercial RBVM
-products — Microsoft Defender Vulnerability Management [VERIFY: Microsoft Defender VM docs], Tenable VPR/ACR [VERIFY: Tenable VPR/ACR docs], Qualys TruRisk
-[VERIFY: Qualys TruRisk docs], and Cisco/Kenna [VERIFY: Cisco/Kenna docs] — combine
+products, Microsoft Defender Vulnerability Management [VERIFY: Microsoft Defender VM docs], Tenable VPR/ACR [VERIFY: Tenable VPR/ACR docs], Qualys TruRisk
+[VERIFY: Qualys TruRisk docs], and Cisco/Kenna [VERIFY: Cisco/Kenna docs], combine
 exploit signals with proprietary asset context. They are acknowledged as
 industry practice but are **not** benchmarked here: their models are closed and
 their scores are not independently reproducible, which is incompatible with the
@@ -169,8 +169,8 @@ VULMAN [VERIFY: Deep VULMAN source], VulRG [VERIFY: VulRG source], VulnScore
 graph/risk modeling to prioritization. These works advance modeling quality but
 typically report a single tuned configuration on private or non-reproducible data
 and do not emphasize per-decision audit evidence or an open freeze/verify protocol.
-We position our contribution as complementary infrastructure — a reproducible,
-public-sector-shaped benchmark with auditable decision records — and we do **not**
+We position our contribution as complementary infrastructure, a reproducible,
+public-sector-shaped benchmark with auditable decision records, and we do **not**
 claim to be first.
 
 **Resource-constrained remediation.** Prioritization is only actionable under
@@ -203,12 +203,12 @@ strategies under this capacity constraint using operational and ranking metrics
 (Section 9), with each scheduling decision recorded as tamper-evident audit
 evidence.
 
-Explicit **non-goals**: (i) we do not perform autonomous patching — the scheduler
+Explicit **non-goals**: (i) we do not perform autonomous patching, the scheduler
 is a capacity-constrained scheduling *simulation* that models approval and timing,
-not patch execution or success; (ii) we do not perform production validation — the
+not patch execution or success; (ii) we do not perform production validation, the
 evaluation is on a public-sector-shaped synthetic fleet; (iii) we do not benchmark
 commercial RBVM products; and (iv) we do not claim that the framework guarantees or
-proves compliance — it produces evidence that *supports* review.
+proves compliance, it produces evidence that *supports* review.
 
 ## 5. Proposed Framework
 
@@ -236,7 +236,7 @@ match-method and match-confidence provenance, excluding future-disclosure
 vulnerabilities relative to `t0`.
 
 **Scoring and ranking.** A linear model scores each pair as
-`w_E·E + w_K·K + w_S·S + w_C·C + w_X·X + w_U·U − w_R·R`, where `R` is *subtracted*
+`w_E·E + w_K·K + w_S·S + w_C·C + w_X·X + w_U·U - w_R·R`, where `R` is *subtracted*
 because higher remediation complexity should lower priority. Weights come from a
 registry that contains both placeholder weights and (when fitted) calibrated
 weights. A family of strategies (Section 7) provides baselines, ablations, an
@@ -262,14 +262,14 @@ The end-to-end pipeline is:
 
 ```
 public feeds (NVD/EPSS/KEV/PoC, cached snapshots)
-   → synthetic fleet generation (hosts, criticality, exposure, complexity)
-      → vulnerability-host pair builder (no-future-leakage)
-         → seven-feature frame (E, K, S, C, X, U, R)
-            → prioritization strategies (ranking)
-               → capacity-constrained scheduler (blackout/approval/risk)
-                  → append-only hash-chained audit logs
-                     → evaluation metrics
-                        → freeze + reporting (tables/figures)
+ → synthetic fleet generation (hosts, criticality, exposure, complexity)
+ → vulnerability-host pair builder (no-future-leakage)
+ → seven-feature frame (E, K, S, C, X, U, R)
+ → prioritization strategies (ranking)
+ → capacity-constrained scheduler (blackout/approval/risk)
+ → append-only hash-chained audit logs
+ → evaluation metrics
+ → freeze + reporting (tables/figures)
 ```
 
 Two architectural properties are central. First, **tamper-evident audit logs**:
@@ -321,25 +321,25 @@ The synthetic fleet is generated from documented parameter distributions, not fr
 any real environment.
 
 - **Host types and roles.** Hosts are allocated across roles (e.g. standard
-  workstation, member server, domain controller, kiosk) with documented
-  proportions, each carrying network-zone, identity-tier, and data-sensitivity
-  attributes.
+ workstation, member server, domain controller, kiosk) with documented
+ proportions, each carrying network-zone, identity-tier, and data-sensitivity
+ attributes.
 - **OS and software inventory.** Each host is assigned an OS and a software
-  inventory drawn from catalogs, which determines vulnerability applicability and
-  thus pair construction.
+ inventory drawn from catalogs, which determines vulnerability applicability and
+ thus pair construction.
 - **Patch state.** Hosts carry patch/remediation state so that already-remediated
-  CVEs can be excluded from candidate pairs.
+ CVEs can be excluded from candidate pairs.
 - **Criticality and IPES.** Telemetry-derived asset criticality combines role,
-  identity privilege (an Identity Privilege Exposure Score), network exposure, and
-  data sensitivity into the `C` feature.
+ identity privilege (an Identity Privilege Exposure Score), network exposure, and
+ data sensitivity into the `C` feature.
 - **Local exposure.** A per-pair local-exposure feature `X` reflects how reachable
-  and exploitable the vulnerable component is on that specific host.
+ and exploitable the vulnerable component is on that specific host.
 - **Remediation complexity.** A per-pair complexity feature `R` captures the
-  operational cost and rollback risk of remediation.
+ operational cost and rollback risk of remediation.
 - **Telemetry freshness and missingness.** Configurable CMDB staleness and
-  telemetry-missingness rates model incomplete observability; missing continuous
-  features are imputed and a missing KEV status defaults to zero with a recorded
-  warning.
+ telemetry-missingness rates model incomplete observability; missing continuous
+ features are imputed and a missing KEV status defaults to zero with a recorded
+ warning.
 
 Synthetic data is necessary because real public-sector fleet telemetry is
 sensitive and non-shareable; a documented generator makes the evaluation open and
@@ -348,25 +348,25 @@ repeatable while we explicitly bound the resulting external-validity claims.
 ## 9. Evaluation Metrics
 
 - **Simulated expected exploited-host-days (EHD) and EEHDA.** For a positive pair,
-  EHD is the number of days the pair remains open after its label fires, bounded by
-  the evaluation end; lower is better. EEHDA reporting expresses each strategy in
-  absolute terms and relative to random, relative to EPSS, and as a fraction of the
-  oracle's headroom.
+ EHD is the number of days the pair remains open after its label fires, bounded by
+ the evaluation end; lower is better. EEHDA reporting expresses each strategy in
+ absolute terms and relative to random, relative to EPSS, and as a fraction of the
+ oracle's headroom.
 - **Ranking quality.** Precision@k, recall@k, and nDCG@k, with censored labels
-  excluded from numerator and denominator.
+ excluded from numerator and denominator.
 - **KEV-deadline breach rate.** Fraction of KEV-due pairs not remediated by their
-  deadline.
+ deadline.
 - **Capacity efficiency.** Fraction of scheduled (non-censored) pairs that are
-  labeled positives.
+ labeled positives.
 - **Scheduler feasibility.** Whether windows are feasible (no infeasible
-  escalations and capacity respected).
+ escalations and capacity respected).
 - **Risk-acceptance rate.** Share of decisions resolved as documented risk
-  acceptance (POA&M-style).
+ acceptance (POA&M-style).
 - **Audit integrity.** Hash-chain validity of every audit log and per-strategy
-  audit record counts.
+ audit record counts.
 - **Freeze/inspection checks.** Structural inspection (no duplicate rankings,
-  contiguous ranks, schedules subset of rankings, capacity respected, no
-  infinite/undocumented-NaN metrics) plus content-addressed freeze verification.
+ contiguous ranks, schedules subset of rankings, capacity respected, no
+ infinite/undocumented-NaN metrics) plus content-addressed freeze verification.
 
 ## 10. Compliance Mapping
 
@@ -375,22 +375,22 @@ public-sector control families; it does not *satisfy* or *prove* any control. We
 map cautiously:
 
 - **NIST SP 800-53 RA-5 (vulnerability monitoring/scanning)** [@nist80053r5]: pair-level prioritization and per-decision records support
-  evidence for how scan findings are triaged.
+ evidence for how scan findings are triaged.
 - **NIST SP 800-53 SI-2 (flaw remediation)**: scheduling and remediation-timing
-  records support evidence for remediation handling under capacity.
+ records support evidence for remediation handling under capacity.
 - **NIST SP 800-53 CM-8 (system component inventory)**: the synthetic fleet's
-  host/software inventory models the asset context such evidence depends on.
+ host/software inventory models the asset context such evidence depends on.
 - **NIST SP 800-53 AU-2 / AU-3 (audit events / content of records)**: the
-  append-only, hash-chained decision records support evidence for auditable event
-  capture with defined content.
+ append-only, hash-chained decision records support evidence for auditable event
+ capture with defined content.
 - **NIST SP 800-40 Rev. 4 (patch management)** [@nist80040r4]:
-  the capacity-constrained scheduling simulation reflects documented
-  patch-management process structure.
+ the capacity-constrained scheduling simulation reflects documented
+ patch-management process structure.
 - **CISA BOD 22-01** [@cisa_bod2201]: KEV-deadline handling and breach
-  metrics support evidence for directive-driven prioritization.
+ metrics support evidence for directive-driven prioritization.
 - **CIS Controls v8** [@cis_controls_v8] and **CJIS Security Policy**
-  [VERIFY: CJIS Security Policy version]: relevant control intent is
-  acknowledged for context.
+ [VERIFY: CJIS Security Policy version]: relevant control intent is
+ acknowledged for context.
 
 In every case the framing is "supports evidence for review," not "satisfies,"
 "achieves," or "proves." Audit evidence is necessary for, but not equivalent to,
@@ -399,28 +399,28 @@ compliance.
 ## 11. Threats to Validity
 
 - **Synthetic data and toy fixtures.** Results are produced on a synthetic fleet
-  and a small bundled CVE/KEV/PoC fixture set; absolute magnitudes are properties
-  of these inputs, not field measurements.
+ and a small bundled CVE/KEV/PoC fixture set; absolute magnitudes are properties
+ of these inputs, not field measurements.
 - **Placeholder weights.** The proposed model used uncalibrated placeholder
-  weights; no method-quality conclusion can be drawn until calibration on
-  historical exploitation data is performed.
+ weights; no method-quality conclusion can be drawn until calibration on
+ historical exploitation data is performed.
 - **No real production validation.** No live feeds were called and no real-world
-  exploitation outcomes were used to validate predictions.
+ exploitation outcomes were used to validate predictions.
 - **No commercial benchmark.** Commercial RBVM tools are acknowledged but not
-  compared.
+ compared.
 - **No sensitivity/robustness sweeps yet.** Only the single primary cell was run;
-  Label B, alternative policies/blackouts, and parameter sweeps remain future work.
+ Label B, alternative policies/blackouts, and parameter sweeps remain future work.
 - **Feed caveats.** EPSS/KEV/PoC signals carry coverage, timing, and labeling
-  biases; KEV/PoC-derived labels are proxies for exploitation, not ground-truth
-  compromise.
+ biases; KEV/PoC-derived labels are proxies for exploitation, not ground-truth
+ compromise.
 - **Local-exposure observability.** Exposure and criticality assume telemetry/CMDB
-  observability that may be incomplete or stale in practice.
+ observability that may be incomplete or stale in practice.
 - **Public-sector generalization.** The synthetic fleet may not reflect any
-  specific agency's topology, identity tiering, or software mix.
+ specific agency's topology, identity tiering, or software mix.
 - **Metric/oracle interpretation.** Under capacity constraints and the current EHD
-  accounting, the label-prioritizing oracle is not a strict EHD lower bound, which
-  is why some strategies report fraction-of-oracle values outside [0, 1]; these are
-  reported as observed and treated as a metric/artifact caveat.
+ accounting, the label-prioritizing oracle is not a strict EHD lower bound, which
+ is why some strategies report fraction-of-oracle values outside [0, 1]; these are
+ reported as observed and treated as a metric/artifact caveat.
 
 ## 12. Original Contribution
 
@@ -428,22 +428,22 @@ The contribution of this work is methodological infrastructure for falsifiable
 evaluation, framed conservatively:
 
 - **A reproducible vulnerability-host pair benchmark** for public-sector-shaped
-  endpoint fleets, integrating exploit intelligence, asset criticality, and
-  endpoint exposure at the pair level, with deterministic seeding and a frozen,
-  verifiable result artifact.
+ endpoint fleets, integrating exploit intelligence, asset criticality, and
+ endpoint exposure at the pair level, with deterministic seeding and a frozen,
+ verifiable result artifact.
 - **Audit-evidence-producing decision records.** Every score and scheduling
-  decision is captured in an append-only, hash-chained log whose integrity is
-  independently verifiable — supporting after-the-fact review (not a compliance
-  determination).
+ decision is captured in an append-only, hash-chained log whose integrity is
+ independently verifiable, supporting after-the-fact review (not a compliance
+ determination).
 - **A capacity-constrained scheduling simulation** with blackout windows, an
-  approval policy, and documented risk acceptance, so that prioritization is
-  evaluated jointly with operational limits (not autonomous remediation).
+ approval policy, and documented risk acceptance, so that prioritization is
+ evaluated jointly with operational limits (not autonomous remediation).
 - **A frozen result artifact and freeze/verify protocol** that make every reported
-  number traceable to a content-addressed, integrity-checked output set.
+ number traceable to a content-addressed, integrity-checked output set.
 - **An honest, neutral empirical finding.** Under toy fixtures and placeholder
-  weights, the proposed context-aware model is statistically indistinguishable
-  from the EPSS baseline and does not outperform a random ordering; we report this
-  plainly rather than tuning toward a positive result.
+ weights, the proposed context-aware model is statistically indistinguishable
+ from the EPSS baseline and does not outperform a random ordering; we report this
+ plainly rather than tuning toward a positive result.
 
 This work is explicitly **not** a claim of a superior prioritization model, **not**
 autonomous remediation, and **not** a proof of compliance.
@@ -548,18 +548,18 @@ in Future Work.
 ### 13.7 Summary of Findings
 
 - The benchmark **executes reproducibly** across 30 seeds (4,290 integrity-verified
-  rows, 390 valid audit logs).
+ rows, 390 valid audit logs).
 - The **audit and scheduler pipeline behaves correctly** end to end.
 - The oracle/random reference bounds are **nearly flat**; with sub-0.5% inter-
-  strategy spread, metrics are dominated by the capacity constraint and the
-  toy-fixture positive base rate.
+ strategy spread, metrics are dominated by the capacity constraint and the
+ toy-fixture positive base rate.
 - The proposed linear model **did not dominate** the baselines: it is
-  indistinguishable from `epss_only` and nominally worse than `random` on absolute
-  EHD, capacity efficiency, and top-10 precision, under toy fixtures and
-  placeholder weights.
+ indistinguishable from `epss_only` and nominally worse than `random` on absolute
+ EHD, capacity efficiency, and top-10 precision, under toy fixtures and
+ placeholder weights.
 - The artifact nonetheless **exposes measurable operational trade-offs** and
-  provides a reproducible, auditable basis for the calibrated and sensitivity
-  studies required to make any method-quality claim.
+ provides a reproducible, auditable basis for the calibrated and sensitivity
+ studies required to make any method-quality claim.
 
 ## 14. Discussion
 
@@ -585,7 +585,7 @@ calibrated, larger-window evaluation before any superiority claim.
 
 **Implications for public-sector security operations.** (i) Per-decision audit
 records and verifiable hash chains provide a traceable basis for review. (ii)
-Capacity constraints and approval gates materially shape outcomes — here capacity,
+Capacity constraints and approval gates materially shape outcomes, here capacity,
 not policy, dominated KEV breach. (iii) The vulnerability-host pair is a useful,
 traceable unit of decision and explanation.
 
@@ -599,45 +599,45 @@ citation finalization.]
 
 ## 15. Limitations
 
-- **Synthetic, toy-fixture evaluation** — small bundled fixtures and a synthetic
-  fleet, not real agency data; absolute magnitudes are fixture properties.
-- **Placeholder (uncalibrated) weights** — no method-quality conclusion is possible
-  until calibration on historical exploitation data is performed.
-- **Differences within noise** — sub-0.5% inter-strategy spread, smaller than
-  per-seed std; the study is not powered to separate strategies here.
-- **No live or production data** — no live feeds called; no real exploitation
-  outcomes used.
+- **Synthetic, toy-fixture evaluation**, small bundled fixtures and a synthetic
+ fleet, not real agency data; absolute magnitudes are fixture properties.
+- **Placeholder (uncalibrated) weights**, no method-quality conclusion is possible
+ until calibration on historical exploitation data is performed.
+- **Differences within noise**, sub-0.5% inter-strategy spread, smaller than
+ per-seed std; the study is not powered to separate strategies here.
+- **No live or production data**, no live feeds called; no real exploitation
+ outcomes used.
 - **No commercial RBVM baseline** benchmarked.
-- **No robustness or sensitivity sweeps yet** — only the single primary cell ran.
-- **Feed caveats** — EPSS/KEV/PoC carry coverage/timing/labeling bias; labels are
-  exploitation proxies, not ground-truth compromise.
-- **Local-exposure observability assumptions** — telemetry/CMDB may be incomplete
-  or stale in practice.
-- **Synthetic fleet generalization** — may not reflect any specific agency.
+- **No robustness or sensitivity sweeps yet**, only the single primary cell ran.
+- **Feed caveats**, EPSS/KEV/PoC carry coverage/timing/labeling bias; labels are
+ exploitation proxies, not ground-truth compromise.
+- **Local-exposure observability assumptions**, telemetry/CMDB may be incomplete
+ or stale in practice.
+- **Synthetic fleet generalization**, may not reflect any specific agency.
 - **Audit evidence is not compliance.**
-- **Scheduler models timing, not patch success** — approvals/timing are simulated;
-  patch success/rollback are not modeled in the EHD accounting.
+- **Scheduler models timing, not patch success**, approvals/timing are simulated;
+ patch success/rollback are not modeled in the EHD accounting.
 - **Oracle is not a strict lower bound** under capacity + current EHD accounting,
-  which is why some strategies report fraction-of-oracle outside [0, 1].
-- **GBT comparator excluded** — no fitted model artifact was supplied.
+ which is why some strategies report fraction-of-oracle outside [0, 1].
+- **GBT comparator excluded**, no fitted model artifact was supplied.
 
 ## 16. Future Work
 
 - Calibrated weights over larger historical windows (protocol already implemented).
 - Label B / PoC-only robustness runs.
 - Sensitivity sweeps (capacity ratio, blackout, approver policy, identity, CMDB
-  staleness, telemetry missingness).
+ staleness, telemetry missingness).
 - Public-source point-in-time feed snapshots beyond toy fixtures (no-future-leakage
-  preserved).
+ preserved).
 - Real-agency pilot under anonymized, approved telemetry with governance review.
 - Additional learning-to-rank baselines and the GBT comparator (once fitted).
 - Audit-quality metrics in the primary set; automated model-card / audit-report
-  generation.
+ generation.
 - Richer blackout/CAB models; patch-success/rollback in the EHD accounting; a
-  corrected/clearly-bounded oracle.
+ corrected/clearly-bounded oracle.
 - Power analysis to size seeds/effect once calibrated.
 - Public release of the reproducibility artifact (code, configs, frozen result,
-  freeze manifest).
+ freeze manifest).
 
 ## 17. Conclusion
 
@@ -654,7 +654,7 @@ weights, not as evidence of real-world superiority; in this configuration the
 proposed model is indistinguishable from the EPSS baseline and does not outperform
 a random ordering, with all inter-strategy differences inside seed-to-seed noise.
 The primary contribution is therefore the reproducible, auditable evaluation
-structure itself — a falsifiable basis on which calibrated, production-scale
+structure itself, a falsifiable basis on which calibrated, production-scale
 studies can build. Establishing whether context-aware prioritization yields
 operational benefit over EPSS-style baselines remains future work requiring
 calibration, robustness and sensitivity analysis, and external validation.

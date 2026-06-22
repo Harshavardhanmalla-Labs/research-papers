@@ -1,0 +1,48 @@
+\section{Discussion}
+\label{sec:discussion}
+
+CAP-G's value is concentrated and explainable: at triage capacity, weighting the queue by
+asset criticality moves mission-critical exposure to the front, nearly doubling
+rank-weighted mission precision at no measurable cost to the metric the base scorer was built
+for. The honest caveats are equally clear. First, the benefit is \emph{regime-bound}: at
+generous capacity it shrinks toward zero, so CAP-G is a triage tool, not a universal
+improvement. Second, the benefit is \emph{heterogeneity-bound}: on a uniform fleet it is
+mathematically nothing. Third, of the three context dimensions, only criticality
+contributed on the mission target as we defined it, a result that argues for simpler
+context models and against the assumption that every CMDB attribute helps.
+
+Each of these caveats is worth reading as a result rather than a limitation. The capacity decay
+is not a weakness of the scorer but a property of the problem: when the remediation budget is
+large enough to cover most high-priority pairs, the order in which they are reached stops
+mattering, so any reordering, however principled, converges to the baseline. The value of
+asset context is therefore exactly co-located with the scarcity that makes prioritization
+necessary in the first place. The heterogeneity bound is equally structural. CAP-G cannot
+conjure a distinction the fleet does not contain; on a uniform fleet there is no mission
+ordering to recover, and the mechanism control makes this provable rather than merely observed.
+That a context-aware method does nothing where context does not vary is the correct behaviour,
+and demonstrating it is what separates a real effect from a scoring artifact. The ablation
+result, that asset criticality carries the signal while network zone and data sensitivity act as
+mild distractors at their pre-registered weights, is the most actionable of the three: it says a
+practitioner can deploy a criticality-only context layer and capture essentially all of the
+benefit, trading a marginal loss for a large gain in simplicity and explainability. It also
+cautions against the common assumption that every attribute already sitting in a configuration
+management database is worth feeding into a ranking; more context dimensions are not
+automatically better, and on this target two of three were not.
+
+The pre-registered $5$~pp-averaged-over-$K$ bar was, in retrospect, mis-specified for a
+quantity that decays with capacity; a triage-regime bar
+(e.g., $5$~pp at $K{=}50$) would have been cleanly passed. We leave the bar as locked and
+report partial rather than re-cut it post hoc. This is a deliberate methodological stance:
+the credibility of a pre-registered study rests on honoring the bar that was fixed in advance,
+even when a differently-specified bar would have read more favorably, because the freedom to
+choose the threshold after seeing the data is exactly the freedom pre-registration is meant to
+remove. Reporting the primary hypothesis as partial, when the effect is real and
+interval-separated at every capacity and clears $5$~pp in the triage regime where the tool is
+meant to be used, is the price of that discipline and, we argue, an asset to the reader who must
+judge the work under adversarial review. For deployment, the operational implication is direct:
+agencies running tight remediation windows, the common case, should expect a meaningful
+mission-precision gain from a criticality-weighted queue, while agencies with ample capacity
+gain little and can prefer the simpler context-blind scorer. The autonomic-computing vision of
+systems that continuously assess and reorder their own risk posture~\cite{kephart2003vision}
+is the broader setting into which a scorer like this fits, and our results locate where in that
+vision asset context adds value and where it saturates.

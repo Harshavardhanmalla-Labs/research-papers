@@ -1,4 +1,4 @@
-# Batch summary — B-pilot-capacity
+# Batch summary, B-pilot-capacity
 
 - smoke: False
 - table_group: capacity_sensitivity

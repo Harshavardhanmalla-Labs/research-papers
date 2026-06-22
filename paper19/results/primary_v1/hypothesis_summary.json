@@ -1,0 +1,107 @@
+{
+  "n_eval_seeds": 25,
+  "regime": {
+    "continuous": {
+      "ghost": 0.01,
+      "phantom": 0.1242,
+      "total": 0.1342
+    },
+    "periodic": {
+      "ghost": 0.5739,
+      "phantom": 0.0307,
+      "total": 0.6047
+    }
+  },
+  "sweeps": {
+    "retire": {
+      "7": {
+        "ghost": 0.1025,
+        "phantom": 0.0598,
+        "total": 0.1623
+      },
+      "14": {
+        "ghost": 0.0383,
+        "phantom": 0.0807,
+        "total": 0.119
+      },
+      "30": {
+        "ghost": 0.01,
+        "phantom": 0.1242,
+        "total": 0.1342
+      },
+      "60": {
+        "ghost": 0.0076,
+        "phantom": 0.2069,
+        "total": 0.2145
+      },
+      "120": {
+        "ghost": 0.0075,
+        "phantom": 0.3696,
+        "total": 0.3771
+      }
+    },
+    "precision_total": {
+      "0.8": 0.2831,
+      "0.9": 0.1837,
+      "0.95": 0.1342,
+      "0.99": 0.0954
+    }
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "continuous reconciliation reduces total CMDB error by >=30% vs quarterly",
+      "reduction": {
+        "mean": 0.778,
+        "ci_lo": 0.7765,
+        "ci_hi": 0.7795
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H2": {
+      "statement": "retirement threshold trades ghosts for phantoms; interior total-error minimum",
+      "ghost_by_retire": [
+        0.1025,
+        0.0383,
+        0.01,
+        0.0076,
+        0.0075
+      ],
+      "phantom_by_retire": [
+        0.0598,
+        0.0807,
+        0.1242,
+        0.2069,
+        0.3696
+      ],
+      "total_by_retire": [
+        0.1623,
+        0.119,
+        0.1342,
+        0.2145,
+        0.3771
+      ],
+      "argmin_retire": 14,
+      "verdict": "SUPPORTED"
+    },
+    "H3": {
+      "statement": "total error falls as matching precision rises (matching-precision floor)",
+      "total_by_precision": [
+        0.2831,
+        0.1837,
+        0.1342,
+        0.0954
+      ],
+      "dup_floor_proxy": 0.1877,
+      "verdict": "SUPPORTED"
+    },
+    "H4": {
+      "statement": "optimal retirement threshold shifts with the ghost:phantom cost ratio",
+      "mean_optimal_retire": {
+        "security_5to1": 30.0,
+        "balanced_1to1": 14.0,
+        "cost_1to5": 7.0
+      },
+      "verdict": "SUPPORTED"
+    }
+  }
+}

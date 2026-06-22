@@ -3,17 +3,17 @@
 
 \subsection{Setting}
 
-Inherited from Papers~4--8: the EEHDA synthetic fleet (1{,}000 users,
+Inherited from Papers~4-8: the EEHDA synthetic fleet (1{,}000 users,
 830 hosts, $\sim 3{,}500$ initial (host, CVE) pairs), the HygienePrio
-scorer~\cite{paper4hygieneprio} with fixed Paper~4 weights, the
-multi-window simulator~\cite{paper5temporal} with $\lambda = 3$ Poisson
+scorer~\cite{paper4hygieneprio} with its fixed scorer weights, the
+multi-window simulator from our temporal-stability study with $\lambda = 3$ Poisson
 new-CVE arrivals per window, six bi-weekly windows, and the 25-seed
 evaluation set ($s \in \{105, \ldots, 129\}$).
 
 \subsection{Trajectory-Driver Grid}
 
-The key novelty of this paper is that the \textit{driving method} ---
-the policy whose top-$K$ selection determines fleet evolution --- varies
+The key novelty of this paper is that the \textit{driving method}, 
+the policy whose top-$K$ selection determines fleet evolution, varies
 across runs. For each cell $K \in \{50, 200\}$ and each driving method
 $m_{\text{drive}} \in \mathcal{M} = \{\text{HP-full}, \text{EPSS-only},
 \text{HRS-only}, \text{CVSS-only}, \text{Random}\}$, we run six windows
@@ -24,7 +24,7 @@ each window, all five methods are scored, producing one P@50 value per
 \subsection{Ground Truth}
 
 Per-window: (EPSS $> 0.10$) $\wedge$ (HRS $>$ 75th percentile recomputed
-per window), as in Papers~5--8. The 75th-percentile threshold is computed
+per window), as in Papers~5-8. The 75th-percentile threshold is computed
 on the current fleet state, which depends on the driving method's
 selection history.
 

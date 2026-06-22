@@ -1,4 +1,4 @@
-# Paper 12 — Capacity-Aware Threshold Detector
+# Paper 12, Capacity-Aware Threshold Detector
 
 Pre-registered evaluation of a per-K threshold vector τ_K = {50: 0.20,
 100: 0.05, 200: 0.02}. Direct follow-up to Paper 11's negative
@@ -8,7 +8,7 @@ feasibility result.
 
 ## Headline findings (honest, pre-registered)
 
-- **H1 supported (the breakthrough):** capacity-aware reaches the joint feasibility region — first procedure in Papers 7-12 sequence to do so. All three tolerances met.
+- **H1 supported (the breakthrough):** capacity-aware reaches the joint feasibility region, first procedure in Papers 7-12 sequence to do so. All three tolerances met.
 - **H3 supported:** firing fraction perfectly monotone in K (0%, 40%, 100% at K=50, 100, 200; ρ=1.0).
 - **H4 rejected:** cap_aware K=200 cell mean equals gated K=200 cell mean exactly (0.2664 each). The per-window detector collapses to the static gate at K=200.
 - **H2 rejected at 1 cell-window:** K=200/W4 cap_aware fires (|Δ|=0.020 ≥ τ=0.02) while adaptive05 doesn't (cp_delta < 0.05). Single-window cost -3.4 pp.

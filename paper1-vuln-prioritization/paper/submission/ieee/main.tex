@@ -1,5 +1,5 @@
 % ============================================================
-%  main.tex  —  IEEE Conference Submission
+%  main.tex,  IEEE Conference Submission
 %  Context-Aware Vulnerability Prioritization for Government
 %  Endpoint Fleets: Integrating Exploit Intelligence, Asset
 %  Criticality, and Endpoint Telemetry
@@ -14,9 +14,9 @@
 %  placed in figures/ before final compilation.
 % ============================================================
 
-\documentclass[conference]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 
-% ---- Packages -----------------------------------------------
+%, - Packages,,,,,,,, --
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
 \usepackage{tikz}
@@ -25,6 +25,7 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{amsmath}
+\usepackage{newtxtext,newtxmath}
 \usepackage{microtype}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
@@ -33,7 +34,7 @@
 \usepackage{xspace}
 \usepackage{enumitem}
 
-% ---- Color palette for TikZ ---------------------------------
+%, - Color palette for TikZ,,,,,, 
 \definecolor{blueboxfill}{RGB}{210,228,255}
 \definecolor{blueboxborder}{RGB}{60,100,200}
 \definecolor{greenboxfill}{RGB}{210,245,220}
@@ -43,7 +44,7 @@
 \definecolor{grayboxfill}{RGB}{235,235,235}
 \definecolor{grayboxborder}{RGB}{110,110,110}
 
-% ---- TikZ node styles ---------------------------------------
+%, - TikZ node styles,,,,,,, 
 \tikzset{
   bluebox/.style={
     rectangle, rounded corners=3pt,
@@ -69,11 +70,19 @@
                 color=black!70}
 }
 
-% ---- Utility ------------------------------------------------
+%, - Utility,,,,,,,,  
 \newcommand{\eg}{\textit{e.g.},\xspace}
 \newcommand{\ie}{\textit{i.e.},\xspace}
 
 % =============================================================
+\renewcommand{\textendash}{-}
+\renewcommand{\textemdash}{-}
+\usepackage{xurl}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\abstract}{---}{:\space}{}{}
+\patchcmd{\IEEEkeywords}{---}{:\space}{}{}
+\makeatother
 \begin{document}
 
 \title{Context-Aware Vulnerability Prioritization for\\
@@ -82,7 +91,7 @@
 
 \author{%
   \IEEEauthorblockN{Harshavardhan Malla}
-  \IEEEauthorblockA{Independent Researcher}
+  \IEEEauthorblockA{Independent Researcher}%
 }
 
 \maketitle
@@ -95,8 +104,8 @@ Vulnerability remediation in large government endpoint fleets is
 constrained by finite patch capacity, mandatory regulatory
 timelines, and the daily flood of newly published Common
 Vulnerabilities and Exposures (CVEs).  Existing scoring
-frameworks—most notably the Common Vulnerability Scoring System
-(CVSS)—rank vulnerabilities by intrinsic severity rather than
+frameworks, most notably the Common Vulnerability Scoring System
+(CVSS), rank vulnerabilities by intrinsic severity rather than
 by the operational likelihood that a specific asset in a
 specific network position will be compromised before a patch
 can be applied.  We present \textbf{VulnPrio}, a seven-feature
@@ -110,15 +119,18 @@ acceptance records, and produces append-only, SHA-256
 hash-chained audit decision records.
 
 We evaluate VulnPrio against twelve competing strategies
-including EPSS-only, CVSS-only, KEV-priority, random ordering,
-and feature ablations across 30 independent random seeds on a
+including EPSS-only, CVSS-only, KEV-first, random ordering, a
+label-prioritizing oracle reference, and feature ablations across 30 independent random seeds on a
 fully synthetic, seeded fleet dataset.  The primary operational
-metric—Expected Exploited Host-Days (EHD)—spans 4,290 non-missing
-metric rows drawn from the simulation.  Across all 13 strategies,
-EHD values are \emph{statistically indistinguishable}: inter-strategy
-spread is below 0.5\%, and all pairwise differences fall within
-seed-to-seed variation (Wilcoxon signed-rank with Holm correction,
-all adjusted $p > 0.05$).  VulnPrio does not demonstrate
+metric, Expected Exploited Host-Days (EHD), is drawn from a frozen
+artifact of 4,290 non-missing metric rows.  Across all 13 strategies,
+mean EHD clusters around $1.12 \times 10^6$ simulated host-days and the
+strategies are \emph{not separable}: the total inter-strategy spread is
+below 0.5\% of the mean, which is smaller than the per-seed standard
+deviation, so all differences fall within seed-to-seed variation.  We
+report descriptive statistics only and apply no significance tests, as
+the null result is already evident from the overlapping per-seed
+distributions.  VulnPrio does not demonstrate
 superiority over any baseline under the current placeholder
 weights and toy fixtures.  We report this null result honestly:
 the scientific contribution is a reproducible, falsifiable,
@@ -175,8 +187,9 @@ embeds that score in a capacity-constrained scheduling algorithm,
 and records every scheduling decision in a tamper-evident
 append-only audit log.  Our central finding is deliberately
 anti-climactic: under placeholder weights and synthetic data,
-VulnPrio is statistically indistinguishable from all twelve
-competing strategies on the primary operational metric.  We argue
+VulnPrio is not separable from the twelve
+competing strategies on the primary operational metric, with all
+inter-strategy differences falling within seed-to-seed variation.  We argue
 that this honest null result, delivered through a fully
 reproducible pipeline with verified audit artifacts, is more
 valuable to the security operations research community than an
@@ -235,7 +248,7 @@ discussions provide early warning of impending exploitation.
 
 CISA BOD 22-01~\cite{cisa_bod2201} requires all Federal Civilian
 Executive Branch agencies to remediate CVEs appearing on the KEV
-catalog within defined deadlines—typically fourteen days for
+catalog within defined deadlines, typically fourteen days for
 internet-facing assets.  The KEV catalog~\cite{cisa_kev} is
 continuously updated and currently serves as the authoritative
 ``must-patch'' list for Federal networks.
@@ -275,8 +288,9 @@ addresses this gap by embedding a five-phase scheduler that
 translates a scored list into a feasible, auditable patch plan.
 
 In contrast to prior superiority-claiming work, we deliberately
-report a null result with full statistical apparatus, contributing
-benchmark infrastructure rather than a model performance claim.
+report a transparent null result over a frozen, integrity-verified
+artifact, contributing benchmark infrastructure rather than a
+model performance claim.
 
 % =============================================================
 \section{Problem Statement}
@@ -453,7 +467,7 @@ evaluation.
     (rank) {Ranking Metrics\\P@$k$, nDCG@$k$};
 
   \node[graybox, text width=2.3cm, right=0.3cm of rank]
-    (stat) {Stat.\ Tests\\Wilcoxon+Holm,\\BCa Bootstrap};
+    (stat) {Descriptive Stats\\\& Integrity Checks};
 
   %% Arrows: inputs -> fleet
   \draw[arrow] (nvd.south)  -- ++(0,-0.25) -| (fleet.north);
@@ -481,7 +495,8 @@ evaluation.
   feature extraction, and scoring.
   \textit{Orange}: capacity-constrained scheduling, append-only
   audit log production, and hash-chain verification.
-  \textit{Gray}: metric computation and statistical evaluation.
+  \textit{Gray}: metric computation, descriptive statistics, and
+  integrity checks.
   All data are fully synthetic and seeded; no live feeds or
   production data were used.}
 \label{fig:pipeline}
@@ -574,7 +589,7 @@ Python pipeline with no external service dependencies.  Results
 were frozen to Parquet files immediately upon computation.
 Frozen files are hash-verified before downstream analysis.  The
 pipeline produces 4,290 non-missing, non-infinite metric rows
-across all seed--strategy combinations.
+across all seed-strategy combinations.
 
 \subsection{Seeds and Strategies}
 
@@ -586,27 +601,24 @@ evaluated are:
 \begin{enumerate}[leftmargin=*]
   \item \textbf{proposed\_full}: VulnPrio with all seven features
     and placeholder weights (Equation~\ref{eq:score}).
+  \item \textbf{proposed\_no\_criticality}: Equation~\ref{eq:score}
+    with the asset-criticality term $w_C \cdot C$ removed.
+  \item \textbf{proposed\_no\_exposure}: Equation~\ref{eq:score}
+    with the network-exposure term $w_X \cdot X$ removed.
   \item \textbf{epss\_only}: rank by $E$ descending.
   \item \textbf{cvss\_only}: rank by $S$ descending.
-  \item \textbf{kev\_priority}: KEV members first, then by $E$
+  \item \textbf{kev\_first}: KEV members first, then by $E$
     descending.
+  \item \textbf{cvss\_plus\_epss\_plus\_kev}: linear combination of
+    $S$, $E$, and $K$ only, equal weights.
+  \item \textbf{cvss\_x\_epss}: product of $S$ and $E$.
+  \item \textbf{cve\_sum}: rank by the summed per-CVE score.
+  \item \textbf{cve\_max}: rank by the maximum per-CVE score.
+  \item \textbf{cve\_mean}: rank by the mean per-CVE score.
   \item \textbf{random}: seed-stratified random ordering.
-  \item \textbf{ablation\_no\_E}: Equation~\ref{eq:score} with
-    $w_E = 0$.
-  \item \textbf{ablation\_no\_K}: Equation~\ref{eq:score} with
-    $w_K = 0$.
-  \item \textbf{ablation\_no\_S}: Equation~\ref{eq:score} with
-    $w_S = 0$.
-  \item \textbf{ablation\_no\_C}: Equation~\ref{eq:score} with
-    $w_C = 0$.
-  \item \textbf{ablation\_no\_X}: Equation~\ref{eq:score} with
-    $w_X = 0$.
-  \item \textbf{ablation\_no\_U}: Equation~\ref{eq:score} with
-    $w_U = 0$.
-  \item \textbf{ablation\_no\_R}: Equation~\ref{eq:score} with
-    $w_R = 0$ (remediation complexity not penalized).
-  \item \textbf{epss\_cvss\_kev}: linear combination of $E$, $S$,
-    and $K$ only, equal weights.
+  \item \textbf{oracle}: label-prioritizing reference ranker with
+    foreknowledge of exploit labels (upper-reference, not a
+    strict EHD lower bound under capacity constraints).
 \end{enumerate}
 
 \subsection{Temporal Discipline}
@@ -624,28 +636,31 @@ literature~\cite{jacobs2021epss}.
 
 EHD (Equation~\ref{eq:ehd}) integrates exploit probability over
 unpatched exposure time.  It is computed independently for each
-seed--strategy combination.  Lower EHD is better.  Across 30
-seeds and 13 strategies, the expected number of metric rows is
-$30 \times 13 = 390$; the observed count of 4,290 non-missing
-rows reflects the per-host-pair-per-seed granularity before
-aggregation ($390 \times 11$ aggregated observation units).
+seed-strategy combination.  Lower EHD is better.  Across 30
+seeds and 13 strategies there are $30 \times 13 = 390$
+seed-strategy cells; with 11 metrics recorded per cell, this
+yields the observed count of $390 \times 11 = 4{,}290$ non-missing
+metric rows.
 
 \subsection{Ranking Metrics}
 
 Secondary ranking metrics are Precision at $k$ (P@$k$),
 Recall at $k$ (R@$k$), and Normalized Discounted Cumulative Gain
-at $k$ (nDCG@$k$) for $k \in \{10, 20, 50\}$.  Positive labels
+at $k$ (nDCG@$k$), reported at $k = 10$.  Positive labels
 are defined as described in Section~\ref{sec:framework}.
 
-\subsection{Statistical Tests}
+\subsection{Statistical Reporting}
 
-Pairwise strategy comparisons on EHD use the Wilcoxon
-signed-rank test~\cite{wilcoxon1945} across the 30 seed
-observations, with Holm correction~\cite{holm1979} applied
-across all $\binom{13}{2} = 78$ pairwise comparisons to control
-family-wise error rate.  Confidence intervals for mean EHD are
-computed using bias-corrected and accelerated (BCa)
-bootstrap~\cite{efron1987better} with 10{,}000 resamples.
+This study uses descriptive-only reporting.  Paired comparison
+helpers, the Wilcoxon signed-rank test~\cite{wilcoxon1945}, Holm
+correction~\cite{holm1979} for the $\binom{13}{2} = 78$ pairwise
+comparisons, and bias-corrected and accelerated (BCa)
+bootstrap~\cite{efron1987better} confidence intervals, are
+implemented in the pipeline but are \emph{not} applied as
+significance claims here.  We refrain from hypothesis testing
+because the null result is already evident from the overlapping
+per-seed distributions and the sub-0.5\% inter-strategy spread,
+which is smaller than the per-seed standard deviation.
 
 % =============================================================
 \section{Results}
@@ -653,48 +668,57 @@ bootstrap~\cite{efron1987better} with 10{,}000 resamples.
 
 \subsection{Primary EHD Results}
 
-Table~\ref{tab:ehd_primary} reports mean EHD and 95\% BCa
-confidence intervals across 30 seeds for all 13 strategies
-(visualized in Figure~\ref{fig:ehd_by_strategy}).
-The baseline total EHD in the absence of any scheduling is
-approximately $1.12 \times 10^6$ host-days.  All 13 strategies
-reduce EHD relative to the no-scheduling baseline; however,
-inter-strategy differences are negligible.
+Table~\ref{tab:ehd_primary} reports mean EHD with standard
+deviation and the relative position against the \texttt{random}
+and \texttt{epss\_only} references across 30 seeds for all 13
+strategies (visualized in Figure~\ref{fig:ehd_by_strategy}).
+Mean absolute EHD clusters around $1.12 \times 10^6$ simulated
+host-days for every strategy.  The nominal ordering places
+\texttt{cvss\_only} ($1.1190 \times 10^6$) and \texttt{oracle}
+($1.1193 \times 10^6$) at the low end and
+\texttt{proposed\_no\_criticality} ($1.1243 \times 10^6$) at the
+high end; inter-strategy differences are negligible relative to
+the per-seed standard deviation.
 
 \begin{table}[t]
-\caption{EHD Primary Results: Mean $\pm$ Std, 95\% BCa CI
-         (30 seeds). Lower EHD is better.
-         $\delta$ is the signed difference relative to
-         \texttt{epss\_only} mean.}
+\caption{EHD Primary Results: Mean $\pm$ Std (30 seeds), with
+         relative position vs.\ \texttt{random} and
+         \texttt{epss\_only} and fraction of oracle headroom.
+         Lower EHD is better; a positive relative value means the
+         strategy has lower EHD than the reference.  Strategies
+         ordered by ascending mean EHD.}
 \label{tab:ehd_primary}
 \centering
 \footnotesize
-\begin{tabular}{@{}lrrc@{}}
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \textbf{Strategy} & \textbf{Mean EHD} & \textbf{Std} &
-  \textbf{95\% BCa CI} \\
+  \textbf{rel.\ rand} & \textbf{rel.\ EPSS} &
+  \textbf{frac.\ orc.} \\
 \midrule
-proposed\_full    & 1{,}118{,}420 & 12{,}340 & [1{,}113{,}200,\;1{,}123{,}640] \\
-epss\_only        & 1{,}117{,}980 & 12{,}510 & [1{,}112{,}710,\;1{,}123{,}250] \\
-cvss\_only        & 1{,}119{,}350 & 12{,}890 & [1{,}114{,}020,\;1{,}124{,}680] \\
-kev\_priority     & 1{,}118{,}100 & 12{,}200 & [1{,}112{,}930,\;1{,}123{,}270] \\
-random            & 1{,}120{,}860 & 13{,}650 & [1{,}115{,}270,\;1{,}126{,}450] \\
-ablation\_no\_E   & 1{,}119{,}110 & 12{,}780 & [1{,}113{,}790,\;1{,}124{,}430] \\
-ablation\_no\_K   & 1{,}118{,}760 & 12{,}640 & [1{,}113{,}500,\;1{,}124{,}020] \\
-ablation\_no\_S   & 1{,}118{,}900 & 12{,}700 & [1{,}113{,}620,\;1{,}124{,}180] \\
-ablation\_no\_C   & 1{,}119{,}230 & 12{,}810 & [1{,}113{,}900,\;1{,}124{,}560] \\
-ablation\_no\_X   & 1{,}119{,}080 & 12{,}770 & [1{,}113{,}760,\;1{,}124{,}400] \\
-ablation\_no\_U   & 1{,}118{,}970 & 12{,}730 & [1{,}113{,}650,\;1{,}124{,}290] \\
-ablation\_no\_R   & 1{,}119{,}200 & 12{,}800 & [1{,}113{,}870,\;1{,}124{,}530] \\
-epss\_cvss\_kev   & 1{,}118{,}540 & 12{,}390 & [1{,}113{,}310,\;1{,}123{,}770] \\
+cvss\_only               & 1{,}118{,}983 & 3{,}440 & $+0.205\%$ & $+0.260\%$ & $1.177$ \\
+oracle                   & 1{,}119{,}328 & 3{,}436 & $+0.174\%$ & $+0.230\%$ & $1.000$ \\
+cve\_sum                 & 1{,}120{,}720 & 4{,}943 & $+0.050\%$ & $+0.105\%$ & $0.285$ \\
+random                   & 1{,}121{,}276 & 3{,}398 & $0.000\%$ & $+0.056\%$ & $0.000$ \\
+cve\_max                 & 1{,}121{,}346 & 4{,}915 & $-0.006\%$ & $+0.050\%$ & $-0.036$ \\
+proposed\_no\_exposure   & 1{,}121{,}570 & 4{,}704 & $-0.026\%$ & $+0.030\%$ & $-0.151$ \\
+proposed\_full           & 1{,}121{,}717 & 4{,}874 & $-0.039\%$ & $+0.017\%$ & $-0.226$ \\
+epss\_only               & 1{,}121{,}903 & 4{,}887 & $-0.056\%$ & $0.000\%$ & $-0.322$ \\
+kev\_first               & 1{,}121{,}903 & 4{,}887 & $-0.056\%$ & $0.000\%$ & $-0.322$ \\
+cvss\_plus\_epss\_plus\_kev & 1{,}122{,}106 & 5{,}235 & $-0.074\%$ & $-0.018\%$ & $-0.426$ \\
+cvss\_x\_epss            & 1{,}122{,}376 & 5{,}172 & $-0.098\%$ & $-0.042\%$ & $-0.565$ \\
+cve\_mean                & 1{,}122{,}596 & 5{,}245 & $-0.118\%$ & $-0.062\%$ & $-0.678$ \\
+proposed\_no\_criticality & 1{,}124{,}320 & 4{,}320 & $-0.271\%$ & $-0.215\%$ & $-1.562$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_ehd_by_strategy}
-  \caption{Mean absolute EHD by strategy across 30 seeds. All 13 strategies cluster within 0.5\% of the mean EHD ($\approx 1.12 \times 10^6$ simulated host-days); no strategy is statistically distinguishable from the EPSS baseline or from random ordering.}
+  \caption{Mean absolute EHD by strategy across 30 seeds. All 13 strategies cluster within 0.5\% of the mean EHD ($\approx 1.12 \times 10^6$ simulated host-days); no strategy is separable from the EPSS baseline or from random ordering, with all spreads within seed-to-seed variation.}
   \label{fig:ehd_by_strategy}
 \end{figure}
 
@@ -707,9 +731,11 @@ mean EHD relative to the \texttt{epss\_only} baseline
 
 \begin{table}[t]
 \caption{Strategy Comparison: 13 strategies $\times$ key metrics
-         (30 seeds). $\delta_{\text{EHD}}$: signed difference
-         vs.\ \texttt{epss\_only}. All adjusted $p > 0.05$
-         (Wilcoxon + Holm).}
+         (30 seeds). $\delta_{\text{EHD}}$: signed difference in
+         mean EHD vs.\ \texttt{epss\_only} (negative is lower
+         EHD, i.e.\ better). P@10 and nDCG@10 are means across
+         seeds. Differences are within seed noise; no
+         significance tests are applied.}
 \label{tab:strategy_comparison}
 \centering
 \footnotesize
@@ -720,79 +746,83 @@ mean EHD relative to the \texttt{epss\_only} baseline
   \textbf{P@10} & \textbf{nDCG@10} &
   $\boldsymbol{\delta_{\text{EHD}}}$ \\
 \midrule
-proposed\_full  & 1{,}118{,}420 & 0.41 & 0.38 & $+440$ \\
-epss\_only      & 1{,}117{,}980 & 0.42 & 0.39 & 0 \\
-cvss\_only      & 1{,}119{,}350 & 0.31 & 0.29 & $+1{,}370$ \\
-kev\_priority   & 1{,}118{,}100 & 0.44 & 0.41 & $+120$ \\
-random          & 1{,}120{,}860 & 0.09 & 0.08 & $+2{,}880$ \\
-ablation\_no\_E & 1{,}119{,}110 & 0.29 & 0.27 & $+1{,}130$ \\
-ablation\_no\_K & 1{,}118{,}760 & 0.38 & 0.36 & $+780$ \\
-ablation\_no\_S & 1{,}118{,}900 & 0.37 & 0.35 & $+920$ \\
-ablation\_no\_C & 1{,}119{,}230 & 0.35 & 0.33 & $+1{,}250$ \\
-ablation\_no\_X & 1{,}119{,}080 & 0.36 & 0.34 & $+1{,}100$ \\
-ablation\_no\_U & 1{,}119{,}970 & 0.35 & 0.33 & $+990$ \\
-ablation\_no\_R & 1{,}119{,}200 & 0.36 & 0.34 & $+1{,}220$ \\
-epss\_cvss\_kev & 1{,}118{,}540 & 0.40 & 0.37 & $+560$ \\
+cvss\_only               & 1{,}118{,}983 & 1.00 & 1.00 & $-2{,}920$ \\
+oracle                   & 1{,}119{,}328 & 1.00 & 1.00 & $-2{,}575$ \\
+cve\_sum                 & 1{,}120{,}720 & 0.80 & 0.80 & $-1{,}183$ \\
+random                   & 1{,}121{,}276 & 0.73 & 0.73 & $-627$ \\
+cve\_max                 & 1{,}121{,}346 & 0.70 & 0.70 & $-557$ \\
+proposed\_no\_exposure   & 1{,}121{,}570 & 0.72 & 0.72 & $-333$ \\
+proposed\_full           & 1{,}121{,}717 & 0.69 & 0.69 & $-186$ \\
+epss\_only               & 1{,}121{,}903 & 0.63 & 0.63 & $0$ \\
+kev\_first               & 1{,}121{,}903 & 0.63 & 0.63 & $0$ \\
+cvss\_plus\_epss\_plus\_kev & 1{,}122{,}106 & 0.60 & 0.60 & $+203$ \\
+cvss\_x\_epss            & 1{,}122{,}376 & 0.57 & 0.57 & $+473$ \\
+cve\_mean                & 1{,}122{,}596 & 0.53 & 0.53 & $+693$ \\
+proposed\_no\_criticality & 1{,}124{,}320 & 0.30 & 0.30 & $+2{,}417$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-All pairwise Wilcoxon signed-rank tests, after Holm correction
-across all 78 comparisons, yield adjusted $p > 0.05$.  The
-maximum inter-strategy EHD spread is $2{,}880$ host-days against
-a mean of approximately $1.119 \times 10^6$, representing a
-relative spread of $0.26\%$—well within seed-to-seed standard
-deviations of $12{,}000$--$14{,}000$ host-days.
+The maximum inter-strategy EHD spread, from \texttt{cvss\_only}
+to \texttt{proposed\_no\_criticality}, is approximately
+$5{,}337$ host-days against a mean of approximately
+$1.122 \times 10^6$, a relative spread of $0.48\%$.  This is
+within the per-seed standard deviations of $3{,}400$-$5{,}200$
+host-days, so the strategies are not separable on EHD.
+\texttt{proposed\_full}'s nominal gain over \texttt{epss\_only}
+($186$ host-days, $\approx 0.017\%$) is an order of magnitude
+smaller than the seed standard deviation, and \texttt{random}
+appears nominally better than \texttt{epss\_only} by a similar
+margin, confirming that these sub-$0.1\%$ gaps are noise.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_delta_ehd_vs_epss_by_strategy}
-  \caption{$\Delta$EHD relative to EPSS baseline per strategy (mean $\pm$ BCa CI, 30 seeds). All differences lie within the seed noise floor; the proposed model shows no meaningful improvement over EPSS under the current synthetic fixtures and placeholder weights.}
+  \caption{$\Delta$EHD relative to EPSS baseline per strategy (mean across 30 seeds). All differences lie within the seed noise floor; the proposed model shows no meaningful improvement over EPSS under the current synthetic fixtures and placeholder weights.}
   \label{fig:delta_ehd}
 \end{figure}
 
 \subsection{Ranking Metrics}
 
-Table~\ref{tab:ranking_metrics} reports the full ranking metric
-suite.  EPSS-based strategies (\texttt{epss\_only},
-\texttt{kev\_priority}, \texttt{proposed\_full}) show modestly
-higher P@$k$ and nDCG@$k$ than CVSS-only or random orderings,
-consistent with the known predictive advantage of
-EPSS~\cite{jacobs2021epss, allodi2014comparing}.  These
-differences are numerically small and not sufficient to
-distinguish strategies on the primary operational metric.
+Table~\ref{tab:ranking_metrics} reports the ranking metric suite
+at $k = 10$.  Under the toy fixtures (small CVE catalog, high
+positive base rate), \texttt{oracle} and \texttt{cvss\_only}
+attain perfect P@10 and nDCG@10 ($1.0$), while \texttt{random}
+($0.73$) exceeds \texttt{proposed\_full} ($0.69$), indicating
+that top-$k$ precision does not discriminate between methods on
+this run.  Recall@10 is uniformly small ($\approx 5 \times
+10^{-4}$) by construction.  These ranking differences are not
+sufficient to distinguish strategies on the primary operational
+metric~\cite{jacobs2021epss, allodi2014comparing}.
 
 \begin{table}[t]
-\caption{Ranking Metrics: P@$k$ and nDCG@$k$ for selected strategies
-         (means across 30 seeds; all 13 strategies in replication archive).
-         Differences across strategies are not statistically significant
-         on the primary EHD metric; ranking metrics shown for completeness.}
+\caption{Ranking Metrics at $k=10$: P@10, R@10, and nDCG@10
+         (means across 30 seeds, all 13 strategies). Censored
+         labels excluded. These ranking differences do not
+         distinguish strategies on the primary EHD metric;
+         shown for completeness.}
 \label{tab:ranking_metrics}
 \centering
 \footnotesize
-\setlength{\tabcolsep}{4.5pt}
-\begin{tabular}{@{}lrrrr@{}}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrr@{}}
 \toprule
-\multirow{2}{*}{\textbf{Strategy}} &
-  \multicolumn{2}{c}{\textbf{P@$k$}} &
-  \multicolumn{2}{c}{\textbf{nDCG@$k$}} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-  & \textit{k=10} & \textit{k=20}
-  & \textit{k=10} & \textit{k=20} \\
+\textbf{Strategy} & \textbf{P@10} & \textbf{R@10} &
+  \textbf{nDCG@10} \\
 \midrule
-proposed\_full   & .41 & .39 & .38 & .37 \\
-epss\_only       & .42 & .40 & .39 & .38 \\
-cvss\_only       & .31 & .29 & .29 & .28 \\
-kev\_priority    & .44 & .41 & .41 & .39 \\
-random           & .09 & .09 & .08 & .08 \\
-ablation\_no\_E  & .29 & .28 & .27 & .27 \\
-ablation\_no\_K  & .38 & .36 & .36 & .35 \\
-ablation\_no\_S  & .37 & .35 & .35 & .34 \\
-ablation\_no\_C  & .35 & .33 & .33 & .32 \\
-ablation\_no\_X  & .36 & .34 & .34 & .33 \\
-ablation\_no\_U  & .35 & .33 & .33 & .32 \\
-ablation\_no\_R  & .36 & .34 & .34 & .33 \\
-epss\_cvss\_kev  & .40 & .38 & .37 & .36 \\
+cvss\_only               & 1.00 & $6.5\times10^{-4}$ & 1.00 \\
+oracle                   & 1.00 & $6.5\times10^{-4}$ & 1.00 \\
+cve\_sum                 & 0.80 & $5.2\times10^{-4}$ & 0.80 \\
+random                   & 0.73 & $4.7\times10^{-4}$ & 0.73 \\
+proposed\_no\_exposure   & 0.72 & $4.7\times10^{-4}$ & 0.72 \\
+cve\_max                 & 0.70 & $4.5\times10^{-4}$ & 0.70 \\
+proposed\_full           & 0.69 & $4.5\times10^{-4}$ & 0.69 \\
+epss\_only               & 0.63 & $4.1\times10^{-4}$ & 0.63 \\
+kev\_first               & 0.63 & $4.1\times10^{-4}$ & 0.63 \\
+cvss\_plus\_epss\_plus\_kev & 0.60 & $3.9\times10^{-4}$ & 0.60 \\
+cvss\_x\_epss            & 0.57 & $3.7\times10^{-4}$ & 0.57 \\
+cve\_mean                & 0.53 & $3.5\times10^{-4}$ & 0.53 \\
+proposed\_no\_criticality & 0.30 & $1.9\times10^{-4}$ & 0.30 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -813,10 +843,10 @@ after initial write.
 \toprule
 \textbf{Check} & \textbf{Count} & \textbf{Pass Rate} \\
 \midrule
-Total audit log runs        & 390    & --- \\
+Total audit log runs        & 390    & \\
 Logs verified (hash chain)  & 390    & 100.0\% \\
 Logs with chain break       & 0      & 0.0\% \\
-Records verified (total)    & 4{,}290 & 100.0\% \\
+Frozen metric rows          & 4{,}290 & no NaN / no $\infty$ \\
 Records with hash mismatch  & 0      & 0.0\% \\
 \bottomrule
 \end{tabular}
@@ -825,7 +855,7 @@ Records with hash mismatch  & 0      & 0.0\% \\
 \subsection{Operational Metrics}
 
 Table~\ref{tab:operational} reports scheduler feasibility and
-capacity utilization across all strategy--seed combinations.
+capacity utilization across all strategy-seed combinations.
 Figure~\ref{fig:fraction_oracle} shows the fraction of oracle
 EHD reduction achieved, and Figure~\ref{fig:capacity_sensitivity}
 plots sensitivity to patch capacity.
@@ -845,11 +875,10 @@ produced feasible schedules.
 \textbf{Metric} & \textbf{Value} & \textbf{Notes} \\
 \midrule
 Feasible schedules (of 390)    & 390    & 100\% feasibility \\
-Capacity utilization (mean)    & 94.7\% & sd 2.1\% \\
-KEV pairs force-scheduled      & 100\%  & All within deadline \\
-Risk-acceptance records        & 390    & All verified \\
-Blackout-excluded pairs (mean) & 3.2\%  & sd 0.9\% \\
-Bundle expansion failures      & 0      & All bundles fit \\
+Scheduled count (per window)   & 100    & capacity binding \\
+Capacity efficiency (range)    & 0.30-1.00 & \texttt{proposed\_full} 0.65 \\
+KEV breach rate (range)        & 0.985-0.996 & capacity-dominated \\
+Risk-acceptance rate (range)   & 0.000-0.004 & near zero \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -857,21 +886,21 @@ Bundle expansion failures      & 0      & All bundles fit \\
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_fraction_of_oracle}
-  \caption{Fraction of oracle EHD reduction achieved by each strategy (mean $\pm$ BCa CI, 30 seeds). An oracle scheduler with perfect foreknowledge of exploit labels achieves the theoretical minimum EHD; all real strategies recover a similar fraction of oracle performance ($\approx$90--95\%), indicating that the capacity constraint rather than the scoring strategy is the dominant EHD driver.}
+  \caption{Fraction-of-oracle scale (random $= 0$, oracle $= 1$) for all 13 strategies, mean across 30 seeds. Several strategies fall outside $[0,1]$ (\eg \texttt{cvss\_only} $\approx 1.18$, \texttt{proposed\_full} $\approx -0.23$, \texttt{proposed\_no\_criticality} $\approx -1.56$); because the label-prioritizing oracle is not a strict EHD lower bound under capacity constraints, these out-of-range values reflect a metric artifact rather than genuine performance, and the within-noise spread means the scale is not a reliable ranking signal in this run.}
   \label{fig:fraction_oracle}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_capacity_sensitivity_delta_ehd}
-  \caption{Capacity sensitivity: $\Delta$EHD as patch capacity varies from 0.5$\times$ to 2$\times$ baseline. Strategy rankings are consistent across capacity levels, and the spread across strategies remains within the seed noise floor at every capacity setting.}
+  \caption{Capacity sensitivity: EHD as the patch-capacity ratio varies across the swept levels. EHD decreases substantially as capacity increases, confirming that capacity is the dominant EHD driver; at any fixed capacity level the baselines remain tightly clustered, so the capacity setting matters far more than the choice of ordering strategy among them.}
   \label{fig:capacity_sensitivity}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_scheduler_feasibility_sentinel}
-  \caption{Scheduler feasibility sentinel across all 390 strategy$\times$seed runs. Every run produces a feasible schedule (feasibility rate = 1.0). KEV-deadline overrides fire on all KEV-flagged CVEs within their regulatory deadlines, confirming correctness of Phase 1 (Section~\ref{sec:scheduler}).}
+  \caption{Scheduler feasibility sentinel across all 390 strategy$\times$seed runs. Every run produces a feasible schedule (feasibility rate = 1.0), and scheduled count equals the per-window capacity (100) throughout, confirming correctness of the scheduler (Section~\ref{sec:scheduler}). Under the binding capacity constraint, the KEV-deadline breach rate is uniformly high ($\approx 0.985$-$0.996$), reflecting capacity saturation rather than a Phase 1 fault.}
   \label{fig:scheduler_feasibility}
 \end{figure}
 
@@ -881,8 +910,8 @@ Bundle expansion failures      & 0      & All bundles fit \\
 
 \subsection{Interpreting the Null Result}
 
-The central finding—that all 13 strategies are statistically
-indistinguishable on EHD—is not a failure of the framework.
+The central finding, that the 13 strategies are not separable
+on EHD, is not a failure of the framework.
 It is an honest characterization of the current research
 maturity.  Several factors contribute to the null result and
 should be understood before interpreting it as evidence that
@@ -935,10 +964,11 @@ significant EHD improvement on this benchmark with calibrated
 weights and realistic data would be a meaningful advance.
 
 \textbf{Honest null reporting.} The security research community
-suffers from publication bias toward positive results.  A rigorous
-null finding with full statistical apparatus—all Wilcoxon tests
-reported, all 78 comparisons Holm-corrected, BCa CIs
-provided—provides calibration for future work.
+suffers from publication bias toward positive results.  A
+transparent null finding, reported with descriptive statistics
+over a frozen, integrity-verified artifact and with the inter-strategy
+spread shown to be smaller than the per-seed standard deviation,
+provides calibration for future work.
 
 \subsection{Limitations}
 
@@ -972,40 +1002,42 @@ The primary limitations of this study are:
 
 \subsection{Sensitivity Analyses}
 
-To assess the robustness of the null result, we conducted pre-registered
-sensitivity sweeps across three axes: blackout-window policy
-(Figure~\ref{fig:blackout_sensitivity}), weight-family variation
-(Figure~\ref{fig:weight_sensitivity}), and feature ablation
-(Figure~\ref{fig:feature_ablation}).
+To probe the robustness of the primary finding, we report
+exploratory sensitivity sweeps along three axes: blackout-window
+policy (Figure~\ref{fig:blackout_sensitivity}), weight-family
+variation (Figure~\ref{fig:weight_sensitivity}), and feature
+ablation (Figure~\ref{fig:feature_ablation}).  These sweeps are
+descriptive only; no significance tests are applied.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_blackout_sensitivity_delta_ehd}
-  \caption{Blackout sensitivity: $\Delta$EHD across blackout policy levels (\textit{none}, \textit{light}, \textit{primary}, \textit{strict}). The null result is preserved under all blackout configurations; capacity-induced ceiling effects dominate over scheduling strategy at every policy level.}
+  \caption{Blackout sensitivity: EHD across blackout policy levels (\textit{none}, \textit{light}, \textit{strict}). EHD increases monotonically as the blackout policy tightens (none $<$ light $<$ strict), for both the EPSS baseline and the proposed weight families, indicating that stricter maintenance windows raise residual exposure under the binding capacity constraint.}
   \label{fig:blackout_sensitivity}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_weight_family_sensitivity_delta_ehd}
-  \caption{Weight-family sensitivity: $\Delta$EHD across six design-prior weight families relative to the EPSS baseline. No family produces a statistically significant improvement; BCa confidence intervals all overlap zero after Holm correction.}
+  \caption{Weight-family sensitivity: EHD across design-prior weight families for the proposed scorer, alongside the fixed baselines. The single-signal baselines (\texttt{cvss\_only}, \texttt{epss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) cluster tightly, while the proposed weight families (\eg \texttt{w\_context\_dominant}, \texttt{w\_uniform}) show larger nominal separation, illustrating that the choice of weight prior, not the feature set alone, drives the proposed scorer's behavior. Reported descriptively without significance testing.}
   \label{fig:weight_sensitivity}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_feature_ablation_delta_ehd}
-  \caption{Feature ablation $\Delta$EHD: effect of removing each feature from the composite score. Removing EPSS ($-E$) produces the largest descriptive penalty on ranking metrics (P@10 drops from 0.42 to 0.29), but the EHD difference is not statistically significant—confirming that EHD outcomes are insensitive to feature inclusion under placeholder weights.}
+  \caption{Feature-ablation EHD: effect of removing each feature ($-C$, $-E$, $-K$, $-R$, $-S$, $-X$) from the composite score, under two weight families. Removing a single feature shifts mean EHD by amounts comparable to the cross-feature range; under the placeholder weights, no single removal dominates, while under the context-dominant weights the removals separate more visibly. Reported descriptively.}
   \label{fig:feature_ablation}
 \end{figure}
 
-In all three sensitivity axes, inter-strategy EHD differences remain within
-the 30-seed standard deviation ($\approx 12{,}000$--$14{,}000$ host-days)
-and no Holm-corrected Wilcoxon test rejects.  The null result is robust
-to reasonable variations in blackout policy, weight family, and feature set.
-This robustness is itself informative: it confirms that the null result is
-not an artifact of a specific parameter choice but reflects the fundamental
-insensitivity of EHD to ordering strategy when capacity is the binding constraint.
+Across the three sensitivity axes, the descriptive picture is
+consistent with the primary result on the placeholder-weight
+single-cell run: the single-signal baselines remain tightly
+clustered, capacity and blackout policy move EHD more than the
+choice of ordering strategy among the baselines, and the proposed
+scorer's behavior is governed primarily by its weight prior.
+These sweeps are reported as observed and motivate calibrated,
+multi-cell evaluation as future work.
 
 \subsection{Scope Boundaries}
 
@@ -1027,15 +1059,17 @@ audit logging mechanism.  We evaluated the framework against
 twelve competing strategies across 30 random seeds on a fully
 synthetic government endpoint fleet dataset, using Expected
 Exploited Host-Days as the primary operational metric and
-Precision, Recall, and nDCG at multiple cutoffs as secondary
+Precision, Recall, and nDCG at $k=10$ as secondary
 ranking metrics.
 
-The primary result is a rigorously established null: all 13
-strategies are statistically indistinguishable on EHD, with an
-inter-strategy spread below 0.5\% of the mean and all 78
-pairwise Wilcoxon signed-rank tests non-significant after Holm
-correction.  VulnPrio with placeholder weights does not
-outperform the EPSS-only baseline or random ordering.
+The primary result is a transparent null: the 13
+strategies are not separable on EHD, with a total inter-strategy
+spread below 0.5\% of the mean that is smaller than the per-seed
+standard deviation.  We report descriptive statistics only and
+apply no significance tests, as the null is already evident from
+the overlapping per-seed distributions.  VulnPrio with placeholder
+weights does not outperform the EPSS-only baseline or random
+ordering.
 
 We argue that this honest null finding, delivered through a fully
 reproducible, audit-evidence-producing pipeline, constitutes
@@ -1052,7 +1086,98 @@ prioritization strategies under identical, reproducible conditions.
 
 % =============================================================
 \balance
-\bibliographystyle{IEEEtran}
-\bibliography{references}
+
+% Generated by IEEEtran.bst, version: 1.14 (2015/08/26)
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@samestyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
+\providecommand{\BIBentryALTinterwordstretchfactor}{4}
+\providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand{\BIBforeignlanguage}[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+\providecommand{\BIBdecl}{\relax}
+\BIBdecl
+
+\bibitem{cisa_bod2201}
+{Cybersecurity and Infrastructure Security Agency (CISA)}, ``Binding
+  operational directive 22-01: Reducing the significant risk of known exploited
+  vulnerabilities,''
+  \url{https://www.cisa.gov/binding-operational-directive-22-01}, 2021.
+
+\bibitem{first_cvss_v31}
+\BIBentryALTinterwordspacing
+{Forum of Incident Response and Security Teams (FIRST)}, ``Common vulnerability
+  scoring system version 3.1: Specification document,'' FIRST.org, Tech. Rep.,
+  2019. [Online]. Available:
+  \url{https://www.first.org/cvss/v3.1/specification-document}
+\BIBentrySTDinterwordspacing
+
+\bibitem{allodi2014comparing}
+L.~Allodi and F.~Massacci, ``Comparing vulnerability severity and exploits
+  using case-control studies,'' \emph{ACM Transactions on Information and
+  System Security}, vol.~17, no.~1, pp. 1:1-1:20, 2014.
+
+\bibitem{sabottke2015vulnerability}
+\BIBentryALTinterwordspacing
+C.~Sabottke, O.~Suciu, and T.~Dumitras, ``Vulnerability disclosure in the age
+  of social media: Exploiting {Twitter} for predicting real-world exploits,''
+  in \emph{24th {USENIX} Security Symposium ({USENIX} Security 15)}, 2015, pp.
+  1041-1056. [Online]. Available:
+  \url{https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/sabottke}
+\BIBentrySTDinterwordspacing
+
+\bibitem{jacobs2021epss}
+J.~Jacobs, S.~Romanosky, B.~Edwards, M.~Roytman, and I.~Adjerid, ``Exploit
+  prediction scoring system ({EPSS}),'' \emph{Digital Threats: Research and
+  Practice}, vol.~2, no.~3, pp. 14:1-14:17, 2021.
+
+\bibitem{nist80040r4}
+M.~Souppaya and K.~Scarfone, ``Guide to enterprise patch management planning:
+  Preventive maintenance for technology,'' National Institute of Standards and
+  Technology, Tech. Rep. {NIST} Special Publication 800-40 Revision 4, 2022.
+
+\bibitem{nist80053r5}
+{Joint Task Force}, ``Security and privacy controls for information systems and
+  organizations,'' National Institute of Standards and Technology, Tech. Rep.
+  {NIST} Special Publication 800-53 Revision 5, 2020.
+
+\bibitem{cis_controls_v8}
+{Center for Internet Security}, ``{CIS} critical security controls version 8,''
+  \url{https://www.cisecurity.org/controls/v8}, 2021.
+
+\bibitem{cisa_kev}
+{Cybersecurity and Infrastructure Security Agency (CISA)}, ``Known exploited
+  vulnerabilities catalog,''
+  \url{https://www.cisa.gov/known-exploited-vulnerabilities-catalog}, 2021.
+
+\bibitem{wilcoxon1945}
+F.~Wilcoxon, ``Individual comparisons by ranking methods,'' \emph{Biometrics
+  Bulletin}, vol.~1, no.~6, pp. 80-83, 1945.
+
+\bibitem{holm1979}
+\BIBentryALTinterwordspacing
+S.~Holm, ``A simple sequentially rejective multiple test procedure,''
+  \emph{Scandinavian Journal of Statistics}, vol.~6, no.~2, pp. 65-70, 1979.
+  [Online]. Available: \url{https://www.jstor.org/stable/4615733}
+\BIBentrySTDinterwordspacing
+
+\bibitem{efron1987better}
+B.~Efron, ``Better bootstrap confidence intervals,'' \emph{Journal of the
+  American Statistical Association}, vol.~82, no. 397, pp. 171-185, 1987.
+
+\end{thebibliography}
+
 
 \end{document}

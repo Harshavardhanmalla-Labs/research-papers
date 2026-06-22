@@ -7,7 +7,7 @@ All sources are generated from the frozen artifact `results/primary_full_v1/`
 ## Tables
 
 | No. | Source file (`paper/tables/`) | Caption (draft) | Referenced in | Inserted into final format |
-| --- | --- | --- | --- | --- |
+|, |, |, |, |, |
 | Table 1 | `table_acceptance_checks.{csv,md,tex}` | Acceptance and integrity checks for the frozen 30-seed primary run (seeds, strategies, metric rows, audit-log validity, NaN/infinite counts, max scheduled count vs capacity, freeze verification). | §13.1 | pending |
 | Table 2 | `table_ehd_primary.{csv,md,tex}` | Per-strategy simulated expected exploited-host-days (EHD): absolute mean and standard deviation plus EEHDA reporting forms (relative to random, relative to EPSS, fraction of oracle). Lower EHD is better. | §13.2, §13.4 | pending |
 | Table 3 | `table_strategy_comparison_vs_epss.{csv,md,tex}` | Each non-oracle strategy versus the `epss_only` baseline on mean EHD: absolute delta, relative delta, and lower-is-better direction. | §13.3 | pending |
@@ -19,7 +19,7 @@ All sources are generated from the frozen artifact `results/primary_full_v1/`
 ## Figures
 
 | No. | Source file (`paper/figures/`) | Caption (draft) | Referenced in | Inserted into final format |
-| --- | --- | --- | --- | --- |
+|, |, |, |, |, |
 | Figure 1 | `fig_ehd_by_strategy.{png,pdf}` | Mean absolute EHD by strategy with standard-deviation error bars (lower = fewer simulated exploited-host-days). | §13.2 | pending |
 | Figure 2 | `fig_fraction_of_oracle.{png,pdf}` | EEHDA fraction-of-oracle by strategy (observed values; some fall outside [0, 1] and are reported as observed). | §13.4 | pending |
 | Figure 3 | `fig_relative_to_epss.{png,pdf}` | EEHDA relative-to-`epss_only` by strategy; the zero line marks parity with EPSS. | §13.3 | pending |
@@ -29,9 +29,9 @@ All sources are generated from the frozen artifact `results/primary_full_v1/`
 ## Notes
 
 - The in-text references in `paper_full_draft.md` and `paper_submission_draft.md`
-  use the numbers above (e.g., "Table 2", "Figure 1"); source-file provenance lives
-  here and in `results/primary_full_v1/report/report_manifest.json`.
+ use the numbers above (e.g., "Table 2", "Figure 1"); source-file provenance lives
+ here and in `results/primary_full_v1/report/report_manifest.json`.
 - `table_primary_metric_summary` is the full superset and is treated as a
-  supplementary table (A1); Tables 2-6 are projections of it for readability.
+ supplementary table (A1); Tables 2-6 are projections of it for readability.
 - "Inserted into final format" stays `pending` until the venue template is applied
-  (Phase 22+); this is a tracking column, not a claim of completion.
+ (Phase 22+); this is a tracking column, not a claim of completion.

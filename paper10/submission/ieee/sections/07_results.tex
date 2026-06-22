@@ -1,7 +1,7 @@
 \section{Results}
 \label{sec:results}
 
-All claims trace to \texttt{paper10/results/primary\_v1/autoheal\_results.csv}
+All claims trace to \texttt{paper10/\allowbreak results/\allowbreak primary\_v1/\allowbreak autoheal\_results.csv}
 (2{,}700 rows) and the derived \texttt{hypothesis\_summary.json}.
 
 \input{tables/tab_hypotheses}
@@ -9,17 +9,17 @@ All claims trace to \texttt{paper10/results/primary\_v1/autoheal\_results.csv}
 \input{tables/tab_summary}
 
 \begin{figure}[!t]
-  \centering
-  \includegraphics[width=\columnwidth]{fig2_coverage}
-  \caption{Cell-mean coverage-to-date by window (25-seed means) for
-  AutoHeal, Fixed-policy, and Human-in-loop at $K = 50$ (left) and
-  $K = 100$ (right). All three strategies converge to near-complete
-  coverage by Window~12; AutoHeal crosses the pre-registered H1
-  threshold (0.80, dotted) before Window~6 at both capacities.}
-  \label{fig:coverage}
+ \centering
+ \includegraphics[width=\columnwidth]{fig2_coverage}
+ \caption{Cell-mean coverage-to-date by window (25-seed means) for
+ AutoHeal, Fixed-policy, and Human-in-loop at $K = 50$ (left) and
+ $K = 100$ (right). All three strategies converge to near-complete
+ coverage by Window~12; AutoHeal crosses the pre-registered H1
+ threshold (0.80, dotted) before Window~6 at both capacities.}
+ \label{fig:coverage}
 \end{figure}
 
-\subsection{H1 — Coverage Supported}
+\subsection{H1, Coverage Supported}
 
 At Window~6 (12-week horizon), AutoHeal achieves cell-mean
 coverage-to-date:
@@ -29,7 +29,7 @@ coverage-to-date:
 \end{itemize}
 Both exceed the pre-registered $\geq 0.80$ threshold by approximately
 $18$~pp. By Window~12 the cell-mean coverage reaches $0.999$ at
-both capacities --- effectively complete remediation of the
+both capacities, effectively complete remediation of the
 high-EPSS backlog. H1 is supported.
 
 The substantive finding is that AutoHeal's \emph{eventual}
@@ -41,7 +41,7 @@ verified, and successfully closed at high rates within 12 windows
 coverage trajectories for the three strategies at $K = 50$ and
 $K = 100$.
 
-\subsection{H2 — Safety Bound Violated}
+\subsection{H2, Safety Bound Violated}
 
 The pre-registered safety bound ($\leq 5\%$ rollback rate per
 cell-seed-window) is violated at \textbf{300 of the 900
@@ -59,7 +59,7 @@ remediation continues; the registered hard-stop-with-fallback
 enforcement was not exercised in the simulation.
 
 \textbf{Important methodological observation.} The H2 violation
-is \emph{not} a failure of the safety detection mechanism --- the
+is \emph{not} a failure of the safety detection mechanism, the
 mechanism correctly flagged 134 windows. The
 violation is that the H2 tolerance ($5\%$) was set assuming
 stable per-window rollback rates from the pre-registered
@@ -71,12 +71,12 @@ larger tolerance (e.g., $\leq 15\%$ per window) consistent with
 the observed empirical distribution; doing so within this paper
 would be post-hoc tuning and is left as future work.
 
-\subsection{H3 — MTTR Not Analysable}
+\subsection{H3, MTTR Not Analysable}
 
 The MTTR instrumentation records the disclosure window at the
 moment of successful remediation rather than at the moment of
 detection. Cell-mean MTTR for both AutoHeal and Human-in-loop is
-$0.0$ windows --- a degenerate measurement.
+$0.0$ windows, a degenerate measurement.
 
 We report this honestly per the protocol's stop rule. H3 cannot
 be evaluated from this run; a corrected instrumentation
@@ -86,20 +86,20 @@ affect H1, H2, or H4: those hypotheses depend on coverage,
 rollback rate, and dominance fraction respectively, none of which
 share the MTTR tracking code path.
 
-\subsection{H4 — Dominance Rejected}
+\subsection{H4, Dominance Rejected}
 
 AutoHeal's per-window coverage exceeds Human-in-loop's coverage in
 $\textbf{2\%}$ of (cell, seed, window) triples at $K \in \{50, 100\}$
 (6 of 300 triples at each $K$). The pre-registered $\geq 80\%$
 dominance threshold is missed by 78~pp. (The protocol registered
 H4 on Precision@50 dominance; the reported metric is per-window
-coverage dominance --- see \S\ref{sec:deviations}.)
+coverage dominance, see \S\ref{sec:deviations}.)
 
 \textbf{Mechanism.} Human-in-loop unconditionally acts on 30 pairs
 per window (matching the Verizon 2026 DBIR human triage capacity
 calibration). AutoHeal at $K = 50$ with the conservative triage
 threshold averages $\approx 27$ AUTO-bucket pairs per window, of
-which $\approx 19$ are acted --- fewer
+which $\approx 19$ are acted, fewer
 than Human-in-loop's 30. Combined with the 134 flagged windows
 (each flag suppressing new-CVE intake for that window),
 AutoHeal's effective per-window throughput is reduced relative to
@@ -115,9 +115,9 @@ throughput.
 Table~\ref{tab:summary} reports cell-mean outcomes at W12. The
 substantive picture:
 \begin{itemize}
-\item AutoHeal achieves near-complete coverage ($0.999$) at
-all three $K$ but with reduced per-window throughput
-($19$--$26$ acted pairs/window across the three capacities) due to
+\item AutoHeal achieves near-complete coverage ($0.999$ at
+$K \in \{50, 100\}$, $1.000$ at $K = 200$) but with reduced per-window throughput
+($19$ to $26$ acted pairs/window across the three capacities) due to
 the strict triage threshold
 and safety-bound flags.
 \item Fixed-policy achieves near-complete coverage with full

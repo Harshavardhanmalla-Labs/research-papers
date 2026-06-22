@@ -6,14 +6,15 @@
 \centering
 \caption{Mean AP and P@$k$ by method across all 810 runs. $\blacktriangleright$ =
   failure-flagged (ML does not improve on rule by $\Delta$=0.05 in $\geq$2/3 seeds).
-  $\dagger$M8 covers T1--T3, T6--T7 only ($n$=25 configs).}
+  $\dagger$M8 covers T1-T3, T6-T7 only ($n$=25 configs).}
 \label{tab:overall}
 \small
+\adjustbox{max width=\columnwidth}{%
 \begin{tabular}{@{}llrrl@{}}
 \toprule
 Method & & Mean AP & Mean P@$k$ & Failure rate \\
 \midrule
-M1 & Rule baseline          & \textbf{0.916} & 0.444 & --- \\
+M1 & Rule baseline          & \textbf{0.916} & 0.444 & \\
 M5 & OCSVM                  & 0.913 & \textbf{0.447} & 68.6\% $\blacktriangleright$ \\
 M8 & Graph-IF$^\dagger$     & 0.801 & 0.348 & \textbf{100\%} $\blacktriangleright$ \\
 M4 & LOF                    & 0.800 & 0.445 & 71.4\% $\blacktriangleright$ \\
@@ -24,5 +25,5 @@ M2 & Hybrid scorer          & 0.709 & 0.417 & 94.3\% $\blacktriangleright$ \\
 \midrule
 \multicolumn{4}{l}{\textbf{Overall failure rate: 197/235 = 83.8\%}} \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}

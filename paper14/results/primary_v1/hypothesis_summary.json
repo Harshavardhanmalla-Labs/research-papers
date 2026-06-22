@@ -1,0 +1,110 @@
+{
+  "n_eval_seeds": 25,
+  "ref_sigma": 0.5,
+  "method_means_ref": {
+    "CAP-day0": {
+      "mean": 0.2784,
+      "ci_lo": 0.2608,
+      "ci_hi": 0.3024
+    },
+    "CVSS-only": {
+      "mean": 0.2328,
+      "ci_lo": 0.2128,
+      "ci_hi": 0.2592
+    },
+    "Context-only": {
+      "mean": 0.0424,
+      "ci_lo": 0.0304,
+      "ci_hi": 0.0528
+    },
+    "EPSS-day0": {
+      "mean": 0.2336,
+      "ci_lo": 0.2192,
+      "ci_hi": 0.2504
+    },
+    "EPSS-matured-oracle": {
+      "mean": 0.3024,
+      "ci_lo": 0.2824,
+      "ci_hi": 0.3288
+    },
+    "PTI-full": {
+      "mean": 0.2984,
+      "ci_lo": 0.2768,
+      "ci_hi": 0.3216
+    },
+    "PTI-noCrit": {
+      "mean": 0.2336,
+      "ci_lo": 0.22,
+      "ci_hi": 0.2512
+    },
+    "PTI-noObs": {
+      "mean": 0.3136,
+      "ci_lo": 0.2856,
+      "ci_hi": 0.3416
+    },
+    "Random": {
+      "mean": 0.008,
+      "ci_lo": 0.0032,
+      "ci_hi": 0.012
+    }
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "context-weighted PTI exceeds context-blind day-0 EPSS by >=5pp (MWP@50, ref sigma)",
+      "advantage_pp": 6.48,
+      "detail": {
+        "mean": 0.0648,
+        "ci_lo": 0.0488,
+        "ci_hi": 0.0776,
+        "n": 25
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H2": {
+      "statement": "day-0 EPSS observation adds little: |PTI-full - PTI-noObs| <= 2pp (MWP@50)",
+      "difference_pp": -1.52,
+      "detail": {
+        "mean": -0.0152,
+        "ci_lo": -0.0304,
+        "ci_hi": -0.0032,
+        "n": 25
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H3": {
+      "statement": "context drives the gain: context-free predictor residual over blind <= 2pp",
+      "residual_pp": 0.0,
+      "detail": {
+        "mean": 0.0,
+        "ci_lo": -0.0064,
+        "ci_hi": 0.0056,
+        "n": 25
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H4": {
+      "statement": "context advantage decays with capacity (adv@K50 > adv@K250)",
+      "adv_k50_pp": 6.48,
+      "adv_k250_pp": 0.1,
+      "verdict": "SUPPORTED"
+    }
+  },
+  "notes": [],
+  "oracle_ref": {
+    "EPSS-matured-oracle": {
+      "mean": 0.3024,
+      "ci_lo": 0.2824,
+      "ci_hi": 0.3288
+    },
+    "PTI-full": {
+      "mean": 0.2984,
+      "ci_lo": 0.2768,
+      "ci_hi": 0.3224
+    },
+    "EPSS-day0": {
+      "mean": 0.2336,
+      "ci_lo": 0.2192,
+      "ci_hi": 0.2504
+    }
+  }
+}

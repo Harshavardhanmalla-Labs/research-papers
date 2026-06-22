@@ -1,0 +1,28 @@
+Exploit-likelihood prioritization, expressed through the Exploit Prediction Scoring System
+(EPSS)~\cite{jacobs2021epss}, and hygiene-augmented prioritization, which adds host patch
+posture and exposure signals to EPSS, both rank a (host, CVE) pair by how likely the CVE is to
+be exploited and how poorly the host is maintained. Neither assigns weight to how much the
+organization would lose if a given host were compromised. Government endpoint fleets are
+mission-heterogeneous: a Criminal Justice Information Services (CJIS) domain controller in a
+DMZ and a training-room kiosk are scored alike beyond their hygiene posture. We introduce a
+pre-registered Asset Context Score that combines asset criticality tier, network exposure
+zone, and data sensitivity, with category mixes drawn from public guidance (FIPS~199, CISA
+Binding Operational Directives 22-01 and 23-01, and the FBI CJIS Security Policy). The
+resulting scorer, CAP-G, multiplies a hygiene-augmented base score by a host context factor.
+On a synthetic 830-host government fleet whose EPSS and Known Exploited Vulnerability signal is
+resampled from a frozen real corpus of 203{,}174 CVEs (snapshot 2026-06-05), evaluated on 25
+pre-registered seeds, CAP-G raises mission-weighted precision at the top 50 from 0.255 to 0.350
+($+9.5$ points, 95\% BCa interval $[7.8, 11.3]$) and raises NDCG@50 from 0.339 to 0.613. The
+advantage holds at every capacity studied but decays monotonically ($+9.5$, $+3.0$, $+0.7$
+points at $K = 50, 100, 250$); it is exactly zero on a homogeneous control fleet, confirming
+that the gain comes from fleet heterogeneity and not from the scoring transform; and it costs
+nothing on the context-blind precision the base scorer was tuned for (difference $+0.1$ points,
+interval $[-1.5, 1.6]$). Because the pre-registered bar required a $5$-point advantage averaged
+across the three capacities and the realized average is $4.4$ points, the primary hypothesis is
+reported as partially supported rather than re-cut to a pass. An ablation isolates asset
+criticality as the load-bearing dimension. We accompany the measurement with a
+closed-form analysis showing that the multiplicative context factor reorders only
+near-tied pairs, that the mission-precision gain scales with the variance of the
+asset context score across the fleet and is exactly zero when that variance
+vanishes, and that the effect is bounded in a way consistent with the partial
+verdict.

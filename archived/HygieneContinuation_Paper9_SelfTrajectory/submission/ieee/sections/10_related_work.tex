@@ -1,14 +1,14 @@
 \section{Related Work}
 
-\textbf{Trajectory-coupling threat in Papers~5--8.}
-Paper~5~\cite{paper5temporal}~§9, Paper~6~\cite{paper6capacity}~§9,
-Paper~7~\cite{paper7online}~§9, and Paper~8~\cite{paper8multi}~§9 all
+\textbf{Trajectory-coupling threat in Papers~5-8.}
+Our temporal-stability study (§9), the capacity-decay study~\cite{paper6capacity}~§9,
+the online-calibration study (§9), and the multi-history smoothing study (§9) all
 acknowledge the HygienePrio-driven trajectory as an internal-validity
 threat. Each cited a ``fully factorial each-method-drives-its-own''
 future-work item as the appropriate counterfactual. The present paper
 implements that counterfactual in a pre-registered form.
 
-\textbf{High-capacity collapse in Paper~6.} Paper~6 reported
+\textbf{High-capacity collapse in the capacity-decay study.} The capacity-decay study reported
 HygienePrio-full's W6 P@50 collapse at $K \in \{100, 200\}$ and
 attributed it to high-HRS-tail exhaustion. The present paper retains
 the collapse statistic on the HP-driven trajectory but shows it
@@ -26,20 +26,20 @@ within six windows on the simulated fleet, producing a literal zero
 floor for every scorer evaluated against that trajectory. Neither prior
 study addressed the policy-level effect.
 
-\textbf{Counterfactual evaluation in security ML.} The general pattern
---- evaluating method A on the data trajectory that method B would
-have generated --- appears in counterfactual learning to rank and
+\textbf{Counterfactual evaluation in security ML.} The general pattern,
+evaluating method A on the data trajectory that method B would
+have generated, appears in counterfactual learning to rank and
 off-policy evaluation. The instance studied here is the simplest
 form: a deterministic policy generates the trajectory, and the
 counterfactual is computed by re-running the simulation under each
 candidate policy. We do not survey the broader counterfactual-policy
 literature; the question this paper resolves is operationally specific
-to the Paper~6 H4 claim.
+to the capacity-decay study H4 claim.
 
-\textbf{Cyber-hygiene benchmarking.} HygieneBench~\cite{paper3hygienebench},
-HygienePrio~\cite{paper4hygieneprio}, the temporal extension~\cite{paper5temporal},
-capacity sweep~\cite{paper6capacity}, online calibration~\cite{paper7online},
-and multi-history calibration~\cite{paper8multi} together constitute
+\textbf{Cyber-hygiene benchmarking.} The HygieneBench synthetic benchmark,
+HygienePrio~\cite{paper4hygieneprio}, the temporal extension,
+the capacity sweep~\cite{paper6capacity}, online calibration,
+and multi-history calibration together constitute
 the methodological substrate within which this paper sits.
 
 \textbf{Policy mandates.}

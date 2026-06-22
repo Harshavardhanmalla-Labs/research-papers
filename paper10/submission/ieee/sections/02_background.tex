@@ -9,7 +9,7 @@ commercial products: Microsoft Defender for Endpoint's automated
 investigation and response, Tanium's auto-remediation, Tenable
 Nessus / vulnerability-management workflows, IBM SOAR, and Splunk
 Phantom. The unifying property
-is a closed-loop detect--decide--act pipeline whose decisions occur
+is a closed-loop detect-decide-act pipeline whose decisions occur
 faster than human review.
 
 \subsection{What Vulnerability Remediation Adds}
@@ -27,11 +27,11 @@ deployment without staged validation can amplify a single faulty
 patch into a fleet-wide outage.
 
 \textit{(ii) False prioritisation.} If the scoring rule that selects
-patches to apply is biased --- by attacker manipulation
-(Paper~4, \S XI, adversarial robustness~\cite{paper4hygieneprio}),
+patches to apply is biased, by attacker manipulation
+(the HygienePrio scorer, \S XI, adversarial robustness~\cite{paper4hygieneprio}),
 distributional shift
-(Paper~4, \S X~\cite{paper4hygieneprio}), or capacity-driven signal
-exhaustion (Paper~9~Theorem~1) --- the autonomous system will
+(the HygienePrio scorer, \S X~\cite{paper4hygieneprio}), or capacity-driven signal
+exhaustion (the self-trajectory study, its Theorem~1), the autonomous system will
 remediate the wrong things.
 
 \textit{(iii) Business-criticality gaps.} A self-healing system that
@@ -41,21 +41,21 @@ disproportionate to the vulnerability it addresses.
 
 \subsection{Why Now}
 
-Papers 3--9 of this research sequence developed components that
+The hygiene-augmentation series of this research sequence developed components that
 collectively address these risks:
 
 \begin{itemize}
-\item HygieneBench (Paper~3)~\cite{paper3hygienebench} provides the
-synthetic, seeded telemetry substrate --- identity state, patch
-posture, vulnerability exposure, and telemetry freshness --- that
+\item HygieneBench~\cite{paper3hygienebench} provides the
+synthetic, seeded telemetry substrate, identity state, patch
+posture, vulnerability exposure, and telemetry freshness, that
 underlies the EEHDA fleet fixtures used throughout the sequence.
-\item HygienePrio (Paper~4)~\cite{paper4hygieneprio} provides a
+\item HygienePrio~\cite{paper4hygieneprio} provides a
 scoring rule with calibrated weights, real-distribution external
-validity (Paper~4, \S X), and
-quantified adversarial robustness (Paper~4, \S XI).
-\item Paper 7's lag-1 online calibration~\cite{paper7online} gives
+validity (the HygienePrio scorer, \S X), and
+quantified adversarial robustness (the HygienePrio scorer, \S XI).
+\item the online-calibration study's lag-1 online calibration gives
 a deployable recipe for moderate capacity ($K \leq 100$).
-\item Paper 9's Theorem 1~\cite{paper9selftraj} bounds when
+\item the self-trajectory study's Theorem 1 bounds when
 self-driven remediation will exhaust its own signal and identifies
 selection-policy decoupling as the structural solution.
 \item Real CVE/EPSS/KEV public data

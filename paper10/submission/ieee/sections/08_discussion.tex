@@ -5,12 +5,12 @@
 \textbf{Achieves:} AutoHeal eventually remediates $\geq 97.8\%$ of
 high-EPSS pairs at moderate capacity (H1) under a pre-registered
 seven-stage architecture with locked triage thresholds and safety
-bounds. The autonomous-remediation goal is met by Window~6 ---
+bounds. The autonomous-remediation goal is met by Window~6, 
 12 weeks into the 24-week evaluation horizon.
 
 \textbf{Does not achieve:} a per-window rollback rate within the
 pre-registered $5\%$ tolerance (H2). The safety hard-stop bound is
-flagged in $14.9\%$ of windows --- conditions that a production
+flagged in $14.9\%$ of windows, conditions that a production
 deployment would escalate to human review.
 
 \textbf{Does not achieve:} per-window throughput superiority over
@@ -51,9 +51,9 @@ capacity (H1 supported).
 should plan for the AutoHeal pipeline flagging windows for
 escalation to
 human review approximately $15\%$ of the time. This is not a
-failure mode --- it is the safety detection mechanism working as
+failure mode, it is the safety detection mechanism working as
 designed
---- but it implies a tighter human-in-loop integration than
+, but it implies a tighter human-in-loop integration than
 ``set and forget'' automation suggests. Note that the simulation
 measured detection only; the operational cost of enforcement
 (hard stop with fallback) is not quantified here
@@ -93,23 +93,23 @@ for shared patch ancestors, the detector fires occasionally and
 provides an additional safety boundary.
 
 \textbf{Practical contribution.} AutoHeal's value as a research
-artifact is not the cell-mean coverage number --- it is the
+artifact is not the cell-mean coverage number, it is the
 \emph{pre-registered safety mechanism that the operational data
 shows firing correctly}. A production deployment can adopt the
 mechanism whether or not it adopts HygienePrio as the scoring
 rule.
 
-\subsection{Connection to Papers 4--9's Findings}
+\subsection{Connection to Papers 4-9's Findings}
 
 The synthesis-level claims:
 
-\textit{Paper~7's K=200 hazard (lag-1 calibration harms at high
+\textit{the online-calibration study's K=200 hazard (lag-1 calibration harms at high
 capacity) is reproduced.} AutoHeal at $K = 200$ achieves the
 same coverage as $K = 100$ but with the same safety-flag rate and
-without the calibration step (Paper~7's recipe says hold weights
+without the calibration step (the online-calibration study's recipe says hold weights
 fixed at $K = 200$, and AutoHeal does so).
 
-\textit{Paper~9 Theorem~1 (closed-loop signal exhaustion) predicts
+\textit{the self-trajectory study Theorem~1 (closed-loop signal exhaustion) predicts
 Fixed-policy K=200's late-horizon collapse in acted pairs.}
 Throughput remains at capacity through W9, then collapses to
 $4.2$ pairs/window by W12 ($\approx 114$ at W10, $\approx 12$ at
@@ -118,9 +118,9 @@ late windows have few high-EPSS pairs to act on.
 The Fixed-policy column at K=200 in Table~\ref{tab:summary}
 quantifies the theorem empirically.
 
-\textit{Paper~4's external-validity finding (\S X of that paper;
+\textit{the HygienePrio scorer's external-validity finding (\S X of that paper;
 synthetic-vs-real
 distributional shift) does not change AutoHeal's relative ordering.}
 AutoHeal's coverage trajectory under real CVE attributes
 matches the synthetic-trajectory shape, with the absolute coverage
-levels shifted as predicted by Paper~4.
+levels shifted as predicted by the HygienePrio scorer.

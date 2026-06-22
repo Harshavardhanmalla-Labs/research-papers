@@ -21,7 +21,7 @@ of adding HRS to EPSS is bounded by the conditional mutual information:
 \begin{equation}
 \label{eq:cmi_bound}
 P^{\star}_K(X_E, X_H) - P^{\star}_K(X_E)
-  \leq f\bigl(I(Y; X_H \mid X_E)\bigr),
+ \leq f\bigl(I(Y; X_H \mid X_E)\bigr),
 \end{equation}
 for some monotone increasing $f(\cdot)$ that depends on $K$ and on the
 positive-mass $p = \mathbb{P}[Y = 1]$. \emph{If HRS carries no
@@ -39,7 +39,7 @@ corpus yields
 \begin{equation}
 \hat I(Y; X_E) \approx 0.010 \text{ nats}
 \end{equation}
-($\approx 0.014$ bits) --- consistent with the small KEV prevalence
+($\approx 0.014$ bits), consistent with the small KEV prevalence
 ($0.52\%$) producing low total entropy.
 
 The estimation of $I(Y; X_H \mid X_E)$ on real data is not directly
@@ -47,8 +47,8 @@ possible because \emph{the HRS feature does not exist in any public
 CVE feed}. HRS combines patch-posture, AD-exposure, and
 telemetry-freshness signals that are properties of \emph{the
 defender's fleet}, not of the CVE record. The publicly observable
-analogue --- the EPSS percentile rank of CVEs known to affect
-manageability-relevant software --- correlates strongly with EPSS
+analogue, the EPSS percentile rank of CVEs known to affect
+manageability-relevant software, correlates strongly with EPSS
 itself and contributes negligible conditional information ($\hat
 I(Y; X_H^{\text{proxy}} \mid X_E) \approx 0.0003$ nats on the real
 corpus). The actual conditional MI of a true HRS signal with respect
@@ -102,7 +102,7 @@ is:
 small in absolute terms ($\approx 0.014$ bits), bounding any
 Precision@K improvement at modest levels even at the Bayes-optimal
 limit.
-\item The synthetic Precision@K gaps observed in Paper~4 exceed what
+\item The synthetic Precision@K gaps observed for the HygienePrio scorer exceed what
 real-data information budgets plausibly support, consistent with the
 synthetic-distribution overestimate identified in
 \S\ref{sec:external_validity}.

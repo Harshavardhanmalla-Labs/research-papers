@@ -1,0 +1,64 @@
+{
+  "evaluation_seeds": [
+    500,
+    501,
+    502,
+    503,
+    504,
+    505,
+    506,
+    507,
+    508,
+    509,
+    510,
+    511,
+    512,
+    513,
+    514,
+    515,
+    516,
+    517,
+    518,
+    519,
+    520,
+    521,
+    522,
+    523,
+    524
+  ],
+  "sigma_grid": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "reference_sigma": 0.5,
+  "k_values": [
+    50,
+    100,
+    250
+  ],
+  "methods": [
+    "EPSS-day0",
+    "CAP-day0",
+    "EPSS-matured-oracle",
+    "CVSS-only",
+    "Random",
+    "Context-only",
+    "PTI-full",
+    "PTI-noObs",
+    "PTI-noCrit"
+  ],
+  "observation_model": {
+    "bias_b": 0.75,
+    "tau": 1.0,
+    "p_kev_obs": 0.3,
+    "kev_bonus": 2.0
+  },
+  "pti_estimator": "precision-weighted logit fusion (inverse-variance)",
+  "rho": 8.0,
+  "real_corpus": "/home/sasi/Desktop/dev/RM Orbit/research-papers/paper14/data/cve_corpus_for_sampling.csv",
+  "n_corpus_cves": 203174,
+  "n_rows": 1125
+}

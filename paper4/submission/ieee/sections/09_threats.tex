@@ -5,7 +5,7 @@ This section follows the four-category taxonomy of Wohlin et al.~\cite{wohlin201
 
 \subsection{Conclusion Validity}
 
-\textbf{Statistical method.} All comparisons use BCa bootstrap confidence intervals~\cite{efron1994introduction} across 25 evaluation seeds with no null hypothesis significance testing. Evidence is based on CI non-overlap, which is a conservative but defensible criterion. A limitation of this approach is that CIs can overlap while a permutation test would reject the null---we err on the side of requiring non-overlap for a claim of substantive evidence.
+\textbf{Statistical method.} All comparisons use BCa bootstrap confidence intervals~\cite{efron1994introduction} across 25 evaluation seeds with no null hypothesis significance testing. Evidence is based on CI non-overlap, which is a conservative but defensible criterion. A limitation of this approach is that CIs can overlap while a permutation test would reject the null, we err on the side of requiring non-overlap for a claim of substantive evidence.
 
 \textbf{Multiple comparisons.} Results for nine methods at three $K$ values and two metrics (P@$K$, NDCG@$K$) constitute 54 comparisons. No familywise or false discovery rate correction is applied; all comparisons are pre-registered and the paper's primary claims are limited to the largest, most stable differences (HygienePrio-full vs.\ EPSS-only, $\geq$21 pp at all $K$). Smaller differences (interaction term, freshness dimension) are explicitly treated as equivocal.
 
@@ -15,13 +15,13 @@ This section follows the four-category taxonomy of Wohlin et al.~\cite{wohlin201
 
 \subsection{Internal Validity}
 
-\textbf{Synthetic data generation.} The EEHDA fleet generator uses structural priors (DBIR patch-lag statistics, NVD severity distributions) that represent population-level aggregates. If real fleets deviate substantially from these priors---for example, if patch debt is correlated with host criticality in ways not modeled---results may not replicate.
+\textbf{Synthetic data generation.} The EEHDA fleet generator uses structural priors (DBIR patch-lag statistics, NVD severity distributions) that represent population-level aggregates. If real fleets deviate substantially from these priors, for example, if patch debt is correlated with host criticality in ways not modeled, results may not replicate.
 
 \textbf{Ground truth circularity.} The pre-registered ground truth includes HRS $>$ 75th percentile as a labelling condition (\S3). This provides a structural advantage to HygienePrio over baselines that do not incorporate HRS. The threshold (75th percentile) was fixed before evaluation, preventing post-hoc optimization, but the choice of this specific threshold is not externally validated. Results under the 60th or 90th percentile threshold are not reported; sensitivity to this choice is an open question.
 
 \textbf{Threshold choices.} The EPSS $>$ 0.10 and HRS $>$ 75th percentile thresholds that define the positive class are operationally motivated but not derived from validated exploitation data. These thresholds directly control the base rate of true positives (6.2\% mean across seeds) and therefore affect P@$K$ values for all methods. The relative ordering of methods may be less sensitive to threshold choice than the absolute P@$K$ values, but this is not verified.
 
-\textbf{Calibration leakage.} Calibration and evaluation seeds are strictly separated and drawn from well-separated ranges: calibration uses seeds \{11, 22, 33, 44, 55\} while evaluation uses seeds 100--124 (\texttt{run\_manifest.json}). The two ranges do not abut, so any leakage would require generator auto-correlation across distant seed values, which is a stronger condition than adjacency-based leakage. Generator analysis formally supporting independence across seed values is nevertheless not reported; this is a known limitation.
+\textbf{Calibration leakage.} Calibration and evaluation seeds are strictly separated and drawn from well-separated ranges: calibration uses seeds \{11, 22, 33, 44, 55\} while evaluation uses seeds 100-124 (\texttt{run\_manifest.json}). The two ranges do not abut, so any leakage would require generator auto-correlation across distant seed values, which is a stronger condition than adjacency-based leakage. Generator analysis formally supporting independence across seed values is nevertheless not reported; this is a known limitation.
 
 \textbf{Measurement validity of HRS dimensions.} PatchPosture is measured as a static snapshot of the proportion of applicable CVEs that remain unpatched. This does not capture patch scheduling latency: a host may have 50\% unpatched CVEs today with all patches scheduled for tomorrow. In real environments, operational scheduling context would be needed to distinguish genuine neglect from planned maintenance.
 
@@ -29,7 +29,7 @@ This section follows the four-category taxonomy of Wohlin et al.~\cite{wohlin201
 
 \textbf{Generalizability to real enterprise fleets.} The synthetic fleet cannot replicate the diversity of real enterprise environments. All results are bounded to the synthetic evaluation context. Claims about real-fleet performance require studies on real fleet data with appropriate institutional approvals and privacy protections.
 
-\textbf{Generalizability across sectors.} The EEHDA generator is calibrated for government-shaped public-sector fleet characteristics (following Paper~1). Commercial enterprise, healthcare, and critical infrastructure fleets may have substantially different hygiene posture distributions, making the specific calibrated weights inapplicable without recalibration.
+\textbf{Generalizability across sectors.} The EEHDA generator is calibrated for government-shaped public-sector fleet characteristics (following the VulnPrio study). Commercial enterprise, healthcare, and critical infrastructure fleets may have substantially different hygiene posture distributions, making the specific calibrated weights inapplicable without recalibration.
 
 \textbf{Temporal validity.} EPSS scores change daily. The evaluation uses a fixed snapshot per seed. In a production deployment, HygienePrio would use daily-updated EPSS scores; the evaluation captures only one temporal cross-section per seed, which may not reflect the distribution of daily prioritization decisions over time.
 

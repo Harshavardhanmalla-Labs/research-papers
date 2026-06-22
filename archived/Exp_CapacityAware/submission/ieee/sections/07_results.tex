@@ -71,7 +71,7 @@ The mechanism is structural. At $\tau_{200} = 0.02$ the magnitude
 test fires at every post-W1 K=200 window because the per-window
 $|\Delta_w|$ values are $\{0.144, 0.160, 0.020, 0.096, 0.136\}$ at
 $w = 2, \ldots, 6$, all $\geq 0.02$. cap\_aware therefore reverts to
-fixed at every K=200 window --- exactly what the static gate does
+fixed at every K=200 window, exactly what the static gate does
 unconditionally at K=200. The two strategies execute the same decision
 on every window-seed pair.
 
@@ -103,7 +103,7 @@ to lag-1 on average due to its 40\% intervention rate.
 
 A practitioner deploying the static gate (lag-1 at $K \leq 100$,
 fixed at $K \geq 200$) accepts the cap\_aware $-0.4$~pp K=100 cost
-implicitly --- and avoids the H2 single-window failure at K=200.
+implicitly, and avoids the H2 single-window failure at K=200.
 The static gate is therefore not just feasible but slightly preferred
 in this grid; cap\_aware validates the gate's feasibility without
 improving on its operating point.
