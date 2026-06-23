@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check, EyeOff } from "lucide-react";
+import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check, EyeOff, FileOutput } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import clsx from "clsx";
 import AnonymousViewer from "./AnonymousViewer";
+import ExportPanel from "./ExportPanel";
 
 const REPO_BASE = "https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main";
 import ManuscriptViewer from "./ManuscriptViewer";
@@ -30,6 +31,7 @@ const TABS = [
   { key: "latex",      label: "LaTeX",           Icon: Code2,      badge: null    },
   { key: "figures",    label: "Figures",         Icon: Image,      badge: null    },
   { key: "results",    label: "Results",          Icon: BarChart2,  badge: null    },
+  { key: "export",     label: "Export",           Icon: FileOutput, badge: null    },
   { key: "files",      label: "Files",            Icon: FolderOpen, badge: null    },
 ] as const;
 
@@ -171,6 +173,7 @@ export default function PaperViewer({ paper }: Props) {
         {tab === "pdf"        && <PdfViewer       paper={paper} />}
         {tab === "manuscript" && <ManuscriptViewer paper={paper} />}
         {tab === "anonymous"  && <AnonymousViewer   paper={paper} />}
+        {tab === "export"     && <ExportPanel       paper={paper} />}
         {tab === "latex"      && <LatexViewer      paper={paper} />}
         {tab === "figures"    && <FiguresGallery   paper={paper} />}
         {tab === "results"    && <ResultsExplorer  paper={paper} />}
