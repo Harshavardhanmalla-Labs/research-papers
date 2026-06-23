@@ -131,7 +131,12 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   \caption{Failure-flag rate heatmap (method $\times$ task). Red cells indicate
     flagged configurations, ML fails to improve on the rule baseline by the
     pre-registered $\Delta$=0.05 threshold (Eq.~\eqref{eq:failure}) in
-    $\geq$2/3 seeds; white cells (M8, T4-T5) are not applicable.}
+    $\geq$2/3 seeds; white cells (M8, T4-T5) are not applicable.\\
+    \textit{Alt text:} Heatmap of failure-flag rate for 8 methods (rows M1-M8)
+    against 7 tasks (columns T1-T7), where each cell shows the percentage of 5
+    conditions flagged. Most cells are red at 100\%; green 0\% cells appear where
+    ML adds value (for example M5 OCSVM at T2 and T5), and M8 Graph-IF is marked
+    N/A for T4 and T5.}
   \label{fig:failure_heatmap}
 \end{figure}
 
@@ -140,7 +145,12 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   \includegraphics[width=\columnwidth]{figures/fig1_ap_heatmap.pdf}
   \caption{Condition-averaged AP heatmap (method $\times$ task). Higher values
     indicate better anomaly ranking. Rows are ordered by mean AP across all
-    runs; M1 (rule baseline) anchors the top row.}
+    runs; M1 (rule baseline) anchors the top row.\\
+    \textit{Alt text:} Heatmap of mean average precision for 8 methods (rows
+    M1-M8) against 7 tasks (columns T1-T7), with values from about 0.24 to 1.00
+    shaded red (low) to green (high). The M1 rule baseline row is highest overall;
+    notable low cells include M4 LOF and M7 Z-score at T3, and M8 Graph-IF is N/A
+    for T4 and T5.}
   \label{fig:ap_heatmap}
 \end{figure}
 
@@ -149,7 +159,12 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   \includegraphics[width=\textwidth]{figures/fig4_t2_t5_ml_gain.pdf}
   \caption{AP by method for T2 (group membership drift) and T5
     (patch-vulnerability hygiene), averaged over all conditions and seeds, the
-    two tasks where ML consistently adds value over the rule baseline.}
+    two tasks where ML consistently adds value over the rule baseline.\\
+    \textit{Alt text:} Two bar charts of mean average precision by method. For
+    task T2 several methods exceed the dashed rule baseline of 0.819, led by
+    M7 Z-score (0.96) and M5 OCSVM (0.95). For task T5 only M5 OCSVM (0.77) and
+    M4 LOF (0.73) clearly beat the rule baseline of 0.619, while M7 Z-score (0.40)
+    is the worst.}
   \label{fig:ml_gain}
 \end{figure*}
 
@@ -157,6 +172,11 @@ Figure~\ref{fig:failure_heatmap} shows the failure-flag heatmap. Key patterns:
   \centering
   \includegraphics[width=\textwidth]{figures/fig3_ap_by_condition.pdf}
   \caption{AP distribution by telemetry condition (all tasks and methods). C-STALE
-    has the lowest mean AP; C-FRESH has the highest.}
+    has the lowest mean AP; C-FRESH has the highest.\\
+    \textit{Alt text:} Box plots of average precision across five telemetry
+    conditions (C-BASE, C-STALE, C-FRESH, C-MISS, C-UNSUP) over all methods and
+    tasks. C-STALE shows the lowest and most spread-out distribution, while
+    C-FRESH, C-MISS, and C-UNSUP have higher, tighter medians near the dashed
+    M1 rule mean AP line, with several low outliers below 0.4.}
   \label{fig:ap_condition}
 \end{figure*}

@@ -42,7 +42,7 @@ These are descriptive observations relative to EPSS. Although several $\Delta$EH
 \begin{figure}[t]
  \centering
  \includegraphics[width=\columnwidth]{figures/fig_delta_ehd_vs_epss_by_strategy}
- \caption{Paired-seed $\Delta$EHD relative to \texttt{epss\_only} per strategy (mean $\pm$ BCa 95\% CI, 30 seeds). All baseline strategies (\texttt{cvss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) fall within the noise floor. Fixed-prior context-aware priors show larger descriptive differences but remain in the descriptive-only zone per the post-run variance criterion.}
+ \caption{Paired-seed $\Delta$EHD relative to \texttt{epss\_only} per strategy (mean $\pm$ BCa 95\% CI, 30 seeds). All baseline strategies (\texttt{cvss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) fall within the noise floor. Fixed-prior context-aware priors show larger descriptive differences but remain in the descriptive-only zone per the post-run variance criterion.\\[2pt]\textit{Alt text:} Horizontal bar chart with one bar per strategy; the x-axis is $\Delta$EHD versus \texttt{epss\_only} in host-days (scaled by $10^7$, ranging from about $-1.75\times10^7$ to $0$) and the y-axis lists strategies. The baseline strategies (\texttt{cvss\_x\_epss}, \texttt{kev\_first}, \texttt{cvss\_plus\_epss\_plus\_kev}, \texttt{cvss\_only}, \texttt{random}) sit near zero, while the fixed-prior vectors extend left as long negative bars, longest for \texttt{prop:context\_dominant} near $-1.6\times10^7$, each with a horizontal error bar.}
  \label{fig:delta_ehd}
 \end{figure}
 
@@ -51,7 +51,7 @@ These are descriptive observations relative to EPSS. Although several $\Delta$EH
 \begin{figure}[t]
  \centering
  \includegraphics[width=\columnwidth]{figures/fig_weight_family_sensitivity_delta_ehd}
- \caption{Weight-family sensitivity: $\Delta$EHD across six fixed design-prior vectors relative to \texttt{epss\_only} (mean $\pm$ BCa 95\% CI, 30 seeds). Vector differences are descriptive observations; the post-run variance criterion demotes all axes to descriptive-only.}
+ \caption{Weight-family sensitivity: $\Delta$EHD across six fixed design-prior vectors relative to \texttt{epss\_only} (mean $\pm$ BCa 95\% CI, 30 seeds). Vector differences are descriptive observations; the post-run variance criterion demotes all axes to descriptive-only.\\[2pt]\textit{Alt text:} Box-and-whisker plot with one box per weight-family vector (\texttt{context\_dominant}, \texttt{cvss\_dominant}, \texttt{epss\_dominant}, \texttt{kev\_dominant}, \texttt{paper1\_placeholder}, \texttt{uniform}) on the x-axis and EHD in host-days (scaled by $10^9$, roughly $3.20\times10^9$ to $3.50\times10^9$) on the y-axis. The boxes overlap heavily across vectors, each showing a median line near $3.30\times10^9$, a green triangle marking the mean, whiskers, and a few high outliers, indicating little separation between vectors.}
  \label{fig:weight_family}
 \end{figure}
 

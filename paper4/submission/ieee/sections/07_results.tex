@@ -54,7 +54,7 @@ NDCG@$K$ results (Table~\ref{tab:ndcg_k}) are consistent with P@$K$: HygienePrio
 \begin{figure}[t]
  \centering
  \includegraphics[width=\columnwidth]{figures/fig1_precision_at_k}
- \caption{Mean Precision@$K$ ($K \in \{50,100,250\}$) for all methods across 25 evaluation seeds (synthetic evaluation, mean $\pm$ 95\% BCa CI). HygienePrio consistently outperforms all baselines at every $K$.}
+ \caption{Mean Precision@$K$ ($K \in \{50,100,250\}$) for all methods across 25 evaluation seeds (synthetic evaluation, mean $\pm$ 95\% BCa CI). HygienePrio consistently outperforms all baselines at every $K$.\\[2pt]\textit{Alt text:} A grouped chart with the vertical axis showing mean Precision@$K$ and grouped along $K = 50, 100, 250$, comparing the nine methods. Each point carries a 95\% confidence-interval error bar. The HygienePrio variants sit highest, while EPSS-only, CVSS-only, and Random sit progressively lower at every value of $K$.}
  \label{fig:precision_k}
 \end{figure}
 
@@ -69,7 +69,7 @@ NDCG@$K$ results (Table~\ref{tab:ndcg_k}) are consistent with P@$K$: HygienePrio
 \begin{figure}[t]
  \centering
  \includegraphics[width=\columnwidth]{figures/fig3_seed_scatter}
- \caption{Per-seed P@50 for HygienePrio-full vs.\ EPSS-only (25 seeds, synthetic evaluation). Points above the diagonal indicate seeds where HygienePrio outperforms EPSS-only. HygienePrio wins on all 25 of 25 evaluation seeds.}
+ \caption{Per-seed P@50 for HygienePrio-full vs.\ EPSS-only (25 seeds, synthetic evaluation). Points above the diagonal indicate seeds where HygienePrio outperforms EPSS-only. HygienePrio wins on all 25 of 25 evaluation seeds.\\[2pt]\textit{Alt text:} A scatter plot with one point per evaluation seed, where the horizontal axis is EPSS-only P@50 and the vertical axis is HygienePrio-full P@50, with a diagonal line marking equal performance. All 25 points fall above the diagonal, showing HygienePrio-full scores higher than EPSS-only on every seed.}
  \label{fig:seed_scatter}
 \end{figure}
 
@@ -105,7 +105,7 @@ The dimension ordering (patch posture $>$ AD exposure $\gg$ freshness) in this s
 \begin{figure}[t]
  \centering
  \includegraphics[width=\columnwidth]{figures/fig2_ablation}
- \caption{Ablation analysis: drop in P@50 from HygienePrio-full when each dimension or component is removed (25 seeds, synthetic evaluation, mean $\pm$ 95\% BCa CI). Patch posture is the dominant contributor ($\approx$20\,pp); AD exposure contributes $\approx$9\,pp; telemetry freshness and the interaction term contribute marginally (approximately 3\,pp).}
+ \caption{Ablation analysis: drop in P@50 from HygienePrio-full when each dimension or component is removed (25 seeds, synthetic evaluation, mean $\pm$ 95\% BCa CI). Patch posture is the dominant contributor ($\approx$20\,pp); AD exposure contributes $\approx$9\,pp; telemetry freshness and the interaction term contribute marginally (approximately 3\,pp).\\[2pt]\textit{Alt text:} A bar chart where each bar shows the drop in P@50 (in percentage points) caused by removing one model component, with 95\% confidence-interval error bars. The patch-posture bar is the tallest at about 20 points, the AD-exposure bar about 9 points, and the telemetry-freshness and interaction-term bars are smallest at about 3 points.}
  \label{fig:ablation}
 \end{figure}
 

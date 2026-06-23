@@ -91,7 +91,8 @@
 
 \author{%
   \IEEEauthorblockN{Harshavardhan Malla}
-  \IEEEauthorblockA{Independent Researcher}%
+  \IEEEauthorblockA{Independent Researcher\\
+  Email: harshavardhanmalla75@gmail.com}%
 }
 
 \maketitle
@@ -498,7 +499,15 @@ evaluation.
   \textit{Gray}: metric computation, descriptive statistics, and
   integrity checks.
   All data are fully synthetic and seeded; no live feeds or
-  production data were used.}
+  production data were used.\\[2pt]\textit{Alt text:} A top-to-bottom
+  TikZ flow diagram of the VulnPrio pipeline. Four blue input boxes
+  (NVD/CVE Feed, EPSS Feed, KEV Catalog, PoC Feed) feed a column of
+  green processing boxes (synthetic fleet generator, pair builder,
+  7-feature frame, 13 scoring strategies), which feed orange scheduling
+  and audit boxes (5-phase scheduler, append-only hash-chained audit
+  logs, freeze and verify) and gray metric boxes (EHD metric, ranking
+  metrics, descriptive statistics and integrity checks), connected by
+  directed arrows showing data flow.}
 \label{fig:pipeline}
 \end{figure}
 
@@ -718,7 +727,7 @@ proposed\_no\_criticality & 1{,}124{,}320 & 4{,}320 & $-0.271\%$ & $-0.215\%$ & 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_ehd_by_strategy}
-  \caption{Mean absolute EHD by strategy across 30 seeds. All 13 strategies cluster within 0.5\% of the mean EHD ($\approx 1.12 \times 10^6$ simulated host-days); no strategy is separable from the EPSS baseline or from random ordering, with all spreads within seed-to-seed variation.}
+  \caption{Mean absolute EHD by strategy across 30 seeds. All 13 strategies cluster within 0.5\% of the mean EHD ($\approx 1.12 \times 10^6$ simulated host-days); no strategy is separable from the EPSS baseline or from random ordering, with all spreads within seed-to-seed variation.\\[2pt]\textit{Alt text:} A bar chart of mean Expected Exploited Host-Days (EHD) on the y-axis for each of the 13 strategies on the x-axis. All bars are nearly equal in height at about $1.12 \times 10^6$ host-days, clustering within 0.5\% of one another.}
   \label{fig:ehd_by_strategy}
 \end{figure}
 
@@ -778,7 +787,7 @@ margin, confirming that these sub-$0.1\%$ gaps are noise.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_delta_ehd_vs_epss_by_strategy}
-  \caption{$\Delta$EHD relative to EPSS baseline per strategy (mean across 30 seeds). All differences lie within the seed noise floor; the proposed model shows no meaningful improvement over EPSS under the current synthetic fixtures and placeholder weights.}
+  \caption{$\Delta$EHD relative to EPSS baseline per strategy (mean across 30 seeds). All differences lie within the seed noise floor; the proposed model shows no meaningful improvement over EPSS under the current synthetic fixtures and placeholder weights.\\[2pt]\textit{Alt text:} A bar chart of the signed difference in mean EHD relative to the EPSS-only baseline (y-axis) for each strategy (x-axis). Bars are small and span both positive and negative values, ranging from about $-2{,}920$ to $+2{,}417$ host-days, all within the seed noise floor.}
   \label{fig:delta_ehd}
 \end{figure}
 
@@ -886,21 +895,21 @@ Risk-acceptance rate (range)   & 0.000-0.004 & near zero \\
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_fraction_of_oracle}
-  \caption{Fraction-of-oracle scale (random $= 0$, oracle $= 1$) for all 13 strategies, mean across 30 seeds. Several strategies fall outside $[0,1]$ (\eg \texttt{cvss\_only} $\approx 1.18$, \texttt{proposed\_full} $\approx -0.23$, \texttt{proposed\_no\_criticality} $\approx -1.56$); because the label-prioritizing oracle is not a strict EHD lower bound under capacity constraints, these out-of-range values reflect a metric artifact rather than genuine performance, and the within-noise spread means the scale is not a reliable ranking signal in this run.}
+  \caption{Fraction-of-oracle scale (random $= 0$, oracle $= 1$) for all 13 strategies, mean across 30 seeds. Several strategies fall outside $[0,1]$ (\eg \texttt{cvss\_only} $\approx 1.18$, \texttt{proposed\_full} $\approx -0.23$, \texttt{proposed\_no\_criticality} $\approx -1.56$); because the label-prioritizing oracle is not a strict EHD lower bound under capacity constraints, these out-of-range values reflect a metric artifact rather than genuine performance, and the within-noise spread means the scale is not a reliable ranking signal in this run.\\[2pt]\textit{Alt text:} A bar chart showing the fraction-of-oracle EHD reduction (y-axis) for each strategy (x-axis), on a scale where random equals 0 and oracle equals 1. Several bars fall outside the $[0,1]$ range, with \texttt{cvss\_only} near $1.18$ and \texttt{proposed\_no\_criticality} near $-1.56$, reflecting a metric artifact.}
   \label{fig:fraction_oracle}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_capacity_sensitivity_delta_ehd}
-  \caption{Capacity sensitivity: EHD as the patch-capacity ratio varies across the swept levels. EHD decreases substantially as capacity increases, confirming that capacity is the dominant EHD driver; at any fixed capacity level the baselines remain tightly clustered, so the capacity setting matters far more than the choice of ordering strategy among them.}
+  \caption{Capacity sensitivity: EHD as the patch-capacity ratio varies across the swept levels. EHD decreases substantially as capacity increases, confirming that capacity is the dominant EHD driver; at any fixed capacity level the baselines remain tightly clustered, so the capacity setting matters far more than the choice of ordering strategy among them.\\[2pt]\textit{Alt text:} A line chart of EHD (y-axis) against the patch-capacity ratio across the swept levels (x-axis). The curves decrease substantially as capacity increases and remain tightly grouped across strategies at every fixed capacity level.}
   \label{fig:capacity_sensitivity}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_scheduler_feasibility_sentinel}
-  \caption{Scheduler feasibility sentinel across all 390 strategy$\times$seed runs. Every run produces a feasible schedule (feasibility rate = 1.0), and scheduled count equals the per-window capacity (100) throughout, confirming correctness of the scheduler (Section~\ref{sec:scheduler}). Under the binding capacity constraint, the KEV-deadline breach rate is uniformly high ($\approx 0.985$-$0.996$), reflecting capacity saturation rather than a Phase 1 fault.}
+  \caption{Scheduler feasibility sentinel across all 390 strategy$\times$seed runs. Every run produces a feasible schedule (feasibility rate = 1.0), and scheduled count equals the per-window capacity (100) throughout, confirming correctness of the scheduler (Section~\ref{sec:scheduler}). Under the binding capacity constraint, the KEV-deadline breach rate is uniformly high ($\approx 0.985$-$0.996$), reflecting capacity saturation rather than a Phase 1 fault.\\[2pt]\textit{Alt text:} A sentinel chart over all 390 strategy-by-seed runs showing the feasibility rate flat at 1.0 and the scheduled count flat at the per-window capacity of 100, while the KEV-deadline breach rate stays uniformly high between about $0.985$ and $0.996$.}
   \label{fig:scheduler_feasibility}
 \end{figure}
 
@@ -1012,21 +1021,21 @@ descriptive only; no significance tests are applied.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_blackout_sensitivity_delta_ehd}
-  \caption{Blackout sensitivity: EHD across blackout policy levels (\textit{none}, \textit{light}, \textit{strict}). EHD increases monotonically as the blackout policy tightens (none $<$ light $<$ strict), for both the EPSS baseline and the proposed weight families, indicating that stricter maintenance windows raise residual exposure under the binding capacity constraint.}
+  \caption{Blackout sensitivity: EHD across blackout policy levels (\textit{none}, \textit{light}, \textit{strict}). EHD increases monotonically as the blackout policy tightens (none $<$ light $<$ strict), for both the EPSS baseline and the proposed weight families, indicating that stricter maintenance windows raise residual exposure under the binding capacity constraint.\\[2pt]\textit{Alt text:} A grouped bar or line chart of EHD (y-axis) across three blackout policy levels (none, light, strict) on the x-axis, for both the EPSS baseline and the proposed weight families. EHD rises monotonically from none to light to strict.}
   \label{fig:blackout_sensitivity}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_weight_family_sensitivity_delta_ehd}
-  \caption{Weight-family sensitivity: EHD across design-prior weight families for the proposed scorer, alongside the fixed baselines. The single-signal baselines (\texttt{cvss\_only}, \texttt{epss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) cluster tightly, while the proposed weight families (\eg \texttt{w\_context\_dominant}, \texttt{w\_uniform}) show larger nominal separation, illustrating that the choice of weight prior, not the feature set alone, drives the proposed scorer's behavior. Reported descriptively without significance testing.}
+  \caption{Weight-family sensitivity: EHD across design-prior weight families for the proposed scorer, alongside the fixed baselines. The single-signal baselines (\texttt{cvss\_only}, \texttt{epss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) cluster tightly, while the proposed weight families (\eg \texttt{w\_context\_dominant}, \texttt{w\_uniform}) show larger nominal separation, illustrating that the choice of weight prior, not the feature set alone, drives the proposed scorer's behavior. Reported descriptively without significance testing.\\[2pt]\textit{Alt text:} A bar chart of EHD (y-axis) for several design-prior weight families of the proposed scorer alongside the fixed single-signal baselines (x-axis). The single-signal baseline bars cluster tightly while the proposed weight-family bars (such as \texttt{w\_context\_dominant} and \texttt{w\_uniform}) show larger nominal separation.}
   \label{fig:weight_sensitivity}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/fig_feature_ablation_delta_ehd}
-  \caption{Feature-ablation EHD: effect of removing each feature ($-C$, $-E$, $-K$, $-R$, $-S$, $-X$) from the composite score, under two weight families. Removing a single feature shifts mean EHD by amounts comparable to the cross-feature range; under the placeholder weights, no single removal dominates, while under the context-dominant weights the removals separate more visibly. Reported descriptively.}
+  \caption{Feature-ablation EHD: effect of removing each feature ($-C$, $-E$, $-K$, $-R$, $-S$, $-X$) from the composite score, under two weight families. Removing a single feature shifts mean EHD by amounts comparable to the cross-feature range; under the placeholder weights, no single removal dominates, while under the context-dominant weights the removals separate more visibly. Reported descriptively.\\[2pt]\textit{Alt text:} A grouped bar chart of EHD (y-axis) for each single-feature removal ($-C$, $-E$, $-K$, $-R$, $-S$, $-X$) on the x-axis, under two weight families. Under placeholder weights the bars are similar in height with no dominant removal; under context-dominant weights the bars separate more.}
   \label{fig:feature_ablation}
 \end{figure}
 
@@ -1083,6 +1092,16 @@ integration with real asset inventory systems under appropriate
 data governance controls.  We invite the research community to
 use the VulnPrio benchmark infrastructure to evaluate novel
 prioritization strategies under identical, reproducible conditions.
+
+% =============================================================
+\section*{Data Availability Statement}
+The data and code that support the findings of this study are openly available in the research-papers repository at \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper1-vuln-prioritization}. The manuscript sources, figures, analysis code, and frozen result tables are included and regenerate every reported number deterministically from the fixed seeds.
+
+\section*{Disclosure Statement}
+No potential conflict of interest was reported by the author.
+
+\section*{Funding}
+No funding was received.
 
 % =============================================================
 \balance

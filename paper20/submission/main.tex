@@ -23,7 +23,7 @@
 
 \author{%
   \IEEEauthorblockN{Harshavardhan Malla}
-  \IEEEauthorblockA{Independent Researcher}%
+  \IEEEauthorblockA{Independent Researcher\\ Email: harshavardhanmalla75@gmail.com}%
 }
 
 \renewcommand{\textendash}{-}
@@ -101,7 +101,7 @@ This layered approach permits the independent updating or replacement of any com
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.48\textwidth]{framework_architecture.png}
-\caption{High-level architecture of the machine learning-based CVE prioritization framework.}
+\caption{High-level architecture of the machine learning-based CVE prioritization framework.\\[2pt]\textit{Alt text:} Vertical flow diagram of five stacked boxes connected top to bottom by downward arrows: Data Ingestion Layer (NVD, CISA KEV, Exploit-DB, SCCM, Intune, Tanium), Feature Engineering Layer (CVSS, Threat Intel, Asset Context), Machine Learning Inference Layer (Random Forest plus XGBoost ensemble), Prioritization and Decision Layer (compliance deadlines, risk weighting), and Integration Layer (SCCM, Intune, PowerShell, AppX updater).}
 \label{fig:framework}
 \end{figure}
 
@@ -138,7 +138,7 @@ The methodology of the proposed Patch Tuesday prioritization framework is design
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.48\textwidth]{methodology_workflow.png}
-\caption{Workflow of the methodology from data ingestion to continuous feedback.}
+\caption{Workflow of the methodology from data ingestion to continuous feedback.\\[2pt]\textit{Alt text:} Vertical flowchart of six numbered boxes connected by downward arrows: (1) Data Collection (pull CVE feeds and telemetry), (2) Feature Engineering (static, threat intel, context), (3) Model Training and Validation (ensemble ML models), (4) Risk Score Computation (weighted formula), (5) Workflow Integration (SCCM/Intune automation), and (6) Continuous Feedback (retraining and optimization).}
 \label{fig:methodology}
 \end{figure}
 
@@ -223,7 +223,7 @@ Risk scores are then thresholded into actionable tiers:
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.48\textwidth]{risk_score_computation_no_title.png}
-\caption{Breakdown of the weighted components in the risk score calculation.}
+\caption{Breakdown of the weighted components in the risk score calculation.\\[2pt]\textit{Alt text:} Bar chart with the y-axis showing weight from 0.00 to 0.40 and four bars: M (model prediction) at 0.3, A (asset criticality) at 0.3, E (exploit factor) at 0.2, and B (business/compliance) at 0.2.}
 \label{fig:risk_score}
 \end{figure}
 
@@ -353,7 +353,7 @@ To assess the framework without exposing any operational environment, we evaluat
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.48\textwidth]{evaluation_results_comparison.png}
-\caption{Comparison of baseline (CVSS-only) vs. proposed framework performance across key metrics.}
+\caption{Comparison of baseline (CVSS-only) vs. proposed framework performance across key metrics.\\[2pt]\textit{Alt text:} Grouped bar chart (higher is better) comparing CVSS-only against the proposed ensemble across four metrics: Precision@50 (0.22 vs 0.74), SLA compliance (0.64 vs 0.98), 1 minus miss rate (0.33 vs 0.82), and 1 minus FPR (0.82 vs 0.88).}
 \label{fig:results_comparison}
 \end{figure}
 
@@ -433,7 +433,7 @@ Figure~\ref{fig:results} shows the impact of the proposed framework on SLA compl
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.48\textwidth]{results-graph.png}
-\caption{SLA compliance and MTTR before and after framework implementation.}
+\caption{SLA compliance and MTTR before and after framework implementation.\\[2pt]\textit{Alt text:} Two side-by-side horizontal bar charts over six methods (Random, CVSS-only, EPSS-style, XGBoost, Random Forest, Proposed RF+XGB). Left panel Precision@50 rises from 0.12 to 0.74; right panel MTTR in days falls from 8.0 to 2.3, with the proposed method highlighted.}
 \label{fig:results}
 \end{figure}
 
@@ -527,6 +527,15 @@ Patch Tuesday presents both an opportunity and a challenge for enterprise and go
 This paper presented a context-aware machine learning framework for Patch Tuesday prioritization in critical infrastructure environments. On a reproducible, pre-registered synthetic benchmark modeling a 50,000-endpoint government fleet over 18 monthly cycles and 25 seeds, the Random Forest plus XGBoost ensemble raised Precision@50 from 0.22 to 0.74 against CVSS-only ranking, cut the high-risk miss rate from 0.67 to 0.18, lowered the false-positive rate from 0.18 to 0.12, and, under a capacity-constrained scheduler, reduced mean time to remediate by 62\% (6.2 to 2.3 days) while lifting SLA compliance from 0.64 to 0.98. Every one of the five pre-registered hypotheses held, with bias-corrected bootstrap intervals excluding zero.
 
 These improvements were achieved without changing Group Policy settings or disrupting existing operational processes, making the approach practical for compliance-driven environments. As threat actors continue to compress exploitation timelines, the ability to rapidly identify and remediate the most consequential vulnerabilities is becoming an operational necessity. The framework's effectiveness still depends on accurate asset inventories and timely threat intelligence feeds, and future work will focus on improving data quality controls, broadening platform coverage, and introducing adaptive scheduling techniques.
+
+\section*{Data Availability Statement}
+The data and code that support the findings of this study are openly available in the research-papers repository at \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper20}. The manuscript sources, figures, analysis code, and frozen result tables are included and regenerate every reported number deterministically from the fixed seeds.
+
+\section*{Disclosure Statement}
+No potential conflict of interest was reported by the author.
+
+\section*{Funding}
+No funding was received.
 
 \begin{thebibliography}{00}
 
