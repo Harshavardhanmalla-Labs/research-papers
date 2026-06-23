@@ -1,0 +1,53 @@
+\section{Problem Formulation}
+\label{sec:problem}
+
+\subsection{Setting (Inherited)}
+
+EEHDA synthetic fleet, scorer Eq.~(\ref{eq:hp}), multi-window
+simulator, $K \in \{50, 100, 200\}$, $\lambda = 3$, six windows,
+25 evaluation seeds, 5 calibration seeds, inherited from
+Papers~4--11.
+
+\subsection{Six Strategies}
+
+\begin{description}
+\item[\textsf{fixed}] Paper 4 weights, no refit.
+\item[\textsf{lag1}] Paper 7 baseline grid-search on calibration
+seeds at $w - 1$.
+\item[\textsf{adaptive05}] Paper 10 single-$\tau$ adaptive at
+$\tau = 0.05$ (Paper 11 baseline; included as a control).
+\item[\textsf{cap\_aware}] Adaptive with per-$K$ threshold
+$\tau_K$ pre-registered as $\{50: 0.20, 100: 0.05, 200: 0.02\}$.
+\item[\textsf{gated}] Static rule ($K \leq 100 \to$ lag1; $K \geq
+200 \to$ fixed).
+\item[\textsf{offline}] Paper 7 ceiling: grid-search at $w$ on
+calibration seeds.
+\end{description}
+
+\subsection{Pre-Registered Hypotheses}
+
+\begin{description}
+\item[H1] \textsf{cap\_aware} reaches the joint feasibility region:
+worst per-window $\Delta^{\mathrm{cap-fix}}_{K=200} \geq -0.01$
+AND cell-mean $\Delta^{\mathrm{cap-lag1}}_{K=50} \geq -0.02$
+AND cell-mean $\Delta^{\mathrm{cap-lag1}}_{K=100} \geq -0.02$.
+\textit{Capacity-aware reaches all three Paper 10 / Paper 11
+pre-registered tolerances simultaneously.}
+\item[H2] \textsf{cap\_aware} cell-mean P@50 $\geq$
+\textsf{adaptive05} cell-mean P@50 at every (K, $w \geq 2$) within
+$+0.01$ tolerance for noise. \textit{Capacity-aware is at least as
+good as the single-$\tau$ control.}
+\item[H3] \textsf{cap\_aware} fire fraction is monotone non-decreasing
+in K: Spearman$(K, $ fire frac$) \geq +0.8$. \textit{Large $\tau_{50}$
+fires least; small $\tau_{200}$ fires most.}
+\item[H4] \textsf{cap\_aware} cell-mean P@50 at K=200 $\geq$
+\textsf{gated} by $+0.01$. \textit{Capacity-aware delivers
+operationally meaningful gain over static gating at the high-capacity
+extreme.}
+\end{description}
+
+\subsection{Stop Rule}
+
+If H1 is rejected, the abstract leads with the negative
+``capacity-aware is also insufficient'' result before the discussion
+is drafted, per the protocol.

@@ -1,0 +1,153 @@
+# Paper 2 — Step 3.15 (F6) minimal-factorial cell enumeration.
+# Locked at Step 3.15. Source-of-truth alongside the CSV mirror.
+# Step-4 implementation loads this YAML and refuses runs whose configuration is not in it.
+
+schema_version: 1
+locked_at_step: 3.15
+companion_csv: paper2/design/STEP3_15_MINIMAL_FACTORIAL_CELLS.csv
+
+central_defaults:
+  n_seeds: 30
+  label_source: label_a_kev_only
+  epss_era: v3
+  catalog_strictness: cpe_exact_existing31
+  blackout_policy: primary
+  approver_policy: A
+  capacity_ratio: 0.01
+  t0_window_set: monthly_18_2023_09_to_2025_02
+  poc_enabled: false   # PAPER1_ENABLE_POC_FETCH must remain unset
+  paper1_freeze_invariant: must_hold_before_and_after_every_run
+
+strategies_in_scope:
+  baselines:
+    - random
+    - cvss_only
+    - epss_only
+    - kev_first
+    - cvss_x_epss
+    - cvss_plus_epss_plus_kev
+  fixed_prior:
+    family: proposed_fixed_prior
+    weight_vectors:    # locked in F2 (Step 3.11)
+      - w_uniform
+      - w_paper1_placeholder
+      - w_epss_dominant
+      - w_cvss_dominant
+      - w_kev_dominant
+      - w_context_dominant
+  forbidden:
+    - calibrated
+    - learned
+    - gbt_or_any_learned_comparator   # K1 enforced
+
+# --- Cell counts (machine-checkable) ---
+cell_counts:
+  primary_runnable: 12
+  capacity_sensitivity_runnable: 15
+  capacity_sensitivity_reused: 5
+  blackout_sensitivity_runnable: 9
+  blackout_sensitivity_reused: 3
+  feature_ablation_runnable: 12
+  feature_ablation_reused: 2
+  deferred: 8
+  total_planned_runnable_cells: 48
+  total_reused_cells: 10
+  total_planned_seed_runs_at_n30: 1440   # 48 * 30
+
+# --- Cell tables ---
+primary:
+  claim_ids: [CLM-B1, CLM-B2, CLM-B3, CLM-C1]
+  inference_family_id: [B1, C1]
+  cells:
+    - id: P-random-na               ; strategy: random                   ; weight_vector: na
+    - id: P-cvss_only-na            ; strategy: cvss_only                ; weight_vector: na
+    - id: P-epss_only-na            ; strategy: epss_only                ; weight_vector: na   ; role: CENTRAL_BASELINE
+    - id: P-kev_first-na            ; strategy: kev_first                ; weight_vector: na   ; sm1_risk: paired-Δ=0 vs epss_only in Paper-1
+    - id: P-cvss_x_epss-na          ; strategy: cvss_x_epss              ; weight_vector: na
+    - id: P-cvss_plus_epss_plus_kev-na ; strategy: cvss_plus_epss_plus_kev ; weight_vector: na
+    - id: P-proposed-w_uniform              ; strategy: proposed_fixed_prior ; weight_vector: w_uniform
+    - id: P-proposed-w_paper1_placeholder   ; strategy: proposed_fixed_prior ; weight_vector: w_paper1_placeholder
+    - id: P-proposed-w_epss_dominant        ; strategy: proposed_fixed_prior ; weight_vector: w_epss_dominant
+    - id: P-proposed-w_cvss_dominant        ; strategy: proposed_fixed_prior ; weight_vector: w_cvss_dominant
+    - id: P-proposed-w_kev_dominant         ; strategy: proposed_fixed_prior ; weight_vector: w_kev_dominant
+    - id: P-proposed-w_context_dominant     ; strategy: proposed_fixed_prior ; weight_vector: w_context_dominant
+
+capacity_sensitivity:
+  claim_ids: [CLM-C2]
+  inference_family_id: C2
+  axis: A1
+  levels: [0.005, 0.01, 0.02, 0.05]
+  strategies:
+    - {strategy: epss_only,                weight_vector: na}
+    - {strategy: cvss_plus_epss_plus_kev,  weight_vector: na}
+    - {strategy: proposed_fixed_prior,     weight_vector: w_paper1_placeholder}
+    - {strategy: proposed_fixed_prior,     weight_vector: w_epss_dominant}
+    - {strategy: proposed_fixed_prior,     weight_vector: w_context_dominant}
+  reused_cells:    # central capacity 0.01 reused from primary
+    - {cell: CAP-epss_only-cap0010,                 reuses: P-epss_only-na}
+    - {cell: CAP-cvss_plus_epss_plus_kev-cap0010,   reuses: P-cvss_plus_epss_plus_kev-na}
+    - {cell: CAP-proposed-w_paper1_placeholder-cap0010, reuses: P-proposed-w_paper1_placeholder}
+    - {cell: CAP-proposed-w_epss_dominant-cap0010,  reuses: P-proposed-w_epss_dominant}
+    - {cell: CAP-proposed-w_context_dominant-cap0010, reuses: P-proposed-w_context_dominant}
+
+blackout_sensitivity:
+  claim_ids: [CLM-C3]
+  inference_family_id: C3
+  axis: A6
+  levels: [none, light, primary, strict]
+  strategies:
+    - {strategy: epss_only,             weight_vector: na}
+    - {strategy: proposed_fixed_prior,  weight_vector: w_paper1_placeholder}
+    - {strategy: proposed_fixed_prior,  weight_vector: w_context_dominant}
+  reused_cells:    # central blackout = primary reused from primary
+    - {cell: BLK-epss_only-primary,                   reuses: P-epss_only-na}
+    - {cell: BLK-proposed-w_paper1_placeholder-primary, reuses: P-proposed-w_paper1_placeholder}
+    - {cell: BLK-proposed-w_context_dominant-primary,   reuses: P-proposed-w_context_dominant}
+
+feature_ablation:
+  claim_ids: [CLM-C4]
+  inference_family_id: C4
+  axis: A5
+  levels: [full, remove_E, remove_K, remove_S, remove_C, remove_X, remove_R]
+  weight_vectors: [w_paper1_placeholder, w_context_dominant]
+  reused_cells:    # full reference reused from primary
+    - {cell: ABL-w_paper1_placeholder-full, reuses: P-proposed-w_paper1_placeholder}
+    - {cell: ABL-w_context_dominant-full,   reuses: P-proposed-w_context_dominant}
+
+deferred:
+  policy: not_in_planned_run_total; require_explicit_user_OK_and_a_new_step_to_promote
+  cells:
+    - {id: DEF-approver_B_sweep,                rationale: secondary approver-policy sweep; not in primary budget}
+    - {id: DEF-epss_v4_era,                     rationale: EPSS v4 model-version-boundary; out of scope per Step 3.9 A8}
+    - {id: DEF-catalog_expansion,               rationale: deferred per Step 3.9 and Step 3.10; requires F1.x supplement and Step-3.8 re-run}
+    - {id: DEF-poc_label_b,                     rationale: license-gated (PAPER1_ENABLE_POC_FETCH=true); never redistributed; deferred}
+    - {id: DEF-fuzzy_cpe_matching,              rationale: cpe_fuzzy/manual matching; deferred per Step 3.9 A9}
+    - {id: DEF-seeds_50_or_100,                 rationale: seed expansion; F4 MDE already tabulated; deferred unless F8 budget grows}
+    - {id: DEF-all_pairwise_weight_comparisons, rationale: C(6 2)=15 pairwise weight comparisons for CLM-C1 Holm family; ALREADY supported by primary 6-cell output via paired analysis at no extra compute (no extra runs needed); listed here to keep that explicit}
+    - {id: DEF-gbt_or_learned_comparator,       rationale: FORBIDDEN by K1; cannot be re-enabled in Paper 2}
+
+# --- F2/F3/F4/F5 compatibility ---
+compat:
+  f2_weight_locks: STEP3_11_FIX_F2_WEIGHTS.md   # six locked vectors honored
+  f3_metric_bindings: STEP3_12_FIX_F3_METRIC_CLAIM_BINDING.md
+  f4_inference_status_per_claim:
+    CLM-B1: allowed_except_kev_first
+    CLM-B2: inherits_CLM-B1_per_pair
+    CLM-B3: descriptive_only
+    CLM-C1: allowed
+    CLM-C2: allowed
+    CLM-C3: allowed
+    CLM-C4: allowed
+    CLM-D1: diagnostic_only
+    CLM-G1: diagnostic_only
+  f5_stop_rule_registry: STEP3_14_FIX_F5_KILL_CRITERIA.md
+  f5_already_triggered:
+    K1: TRIGGERED  # 7 < 20
+    K3: TRIGGERED  # OR-branch via unique<20
+    S-A: TRIGGERED  # mirrors K1
+  f5_runtime_gates_on_every_run:
+    pre_flight: [K1, K3, K6]
+    per_cell: [K3, K4, S-C3, S-E1, S-E2]
+    per_comparison: [SM-1, SM-2, SM-3, F4_inference_status]
+    post_run: [K2, K5, K7, K8, S-B1, S-B3, S-C1, S-C2, S-C4]
+    manuscript: [F3_forbidden_phrase_guard, SM-4, SM-5]

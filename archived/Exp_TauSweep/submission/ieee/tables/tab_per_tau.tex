@@ -1,0 +1,18 @@
+\begin{table*}[!t]
+  \caption{Per-$\tau$ aggregates over the sweep. ``Worst $\Delta^{\mathrm{ad-fix}}_{K=200}$'' is the minimum per-window adaptive--fixed cell-mean at K=200; H3 requires it $\geq -0.01$. ``Cell-mean $\Delta^{\mathrm{ad-lag1}}_{K=50}$'' is the K=50 H2 cost; H3 requires it $\geq -0.02$.}
+  \label{tab:per_tau}
+  \centering
+  \small
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{c cc cccc c}
+    \toprule
+    $\tau$ & worst $\Delta^{\mathrm{ad-fix}}_{K=200}$ & mean $\Delta^{\mathrm{ad-fix}}_{K=200}$ & $\Delta^{\mathrm{ad-lag1}}_{K=50}$ & $\Delta^{\mathrm{ad-lag1}}_{K=100}$ & fire K50 & fire K100 & fire K200 \\
+    \midrule
+    0.020 & +0.000 & +0.000 & -0.053 & -0.015 & 60\% & 80\% & 100\% \\
+    0.030 & +0.000 & +0.007 & -0.053 & -0.004 & 60\% & 40\% & 80\% \\
+    0.050 & +0.000 & +0.007 & -0.053 & -0.004 & 60\% & 40\% & 80\% \\
+    0.075 & +0.000 & +0.007 & -0.041 & -0.004 & 40\% & 40\% & 80\% \\
+    0.100 & +0.000 & +0.009 & -0.041 & -0.001 & 40\% & 20\% & 60\% \\
+    \bottomrule
+  \end{tabular}
+\end{table*}

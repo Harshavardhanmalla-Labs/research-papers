@@ -1,0 +1,96 @@
+\section{The CAP-G Method}
+\label{sec:method}
+
+\subsection{Asset Context Score}
+
+Each host carries three context attributes assigned from fixed, publicly-grounded
+category mixes. \emph{Asset criticality tier} $\in$ \{MISSION\_CRITICAL 1.00, HIGH 0.70,
+MEDIUM 0.40, LOW 0.15\} with fleet shares $5/20/50/25\%$ (FIPS~199 impact levels);
+\emph{network exposure zone} $\in$ \{INTERNET\_FACING 1.00, DMZ 0.75, INTERNAL 0.40,
+ISOLATED 0.10\} with shares $8/12/65/15\%$; and \emph{data sensitivity} $\in$
+\{CJIS 1.00, PII\_CUI 0.60, PUBLIC 0.20\} with shares $15/45/40\%$. The Asset Context
+Score is the weighted blend
+%
+\begin{equation}
+\mathrm{ACS}(h) = c_1\,\mathrm{crit}(h) + c_2\,\mathrm{zone}(h) + c_3\,\mathrm{sens}(h),
+\end{equation}
+%
+with $c_1{=}0.5,\,c_2{=}0.3,\,c_3{=}0.2$ fixed from priors (criticality-dominant,
+mirroring FIPS~199 system categorization) and \emph{not} tuned on any seed. A high-water-
+mark variant $\mathrm{ACS_{hwm}}(h)=\max(\mathrm{crit},\mathrm{zone},\mathrm{sens})$,
+matching FIPS~199's literal max rule, is reported as a robustness check.
+
+The design rationale for the weighted blend is to keep the score interpretable and to make
+criticality dominant by construction, consistent with how FIPS~199 categorization is used in
+practice, where the impact level of the information a system handles is the primary driver of
+its protection requirements. We chose to weight the three dimensions rather than take their
+literal maximum because a weighted blend degrades gracefully: a host that is highly critical but
+internally zoned and public-data-only still earns a substantial score from the criticality term
+alone, whereas a strict maximum would treat a single internet-facing attribute as equivalent to
+top criticality. The high-water-mark variant is retained as a robustness check precisely because
+it is the literal reading of the FIPS~199 max rule, and reporting both lets a reader see that the
+finding does not hinge on the particular aggregation. Fixing the weights from priors rather than
+fitting them on data is a deliberate conservatism: any in-sample tuning of the context weights
+would risk borrowing strength from the evaluation target, and the point of the study is to
+measure what a defensible, untuned context layer buys, not the ceiling a fitted one could reach.
+
+\subsection{Hygiene-augmented base scorer}
+
+The context-blind base scorer assigns each pair the score
+%
+\begin{equation}
+\begin{split}
+S_{\mathrm{base}}(h,c) = {}&\alpha\,\mathrm{EPSS}(c) + \beta\,\mathrm{HRS}(h) \\
+&+ \gamma\,\mathrm{KEV_{rec}}(c) + \delta\,\mathrm{EPSS}(c)\,\mathrm{HRS}(h),
+\end{split}
+\end{equation}
+%
+where $\mathrm{EPSS}(c)$ is the exploit probability~\cite{jacobs2021epss},
+$\mathrm{KEV_{rec}}(c)$ an exponential decay on days since KEV entry, and $\mathrm{HRS}(h)$
+a host hygiene risk score in $[0,1]$ formed from patch posture, directory exposure, and
+telemetry freshness. The weights $(\alpha,\beta,\gamma,\delta){=}(0.7,0.5,0.1,0.2)$ and the
+hygiene-dimension weights $(0.5,0.3,0.2)$ are fixed constants, not tuned here. This is the
+hygiene-augmented scorer of prior work~\cite{paper4hygieneprio,paper1vulnprio}, reproduced here
+unchanged so that CAP-G is evaluated as a clean increment on top of an established baseline
+rather than against a weakened straw man; carrying the base scorer's own constants verbatim
+ensures that any measured difference is attributable to asset context and not to a re-tuned
+hygiene term. The multiplicative interaction term $\delta\,\mathrm{EPSS}(c)\,\mathrm{HRS}(h)$
+is what lets a host that is both exposed-by-exploit and poorly maintained rise above either
+signal alone, which is the behaviour a hygiene-augmented scorer is meant to capture. This is the
+baseline against which CAP-G is measured.
+
+\subsection{The CAP-G scorer}
+
+CAP-G multiplies the base score by a host context factor:
+%
+\begin{equation}
+S_{\mathrm{CAP\text{-}G}}(h,c) = S_{\mathrm{base}}(h,c)\cdot\bigl(1+\rho\,\mathrm{ACS}(h)\bigr),
+\label{eq:capg}
+\end{equation}
+%
+where $\rho\geq 0$ is the context-emphasis hyperparameter; $\rho{=}0$ recovers the base
+scorer. The multiplicative form is a deliberate design choice over an additive one. Multiplying
+keeps context as a modulator of the exploit-and-hygiene signal rather than a competing additive
+term: a host with high mission value but no exploitable, poorly-maintained vulnerability still
+contributes nothing to the queue, because its base score is near zero and the context factor
+scales zero to zero. An additive context term, by contrast, could float a quiescent
+high-criticality host to the top on context alone, which is not the behaviour a remediation queue
+should have. The factor $1+\rho\,\mathrm{ACS}(h)$ also has a clean degenerate case: because it is
+monotone in ACS, on a \emph{homogeneous} fleet (constant ACS) it is a constant rescaling that
+leaves the ranking, and therefore every ranking metric, identical to the base scorer. That is not
+an accident of the constants but a property of the form, and it yields an exact mechanism control
+(Section~\ref{sec:results}) in which any non-zero advantage must come from fleet heterogeneity
+rather than from the transform itself.
+
+\subsection{Calibration}
+
+$\rho$ was grid-searched on 5 held-out calibration seeds (objective: mean MWP@50), grid
+$\{0.5,1,2,4,8\}$, and fixed before the 25-seed evaluation. MWP@50 rose monotonically
+across the grid ($0.272\!\rightarrow\!0.356$), so the selected $\rho{=}8.0$ sits at the
+grid boundary, with a $10.4$~pp calibration-set margin over the base scorer (well above the
+$3$~pp stop-rule floor). The boundary saturation is reported transparently: a larger
+$\rho$ would likely raise calibration MWP@50 further before degenerating toward the weak
+context-only behaviour, implying an interior optimum beyond the locked grid. Per the
+pre-registered stop rule we did \emph{not} expand the grid post hoc; the locked-grid
+winner is used as-is, so the evaluation uses a conservative lower bound on context
+emphasis.

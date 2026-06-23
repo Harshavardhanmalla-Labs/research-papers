@@ -1,0 +1,53 @@
+{
+  "evaluation_seeds": [
+    700,
+    701,
+    702,
+    703,
+    704,
+    705,
+    706,
+    707,
+    708,
+    709,
+    710,
+    711,
+    712,
+    713,
+    714,
+    715,
+    716,
+    717,
+    718,
+    719,
+    720,
+    721,
+    722,
+    723,
+    724
+  ],
+  "detectors": [
+    "Rule-Max",
+    "Rule-Count",
+    "Mahalanobis",
+    "IsolationForest",
+    "OneClassSVM",
+    "LocalOutlierFactor"
+  ],
+  "conditions": [
+    "SDA",
+    "CDA",
+    "Mixed"
+  ],
+  "n_hosts": 1500,
+  "anomaly_prevalence": 0.08,
+  "sda_shift": 3.0,
+  "within_channel_corr": 0.7,
+  "n_features": 12,
+  "detector_settings": {
+    "IsolationForest": "200 trees",
+    "OneClassSVM": "rbf, nu=0.1",
+    "LocalOutlierFactor": "20 neighbors"
+  },
+  "n_rows": 450
+}

@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths: ['paper3/**']
+  pull_request:
+    branches: [main]
+    paths: ['paper3/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: paper3
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Smoke test (generator + import)
+        run: |
+          python -c "
+          from hygienebench import SyntheticHygieneGenerator, GeneratorConfig
+          g = SyntheticHygieneGenerator(GeneratorConfig(seed=42))
+          fleet = g.generate()
+          assert len(fleet.users) > 0, 'No users generated'
+          print(f'OK: {len(fleet.users)} users, {len(fleet.computers)} hosts')
+          "
+      - name: Run pytest if tests exist
+        run: |
+          if [ -d tests ]; then pytest tests/ -v --tb=short; fi

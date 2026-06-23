@@ -1,0 +1,14 @@
+services:
+  viewer:
+    build:
+      context: ./viewer
+      dockerfile: Dockerfile
+    ports:
+      - "3333:3333"
+    volumes:
+      # Mount the entire repo so all papers/PDFs/CSVs are readable at runtime.
+      # Change the left side if the repo lives somewhere else on the server.
+      - .:/data/research-papers:ro
+    environment:
+      PAPERS_ROOT: /data/research-papers
+    restart: unless-stopped

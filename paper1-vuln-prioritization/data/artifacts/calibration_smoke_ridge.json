@@ -1,0 +1,52 @@
+{
+  "clipped_features": [
+    "R",
+    "S",
+    "U"
+  ],
+  "created_at": "2026-05-27T15:49:42.459832Z",
+  "cv_metric": "average_precision",
+  "cv_scores": {
+    "0.01": 0.8422343487018878,
+    "0.1": 0.8395190835274574,
+    "1.0": 0.8447552529130666,
+    "10.0": 0.8493988407085625
+  },
+  "feature_columns": [
+    "E",
+    "K",
+    "S",
+    "C",
+    "X",
+    "U",
+    "R"
+  ],
+  "label_name": "A",
+  "model_type": "ridge",
+  "negative_count": 59,
+  "notes": "L2 ridge regression on 0/1 target. Negative coefficients clipped to zero; R weight reflects label association, not operational cost.",
+  "positive_count": 121,
+  "raw_coefficients": {
+    "C": 0.03523927120181792,
+    "E": 0.2295759547270858,
+    "K": 0.040168983933285995,
+    "R": -0.2944138371673487,
+    "S": -0.017029179867479167,
+    "U": -0.024768356238807344,
+    "X": 0.005882428993426864
+  },
+  "seed": 0,
+  "selected_hyperparameter": 10.0,
+  "skipped_bootstrap_samples": 0,
+  "train_size": 180,
+  "weight_ci": null,
+  "weights": {
+    "C": 0.11335816326751277,
+    "E": 0.738503030020257,
+    "K": 0.12921612972417623,
+    "R": 0.0,
+    "S": 0.0,
+    "U": 0.0,
+    "X": 0.018922676988053982
+  }
+}

@@ -1,0 +1,10 @@
+cell_id,strategy,weight_vector,capacity_ratio,blackout_policy,approver_policy,ablation,n_seeds,ehd_mean,ehd_median,ehd_std,axis
+BLK-epss_only-light,epss_only,na,0.010000,light,A,full,30,3320628576.000000,3303966096.000000,80207959.395050,blackout
+BLK-epss_only-none,epss_only,na,0.010000,none,A,full,30,3318396048.000000,3301745184.000000,80154046.777880,blackout
+BLK-epss_only-strict,epss_only,na,0.010000,strict,A,full,30,3326209200.000000,3309519312.000000,80342588.660277,blackout
+BLK-proposed-w_context_dominant-light,proposed_fixed_prior,w_context_dominant,0.010000,light,A,full,30,3303104184.533333,3285758152.000000,80771723.308569,blackout
+BLK-proposed-w_context_dominant-none,proposed_fixed_prior,w_context_dominant,0.010000,none,A,full,30,3299469529.066667,3282074280.000000,80762500.447129,blackout
+BLK-proposed-w_context_dominant-strict,proposed_fixed_prior,w_context_dominant,0.010000,strict,A,full,30,3312190514.666667,3294964736.000000,80793765.032752,blackout
+BLK-proposed-w_paper1_placeholder-light,proposed_fixed_prior,w_paper1_placeholder,0.010000,light,A,full,30,3311091506.133333,3294131632.000000,80464389.330194,blackout
+BLK-proposed-w_paper1_placeholder-none,proposed_fixed_prior,w_paper1_placeholder,0.010000,none,A,full,30,3308096262.933333,3291118472.000000,80431175.771168,blackout
+BLK-proposed-w_paper1_placeholder-strict,proposed_fixed_prior,w_paper1_placeholder,0.010000,strict,A,full,30,3318579656.000000,3301662928.000000,80547343.765215,blackout

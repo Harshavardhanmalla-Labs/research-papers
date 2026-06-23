@@ -1,0 +1,78 @@
+{
+  "n_eval_seeds": 25,
+  "cell_means": {
+    "SDA": {
+      "Rule-Max": 0.8358,
+      "Rule-Count": 0.7347,
+      "Mahalanobis": 0.5827,
+      "IsolationForest": 0.7404,
+      "OneClassSVM": 0.5471,
+      "LocalOutlierFactor": 0.3714
+    },
+    "CDA": {
+      "Rule-Max": 0.103,
+      "Rule-Count": 0.0836,
+      "Mahalanobis": 0.71,
+      "IsolationForest": 0.1054,
+      "OneClassSVM": 0.2589,
+      "LocalOutlierFactor": 0.6381
+    },
+    "Mixed": {
+      "Rule-Max": 0.4732,
+      "Rule-Count": 0.3673,
+      "Mahalanobis": 0.7017,
+      "IsolationForest": 0.4081,
+      "OneClassSVM": 0.5293,
+      "LocalOutlierFactor": 0.6606
+    }
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "best joint detector beats best rule on cross-dimensional anomalies by >=0.10 AP",
+      "best_joint": "Mahalanobis",
+      "best_rule": "Rule-Max",
+      "delta": {
+        "mean": 0.607,
+        "ci_lo": 0.5977,
+        "ci_hi": 0.6168,
+        "n": 25
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H2": {
+      "statement": "on single-dimension anomalies, joint advantage over rule <= 0.05 AP",
+      "best_joint": "IsolationForest",
+      "best_rule": "Rule-Max",
+      "joint_minus_rule": {
+        "mean": -0.0954,
+        "ci_lo": -0.1037,
+        "ci_hi": -0.0847,
+        "n": 25
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H3": {
+      "statement": "cross-dimensional gain needs joint modeling (best joint > Rule-Count, CDA)",
+      "delta_vs_rulecount": {
+        "mean": 0.6264,
+        "ci_lo": 0.6174,
+        "ci_hi": 0.6362,
+        "n": 25
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H4": {
+      "statement": "on a mixture, best joint beats best rule but by less than the CDA-only margin",
+      "best_joint": "Mahalanobis",
+      "best_rule": "Rule-Max",
+      "delta": {
+        "mean": 0.2285,
+        "ci_lo": 0.2095,
+        "ci_hi": 0.2498,
+        "n": 25
+      },
+      "cda_margin": 0.607,
+      "verdict": "SUPPORTED"
+    }
+  }
+}

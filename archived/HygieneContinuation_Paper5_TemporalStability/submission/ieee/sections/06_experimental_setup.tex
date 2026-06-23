@@ -1,0 +1,29 @@
+\section{Experimental Setup}
+
+\subsection{Pre-Registration}
+
+The protocol, including research questions, hypotheses, scoring formula, ground-truth definition, seed split, baselines, metrics, and stop rules, was fixed before any evaluation-seed result was inspected. The full protocol is archived as \texttt{paper5/design/PAPER5\_PROTOCOL.md} and accompanies the artifact release.
+
+\subsection{Calibration Procedure}
+
+The scorer weights used in the primary evaluation are inherited verbatim from the HygienePrio scorer's calibration~\cite{paper4hygieneprio}: $(\alpha, \beta, \gamma, \delta) = (0.7, 0.5, 0.1, 0.2)$. These values were not re-fitted on the temporal-stability study's calibration seeds for the primary evaluation; reuse of the HygienePrio scorer calibration is a deliberate methodological choice to test whether \textit{pre-existing} HygienePrio weights remain effective under temporal evolution. The H3 ablation (\S\ref{sec:results}) separately exercises a per-window grid-search recalibration on the five calibration seeds (100-104) for comparison. The temporal-stability study's calibration seed range (100-104) overlaps the HygienePrio scorer's evaluation seed range (100-124); the overlap is harmless because the two studies use different fixtures, the temporal-stability study's seeds instantiate the multi-window unpatched-backlog fixture described below, not the HygienePrio scorer single-window fixture on which those seeds served as evaluation data.
+
+\subsection{Evaluation Procedure}
+
+The temporal-stability study evaluation seed range (105-129) partially overlaps the HygienePrio scorer's evaluation set (100-124) but is not identical. More importantly, the temporal-stability study fixture itself differs from the HygienePrio scorer's: the multi-window simulation scores only the \textit{unpatched backlog} at each window, and this filtering raises the positive base rate at Window~1 to approximately 9.5\% (versus approximately 6.2\% in the HygienePrio scorer) over a smaller scored set ($\sim$1{,}750 versus $\sim$3{,}480 pairs). Window~1 numbers reported here (e.g., HygienePrio-full $0.595$, EPSS-only $0.331$) are therefore not directly comparable to the HygienePrio scorer's headline figures ($\approx 0.509$ and $\approx 0.202$, respectively). The within-paper, across-window comparisons that constitute this paper's findings are unaffected, since all methods and all windows are evaluated on the same fixture.
+
+For each evaluation seed $s \in \{105, \ldots, 129\}$ and each window $w \in \{1, \ldots, 6\}$:
+\begin{enumerate}
+\item Construct fleet state $F_w^{(s)}$ from $F_{w-1}^{(s)}$ via the evolution policy (\S5.4).
+\item Score all applicable pairs with each of the five methods.
+\item Compute P@$K$ for $K \in \{50, 100, 250\}$ using the per-window ground truth (\S3.2).
+\item Persist the (seed, window, method, K, P@K) tuple to the frozen results CSV.
+\end{enumerate}
+
+\subsection{Statistical Reporting}
+
+Confidence intervals shown in Fig.~\ref{fig:trajectory} are 95\% bias-corrected percentile bootstrap CIs (an approximation to the pre-registered BCa) over the 25 evaluation seeds with 10{,}000 resamples per (window, method, $K$) cell~\cite{efron1994introduction}. No null-hypothesis significance tests are reported; comparisons rely on CI overlap, consistent with the HygienePrio scorer. Window-level comparisons are reported per window rather than pooled across windows because pooling would obscure the temporal decay pattern that is the paper's central finding.
+
+\subsection{Reproducibility}
+
+The simulator, scoring code, recalibration ablation, and figure generator are released under MIT licence with the artifact. From \texttt{paper5/} the command \texttt{PYTHONPATH=src python3 src/\allowbreak run\_temporal.py} reproduces the frozen results CSV from the fixed seeds, and \texttt{PYTHONPATH=src python3 -m paper5.recalib\_ablation} reproduces the H3 ablation in Table~\ref{tab:recalibration}. The simulator depends on the HygienePrio scorer's \texttt{hygieneprio} package, located in \texttt{paper4/src} as a sibling directory.

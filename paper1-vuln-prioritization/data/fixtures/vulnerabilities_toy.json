@@ -1,0 +1,62 @@
+[
+  {
+    "cve_id": "CVE-2024-1001",
+    "cwe_ids": ["CWE-787"],
+    "cpe_matches": ["cpe:2.3:a:openssl:openssl:3.0.13:*:*:*:*:*:*:*"],
+    "cvss_v4_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+    "cvss_v4_base": 9.3,
+    "cvss_version_used": "v4",
+    "disclosure_date": "2025-01-01",
+    "vendor_advisory_refs": ["https://example.test/openssl-advisory"],
+    "feed_fetch_timestamp": "2026-05-31T00:00:00Z",
+    "_note": "exact CPE match (concrete version) against openssl"
+  },
+  {
+    "cve_id": "CVE-2024-1002",
+    "cwe_ids": ["CWE-89"],
+    "cpe_matches": ["cpe:2.3:a:sqlite:sqlite:*:*:*:*:*:*:*:*"],
+    "cvss_v4_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:L/SC:N/SI:N/SA:N",
+    "cvss_v4_base": 8.1,
+    "cvss_version_used": "v4",
+    "disclosure_date": "2025-01-15",
+    "vendor_advisory_refs": [],
+    "feed_fetch_timestamp": "2026-05-31T00:00:00Z",
+    "_note": "wildcard version -> fuzzy match against sqlite"
+  },
+  {
+    "cve_id": "CVE-2026-1003",
+    "cwe_ids": ["CWE-79"],
+    "cpe_matches": ["cpe:2.3:a:openssl:openssl:3.4.0:*:*:*:*:*:*:*"],
+    "cvss_v31_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+    "cvss_v31_base": 6.1,
+    "cvss_version_used": "v31",
+    "disclosure_date": "2026-01-01",
+    "vendor_advisory_refs": [],
+    "feed_fetch_timestamp": "2026-05-31T00:00:00Z",
+    "_note": "future disclosure relative to t0=2025-06-01 -> excluded"
+  },
+  {
+    "cve_id": "CVE-2024-1004",
+    "cwe_ids": [],
+    "cpe_matches": ["cpe:2.3:a:obscurevendor:obscureproduct:1.0:*:*:*:*:*:*:*"],
+    "cvss_v4_vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N",
+    "cvss_v4_base": 4.8,
+    "cvss_version_used": "v4",
+    "disclosure_date": "2025-02-01",
+    "vendor_advisory_refs": [],
+    "feed_fetch_timestamp": "2026-05-31T00:00:00Z",
+    "_note": "no matching product in the synthetic fleet -> no pair"
+  },
+  {
+    "cve_id": "CVE-2024-1005",
+    "cwe_ids": ["CWE-416"],
+    "cpe_matches": ["cpe:2.3:a:google:chrome:120.0.6099.130:*:*:*:*:*:*:*"],
+    "cvss_v4_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:R/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+    "cvss_v4_base": 8.8,
+    "cvss_version_used": "v4",
+    "disclosure_date": "2025-03-01",
+    "vendor_advisory_refs": ["https://example.test/chrome-advisory"],
+    "feed_fetch_timestamp": "2026-05-31T00:00:00Z",
+    "_note": "matches chrome; used for the remediated-CVE exclusion test"
+  }
+]

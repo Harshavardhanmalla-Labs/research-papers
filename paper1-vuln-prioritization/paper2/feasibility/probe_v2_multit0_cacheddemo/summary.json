@@ -1,0 +1,94 @@
+{
+  "aggregate": {
+    "catalog_matched_cves": 281,
+    "cves_with_cpe": 10337,
+    "event_positive_cves_across_windows": 0,
+    "h_days": 30,
+    "n_windows": 4,
+    "normalized_cves": 12635,
+    "nvd_lookback_days": 27,
+    "t0_end": "2024-08-31",
+    "t0_start": "2024-05-31",
+    "total_nvd_records": 13050,
+    "union_distinct_cves_in_pairs": 281,
+    "unique_negative_cves": 281,
+    "unique_positive_cves": 0,
+    "universe_end": "2024-08-31",
+    "universe_start": "2024-05-04"
+  },
+  "calibration": {
+    "attempted": false,
+    "reason": "unique positive distinct CVEs 0 < min 50"
+  },
+  "decision": "PIVOT_away_from_calibration",
+  "mode": "multi_t0",
+  "note": "Multi-t0 feasibility probe only; NOT a calibrated result, NOT a paper claim. Synthetic fleet + public feeds (NVD/EPSS/KEV); PoC license-gated and off. The gating metric is UNIQUE distinct positive CVEs. Paper 1 frozen outputs untouched.",
+  "nvd_acquisition": {
+    "api_key_present": false,
+    "blocked": false,
+    "completed_chunks": 1,
+    "source": "whole_window_cache",
+    "total_chunks": 1,
+    "total_records": 13050
+  },
+  "params": {
+    "aggregate_positive_cves": true,
+    "fleet_size": 200,
+    "h_days": 30,
+    "min_positive_cves": 50,
+    "nvd_api_key_present": false,
+    "nvd_lookback_days": 27,
+    "seed": 20260601,
+    "skip_fetch": false,
+    "t0_end": "2024-08-31",
+    "t0_frequency": "monthly",
+    "t0_start": "2024-05-31",
+    "use_cached_only": true
+  },
+  "per_window": [
+    {
+      "distinct_cves_in_pairs": 56,
+      "horizon_end": "2024-06-30",
+      "kev_asof_t0_count": 1117,
+      "negative_pairs": 4689,
+      "pairs_built": 4689,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-05-31",
+      "vulns_disclosed_le_t0": 56
+    },
+    {
+      "distinct_cves_in_pairs": 118,
+      "horizon_end": "2024-07-30",
+      "kev_asof_t0_count": 1126,
+      "negative_pairs": 9729,
+      "pairs_built": 9729,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-06-30",
+      "vulns_disclosed_le_t0": 118
+    },
+    {
+      "distinct_cves_in_pairs": 192,
+      "horizon_end": "2024-08-30",
+      "kev_asof_t0_count": 1140,
+      "negative_pairs": 14117,
+      "pairs_built": 14117,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-07-31",
+      "vulns_disclosed_le_t0": 192
+    },
+    {
+      "distinct_cves_in_pairs": 281,
+      "horizon_end": "2024-09-30",
+      "kev_asof_t0_count": 1159,
+      "negative_pairs": 22739,
+      "pairs_built": 22739,
+      "positive_cves_this_window": 0,
+      "positive_pairs": 0,
+      "t0": "2024-08-31",
+      "vulns_disclosed_le_t0": 281
+    }
+  ]
+}

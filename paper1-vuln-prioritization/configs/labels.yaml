@@ -1,0 +1,17 @@
+# Pre-registered label definitions. Both labels are reported.
+labels:
+  A:
+    name: kev_plus_poc
+    sources: [kev, poc]
+    horizon_days: 30
+    description: >
+      Primary label. Positive if CVE enters CISA KEV catalog OR if a
+      public PoC is first observed within the horizon following t0.
+  B:
+    name: poc_only
+    sources: [poc]
+    horizon_days: 30
+    description: >
+      Robustness label, independent of KEV. Positive only if a public
+      PoC is first observed within the horizon following t0.
+      Bounds upstream EPSS-KEV entanglement.

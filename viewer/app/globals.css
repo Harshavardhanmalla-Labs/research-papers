@@ -1,0 +1,397 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE — "Arctic Blue"
+   Clean white surfaces, ocean-blue accent. Modern SaaS feel.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+
+  /* Surfaces — slate-white spectrum */
+  --s0: 255 255 255;   /* #ffffff  — pure white        */
+  --s1: 248 250 252;   /* #f8fafc  — slate-50          */
+  --s2: 241 245 249;   /* #f1f5f9  — slate-100         */
+  --s3: 226 232 240;   /* #e2e8f0  — slate-200         */
+  --s4: 203 213 225;   /* #cbd5e1  — slate-300         */
+  --s5: 148 163 184;   /* #94a3b8  — slate-400         */
+
+  /* Accent — ocean blue */
+  --accent:       37  99 235;   /* #2563eb — blue-600   */
+  --accent-dim:   29  78 216;   /* #1d4ed8 — blue-700   */
+  --accent-muted: 219 234 254;  /* #dbeafe — blue-100   */
+
+  /* Border */
+  --border-c: 226 232 240;      /* #e2e8f0 — slate-200  */
+
+  /* Foreground text */
+  --fg:   15  23  42;   /* #0f172a — slate-900          */
+  --fg-2: 30  41  59;   /* #1e293b — slate-800          */
+  --fg-3: 71  85 105;   /* #475569 — slate-600          */
+  --fg-4: 148 163 184;  /* #94a3b8 — slate-400          */
+  --fg-5: 203 213 225;  /* #cbd5e1 — slate-300          */
+
+  /* Misc */
+  --blockquote-bg:           rgba(241, 245, 249, 0.80);
+  --dot-color:               rgb(var(--accent) / 0.04);
+  --scrollbar-thumb:         #cbd5e1;
+  --scrollbar-thumb-hover:   #94a3b8;
+  --sidebar-brand-bg:        linear-gradient(145deg, rgb(var(--accent) / 0.10) 0%, rgb(var(--accent-dim) / 0.03) 100%);
+  --active-glow:             0 0 0 1px rgb(var(--accent) / 0.25), 2px 0 0 0 rgb(var(--accent) / 1) inset, 0 4px 20px rgb(var(--accent) / 0.08);
+  --thead-bg:                rgb(241 245 249);
+  --thead-border:            rgb(226 232 240);
+  --table-stripe-even:       rgb(255 255 255);
+  --table-stripe-odd:        rgb(248 250 252);
+  --table-hover:             rgb(var(--accent) / 0.04);
+  --results-num-color:       rgb(var(--accent-dim));
+  --code-color:              rgb(var(--accent-dim));
+  --prose-blockquote-border: rgb(var(--accent));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK MODE — "Deep Ocean"
+   Dark navy-slate surfaces, crisp blue accent.
+   ═══════════════════════════════════════════════════════════════ */
+.dark {
+  color-scheme: dark;
+
+  /* Surfaces — deep navy-slate spectrum */
+  --s0:  8  10  20;   /* #080a14 — deepest navy        */
+  --s1: 10  14  26;   /* #0a0e1a — page bg             */
+  --s2: 15  23  42;   /* #0f172a — slate-900           */
+  --s3: 30  41  59;   /* #1e293b — slate-800           */
+  --s4: 51  65  85;   /* #334155 — slate-700           */
+  --s5: 71  85 105;   /* #475569 — slate-600           */
+
+  /* Accent — bright sky blue */
+  --accent:       96 165 250;   /* #60a5fa — blue-400   */
+  --accent-dim:   59 130 246;   /* #3b82f6 — blue-500   */
+  --accent-muted:  23  37  84;  /* #172554 — blue-950   */
+
+  /* Border */
+  --border-c: 30 41 59;         /* #1e293b — slate-800  */
+
+  /* Foreground */
+  --fg:   248 250 252;  /* #f8fafc — slate-50            */
+  --fg-2: 226 232 240;  /* #e2e8f0 — slate-200           */
+  --fg-3: 148 163 184;  /* #94a3b8 — slate-400           */
+  --fg-4:  71  85 105;  /* #475569 — slate-600           */
+  --fg-5:  51  65  85;  /* #334155 — slate-700           */
+
+  /* Misc */
+  --blockquote-bg:           rgba(30, 41, 59, 0.70);
+  --dot-color:               rgb(var(--accent) / 0.035);
+  --scrollbar-thumb:         #1e293b;
+  --scrollbar-thumb-hover:   #334155;
+  --sidebar-brand-bg:        linear-gradient(145deg, rgb(var(--accent-dim) / 0.25) 0%, rgb(var(--accent) / 0.05) 100%);
+  --active-glow:             0 0 0 1px rgb(var(--accent) / 0.30), 2px 0 0 0 rgb(var(--accent) / 1) inset, 0 4px 24px rgb(var(--accent) / 0.10);
+  --thead-bg:                rgb(30 41 59);
+  --thead-border:            rgb(51 65 85);
+  --table-stripe-even:       rgb(10 14 26);
+  --table-stripe-odd:        rgb(15 23 42);
+  --table-hover:             rgb(var(--accent) / 0.06);
+  --results-num-color:       rgb(var(--accent));
+  --code-color:              rgb(var(--accent));
+  --prose-blockquote-border: rgb(var(--accent));
+}
+
+/* ═══════════════════
+   BASE
+   ═══════════════════ */
+html, body { height: 100%; }
+
+body {
+  background-color: rgb(var(--s0));
+  color: rgb(var(--fg-2));
+  background-image: radial-gradient(circle at 1.5px 1.5px, var(--dot-color) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* ═══════════════════
+   SCROLLBAR
+   ═══════════════════ */
+* { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
+*::-webkit-scrollbar        { width: 5px; height: 5px; }
+*::-webkit-scrollbar-track  { background: transparent; }
+*::-webkit-scrollbar-thumb  { background-color: var(--scrollbar-thumb); border-radius: 4px; }
+*::-webkit-scrollbar-thumb:hover { background-color: var(--scrollbar-thumb-hover); }
+*::-webkit-scrollbar-corner { background: transparent; }
+
+/* ═══════════════════
+   SIDEBAR
+   ═══════════════════ */
+.sidebar-brand {
+  background: var(--sidebar-brand-bg);
+}
+
+/* Active paper card — left accent rail + glow */
+.sidebar-active-glow {
+  box-shadow: var(--active-glow);
+}
+
+/* Per-paper icon colours (always fixed — identity in the list) */
+.paper-icon-p1 { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); }
+.paper-icon-p2 { background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%); }
+.paper-icon-p3 { background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%); }
+.paper-icon-p4 { background: linear-gradient(135deg, #f43f5e 0%, #fb923c 100%); }
+.paper-icon-p5 { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+.paper-icon-p6 { background: linear-gradient(135deg, #10b981 0%, #22c55e 100%); }
+.paper-icon-p7 { background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%); }
+.paper-icon-p8 { background: linear-gradient(135deg, #d946ef 0%, #c026d3 100%); }
+.paper-icon-p9 { background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%); }
+.paper-icon-p10 { background: linear-gradient(135deg, #ef4444 0%, #f97316 100%); }
+
+.paper-icon-p11 { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
+.paper-icon-p12 { background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); }
+.paper-icon-p13 { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
+.paper-icon-p14 { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); }
+.paper-icon-p15 { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); }
+.paper-icon-p16 { background: linear-gradient(135deg, #db2777 0%, #be185d 100%); }
+.paper-icon-p17 { background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%); }
+.paper-icon-p18 { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+.paper-icon-p19 { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+.paper-icon-p20 { background: linear-gradient(135deg, #0891b2 0%, #6366f1 100%); }
+.paper-icon-p21 { background: linear-gradient(135deg, #10b981 0%, #f59e0b 100%); }
+
+/* Brand icon — tracks the active paper accent */
+.brand-icon {
+  background: linear-gradient(135deg, rgb(var(--accent-dim)) 0%, rgb(var(--accent)) 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PER-PAPER ACCENT PALETTE OVERRIDES
+   Only --accent / --accent-dim / --accent-muted change.
+   Everything using rgb(var(--accent) / …) cascades automatically.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* P1 — Sky / Azure (light) */
+:root[data-paper="paper1"] {
+  --accent:       14 165 233;   /* sky-500  #0ea5e9 */
+  --accent-dim:    2 132 199;   /* sky-600  #0284c7 */
+  --accent-muted: 224 242 254;  /* sky-50   #f0f9ff */
+}
+/* P1 — Sky / Azure (dark) */
+.dark[data-paper="paper1"] {
+  --accent:       56 189 248;   /* sky-400  #38bdf8 */
+  --accent-dim:   14 165 233;   /* sky-500  #0ea5e9 */
+  --accent-muted:  8  47  73;   /* sky-950  #08172e */
+}
+
+/* P2 — Teal / Cyan (light) */
+:root[data-paper="paper2"] {
+  --accent:       20 184 166;   /* teal-500  #14b8a6 */
+  --accent-dim:   13 148 136;   /* teal-600  #0d9488 */
+  --accent-muted: 204 251 241;  /* teal-50   #f0fdfa */
+}
+/* P2 — Teal / Cyan (dark) */
+.dark[data-paper="paper2"] {
+  --accent:       45 212 191;   /* teal-400  #2dd4bf */
+  --accent-dim:   20 184 166;   /* teal-500  #14b8a6 */
+  --accent-muted:  4  47  46;   /* teal-950  #042f2e */
+}
+
+/* P3 — Violet / Purple */
+:root[data-paper="paper3"] {
+  --accent:       124  58 237;   /* violet-600 */
+  --accent-dim:   109  40 217;   /* violet-700 */
+  --accent-muted: 237 233 254;   /* violet-50  */
+}
+.dark[data-paper="paper3"] {
+  --accent:       167 139 250;   /* violet-400 */
+  --accent-dim:   124  58 237;   /* violet-600 */
+  --accent-muted:  46  16 101;   /* violet-950 */
+}
+
+/* P6 — Emerald */
+:root[data-paper="paper6"] {
+  --accent:       5  150 105;   /* emerald-600 */
+  --accent-dim:   4  120  87;   /* emerald-700 */
+  --accent-muted: 209 250 229;  /* emerald-100 */
+}
+.dark[data-paper="paper6"] {
+  --accent:       52 211 153;   /* emerald-400 */
+  --accent-dim:   16 185 129;   /* emerald-500 */
+  --accent-muted:  6  78  59;   /* emerald-950 */
+}
+
+/* P7 — Indigo */
+:root[data-paper="paper7"] {
+  --accent:        79  70 229;   /* indigo-600 */
+  --accent-dim:    67  56 202;   /* indigo-700 */
+  --accent-muted: 224 231 255;   /* indigo-100 */
+}
+.dark[data-paper="paper7"] {
+  --accent:       129 140 248;   /* indigo-400 */
+  --accent-dim:    99 102 241;   /* indigo-500 */
+  --accent-muted:  30  27 75;    /* indigo-950 */
+}
+
+/* P8 — Fuchsia */
+:root[data-paper="paper8"] {
+  --accent:       192  38 211;   /* fuchsia-600 */
+  --accent-dim:   162  28 175;   /* fuchsia-700 */
+  --accent-muted: 250 232 255;   /* fuchsia-50  */
+}
+.dark[data-paper="paper8"] {
+  --accent:       232 121 249;   /* fuchsia-400 */
+  --accent-dim:   217  70 239;   /* fuchsia-500 */
+  --accent-muted:  74   4  78;   /* fuchsia-950 */
+}
+
+/* P9 — Lime */
+:root[data-paper="paper9"] {
+  --accent:       101 163  13;   /* lime-600 */
+  --accent-dim:    77 124  15;   /* lime-700 */
+  --accent-muted: 247 254 231;   /* lime-50  */
+}
+.dark[data-paper="paper9"] {
+  --accent:       190 242 100;   /* lime-300 */
+  --accent-dim:   163 230  53;   /* lime-400 */
+  --accent-muted:  26  46   5;   /* lime-950 */
+}
+
+/* P10 — Red-Orange */
+:root[data-paper="paper10"] {
+  --accent:       220  38  38;   /* red-600  */
+  --accent-dim:   185  28  28;   /* red-700  */
+  --accent-muted: 254 226 226;   /* red-100  */
+}
+.dark[data-paper="paper10"] {
+  --accent:       252 165 165;   /* red-300  */
+  --accent-dim:   248 113 113;   /* red-400  */
+  --accent-muted:  69   10  10;  /* red-950  */
+}
+
+/* P4 — Rose / Coral (light) */
+:root[data-paper="paper4"] {
+  --accent:       225  29  72;   /* rose-600   #e11d48 */
+  --accent-dim:   190  18  60;   /* rose-700   #be123c */
+  --accent-muted: 255 228 230;   /* rose-50    #fff1f2 */
+}
+/* P4 — Rose / Coral (dark) */
+.dark[data-paper="paper4"] {
+  --accent:       251 113 133;   /* rose-400   #fb7185 */
+  --accent-dim:   244  63  94;   /* rose-500   #f43f5e */
+  --accent-muted:  76   5  25;   /* rose-950   #4c0519 */
+}
+
+/* P5 — Amber (light) */
+:root[data-paper="paper5"] {
+  --accent:       217 119   6;   /* amber-600  #d97706 */
+  --accent-dim:   180  83   9;   /* amber-700  #b45309 */
+  --accent-muted: 255 251 235;   /* amber-50   #fffbeb */
+}
+/* P5 — Amber (dark) */
+.dark[data-paper="paper5"] {
+  --accent:       251 191  36;   /* amber-400  #fbbf24 */
+  --accent-dim:   245 158  11;   /* amber-500  #f59e0b */
+  --accent-muted:  69  26   3;   /* amber-950  #451a03 */
+}
+
+/* ═══════════════════
+   ANIMATIONS
+   ═══════════════════ */
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tab-content { animation: tabFadeIn 0.18s ease-out forwards; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* ═══════════════════
+   PROSE overrides
+   ═══════════════════ */
+.prose table {
+  display: block;
+  overflow-x: auto;
+  border: 1px solid rgb(var(--border-c));
+  border-radius: 10px;
+}
+.prose thead     { background: var(--thead-bg); }
+.prose thead tr  { border-bottom: 1px solid var(--thead-border) !important; }
+.prose tr:hover td { background: var(--table-hover); }
+.prose blockquote {
+  border-left-color: var(--prose-blockquote-border) !important;
+}
+
+/* ═══════════════════
+   RESULTS TABLE
+   ═══════════════════ */
+.results-table thead            { background: var(--thead-bg); box-shadow: 0 2px 10px rgb(0 0 0 / 0.10); }
+.results-table thead tr         { border-bottom: 2px solid rgb(var(--accent-dim) / 0.5); }
+.results-table tbody tr:nth-child(even) { background-color: var(--table-stripe-even); }
+.results-table tbody tr:nth-child(odd)  { background-color: var(--table-stripe-odd);  }
+.results-table tbody tr:hover           { background-color: var(--table-hover) !important; }
+
+/* ═══════════════════
+   CARDS / FIGURES
+   ═══════════════════ */
+.fig-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.fig-card:hover {
+  transform: translateY(-4px);
+  border-color: rgb(var(--accent) / 0.55);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.20), 0 0 0 1px rgb(var(--accent) / 0.25);
+}
+
+/* ═══════════════════
+   INPUTS
+   ═══════════════════ */
+.search-input:focus {
+  outline: none;
+  border-color: rgb(var(--accent) / 0.65);
+  box-shadow: 0 0 0 3px rgb(var(--accent) / 0.14);
+}
+
+/* ═══════════════════
+   MISC UTILS
+   ═══════════════════ */
+.card-hover { transition: transform 0.16s ease, box-shadow 0.16s ease; }
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgb(0 0 0 / 0.16), 0 0 0 1px rgb(var(--accent) / 0.22);
+}
+.num-val { color: var(--results-num-color); font-variant-numeric: tabular-nums; }
+
+/* Tab active glow under indicator */
+.tab-active-glow {
+  box-shadow: 0 -1px 12px -2px rgb(var(--accent) / 0.40) inset;
+}
+
+/* ═══════════════════
+   SCROLLBAR UTILS
+   ═══════════════════ */
+/* Hide scrollbar track but keep scroll behaviour */
+.hide-scrollbar {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE/Edge */
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ═══════════════════
+   THEME TOGGLE
+   ═══════════════════ */
+.theme-pill {
+  background: rgb(var(--s3));
+  border: 1px solid rgb(var(--border-c));
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.theme-pill:hover {
+  background: rgb(var(--s4));
+  border-color: rgb(var(--accent) / 0.4);
+}
+/* Light mode knob = amber sun; dark mode knob = active paper accent */
+.theme-knob {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+}
+.dark .theme-knob {
+  background: linear-gradient(135deg, rgb(var(--accent-dim)) 0%, rgb(var(--accent)) 100%);
+}

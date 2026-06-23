@@ -1,0 +1,13 @@
+strategy,mean_EHD,delta_vs_epss,relative_delta_vs_epss,interpretation_direction
+cvss_only,1118983.0333333334,-2920.0,-0.0026027204787246764,better (lower EHD than epss_only)
+cve_sum,1120719.7,-1183.3333333334886,-0.0010547554451454124,better (lower EHD than epss_only)
+random,1121275.8,-627.2333333333954,-0.0005590798087690306,better (lower EHD than epss_only)
+cve_max,1121346.3666666667,-556.6666666667443,-0.0004961807305331981,better (lower EHD than epss_only)
+proposed_no_exposure,1121570.4,-332.6333333335351,-0.00029649027005946687,better (lower EHD than epss_only)
+proposed_full,1121717.0,-186.033333333442,-0.00016581944054532992,better (lower EHD than epss_only)
+epss_only,1121903.0333333334,0.0,0.0,approximately equal to epss_only
+kev_first,1121903.0333333334,0.0,0.0,approximately equal to epss_only
+cvss_plus_epss_plus_kev,1122106.3666666667,203.33333333325572,0.0001812396680389779,worse (higher EHD than epss_only)
+cvss_x_epss,1122376.3666666667,473.3333333332557,0.0004219021780580404,worse (higher EHD than epss_only)
+cve_mean,1122596.3666666667,693.3333333332557,0.0006179975565920914,worse (higher EHD than epss_only)
+proposed_no_criticality,1124319.7,2416.6666666665114,0.002154078021775421,worse (higher EHD than epss_only)

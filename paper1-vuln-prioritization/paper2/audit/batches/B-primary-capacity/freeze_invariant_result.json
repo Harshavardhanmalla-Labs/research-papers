@@ -1,0 +1,15 @@
+{
+  "batch_id": "B-primary-capacity",
+  "freeze_witness_before_sha256": "efb1afe683d51a2f37cc20792d8b047ce79c3fe4ba9a8f5d099301ca419e309e",
+  "freeze_witness_after_sha256": "2f7f1dfbba6dba5ed787d9a2d3f5da8dc10d25e73c271cdbc214e45e990cb821",
+  "freeze_witness_id": "efb1afe683d51a2f37cc20792d8b047ce79c3fe4ba9a8f5d099301ca419e309e",
+  "status": "OK",
+  "failure_reason": null,
+  "assertions": {
+    "before_status_ok": true,
+    "after_status_ok": true,
+    "manifest_sha_equal": true,
+    "no_paper1_paths_modified": true,
+    "no_freeze_primary_invocation": true
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "n_eval_seeds": 25,
+  "by_overlap": {
+    "0.45": {
+      "recall_realtime": 0.7511,
+      "recall_scheduled": 0.4194,
+      "recall_fusion": 0.9001,
+      "gain_over_best_single": 0.1489,
+      "blind_spot": 0.0
+    },
+    "0.5": {
+      "recall_realtime": 0.7498,
+      "recall_scheduled": 0.4153,
+      "recall_fusion": 0.8702,
+      "gain_over_best_single": 0.1204,
+      "blind_spot": 0.051
+    },
+    "0.55": {
+      "recall_realtime": 0.7497,
+      "recall_scheduled": 0.42,
+      "recall_fusion": 0.8382,
+      "gain_over_best_single": 0.0886,
+      "blind_spot": 0.1012
+    },
+    "0.6": {
+      "recall_realtime": 0.7522,
+      "recall_scheduled": 0.4213,
+      "recall_fusion": 0.8116,
+      "gain_over_best_single": 0.0595,
+      "blind_spot": 0.1495
+    },
+    "0.7": {
+      "recall_realtime": 0.7525,
+      "recall_scheduled": 0.421,
+      "recall_fusion": 0.7525,
+      "gain_over_best_single": 0.0,
+      "blind_spot": 0.2475
+    }
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "fusion exceeds the better single tool by >=0.10 recall at reference overlap",
+      "gain": {
+        "mean": 0.1204,
+        "ci_lo": 0.1173,
+        "ci_hi": 0.1232
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H2": {
+      "statement": "blind-spot rate is a floor on missed vulnerabilities (fusion miss >= blind spot)",
+      "miss_above_floor": {
+        "mean": 0.0788,
+        "ci_lo": 0.0761,
+        "ci_hi": 0.0809
+      },
+      "blind_spot": {
+        "mean": 0.051,
+        "ci_lo": 0.0489,
+        "ci_hi": 0.0539
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H3": {
+      "statement": "fusion gain over real-time = scheduled-only-fresh coverage",
+      "gain_over_realtime": {
+        "mean": 0.1204,
+        "ci_lo": 0.1174,
+        "ci_hi": 0.1232
+      },
+      "scheduled_only_fresh": {
+        "mean": 0.1204,
+        "ci_lo": 0.1172,
+        "ci_hi": 0.1231
+      },
+      "difference": {
+        "mean": 0.0,
+        "ci_lo": -0.0,
+        "ci_hi": 0.0
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H4": {
+      "statement": "fusion gain over the best single tool decreases as overlap increases",
+      "gain_by_overlap": [
+        0.1489,
+        0.1204,
+        0.0886,
+        0.0595,
+        0.0
+      ],
+      "drop_low_minus_high_overlap": {
+        "mean": 0.1489,
+        "ci_lo": 0.1456,
+        "ci_hi": 0.1525
+      },
+      "verdict": "SUPPORTED"
+    }
+  }
+}

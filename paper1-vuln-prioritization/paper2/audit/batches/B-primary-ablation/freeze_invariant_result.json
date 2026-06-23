@@ -1,0 +1,15 @@
+{
+  "batch_id": "B-primary-ablation",
+  "freeze_witness_before_sha256": "4717e5fa9822f8ff97e508078ebc2718c3481d44b61e2188921cd09b6f951f14",
+  "freeze_witness_after_sha256": "8d35b8e0f0d90e202cfcb3187cd6c6635211fa6bc590d15b68707317b263af5c",
+  "freeze_witness_id": "4717e5fa9822f8ff97e508078ebc2718c3481d44b61e2188921cd09b6f951f14",
+  "status": "OK",
+  "failure_reason": null,
+  "assertions": {
+    "before_status_ok": true,
+    "after_status_ok": true,
+    "manifest_sha_equal": true,
+    "no_paper1_paths_modified": true,
+    "no_freeze_primary_invocation": true
+  }
+}

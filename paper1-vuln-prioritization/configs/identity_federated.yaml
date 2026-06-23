@@ -1,0 +1,5 @@
+identity_mapping_config: federated
+identity_provider_hosts_ipes_range: [0.85, 1.00]
+directory_servers_ipes_range: [0.55, 0.80]
+admin_workstation_ipes_range: [0.65, 0.90]
+standard_workstation_ipes_range: [0.10, 0.30]

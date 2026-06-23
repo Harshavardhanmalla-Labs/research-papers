@@ -1,0 +1,4 @@
+{
+  "attempted": false,
+  "reason": "unique positive distinct CVEs 7 < min 50"
+}

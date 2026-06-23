@@ -1,0 +1,73 @@
+{
+  "n_eval_seeds": 25,
+  "by_config": {
+    "big-bang": {
+      "expected_blast": 1.0,
+      "convergence_cost": 0
+    },
+    "2-ring": {
+      "expected_blast": 0.239,
+      "convergence_cost": 1
+    },
+    "4-ring": {
+      "expected_blast": 0.0478,
+      "convergence_cost": 3
+    },
+    "6-ring": {
+      "expected_blast": 0.0125,
+      "convergence_cost": 5
+    }
+  },
+  "by_detect": {
+    "0.2": 0.5941,
+    "0.5": 0.2175,
+    "0.8": 0.0478,
+    "0.95": 0.0156
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "four-ring rollout reduces expected blast radius by >=80% vs big-bang",
+      "reduction": {
+        "mean": 0.9522,
+        "ci_lo": 0.9511,
+        "ci_hi": 0.9531
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H2": {
+      "statement": "convergence cost = number of inter-ring stages (0,1,3,5)",
+      "convergence_costs": {
+        "big-bang": 0,
+        "2-ring": 1,
+        "4-ring": 3,
+        "6-ring": 5
+      },
+      "verdict": "SUPPORTED"
+    },
+    "H3": {
+      "statement": "expected blast radius rises monotonically as detection probability falls",
+      "blast_by_detect_ascending_p": [
+        0.5941,
+        0.2175,
+        0.0478,
+        0.0156
+      ],
+      "verdict": "SUPPORTED"
+    },
+    "H4": {
+      "statement": "finer ring staging reduces blast radius with diminishing marginal returns",
+      "expected_blast_by_config": [
+        1.0,
+        0.239,
+        0.0478,
+        0.0125
+      ],
+      "marginal_reductions": [
+        0.761,
+        0.1912,
+        0.0353
+      ],
+      "verdict": "SUPPORTED"
+    }
+  }
+}

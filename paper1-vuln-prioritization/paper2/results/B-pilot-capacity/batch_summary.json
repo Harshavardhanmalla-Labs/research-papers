@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "batch_id": "B-pilot-capacity",
+  "smoke": false,
+  "table_group": "capacity_sensitivity",
+  "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "cells_completed": 15,
+  "seeds_per_cell": {
+    "CAP-epss_only-cap0005": 6,
+    "CAP-epss_only-cap0020": 6,
+    "CAP-epss_only-cap0050": 6,
+    "CAP-cvss_plus_epss_plus_kev-cap0005": 6,
+    "CAP-cvss_plus_epss_plus_kev-cap0020": 6,
+    "CAP-cvss_plus_epss_plus_kev-cap0050": 6,
+    "CAP-proposed-w_paper1_placeholder-cap0005": 6,
+    "CAP-proposed-w_paper1_placeholder-cap0020": 6,
+    "CAP-proposed-w_paper1_placeholder-cap0050": 6,
+    "CAP-proposed-w_epss_dominant-cap0005": 6,
+    "CAP-proposed-w_epss_dominant-cap0020": 6,
+    "CAP-proposed-w_epss_dominant-cap0050": 6,
+    "CAP-proposed-w_context_dominant-cap0005": 6,
+    "CAP-proposed-w_context_dominant-cap0020": 6,
+    "CAP-proposed-w_context_dominant-cap0050": 6
+  },
+  "seed_runs_completed": 90,
+  "wallclock_seconds_total": 123.55819439888,
+  "per_seed_run_seconds_mean": 1.3728688266542224,
+  "n_triggered_rules": 3,
+  "timestamp_utc": "2026-05-28T17:44:37.053918+00:00"
+}

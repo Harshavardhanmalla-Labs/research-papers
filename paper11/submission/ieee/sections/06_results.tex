@@ -1,0 +1,78 @@
+\section{Results}
+\label{sec:results}
+
+All numbers are read directly from the frozen
+\texttt{results/primary\_v1/hyp\-othesis\_summary.json} and \texttt{cell\_means.csv};
+none are hand-entered. Table~\ref{tab:hypotheses} summarizes the pre-registered verdicts.
+
+\input{tables/tab_hypotheses.tex}
+
+\subsection{Primary result (H1): partially supported}
+
+Table~\ref{tab:mwp} reports MWP@K for the principal methods. CAP-G beats the base scorer
+at \emph{every} capacity, with BCa CIs excluding zero: $+9.5$~pp at $K{=}50$
+(CI $[+7.8,+11.3]$), $+3.0$~pp at $K{=}100$ (CI $[+2.3,+3.6]$), and $+0.7$~pp at $K{=}250$
+(CI $[+0.5,+0.9]$). The pre-registered H1 bar required the advantage \emph{averaged across
+all three $K$} to reach $5$~pp; the realized average is $4.4$~pp, just below threshold. Per
+the locked decision rule we report \textbf{H1 as partial}: the benefit is real and
+CI-separated at every capacity and exceeds $5$~pp in the triage regime, but it is not a
+capacity-flat $5$~pp constant. We deliberately do not re-define the metric or threshold to
+convert this to a pass. EPSS-only is a strong MWP competitor at high $K$ ($0.125$ at
+$K{=}250$): at large capacity, sweeping all high-EPSS pairs incidentally covers most
+high-context ones, itself an instance of capacity decay.
+
+\input{tables/tab_mwp.tex}
+
+\subsection{Regime dependence (H2): supported}
+
+The advantage decreases monotonically in $K$: $9.5\!\rightarrow\!3.0\!\rightarrow\!0.7$~pp
+(Fig.~\ref{fig:decay}). Context-awareness matters most precisely where remediation
+capacity is scarce, consistent with the intuition that at high capacity the budget absorbs
+most high-priority pairs regardless of ordering.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig2_advantage_decay.pdf}
+\caption{MWP@K advantage of CAP-G over the base scorer decays with remediation capacity on
+the heterogeneous fleet and is exactly zero on the homogeneous control, confirming the
+heterogeneity mechanism (H3).\\[2pt]
+\textit{Alt text:} Line chart of mission-weighted precision advantage
+(vertical axis, in points) against remediation capacity $K$
+(horizontal axis, at 50, 100, and 250). The upper curve, for the
+heterogeneous government fleet, starts near $+9.5$ points at $K = 50$
+and falls monotonically toward zero as capacity grows. The lower
+curve, for the homogeneous control fleet, sits flat on the zero line
+across all capacities, showing the advantage vanishes without fleet
+heterogeneity.}
+\label{fig:decay}
+\end{figure}
+
+\subsection{Mechanism (H3): supported}
+
+On a homogeneous control fleet (every host assigned identical context), the CAP-G
+advantage is \emph{exactly} $0.0$~pp at every $K$ (CI $[0,0]$). Because a constant context
+multiplier preserves rank order (Eq.~\ref{eq:capg}), CAP-G provably reduces to the base scorer
+without heterogeneity. The entire heterogeneous-fleet gain is therefore attributable to
+fleet context dispersion, not to the scoring transform; the mechanism is confirmed, not
+merely consistent.
+
+\subsection{Honest tradeoff (H4): supported}
+
+CAP-G's context-blind P@50 differs from the base scorer's by $+0.1$~pp (CI $[-1.5,+1.6]$),
+statistically indistinguishable. CAP-G buys mission precision essentially for free on the
+blind metric: it reorders \emph{within} the high-exploit set toward high-context hosts
+rather than trading away generic precision. The pre-registered circularity-investigation
+rule (triggered only if CAP-G dominated both opposing targets) was checked and not
+triggered.
+
+\subsection{Ablation (RQ5)}
+
+Removing each context dimension from the scorer, with the MCTP target held fixed, changes
+MWP@50 as shown in Table~\ref{tab:ablation}. Only asset criticality carries
+mission-precision signal (CI excludes zero, $-4.0$~pp when removed); network zone and data
+sensitivity, at their pre-registered weights, are mild distractors against a
+criticality-dominated target. A practitioner takeaway is that a criticality-only context
+layer captures essentially all of CAP-G's benefit on this target. NDCG@50 corroborates the
+overall picture: CAP-G $0.61$ vs the base scorer $0.34$ (CIs non-overlapping).
+
+\input{tables/tab_ablation.tex}

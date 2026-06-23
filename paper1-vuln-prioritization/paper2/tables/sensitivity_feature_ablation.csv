@@ -1,0 +1,13 @@
+cell_id,strategy,weight_vector,capacity_ratio,blackout_policy,approver_policy,ablation,n_seeds,ehd_mean,ehd_median,ehd_std,axis
+ABL-w_context_dominant-remove_C,proposed_fixed_prior,w_context_dominant,0.010000,primary,A,remove_C,30,3322758606.933333,3305116872.000000,80458344.287136,feature_ablation
+ABL-w_context_dominant-remove_E,proposed_fixed_prior,w_context_dominant,0.010000,primary,A,remove_E,30,3305341221.866667,3287999672.000000,80834819.580412,feature_ablation
+ABL-w_context_dominant-remove_K,proposed_fixed_prior,w_context_dominant,0.010000,primary,A,remove_K,30,3305561020.800000,3288237264.000000,80822995.336910,feature_ablation
+ABL-w_context_dominant-remove_R,proposed_fixed_prior,w_context_dominant,0.010000,primary,A,remove_R,30,3306739538.666667,3289451072.000000,80769258.545582,feature_ablation
+ABL-w_context_dominant-remove_S,proposed_fixed_prior,w_context_dominant,0.010000,primary,A,remove_S,30,3306122486.933333,3288850640.000000,80771083.609637,feature_ablation
+ABL-w_context_dominant-remove_X,proposed_fixed_prior,w_context_dominant,0.010000,primary,A,remove_X,30,3308078865.066667,3291270520.000000,80761619.430743,feature_ablation
+ABL-w_paper1_placeholder-remove_C,proposed_fixed_prior,w_paper1_placeholder,0.010000,primary,A,remove_C,30,3322864246.933333,3306049624.000000,80388894.674901,feature_ablation
+ABL-w_paper1_placeholder-remove_E,proposed_fixed_prior,w_paper1_placeholder,0.010000,primary,A,remove_E,30,3311564707.733333,3294493464.000000,80575069.791740,feature_ablation
+ABL-w_paper1_placeholder-remove_K,proposed_fixed_prior,w_paper1_placeholder,0.010000,primary,A,remove_K,30,3308849971.200000,3291710832.000000,80690000.325094,feature_ablation
+ABL-w_paper1_placeholder-remove_R,proposed_fixed_prior,w_paper1_placeholder,0.010000,primary,A,remove_R,30,3314141206.933333,3297171136.000000,80489613.787170,feature_ablation
+ABL-w_paper1_placeholder-remove_S,proposed_fixed_prior,w_paper1_placeholder,0.010000,primary,A,remove_S,30,3313506663.466667,3296536008.000000,80550201.225606,feature_ablation
+ABL-w_paper1_placeholder-remove_X,proposed_fixed_prior,w_paper1_placeholder,0.010000,primary,A,remove_X,30,3316640306.133333,3299847240.000000,80483618.888394,feature_ablation

@@ -1,0 +1,47 @@
+{
+  "n_rows": 2700,
+  "H1_coverage": {
+    "supported": true,
+    "cell_means_W6": {
+      "50": 0.978,
+      "100": 0.978
+    }
+  },
+  "H2_safety": {
+    "supported": false,
+    "max_rollback_rate": 1.0,
+    "n_failures": 300
+  },
+  "H3_mttr_reduction": {
+    "supported": false,
+    "cells": {
+      "50": {
+        "ah_mttr": 0.0,
+        "hi_mttr": 0.0,
+        "ratio": Infinity
+      },
+      "100": {
+        "ah_mttr": 0.0,
+        "hi_mttr": 0.0,
+        "ratio": Infinity
+      }
+    }
+  },
+  "H4_dominance": {
+    "supported": false,
+    "cells": {
+      "50": {
+        "dom": 6,
+        "tot": 300,
+        "frac": 0.02
+      },
+      "100": {
+        "dom": 6,
+        "tot": 300,
+        "frac": 0.02
+      }
+    }
+  },
+  "halt_triggered_total": 134,
+  "cascade_detected_total": 3
+}

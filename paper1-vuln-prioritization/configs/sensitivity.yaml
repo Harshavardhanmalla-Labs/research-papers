@@ -1,0 +1,17 @@
+dimensions:
+  fleet_size: [1000, 50000]
+  capacity_ratio: [0.001, 0.05, 0.10]
+  criticality_width: [tight, broad]
+  cmdb_staleness_rate: [0.0, 0.10]
+  epss_volatility: [as_observed, perturb_50]
+  precondition_completeness: [0.30, 0.60, 0.90]
+  remediation_failure_rate: [0.02, 0.10]
+  H_days: [14, 60, 90]
+  weights: [w_hand, w_lin, w_uniform]
+  identity_config: [federated]
+  blackout_config: [none, light, strict_monthly]
+  approver_policy: [B]
+  imputation_strategy: [mean, zero, last_known, missingness_as_feature]
+  label: [B]
+  cve_aggregator: [mean, sum]
+seeds_per_condition: 10

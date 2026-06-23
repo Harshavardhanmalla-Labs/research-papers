@@ -1,0 +1,84 @@
+% Auto-converted from paper2_full_draft.md §11.
+% Wording preserved; no claims added.
+\section{Results}
+\subsection{Gate result}
+
+The measured value is \textbf{7 unique positive distinct CVEs} across 18 monthly t0 windows on the 31-product catalog over the EPSS v3 era. The pre-registered gate threshold is $\geq 50$ for GO, 20-49 for CONDITIONAL, and $< 20$ for PIVOT. The measured value falls in the PIVOT zone; the calibration-infeasibility threshold triggered. Calibration was not attempted.
+
+\subsection{Primary execution integrity}
+
+The primary execution comprises 4 batches, \textbf{48 cells}, \textbf{1,440 seed-runs}, and \textbf{8,640 metric rows}. Every row carries a \texttt{freeze\_witness\_id} equal to the Paper-1 manifest SHA-256 (\texttt{750e144ba9567b52\allowbreak 55b27ce40279643b\allowbreak df7418d53b15edce\allowbreak 5d72c515eb022833}); zero rows are missing the witness ID. All four batches passed five freeze-integrity assertions: pre-flight check OK, post-run check OK, manifest SHA byte-equal, no Paper-1 paths modified, and no freeze bypass invoked. Data-integrity and freeze-violation hard halts did not trigger. No row uses a calibration or learned strategy.
+
+\subsection{Operational EHD outcomes}
+
+The baseline \texttt{epss\_only} central-cell mean EHD is $\approx$3.32\,$\times$\,10$^9$ host-days (30 seeds). Paired-seed $\Delta$EHD relative to \texttt{epss\_only}, reported as descriptive observations:
+
+Table~\ref{tab:ehd} summarizes the paired-seed results.
+
+\begin{table}[t]
+\centering
+\caption{Paired-seed $\Delta$EHD relative to \texttt{epss\_only} (30 seeds; BCa 95\% confidence interval). Negative values denote fewer host-days of exposure. The four baseline strategies fall within the noise floor (descriptive null); the fixed-prior weight vectors show larger descriptive differences whose intervals exclude zero, but the post-run within-cell variance criterion demotes every axis to descriptive-only.}
+\label{tab:ehd}
+\begin{tabular}{@{}lrl@{}}
+\toprule
+Strategy & Mean $\Delta$EHD (hd) & BCa 95\% CI \\
+\midrule
+\texttt{cvss\_only}                  & $-163$            & $[-1{,}918,\ +1{,}329]$ \\
+\texttt{kev\_first}                  & $+140$            & $[-356,\ +839]$ \\
+\texttt{cvss\_x\_epss}               & $+374$            & $[-384,\ +1{,}145]$ \\
+\texttt{cvss\_plus\_epss\_plus\_kev} & $+103$            & $[-224,\ +431]$ \\
+\midrule
+\texttt{w\_epss\_dominant}           & $-2.21\times10^6$ & excludes zero \\
+\texttt{w\_cvss\_dominant}           & $-8.82\times10^6$ & excludes zero \\
+\texttt{w\_context\_dominant}        & $-1.61\times10^7$ & excludes zero \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The remaining fixed-prior vectors fall in the same range: \texttt{w\_kev\_dominant} ($-2.54\times10^6$) tracks \texttt{w\_epss\_dominant}, \texttt{w\_paper1\_placeholder} ($-8.74\times10^6$) tracks \texttt{w\_cvss\_dominant}, and \texttt{w\_uniform} ($-1.00\times10^7$) sits between \texttt{w\_cvss\_dominant} and \texttt{w\_context\_dominant}.
+
+These are descriptive observations relative to EPSS. Although several $\Delta$EHD magnitudes exceed the 5,000-hd meaningful-effect threshold, the descriptive-language guardrail applies throughout: magnitudes are not interpreted as quality claims. No claim is made that any context-aware prior is meaningfully better than EPSS at this label sparsity (see post-run variance analysis below). Paired BCa CIs are the primary inferential quantity.
+
+\begin{figure}[t]
+ \centering
+ \includegraphics[width=\columnwidth]{figures/fig_delta_ehd_vs_epss_by_strategy}
+ \caption{Paired-seed $\Delta$EHD relative to \texttt{epss\_only} per strategy (mean $\pm$ BCa 95\% CI, 30 seeds). All baseline strategies (\texttt{cvss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) fall within the noise floor. Fixed-prior context-aware priors show larger descriptive differences but remain in the descriptive-only zone per the post-run variance criterion.}
+ \label{fig:delta_ehd}
+\end{figure}
+
+\subsection{Weight-family sensitivity}
+
+\begin{figure}[t]
+ \centering
+ \includegraphics[width=\columnwidth]{figures/fig_weight_family_sensitivity_delta_ehd}
+ \caption{Weight-family sensitivity: $\Delta$EHD across six fixed design-prior vectors relative to \texttt{epss\_only} (mean $\pm$ BCa 95\% CI, 30 seeds). Vector differences are descriptive observations; the post-run variance criterion demotes all axes to descriptive-only.}
+ \label{fig:weight_family}
+\end{figure}
+
+Fifteen pairwise comparisons across the six fixed-prior vectors are recorded. Differences in mean EHD across vectors are observed but are not interpreted as a quality ordering; the vectors are design priors, not evidence-based estimates.
+
+\subsection{Capacity sensitivity}
+
+$\Delta$EHD across consecutive capacity steps \{0.005$\to$0.01, 0.01$\to$0.02, 0.02$\to$0.05\} is reported for five strategy/vector arms. Records are populated with paired BCa CIs under the descriptive guardrail.
+
+\subsection{Blackout sensitivity}
+
+Blackout transitions \{none\,$\to$\,light\,$\to$\,\allowbreak primary\,$\to$\,strict\} are evaluated for three strategies. No cell with zero scheduler feasibility occurred; the pre-registered floor of 0.95 was not approached.
+
+\subsection{Feature-ablation sensitivity}
+
+Twelve paired ablation-vs-full comparisons (two fixed-prior vectors $\times$ six feature ablations) are reported. Where the ablation-effect sign flips between vectors, both signs are recorded; no single vector is preferred.
+
+\subsection{Scheduler feasibility and audit integrity}
+
+\texttt{scheduler\_feasibility\_rate = 1.0} on every primary cell. All four batches passed freeze-integrity verification; the Paper-1 freeze manifest SHA-256 was byte-equal before and after every batch.
+
+\subsection{Post-run variance analysis}
+
+Three post-run checks were recorded.
+
+\begin{itemize}
+ \item \textbf{Sensitivity measurability.} Across all four axes (capacity, weight family, feature ablation, blackout), the absolute median paired $\Delta$EHD is well above the 1,000-hd null-axis threshold. Sensitivity is measurable at the cell-mean level.
+ \item \textbf{Catalog perturbation.} One-product catalog perturbations were not executed at scale; this check is recorded as skipped and listed as a limitation.
+ \item \textbf{Within-cell variance criterion.} The criterion fires on every primary robustness axis. The per-cell coefficient of variation across seeds (\texttt{CV\_within} $\approx$ 0.024) exceeds the across-cells coefficient (\texttt{CV\_across}, which ranges from $\approx$ 0.0016 on the weight-family axis to $\approx$ 0.021 on the capacity axis) on every axis. Each axis is therefore demoted to descriptive-only: although cell-mean differences are large, per-cell seed noise is comparable to the between-cells signal at the 30-seed budget. No sensitivity claim survives this criterion; all results above are descriptive.
+\end{itemize}

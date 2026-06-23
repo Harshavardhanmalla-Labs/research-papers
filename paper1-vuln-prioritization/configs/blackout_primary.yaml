@@ -1,0 +1,22 @@
+config_name: primary
+blackouts:
+  kiosk:
+    business_hours:
+      timezone: local
+      hours: [8, 18]
+      weekdays: [mon, tue, wed, thu, fri]
+  public_facing_server:
+    business_hours:
+      timezone: local
+      hours: [8, 18]
+      weekdays: [mon, tue, wed, thu, fri]
+      kev_override_hours: 48
+  member_server:
+    cab_blackout_weekday: wed
+  restricted_zone_system:
+    maintenance_window:
+      weekday: sat
+      hours: [22, 2]
+  domain_controller:
+    staged_rollout: true
+    first_then_remainder: true

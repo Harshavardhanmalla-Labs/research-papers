@@ -1,0 +1,6 @@
+id,file,description,date_published,author,type,platform,port,codes
+300,exploits/a.py,inside horizon poc,2025-06-20,author,remote,linux,,CVE-2024-1002
+301,exploits/b.py,exactly t0 poc,2025-06-01,author,local,windows,,CVE-2024-3001
+302,exploits/c.py,exactly t0 plus h poc,2025-07-01,author,webapps,multiple,,CVE-2024-3002
+303,exploits/d.py,after horizon poc,2025-08-01,author,remote,linux,,CVE-2024-3003
+304,exploits/e.py,multi-cve poc,2025-06-10,author,remote,linux,,CVE-2024-3007;CVE-2024-3008

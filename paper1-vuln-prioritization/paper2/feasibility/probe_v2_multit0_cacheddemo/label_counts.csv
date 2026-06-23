@@ -1,0 +1,5 @@
+label,count
+unique_positive_cves,0
+unique_negative_cves,281
+event_positive_cves_across_windows,0
+union_distinct_cves_in_pairs,281

@@ -1,0 +1,26 @@
+{
+  "kind": "freeze_witness_before",
+  "batch_id": "B-primary-primary",
+  "cell_ids": [
+    "P-random-na",
+    "P-cvss_only-na",
+    "P-epss_only-na",
+    "P-kev_first-na",
+    "P-cvss_x_epss-na",
+    "P-cvss_plus_epss_plus_kev-na",
+    "P-proposed-w_uniform",
+    "P-proposed-w_paper1_placeholder",
+    "P-proposed-w_epss_dominant",
+    "P-proposed-w_cvss_dominant",
+    "P-proposed-w_kev_dominant",
+    "P-proposed-w_context_dominant"
+  ],
+  "command": "make verify-primary-freeze PYTHON=.venv/bin/python",
+  "timestamp_utc": "2026-05-28T18:00:20.243682+00:00",
+  "paper1_freeze_manifest_path": "results/primary_full_v1/FREEZE_MANIFEST.json",
+  "paper1_freeze_manifest_sha256": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "verify_primary_freeze_exit_code": 0,
+  "git_status_short": "",
+  "paper2_output_dir": "/Users/sowmyasreeogiboyina/Research Papers/paper1-vuln-prioritization/paper2/audit/batches/B-primary-primary",
+  "status": "OK"
+}

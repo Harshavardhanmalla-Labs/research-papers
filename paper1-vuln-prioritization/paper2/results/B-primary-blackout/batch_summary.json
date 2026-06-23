@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "batch_id": "B-primary-blackout",
+  "smoke": false,
+  "table_group": "blackout_sensitivity",
+  "freeze_witness_id": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "cells_completed": 9,
+  "seeds_per_cell": {
+    "BLK-epss_only-none": 30,
+    "BLK-epss_only-light": 30,
+    "BLK-epss_only-strict": 30,
+    "BLK-proposed-w_paper1_placeholder-none": 30,
+    "BLK-proposed-w_paper1_placeholder-light": 30,
+    "BLK-proposed-w_paper1_placeholder-strict": 30,
+    "BLK-proposed-w_context_dominant-none": 30,
+    "BLK-proposed-w_context_dominant-light": 30,
+    "BLK-proposed-w_context_dominant-strict": 30
+  },
+  "seed_runs_completed": 270,
+  "wallclock_seconds_total": 397.0904700756073,
+  "per_seed_run_seconds_mean": 1.4707054447244714,
+  "n_triggered_rules": 3,
+  "timestamp_utc": "2026-05-28T18:28:47.713382+00:00"
+}

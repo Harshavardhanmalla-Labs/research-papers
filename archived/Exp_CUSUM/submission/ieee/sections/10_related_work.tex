@@ -1,0 +1,36 @@
+\section{Related Work}
+
+\textbf{Static gate and capacity-aware detector.} Paper~12 introduced
+the static gate as a baseline and showed the capacity-aware
+magnitude detector~\cite{paper12capaware} approximates it. This
+paper is the first to beat the static gate in the Papers~7--13
+calibration arc.
+
+\textbf{CUSUM.} The classical one-sided CUSUM~\cite{page1954cusum}
+is the standard online change-point detector. Two-sided CUSUM,
+EWMA-CUSUM, and the more recent Bayesian online change-point
+methods extend the classical procedure; all are out of scope for
+this paper, which evaluates the simplest member of the family with
+pre-registered parameters.
+
+\textbf{Paper 11 sensitivity bound.} Paper~11~\cite{paper11tau}
+showed that no single-$\tau$ magnitude detector reaches the joint
+feasibility region. CUSUM converts the threshold-only design into
+a (slack, threshold) family that this paper exercises at one
+point, leaving the two-dimensional sensitivity sweep to future work.
+
+\textbf{Multi-paper sequence.} HygieneBench
+(Paper~3)~\cite{paper3hygienebench}, HygienePrio
+(Paper~4)~\cite{paper4hygieneprio}, Temporal Stability
+(Paper~5)~\cite{paper5temporal}, Capacity-Indexed Decay
+(Paper~6)~\cite{paper6capacity}, Online Calibration
+(Paper~7)~\cite{paper7online}, Multi-History Calibration
+(Paper~8)~\cite{paper8multi}, Self-Trajectory
+(Paper~9)~\cite{paper9selftraj}, Adaptive Recalibration
+(Paper~10)~\cite{paper10adaptive}, Threshold Sensitivity
+(Paper~11), and Capacity-Aware Threshold (Paper~12) form the
+methodological substrate.
+
+\textbf{Policy mandates.} CISA BOD~22-01~\cite{cisa2021bod2201},
+23-01~\cite{cisa2022bod2301}, NIST SP~800-40~\cite{nist2022sp80040r4},
+2026 DBIR~\cite{verizon2026dbir}.

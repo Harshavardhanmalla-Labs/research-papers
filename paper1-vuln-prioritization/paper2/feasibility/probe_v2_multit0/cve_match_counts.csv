@@ -1,0 +1,7 @@
+stage,count
+total_nvd_records,110224
+normalized_cves,104495
+cves_with_cpe,95006
+catalog_matched_cves,2688
+union_distinct_cves_in_pairs,2688
+unique_positive_cves,7

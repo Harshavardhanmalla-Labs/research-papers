@@ -1,0 +1,75 @@
+{
+  "code_version": "paper1-0.1.0-phase1",
+  "figure_files": {
+    "fig_ehd_by_strategy": [
+      "results/primary_full_v1/report/figures/fig_ehd_by_strategy.png",
+      "results/primary_full_v1/report/figures/fig_ehd_by_strategy.pdf"
+    ],
+    "fig_ehd_distribution_selected": [
+      "results/primary_full_v1/report/figures/fig_ehd_distribution_selected.png",
+      "results/primary_full_v1/report/figures/fig_ehd_distribution_selected.pdf"
+    ],
+    "fig_fraction_of_oracle": [
+      "results/primary_full_v1/report/figures/fig_fraction_of_oracle.png",
+      "results/primary_full_v1/report/figures/fig_fraction_of_oracle.pdf"
+    ],
+    "fig_proposed_vs_epss_by_seed": [
+      "results/primary_full_v1/report/figures/fig_proposed_vs_epss_by_seed.png",
+      "results/primary_full_v1/report/figures/fig_proposed_vs_epss_by_seed.pdf"
+    ],
+    "fig_relative_to_epss": [
+      "results/primary_full_v1/report/figures/fig_relative_to_epss.png",
+      "results/primary_full_v1/report/figures/fig_relative_to_epss.pdf"
+    ]
+  },
+  "freeze_manifest_sha": "750e144ba9567b5255b27ce40279643bdf7418d53b15edce5d72c515eb022833",
+  "generated_at": "2026-05-27T19:35:08.144802+00:00",
+  "note": "Tables/figures generated from the FROZEN primary artifact only. Interpretation belongs in Phase 18; these are not paper claims.",
+  "row_counts": {
+    "metric_rows": 4290,
+    "seeds": 30,
+    "strategies": 13
+  },
+  "source_output_dir": "results/primary_full_v1",
+  "table_files": {
+    "table_acceptance_checks": {
+      "csv": "results/primary_full_v1/report/tables/table_acceptance_checks.csv",
+      "md": "results/primary_full_v1/report/tables/table_acceptance_checks.md",
+      "tex": "results/primary_full_v1/report/tables/table_acceptance_checks.tex"
+    },
+    "table_audit_metrics": {
+      "csv": "results/primary_full_v1/report/tables/table_audit_metrics.csv",
+      "md": "results/primary_full_v1/report/tables/table_audit_metrics.md",
+      "tex": "results/primary_full_v1/report/tables/table_audit_metrics.tex"
+    },
+    "table_ehd_primary": {
+      "csv": "results/primary_full_v1/report/tables/table_ehd_primary.csv",
+      "md": "results/primary_full_v1/report/tables/table_ehd_primary.md",
+      "tex": "results/primary_full_v1/report/tables/table_ehd_primary.tex"
+    },
+    "table_operational_metrics": {
+      "csv": "results/primary_full_v1/report/tables/table_operational_metrics.csv",
+      "md": "results/primary_full_v1/report/tables/table_operational_metrics.md",
+      "tex": "results/primary_full_v1/report/tables/table_operational_metrics.tex"
+    },
+    "table_primary_metric_summary": {
+      "csv": "results/primary_full_v1/report/tables/table_primary_metric_summary.csv",
+      "md": "results/primary_full_v1/report/tables/table_primary_metric_summary.md",
+      "tex": "results/primary_full_v1/report/tables/table_primary_metric_summary.tex"
+    },
+    "table_ranking_metrics": {
+      "csv": "results/primary_full_v1/report/tables/table_ranking_metrics.csv",
+      "md": "results/primary_full_v1/report/tables/table_ranking_metrics.md",
+      "tex": "results/primary_full_v1/report/tables/table_ranking_metrics.tex"
+    },
+    "table_strategy_comparison_vs_epss": {
+      "csv": "results/primary_full_v1/report/tables/table_strategy_comparison_vs_epss.csv",
+      "md": "results/primary_full_v1/report/tables/table_strategy_comparison_vs_epss.md",
+      "tex": "results/primary_full_v1/report/tables/table_strategy_comparison_vs_epss.tex"
+    }
+  },
+  "warnings": [
+    "some fraction_of_oracle values fall outside [0, 1]; reported as observed",
+    "capacity in acceptance table is the configured value passed to the reporter (the runner does not persist capacity into the frozen artifact)."
+  ]
+}

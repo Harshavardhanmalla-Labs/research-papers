@@ -1,0 +1,25 @@
+\section{Discussion}
+
+The evaluation demonstrates the feasibility of an end-to-end,
+audit-evidence-producing benchmark for vulnerability-host pair prioritization under
+capacity constraints: a 30-seed simulation runs deterministically and reproducibly;
+the scheduler and append-only hash-chained audit log operate correctly across all
+strategies and seeds; and operational quantities are computed from a frozen,
+integrity-verified artifact. The results do \textbf{not} establish real-world
+superiority of any strategy, do \textbf{not} show that proposed\_full beats EPSS or
+random, do \textbf{not} demonstrate autonomous remediation, do \textbf{not} prove compliance,
+and do \textbf{not} constitute production validation. A benchmark that can show *when
+added host context does not help* is more valuable than one tuned to confirm a
+hypothesis: the finding that uncalibrated context-aware weights do not separate
+from EPSS under toy inputs sets a clear falsification condition and motivates
+calibrated, larger-window evaluation. Three structural points hold independent of
+the (inconclusive) method comparison: per-decision audit records and verifiable
+hash chains provide a traceable basis for review; capacity constraints and approval
+gates materially shape outcomes (here capacity, not policy, dominated KEV breach);
+and the vulnerability-host pair is a useful, traceable unit of decision and
+explanation. This work complements prior context-aware/learning-based
+prioritization such as Deep VULMAN \textbf{[VERIFY: Deep VULMAN source]}, VulRG [VERIFY:
+VulRG source], and VulnScore \textbf{[VERIFY: VulnScore source]} by emphasizing a
+reproducible, public-sector-shaped benchmark with per-decision audit evidence and a
+freeze/verify protocol, rather than a single tuned result; it does not claim to be
+first.

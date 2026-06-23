@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-05-28T19:08:09.564040+00:00",
+  "hygienebench_version": "0.1",
+  "total_runs": 810,
+  "error_runs": 0,
+  "success_runs": 810,
+  "conditions": [
+    "c_base_seed42",
+    "c_base_seed137",
+    "c_base_seed2024",
+    "c_stale_seed42",
+    "c_stale_seed137",
+    "c_stale_seed2024",
+    "c_fresh_seed42",
+    "c_fresh_seed137",
+    "c_fresh_seed2024",
+    "c_miss_seed42",
+    "c_miss_seed137",
+    "c_miss_seed2024",
+    "c_unsup_seed42",
+    "c_unsup_seed137",
+    "c_unsup_seed2024"
+  ],
+  "tasks": [
+    "T1",
+    "T2",
+    "T3",
+    "T4",
+    "T5",
+    "T6",
+    "T7"
+  ],
+  "methods": [
+    "M1_rule",
+    "M2_hybrid",
+    "M3_iforest",
+    "M4_lof",
+    "M5_ocsvm",
+    "M6_linearae",
+    "M7_zscore",
+    "M8_graphif"
+  ],
+  "seeds": [
+    42,
+    137,
+    2024
+  ],
+  "total_method_task_condition_configs": 705,
+  "failure_flagged_configs": 608,
+  "negative_result_rate": 0.8624,
+  "negative_result_protocol": {
+    "delta_ap": 0.05,
+    "delta_pk": 0.05,
+    "min_seed_fraction": "2/3",
+    "interpretation": "flagged=True means ML did not outperform rule baseline by delta in >=2/3 seeds"
+  }
+}
