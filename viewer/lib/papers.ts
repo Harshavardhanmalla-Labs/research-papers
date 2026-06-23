@@ -61,7 +61,7 @@ export const PAPERS: Paper[] = [
     subtitle: "Exploit likelihood, healthcare data, & EPSS-weighted ranking",
     status: "ready",
     statusLabel: "Ready for Publication",
-    root: "paper1-vuln-prioritization",
+    root: "paper1",
     manuscript: {
       main: "paper/manuscript/paper_submission_draft.md",
       supplemental: "paper/manuscript/reproducibility_appendix.md",
@@ -92,7 +92,7 @@ export const PAPERS: Paper[] = [
     subtitle: "Failure-aware public-feed gate for vulnerability prioritization under sparse exploit labels",
     status: "ready",
     statusLabel: "Ready for Publication",
-    root: "paper1-vuln-prioritization/paper2",
+    root: "paper2",
     manuscript: {
       main: "manuscript/paper2_full_draft.md",
       supplemental: "manuscript/STEP11_CLOSEOUT.md",
@@ -178,7 +178,7 @@ export const PAPERS: Paper[] = [
     subtitle: "EPSS-only decays, hygiene signals persist: a six-window pre-registered evaluation",
     status: "ready",
     statusLabel: "Ready for Publication",
-    root: "archived/HygieneContinuation_Paper5_TemporalStability",
+    root: "paper5",
     manuscript: {
       main: "manuscript/paper5_draft_v0.1.md",
       extras: [
@@ -206,7 +206,7 @@ export const PAPERS: Paper[] = [
     subtitle: "Two-dimensional (K, λ) sweep characterising the regime-dependence of EPSS-only ranking",
     status: "ready",
     statusLabel: "Ready for Publication",
-    root: "archived/HygieneContinuation_Paper6_CapacityDecay",
+    root: "paper6",
     manuscript: {
       main: "manuscript/paper6_draft_v0.1.md",
       extras: [
@@ -234,7 +234,7 @@ export const PAPERS: Paper[] = [
     subtitle: "Deployable lag-1 substitute for the offline-peek H3 ceiling: works at K≤100, harms at K=200",
     status: "ready",
     statusLabel: "Ready for Publication",
-    root: "archived/HygieneContinuation_Paper7_OnlineRecalibration",
+    root: "paper7",
     manuscript: {
       main: "manuscript/paper7_draft_v0.1.md",
       extras: [
@@ -262,7 +262,7 @@ export const PAPERS: Paper[] = [
     subtitle: "EWMA-3 and trail-3 amplify Paper 7's K=200 hazard rather than fixing it; naive smoothing prior falsified",
     status: "ready",
     statusLabel: "Ready for Publication",
-    root: "archived/HygieneContinuation_Paper8_Smoothing",
+    root: "paper8",
     manuscript: {
       main: "manuscript/paper8_draft_v0.1.md",
       extras: [
@@ -289,7 +289,7 @@ export const PAPERS: Paper[] = [
     subtitle: "Paper 6's K=200 collapse re-attributed to closed-loop selection coupling + Closed-Loop Signal Exhaustion Theorem",
     status: "ready",
     statusLabel: "Ready for Publication",
-    root: "archived/HygieneContinuation_Paper9_SelfTrajectory",
+    root: "paper9",
     manuscript: {
       main: "manuscript/paper9_draft_v0.1.md",
       extras: [
