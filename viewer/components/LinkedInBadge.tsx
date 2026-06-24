@@ -1,15 +1,16 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useTheme } from "./ThemeProvider";
 
 /**
- * Official LinkedIn profile badge. LinkedIn's profile.js scans the document for
- * `.LI-profile-badge` divs and replaces them with an iframe. In a client-routed
- * app we (re)inject the script on mount so the badge renders even after
- * navigation. The iframe is theme-locked (LinkedIn only offers light/dark), so
- * we wrap it in an on-brand card that matches the surrounding design.
+ * Official LinkedIn profile badge, theme-aware. LinkedIn's profile.js scans the
+ * document for `.LI-profile-badge` divs and replaces each with an iframe whose
+ * style is fixed at scan time by `data-theme`. To follow the app's light/dark
+ * toggle we key the badge div by theme (so React remounts a fresh, unprocessed
+ * div) and re-inject profile.js on every theme change so it re-scans.
  */
 export default function LinkedInBadge() {
-  const ref = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const s = document.createElement("script");
@@ -19,16 +20,16 @@ export default function LinkedInBadge() {
     s.type = "text/javascript";
     document.body.appendChild(s);
     return () => { s.remove(); };
-  }, []);
+  }, [theme]); // re-scan when the theme flips
 
   return (
-    <div ref={ref} className="li-badge-card">
+    <div className="li-badge-card" key={theme}>
       <div
         className="badge-base LI-profile-badge"
         data-locale="en_US"
-        data-size="medium"
-        data-theme="dark"
-        data-type="VERTICAL"
+        data-size="large"
+        data-theme={theme === "dark" ? "dark" : "light"}
+        data-type="HORIZONTAL"
         data-vanity="harshavardhanmalla"
         data-version="v1"
       >

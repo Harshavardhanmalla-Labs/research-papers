@@ -117,12 +117,12 @@ body {
 /* Tighter, more confident headings */
 h1, h2, h3 { letter-spacing: -0.02em; }
 
-/* LinkedIn official badge — contain the third-party iframe in an on-brand card */
+/* LinkedIn official badge (HORIZONTAL/large) — contain the third-party iframe */
 .li-badge-card {
   border-radius: 12px;
   overflow: hidden;
-  min-width: 260px;
-  min-height: 280px;
+  min-width: 320px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
