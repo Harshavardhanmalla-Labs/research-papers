@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import clsx from "clsx";
+import PortfolioHero from "./PortfolioHero";
 
 const PAPER_ICONS = [
   Shield, Scale, FlaskConical, Flame, Clock,
@@ -130,6 +131,15 @@ export default function PaperGrid({ papers, onSelect }: Props) {
   return (
     <div className="h-full overflow-y-auto">
       <div className="max-w-[1500px] mx-auto px-6 md:px-8 py-8">
+
+        {/* Portfolio hero — landing only (hidden while searching/filtering) */}
+        {!isFiltering && (
+          <PortfolioHero
+            total={papers.length}
+            peerReviewed={papers.filter((p) => p.status === "published").length}
+            series={SERIES.length}
+          />
+        )}
 
         {/* Header */}
         <div className="flex items-end justify-between gap-4 flex-wrap mb-6">

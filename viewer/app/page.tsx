@@ -26,7 +26,7 @@ export default function Home() {
       <TopBar papers={PAPERS} activePaper={paper} onBack={handleBack} />
       <main className="flex-1 min-h-0 overflow-hidden">
         {paper ? (
-          <PaperViewer key={paper.id} paper={paper} />
+          <PaperViewer key={paper.id} paper={paper} papers={PAPERS} onSelect={handleSelect} />
         ) : (
           <PaperGrid papers={PAPERS} onSelect={handleSelect} />
         )}

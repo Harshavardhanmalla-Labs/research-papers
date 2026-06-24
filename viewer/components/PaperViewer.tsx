@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check, EyeOff, FileOutput } from "lucide-react";
+import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check, EyeOff, FileOutput, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import clsx from "clsx";
 import AnonymousViewer from "./AnonymousViewer";
@@ -14,7 +14,7 @@ import ArtifactBrowser   from "./ArtifactBrowser";
 import PdfViewer         from "./PdfViewer";
 import LatexViewer       from "./LatexViewer";
 
-interface Props { paper: Paper }
+interface Props { paper: Paper; papers?: Paper[]; onSelect?: (id: string) => void }
 
 /* PDF badge per paper — P1,P2 are IEEE; P3 is ACM; P4 TBD */
 const PDF_BADGE: Record<string, string> = {
@@ -63,8 +63,14 @@ const PAPER_RAIL_BG = [
   "from-red-500/4",
 ];
 
-export default function PaperViewer({ paper }: Props) {
+export default function PaperViewer({ paper, papers, onSelect }: Props) {
   const [tab, setTab] = useState<Tab>("pdf");
+
+  // Prev/next navigation across the ordered paper list (no trip back to the grid).
+  const order = papers ?? [];
+  const pos = order.findIndex((p) => p.id === paper.id);
+  const prev = pos > 0 ? order[pos - 1] : null;
+  const next = pos >= 0 && pos < order.length - 1 ? order[pos + 1] : null;
 
   // Data-repository link + name (shared with the board tracker; defaults to the GitHub path).
   const defaultRepo = `${REPO_BASE}/${paper.root}`;
@@ -82,9 +88,11 @@ export default function PaperViewer({ paper }: Props) {
   }, [paper.id]);
   const copyRepo = () => { navigator.clipboard?.writeText(repoUrl).then(() => { setCopiedRepo(true); setTimeout(() => setCopiedRepo(false), 1500); }).catch(() => {}); };
 
-  const paperIdx  = ["paper1","paper2","paper3","paper4","paper5","paper6","paper7","paper8","paper9","paper10"].indexOf(paper.id);
-  const railColor = PAPER_RAIL[paperIdx]    ?? PAPER_RAIL[2];
-  const railBg    = PAPER_RAIL_BG[paperIdx] ?? PAPER_RAIL_BG[2];
+  // Derive a stable rail colour for any paper (paper1..paperN), cycling the palette.
+  const paperNum  = parseInt(paper.id.replace(/\D/g, ""), 10) || 1;
+  const railIdx   = (paperNum - 1) % PAPER_RAIL.length;
+  const railColor = PAPER_RAIL[railIdx];
+  const railBg    = PAPER_RAIL_BG[railIdx];
 
   return (
     <div className="flex flex-col h-full min-h-0">
@@ -104,16 +112,42 @@ export default function PaperViewer({ paper }: Props) {
               {paper.subtitle}
             </p>
           </div>
-          <span
-            className="flex-shrink-0 mt-0.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border"
-            style={{
-              backgroundColor: "rgb(var(--accent) / 0.12)",
-              color: "rgb(var(--accent))",
-              borderColor: "rgb(var(--accent) / 0.40)",
-            }}
-          >
-            {paper.statusLabel}
-          </span>
+          <div className="flex flex-col items-end gap-2 flex-shrink-0">
+            <span
+              className="mt-0.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border"
+              style={{
+                backgroundColor: "rgb(var(--accent) / 0.12)",
+                color: "rgb(var(--accent))",
+                borderColor: "rgb(var(--accent) / 0.40)",
+              }}
+            >
+              {paper.statusLabel}
+            </span>
+            {/* Prev / next paper navigation */}
+            {order.length > 1 && onSelect && (
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => prev && onSelect(prev.id)}
+                  disabled={!prev}
+                  title={prev ? prev.shortTitle : "First paper"}
+                  className="inline-flex items-center justify-center w-6 h-6 rounded-md border border-border text-fg-4 hover:text-accent hover:border-accent/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronLeft size={14} />
+                </button>
+                <span className="text-[10px] font-mono text-fg-4 tabular-nums px-1">
+                  {pos + 1}/{order.length}
+                </span>
+                <button
+                  onClick={() => next && onSelect(next.id)}
+                  disabled={!next}
+                  title={next ? next.shortTitle : "Last paper"}
+                  className="inline-flex items-center justify-center w-6 h-6 rounded-md border border-border text-fg-4 hover:text-accent hover:border-accent/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronRight size={14} />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* ── Data repository (link + name) for journal submission forms ── */}
