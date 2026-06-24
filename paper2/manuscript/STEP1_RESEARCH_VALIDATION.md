@@ -2,7 +2,7 @@
 The CalibScore study, Step 1: Research Validation Report.
 Internal planning document (skeptical go/no-go), NOT the manuscript and NOT for
 submission. Contains no fabricated citations ([VERIFY] used for unconfirmed
-sources). EB1A scoring here is internal planning meta, not language for the paper.
+sources). research scoring here is internal planning meta, not language for the paper.
 The VulnPrio study (../paper/, results/primary_full_v1/) is NOT touched by this work.
 -->
 
@@ -183,7 +183,7 @@ employer data. Keep the VulnPrio study's data warning.
 - Ceiling limited by synthetic-only evaluation, own-benchmark, and the strong
  possibility of a neutral result.
 
-## 17. EB1A evidence strength: **5.5 / 10**
+## 17. research evidence strength: **5.5 / 10**
 - Two coherent papers (benchmark + rigorous results/robustness) > one;
  pre-registration + applied statistics show methodological maturity; reduces
  the VulnPrio study's "toy/placeholder" weakness.
@@ -205,7 +205,7 @@ Proceed only if all three hold:
 If (2) cannot be satisfied with lawfully usable data, **PIVOT** to a pure
 label-robustness/sensitivity study using a *richer synthetic* exploitation-label
 model (still useful, lower ceiling). Not an outright NO-GO, but it **is
-incremental**; if the priority is maximal EB1A novelty, a more distinct topic may
+incremental**; if the priority is maximal research novelty, a more distinct topic may
 serve better than a Paper-1 companion.
 
 **Why stronger than the killed compliance the CalibScore study:** (a) low prior-art collision

@@ -82,7 +82,7 @@ export default function Sidebar({ papers, activeId, onSelect }: Props) {
             <span className="text-[13px] font-bold text-fg tracking-tight leading-none">
               Research Portal
             </span>
-            <p className="text-[10px] text-fg-4 mt-1 leading-none">{papers.length} papers · EB-1A portfolio</p>
+            <p className="text-[10px] text-fg-4 mt-1 leading-none">{papers.length} papers · Research portfolio</p>
           </div>
         </div>
       </div>

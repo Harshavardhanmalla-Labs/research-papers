@@ -21,7 +21,7 @@ Updated through Phase 21. ☐ = open, ☑ = done, ◑ = partial.
 | Formatting template applied? | ☐ | Not yet (Markdown only). |
 | Ready for submission? | ☐ | **No**, blocked on citation verification, template application, and the calibrated-weights decision. |
 | Author/affiliation finalized? | ◑ | "Harshavardhan Malla, Independent Researcher"; confirm contact/ORCID at submission. |
-| No EB1A/USCIS language in manuscript? | ☑ | None present. |
+| No research/reviewer language in manuscript? | ☑ | None present. |
 | Statistical tests applied to results? | ☐ | Helpers implemented but not applied (differences within noise); decide descriptive-only vs paired tests/CIs. |
 | Calibrated-weights rerun before submission? | ☐ | **Decision needed**, placeholder weights used; a calibrated rerun likely strengthens any outcome but the paper is submittable as a benchmark/feasibility contribution without it. |
 

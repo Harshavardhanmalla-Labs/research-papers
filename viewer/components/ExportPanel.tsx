@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FileText, FileArchive, Loader2, Download, AlertCircle, CheckCircle2 } from "lucide-react";
+import { FileText, FileArchive, Loader2, Download, AlertCircle, CheckCircle2, EyeOff } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import { paperFileName } from "@/lib/papers";
 
@@ -11,12 +11,13 @@ export default function ExportPanel({ paper }: Props) {
   const [busy, setBusy] = useState<Fmt | null>(null);
   const [done, setDone] = useState<Fmt | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const base = paperFileName(paper.title);
+  const [anon, setAnon] = useState(false);
+  const base = paperFileName(paper.title) + (anon ? "_anonymous" : "");
 
   async function download(fmt: Fmt) {
     setBusy(fmt); setError(null); setDone(null);
     try {
-      const r = await fetch(`/api/export?id=${encodeURIComponent(paper.id)}&format=${fmt}`);
+      const r = await fetch(`/api/export?id=${encodeURIComponent(paper.id)}&format=${fmt}${anon ? "&anon=1" : ""}`);
       if (!r.ok) {
         const j = await r.json().catch(() => ({}));
         throw new Error(j.detail || j.error || `${r.status} ${r.statusText}`);
@@ -58,9 +59,27 @@ export default function ExportPanel({ paper }: Props) {
     <div className="h-full overflow-y-auto px-6 py-8">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-[15px] font-bold text-fg mb-1">Export for peer review</h2>
-        <p className="text-[12px] text-fg-4 mb-6">
+        <p className="text-[12px] text-fg-4 mb-4">
           Generated on demand from the LaTeX source. Figures and tables are embedded — no manual assembly.
         </p>
+
+        {/* Double-blind toggle — applies to both exports */}
+        <button
+          onClick={() => setAnon((v) => !v)}
+          disabled={busy !== null}
+          className={`mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11.5px] font-medium border transition-all disabled:opacity-50 ${
+            anon ? "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40"
+                 : "bg-surface-3/60 text-fg-3 border-border hover:bg-surface-3"
+          }`}
+        >
+          <EyeOff size={13} />
+          Double-blind (anonymized): <span className="font-semibold">{anon ? "ON" : "OFF"}</span>
+        </button>
+        {anon && (
+          <p className="text-[11px] text-fg-4 -mt-4 mb-6">
+            Author, affiliation, email, acknowledgments, and identifying repo links are redacted; files are suffixed <code className="text-[10px]">_anonymous</code>.
+          </p>
+        )}
 
         <div className="grid sm:grid-cols-2 gap-4">
           {cards.map(({ fmt, Icon, title, sub, out }) => (

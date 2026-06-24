@@ -1,0 +1,4 @@
+metric,delta,ci_lo,ci_hi,supported
+H1_prauc_vs_prior,0.3105,0.2859,0.3344,True
+H2_p1pct_vs_base,0.4968,0.4441,0.5253,True
+H3_macrof1_vs_proto,0.0974,0.0937,0.1014,True

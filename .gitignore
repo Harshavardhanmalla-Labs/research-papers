@@ -54,3 +54,7 @@ paper3/*.egg-info/
 # NovusAI honeypot papers — large re-downloadable data (Zenodo DOI 10.5281/zenodo.3687527)
 novus/*/data/raw/
 novus/*/data/processed/*.csv
+
+# Private strategy materials — never publish
+eb1a_portfolio/
+**/eb1a/

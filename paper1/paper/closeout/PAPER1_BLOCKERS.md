@@ -45,4 +45,4 @@ Ordered by priority. None of these may be resolved by fabricating content.
 
 - Manuscript structurally complete; numbers re-verified against the frozen
  artifact; claim-safety clean (extended 14-term scan); freeze verified; no
- EB1A/USCIS language in the paper; no confidential/production data.
+ research/reviewer language in the paper; no confidential/production data.

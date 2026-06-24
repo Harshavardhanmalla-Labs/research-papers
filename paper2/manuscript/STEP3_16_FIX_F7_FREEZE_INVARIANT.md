@@ -107,7 +107,7 @@ Paper-1 freeze. No alternate verifier may be substituted.
  - `freeze_manifest_sha_before == freeze_manifest_sha_after`
  - `git_status_short` shows **no** path under `results/primary_full_v1/`,
  `paper/tables/`, `paper/figures/`, `paper/manuscript/`, `paper/acm/`,
- `paper/eb1a/` in M / A / D / R / C / U / ?? lines.
+ `paper/research/` in M / A / D / R / C / U / ?? lines.
  - `freeze-primary` was not executed during the batch (assert via a
  sentinel: a sigil file `paper2/audit/freeze_primary_invocation_count.txt`
  is initialised to `0` at batch start and re-read at end; if any value
@@ -139,7 +139,7 @@ test suite.
 ### 4.2 Forbidden (the CalibScore study code MUST NOT write, mutate, rename, chmod, or touch)
 - `results/primary_full_v1/` (Paper-1 frozen artefact; **K6 territory**).
 - `paper/tables/`, `paper/figures/`, `paper/manuscript/`, `paper/acm/`,
- `paper/eb1a/` (Paper-1 manuscript / submission / EB1A territory).
+ `paper/research/` (Paper-1 manuscript / submission / research territory).
 - The freeze manifest itself: `results/primary_full_v1/FREEZE_MANIFEST.json`
  is read-only for the CalibScore study.
 - Any path that `git status --porcelain` lists as `M / A / D / R / C / U / ??`
@@ -387,7 +387,7 @@ steps **may not**:
 - Run `make freeze-primary`, or `make inspect-primary` with `--freeze`.
 - Call `paper1.experiments.inspect.freeze(...)` or any equivalent re-freezer.
 - Write under `results/primary_full_v1/`, `paper/tables/`, `paper/figures/`,
- `paper/manuscript/`, `paper/acm/`, `paper/eb1a/` for any reason.
+ `paper/manuscript/`, `paper/acm/`, `paper/research/` for any reason.
 - Edit `FREEZE_MANIFEST.json` even at the same content.
 - Bypass the pre-flight or post-run wrap, even for reuse-only batches or
  diagnostic-only outputs.

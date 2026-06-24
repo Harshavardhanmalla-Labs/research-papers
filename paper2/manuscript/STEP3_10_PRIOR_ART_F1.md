@@ -141,7 +141,7 @@ That sentence is the *most* the pivot can honestly claim after F1.
 |---|---:|---:|
 | Publishability | 5/10 | **4/10** (negative-result + methodology track; field-mature; workshop/short-paper realistic) |
 | Novelty | 4/10 | **3/10** (sensitivity/ablation/capacity-constrained largely occupied; only the gate + sparsity data-point survive) |
-| EB1A value | 4/10 | **3/10** (smaller surviving contribution; engineering artefact remains valuable) |
+| research value | 4/10 | **3/10** (smaller surviving contribution; engineering artefact remains valuable) |
 
 ### F1 status
 - **F1 complete.** Prior-art `[VERIFY]` pass executed; 15 verified academic / standard sources catalogued; 5 high-threat sources identified; surviving novelty statement written; required framing changes enumerated.

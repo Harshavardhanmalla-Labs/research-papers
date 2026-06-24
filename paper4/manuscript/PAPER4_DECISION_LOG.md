@@ -4,7 +4,7 @@
 **Version:** 1.0 
 **Status:** Active (update as decisions are made)
 
-This log documents the key design decisions made during the development of HygienePrio. Decisions are recorded with rationale, alternatives considered, and the decision outcome. The log exists to support reproducibility, peer review, and EB-1A portfolio documentation.
+This log documents the key design decisions made during the development of HygienePrio. Decisions are recorded with rationale, alternatives considered, and the decision outcome. The log exists to support reproducibility, peer review, and research portfolio documentation.
 
 ---
 
@@ -39,7 +39,7 @@ This log documents the key design decisions made during the development of Hygie
 - *Strong positive framing (not chosen):* Reporting results as "HygienePrio achieves X% improvement" without synthetic qualification. Rejected as methodologically inappropriate given the synthetic evaluation context.
 - *Conditional positive framing (not chosen):* "Under the synthetic evaluation assumptions, HygienePrio achieves...", considered but judged less readable than the chosen form.
 
-**EB-1A relevance:** The paper demonstrates a positive empirical result that the portfolio currently lacks, while maintaining the rigorous honest-reporting standard established in the VulnPrio and HygieneBench studies. The positive result is real within its stated scope; the hedging is appropriate, not false modesty.
+**research relevance:** The paper demonstrates a positive empirical result that the portfolio currently lacks, while maintaining the rigorous honest-reporting standard established in the VulnPrio and HygieneBench studies. The positive result is real within its stated scope; the hedging is appropriate, not false modesty.
 
 ---
 
@@ -139,7 +139,7 @@ This log documents the key design decisions made during the development of Hygie
 
 **Rationale:** TNSM publishes security management and network operations research with rigorous empirical standards; the paper's synthetic evaluation and reproducible benchmark framing is well-suited. DTRAP explicitly welcomes reproducible security research and has published papers with synthetic benchmarks. Both venues accept the honest null + positive empirical result framing.
 
-**EB-1A relevance:** Both IEEE TNSM and ACM DTRAP are peer-reviewed, indexed, international venues appropriate for demonstrating original contribution of merit for EB-1A purposes.
+**research relevance:** Both IEEE TNSM and ACM DTRAP are peer-reviewed, indexed, international venues appropriate for demonstrating original contribution of merit for research purposes.
 
 ---
 
@@ -157,7 +157,7 @@ This log documents the key design decisions made during the development of Hygie
 
 **Decision:** the VulnPrio study's null result is framed throughout as a "foundation that identified the missing signal" rather than as a failure to improve over EPSS. The cross-paper synthesis in §8.2 is explicit: the VulnPrio study's null identified that CVE-level features were insufficient, which motivated the HygienePrio scorer's host-level hygiene approach.
 
-**Rationale:** For the EB-1A portfolio, a coherent research narrative across papers is more valuable than isolated positive results. The sequence (null → benchmark identifying signal → positive integration) demonstrates a rigorous, self-correcting research methodology that is characteristic of high-quality empirical security research. Framing the VulnPrio study's null as the starting point for the HygienePrio scorer's positive result creates this narrative without misrepresenting the VulnPrio study.
+**Rationale:** For the research portfolio, a coherent research narrative across papers is more valuable than isolated positive results. The sequence (null → benchmark identifying signal → positive integration) demonstrates a rigorous, self-correcting research methodology that is characteristic of high-quality empirical security research. Framing the VulnPrio study's null as the starting point for the HygienePrio scorer's positive result creates this narrative without misrepresenting the VulnPrio study.
 
 **Caution:** the VulnPrio study should not be described as "failed" or "incomplete"; it was an honest null result with substantial methodological contributions (audit framework, EHD metric, reproducible benchmark). HygienePrio builds on its benchmark, not on a deficiency.
 

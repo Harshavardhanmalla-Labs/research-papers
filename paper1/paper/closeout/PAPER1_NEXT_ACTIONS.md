@@ -23,7 +23,7 @@ Concrete, ordered manual steps. Nothing here is started in Phase 22A.
  and length/format rules.
 6. **Final claim-safety pass** on the compiled PDF (same 14-term scan).
 
-## B. For an EB1A evidence package (DEFERRED, do not embed in the paper)
+## B. For an research evidence package (DEFERRED, do not embed in the paper)
 
 - This is out of scope for the manuscript and must stay out of the paper text.
 - Prerequisite: a submitted and ideally peer-reviewed/published artifact plus

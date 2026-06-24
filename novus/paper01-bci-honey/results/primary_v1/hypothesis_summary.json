@@ -1,0 +1,97 @@
+{
+  "n_train": 292288,
+  "n_test": 86711,
+  "test_base_rate": 0.0176,
+  "n_boot": 10000,
+  "train_months": [
+    "2019-05",
+    "2019-06",
+    "2019-07",
+    "2019-08",
+    "2019-09",
+    "2019-10",
+    "2019-11"
+  ],
+  "test_months": [
+    "2019-12",
+    "2020-01",
+    "2020-02"
+  ],
+  "taskA": [
+    {
+      "method": "bci_ensemble",
+      "pr_auc": 0.3301372110102366,
+      "roc_auc": 0.9650360395549777,
+      "p_at_1pct": 0.5144175317185697,
+      "p_at_5pct": 0.19261822376009227,
+      "lift_at_1pct": 29.211302287392865
+    },
+    {
+      "method": "proto_only",
+      "pr_auc": 0.019283468246050487,
+      "roc_auc": 0.5441632231404958,
+      "p_at_1pct": 0.01730103806228374,
+      "p_at_5pct": 0.014763552479815456,
+      "lift_at_1pct": 0.9824429020423611
+    },
+    {
+      "method": "nauth_only",
+      "pr_auc": 0.020714072546732142,
+      "roc_auc": 0.46225230090157776,
+      "p_at_1pct": 0.0,
+      "p_at_5pct": 0.0,
+      "lift_at_1pct": 0.0
+    },
+    {
+      "method": "prior_rate",
+      "pr_auc": 0.01761022246312463,
+      "roc_auc": 0.5,
+      "p_at_1pct": 0.02768166089965398,
+      "p_at_5pct": 0.03298731257208766,
+      "lift_at_1pct": 1.5719086432677776
+    }
+  ],
+  "taskB": [
+    {
+      "method": "bci_rf",
+      "macro_f1": 0.34514749114117954,
+      "balanced_acc": 0.948362713702811
+    },
+    {
+      "method": "proto_only",
+      "macro_f1": 0.2477791675150528,
+      "balanced_acc": 0.5
+    },
+    {
+      "method": "majority",
+      "macro_f1": 0.2477791675150528,
+      "balanced_acc": 0.5
+    }
+  ],
+  "taskB_perclass": {
+    "bruteforce": 0.9566,
+    "tunneling": 0.424,
+    "execution": 0.0,
+    "malware_delivery": 0.0
+  },
+  "hypotheses": {
+    "H1_prauc_vs_prior": {
+      "delta": 0.3105,
+      "ci_lo": 0.2859,
+      "ci_hi": 0.3344,
+      "supported": true
+    },
+    "H2_p1pct_vs_base": {
+      "delta": 0.4968,
+      "ci_lo": 0.4441,
+      "ci_hi": 0.5253,
+      "supported": true
+    },
+    "H3_macrof1_vs_proto": {
+      "delta": 0.0974,
+      "ci_lo": 0.0937,
+      "ci_hi": 0.1014,
+      "supported": true
+    }
+  }
+}

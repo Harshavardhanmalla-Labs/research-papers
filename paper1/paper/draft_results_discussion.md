@@ -4,7 +4,7 @@ Drafted ONLY from the frozen primary artifact (results/primary_full_v1) and the
 Phase 17 generated tables/figures (paper/tables/, paper/figures/). No numbers are
 hand-invented; every quantitative statement traces to a named table/figure.
 Citations are placeholders ([CITATION], [VERIFY]); none are fabricated.
-This is a software/benchmark research draft. No EB1A/USCIS language appears here.
+This is a software/benchmark research draft. No research/reviewer language appears here.
 
 IMPORTANT CONTEXT (carried into the prose as a limitation, not hidden):
 The frozen run uses bundled toy fixtures and PLACEHOLDER linear weights

@@ -146,7 +146,7 @@ export default function PaperGrid({ papers, onSelect }: Props) {
           <div>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="w-5 h-px bg-accent/60" />
-              <span className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-accent">EB-1A Research Portfolio</span>
+              <span className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-accent">Research Portfolio</span>
             </div>
             <h1 className="text-[28px] leading-none font-extrabold text-fg tracking-tight">Research Papers</h1>
             <p className="text-[13px] text-fg-4 mt-2">

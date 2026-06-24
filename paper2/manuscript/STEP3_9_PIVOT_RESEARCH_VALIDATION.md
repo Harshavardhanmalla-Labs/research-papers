@@ -228,7 +228,7 @@ following is observed in pilot sensitivity sweeps *before* Step-4 full pre-regis
 |---|---:|---|
 | Publishability | **5** | Negative-result + sensitivity is a real but narrow category. Workshop / methodology track realistic; top-tier venue `[VERIFY]` unlikely. Hook ("failure-aware calibration gate") is the leverage. |
 | Novelty | **4** | Sensitivity-of-vuln-prioritization studies exist `[VERIFY]`. The failure-aware-gate angle + the public-feed sparsity measurement + the multi-t0 probe artefact are moderately fresh in combination. |
-| EB1A value | **4** | Negative + methodological is harder to spin than a positive finding. Real value comes from (a) public-feed acquisition pipeline (b) decision-gate framework (c) reproducibility, none of which are dramatic claims. |
+| research value | **4** | Negative + methodological is harder to spin than a positive finding. Real value comes from (a) public-feed acquisition pipeline (b) decision-gate framework (c) reproducibility, none of which are dramatic claims. |
 | Overall |, | **CONDITIONAL GO** to Step 4 with fixes (next subsection). Not GO (publishability is bounded). Not NO-GO (the artefact + sparsity finding are publishable and the Paper-1→Paper-2 path stays coherent). |
 
 **Recommended decision: CONDITIONAL GO** to a pre-registered robustness/sensitivity-only

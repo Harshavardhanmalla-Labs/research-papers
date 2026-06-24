@@ -42,7 +42,7 @@ export default function TopBar({ papers, activePaper, onBack }: Props) {
           </div>
         ) : (
           <span className="text-[12px] text-fg-4 truncate">
-            {papers.length} papers · {published} peer-reviewed · {ready} ready · EB-1A
+            {papers.length} papers · {published} peer-reviewed · {ready} ready
           </span>
         )}
       </div>

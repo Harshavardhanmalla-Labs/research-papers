@@ -2,47 +2,47 @@
   [
     "paper1",
     "ok",
-    "paper1-vuln-prioritization/paper/submission/ieee/anonymous.pdf"
+    "paper1/paper/submission/ieee/anonymous.pdf"
   ],
   [
     "paper2",
     "ok",
-    "paper1-vuln-prioritization/paper2/submission/cset/anonymous.pdf"
+    "paper2/submission/cset/anonymous.pdf"
   ],
   [
     "paper3",
-    "ok",
-    "paper3/submission/acm/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper4",
-    "ok",
-    "paper4/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper5",
-    "ok",
-    "archived/HygieneContinuation_Paper5_TemporalStability/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper6",
-    "ok",
-    "archived/HygieneContinuation_Paper6_CapacityDecay/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper7",
-    "ok",
-    "archived/HygieneContinuation_Paper7_OnlineRecalibration/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper8",
-    "ok",
-    "archived/HygieneContinuation_Paper8_Smoothing/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper9",
-    "ok",
-    "archived/HygieneContinuation_Paper9_SelfTrajectory/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper10",
@@ -51,48 +51,48 @@
   ],
   [
     "paper11",
-    "ok",
-    "paper11/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper12",
-    "ok",
-    "paper12/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper13",
-    "ok",
-    "paper13/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper14",
-    "ok",
-    "paper14/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper15",
-    "ok",
-    "paper15/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper16",
-    "ok",
-    "paper16/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper17",
-    "ok",
-    "paper17/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper18",
-    "ok",
-    "paper18/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper19",
-    "ok",
-    "paper19/submission/ieee/anonymous.pdf"
+    "FAIL",
+    "caused by: halted on potentially-recoverable error as specified"
   ],
   [
     "paper20",

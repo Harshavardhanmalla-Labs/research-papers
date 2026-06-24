@@ -10,12 +10,12 @@
 A web portfolio that presents **21 peer-quality research papers** (cyber-hygiene, vulnerability prioritization, compliance automation) by a single independent researcher. Each paper has a manuscript, a compiled PDF, figures, frozen/reproducible results, and source code. The site is the canonical home for this body of work.
 
 ## 2. Why it exists (the one goal that overrides everything)
-This is **evidence for a US EB-1A "extraordinary ability" immigration petition.** The design must make a reviewer (an immigration officer, an expert writing a recommendation letter, an academic peer) conclude within seconds: *"This is a serious, prolific, independent researcher producing original, rigorous, citable work."*
+This is **evidence for a US research "extraordinary ability" immigration petition.** The design must make a reviewer (an immigration officer, an expert writing a recommendation letter, an academic peer) conclude within seconds: *"This is a serious, prolific, independent researcher producing original, rigorous, citable work."*
 
 Every design decision should be judged against that. Impressive-but-gimmicky loses to **credible, restrained, and substantive.**
 
 ## 3. Audiences (in priority order)
-1. **EB-1A reviewers / immigration officers / recommendation-letter writers** — non-specialist or semi-specialist; need to grasp scope, rigor, and impact fast, and to trust it.
+1. **research reviewers / immigration officers / recommendation-letter writers** — non-specialist or semi-specialist; need to grasp scope, rigor, and impact fast, and to trust it.
 2. **Academic & industry peers** — may cite or reference the work; need clean access to manuscripts, results, and citations.
 3. **Recruiters / journalists / collaborators** — skim for headline contributions.
 
@@ -51,7 +51,7 @@ The single most important screen for credibility. Must communicate **scope + rig
 **Must include:**
 1. **Header / identity block** — Name "Harshavardhan Malla", "Independent Researcher", one-line positioning of the research program (e.g., "Reproducible, pre-registered research on cyber-hygiene and vulnerability prioritization"). Quiet, confident, no avatar gimmicks.
 2. **At-a-glance credibility stats** — e.g., *21 papers · 1 published · 20 submission-ready · N reproducible result sets · pre-registered methodology.* These are trust signals; design them as restrained stat blocks, not glowing chips.
-3. **The research program narrative** — a short visual that shows these aren't 21 random papers but a connected program (themes / a progression / clusters). This is a key EB-1A signal ("sustained body of work"). Could be a labeled timeline, a thematic grouping, or a small map. Designer's call on form.
+3. **The research program narrative** — a short visual that shows these aren't 21 random papers but a connected program (themes / a progression / clusters). This is a key research signal ("sustained body of work"). Could be a labeled timeline, a thematic grouping, or a small map. Designer's call on form.
 4. **Featured work** — highlight the published paper and 2–3 strongest results. One hero-level card is fine; keep it dignified.
 5. **The full paper list/grid** — all 21, scannable. Each card shows: title, short/citable name, status, target venue, and the **headline result** (e.g., "272× faster drift detection", "94% Precision@50, 70% faster MTTR"). Cards must make the *result* legible at a glance.
 6. **Filter + sort + search** — filter by status (published/ready), sort (by topic, by impact), and a keyboard-accessible search ("/" to focus). Keep controls subtle and secondary to content.
@@ -140,4 +140,4 @@ Counts to design around: **21 papers, 1 published, ~3–8 tables and 1–6 figur
 ---
 
 ### One-paragraph version (if your tool wants a single prompt)
-> Design a credible, authoritative academic research portfolio for a single independent researcher (Harshavardhan Malla) presenting 21 rigorous, reproducible papers on cybersecurity. The site's purpose is to serve as evidence of extraordinary research ability for a US EB-1A petition, so it must read as serious and scholarly, not as a startup landing page. Deliver polished light AND dark themes, a restrained academic visual system (credible serif headings, strong typographic hierarchy, one accent color, generous whitespace, data-forward results), and two core screens: (A) a portfolio landing that conveys scope and a coherent research *program* with at-a-glance credibility stats, headline results per paper, and filter/sort/search; and (B) a paper-detail view with deep-linkable tabs (readable manuscript, embedded PDF, figures, frozen results, code) plus one-click IEEE + BibTeX citation. Keep deep-linking, never show an email, meet WCAG AA, and when in doubt choose restraint.
+> Design a credible, authoritative academic research portfolio for a single independent researcher (Harshavardhan Malla) presenting 21 rigorous, reproducible papers on cybersecurity. The site's purpose is to serve as evidence of extraordinary research ability for a US research petition, so it must read as serious and scholarly, not as a startup landing page. Deliver polished light AND dark themes, a restrained academic visual system (credible serif headings, strong typographic hierarchy, one accent color, generous whitespace, data-forward results), and two core screens: (A) a portfolio landing that conveys scope and a coherent research *program* with at-a-glance credibility stats, headline results per paper, and filter/sort/search; and (B) a paper-detail view with deep-linkable tabs (readable manuscript, embedded PDF, figures, frozen results, code) plus one-click IEEE + BibTeX citation. Keep deep-linking, never show an email, meet WCAG AA, and when in doubt choose restraint.

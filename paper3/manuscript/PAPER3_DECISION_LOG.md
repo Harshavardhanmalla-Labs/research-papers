@@ -37,7 +37,7 @@ Secondary threats: **Microsoft Defender for Identity / Entra ID Protection**, **
 |---|---|
 | Novelty | 6 |
 | Publishability | 7 |
-| EB1A value | 6.5 |
+| research value | 6.5 |
 | Implementation complexity | 7 |
 | Data feasibility | 8 |
 | Risk (higher = worse) | 5 |
@@ -136,7 +136,7 @@ The remaining open item (AD structural priors unavailable as a formal publicatio
 |---|---|---|---|---|
 | Novelty | 6 | **7** | +1 | Gap confirmed across all prior-art items; no fatal collision |
 | Publishability | 7 | **7** | = | Maintained; workshop/industry track realistic; top-tier requires strong synthetic generator and comprehensive sweep |
-| EB1A value | 6.5 | **7** | +0.5 | Open benchmark with GitHub release + dataset card + reproducibility kit is the EB1A-weight framing |
+| research value | 6.5 | **7** | +0.5 | Open benchmark with GitHub release + dataset card + reproducibility kit is the research-weight framing |
 | Implementation complexity | 7 | **7** | = | Schema locked; generator is non-trivial but manageable |
 | Data feasibility | 8 | **8** | = | NVD + DBIR 2026 + CISA cadence as priors; AD stats gap is disclosed assumption |
 | Risk (higher = worse) | 5 | **4** | -1 | Mordor differentiation now explicitly documented; product-comparison framing risk is managed |
@@ -271,7 +271,7 @@ Experimental design is locked. No further design decisions are open that would b
 
 4. **Calibration excluded.** the HygieneBench benchmark calibration would duplicate the CalibScore study's contribution domain. the HygieneBench benchmark's calibration-adjacent measure is `FPB` (false-positive burden), which is operationally interpretable without requiring calibrated probabilities.
 
-5. **T7 (escalation drift) included despite extreme imbalance.** It is the most operationally important task and also the most likely to produce failure-flag results. Including it demonstrates intellectual honesty and is a strong argument for the paper's EB1A value (identifying *limitations* of ML in this domain).
+5. **T7 (escalation drift) included despite extreme imbalance.** It is the most operationally important task and also the most likely to produce failure-flag results. Including it demonstrates intellectual honesty and is a strong argument for the paper's research value (identifying *limitations* of ML in this domain).
 
 ### Step 4 authorization
 

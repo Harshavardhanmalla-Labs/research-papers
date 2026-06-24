@@ -3,7 +3,7 @@
 **Working title (provisional):**
 "ML for Cyber Hygiene: Anomaly Detection Across Active Directory, Endpoint, and Patch Telemetry for Public-Sector Security Operations"
 
-**Author note:** Step 1 is a validation pass only. No code, no experiments, no employer data, no real government data. All citation placeholders are marked `[VERIFY]`. This document determines whether the topic is publishable and EB1A-defensible, and whether it is sufficiently distinct from the VulnPrio study and the CalibScore study.
+**Author note:** Step 1 is a validation pass only. No code, no experiments, no employer data, no real government data. All citation placeholders are marked `[VERIFY]`. This document determines whether the topic is publishable and research-defensible, and whether it is sufficiently distinct from the VulnPrio study and the CalibScore study.
 
 ---
 
@@ -66,7 +66,7 @@ The motivation is **hygiene and exposure**, not intrusion detection. This framin
 
 ## 4. Research Gap
 
-**The naive gap ("ML anomaly detection for AD") is too generic.** UEBA vendors, Microsoft Defender for Identity, Entra ID Protection, Splunk UBA, Exabeam, and numerous academic papers already occupy this space. That framing will not survive peer review and will not carry EB1A weight.
+**The naive gap ("ML anomaly detection for AD") is too generic.** UEBA vendors, Microsoft Defender for Identity, Entra ID Protection, Splunk UBA, Exabeam, and numerous academic papers already occupy this space. That framing will not survive peer review and will not carry research weight.
 
 **Sharper candidate gaps:**
 
@@ -262,12 +262,12 @@ Brutally honest. Scale 1-10; for the "risk" row, **higher = more risk** (i.e., w
 |---|---|---|
 | **Novelty** | **6 / 10** | Hygiene-benchmark framing + telemetry-freshness as first-class variable is defensible. But AD anomaly detection broadly is *crowded*. Novelty depends on locking the gap to *benchmark + hygiene + freshness + joint correlation*, not "ML on AD." |
 | **Publishability** | **7 / 10** | Workshop or industry-track venues are realistic (e.g., ACSAC industry, USENIX security workshops, IEEE BigData / SecML workshops `[VERIFY]`). Top-tier acceptance is plausible only with strong reproducibility and a credible synthetic generator. |
-| **EB1A value** | **6.5 / 10** | Strong if positioned as an *open, reproducible public-sector-oriented benchmark* with adoption pathway (GitHub release, dataset card, reproducibility kit). Weak if positioned as "yet another anomaly detector." Distinct enough from the VulnPrio study and the CalibScore study to count as a separate contribution. |
+| **research value** | **6.5 / 10** | Strong if positioned as an *open, reproducible public-sector-oriented benchmark* with adoption pathway (GitHub release, dataset card, reproducibility kit). Weak if positioned as "yet another anomaly detector." Distinct enough from the VulnPrio study and the CalibScore study to count as a separate contribution. |
 | **Implementation complexity** | **7 / 10** | Synthetic AD/endpoint/patch/vuln telemetry generator is non-trivial; graph baselines add complexity. Manageable in a single-author timeline if scope is fixed at Step 2. |
 | **Data feasibility** | **8 / 10** | Fully synthetic + public structural priors is achievable. Realism rebuttal is the main risk, addressable via documented assumptions and sensitivity sweeps. |
 | **Risk (higher = worse)** | **5 / 10** | Main risks: (a) prior-art collision with Mordor/Defender/UBA framings, (b) reviewers questioning synthetic-realism, (c) overlap with the VulnPrio study's reproducibility framing. All manageable with tight scoping. |
 
-**Overall:** Publishable and EB1A-relevant if and only if the gap is narrowed and Mordor/Defender/UBA differentiation is explicit.
+**Overall:** Publishable and research-relevant if and only if the gap is narrowed and Mordor/Defender/UBA differentiation is explicit.
 
 ---
 
