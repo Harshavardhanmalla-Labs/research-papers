@@ -257,16 +257,32 @@ def run_interval(n=10000):
               f"sign={t:6.3f}s overhead={100*cp_bytes/base_bytes:.3f}%")
     return rows
 
+def run_signing_throughput(trials=20000):
+    """Raw Ed25519 sign/verify throughput: shows whether per-record (zero
+    residual) anchoring is affordable relative to decision rates."""
+    sk = Ed25519PrivateKey.generate(); pub = sk.public_key()
+    msgs = [json.dumps({"i": i, "h": "0" * 64}, separators=(",", ":")).encode() for i in range(trials)]
+    t0 = time.perf_counter(); sigs = [sk.sign(m) for m in msgs]; t_sign = time.perf_counter() - t0
+    t0 = time.perf_counter()
+    for m, s in zip(msgs, sigs):
+        pub.verify(s, m)
+    t_ver = time.perf_counter() - t0
+    out = {"sign_per_s": int(trials / t_sign), "verify_per_s": int(trials / t_ver)}
+    print(f"  Ed25519 sign={out['sign_per_s']:,}/s  verify={out['verify_per_s']:,}/s")
+    return out
+
 def main():
     print("== Detection (8 attack classes; baseline naive chain vs augmented ledger) ==")
     det = run_detection()
     print("\n== Overhead (append / checkpoint / verify / space) ==")
     ovh = run_overhead()
-    print("\n== Checkpoint-interval tradeoff (50k log) ==")
+    print("\n== Checkpoint-interval tradeoff (10k log) ==")
     intv = run_interval()
+    print("\n== Raw Ed25519 throughput ==")
+    sig = run_signing_throughput()
     summary = {
         "construction": "SHA-256 hash chain (paper1 hash_chain.py) + Merkle-per-window + Ed25519 signed checkpoints",
-        "detection": det, "overhead": ovh, "interval_tradeoff": intv,
+        "detection": det, "overhead": ovh, "interval_tradeoff": intv, "signing": sig,
         "strong_baseline_blind_spots": [r["attack"] for r in det if r["strong_baseline"] < 1.0],
         "weak_baseline_blind_spots": [r["attack"] for r in det if r["weak_baseline"] < 1.0],
         "augmented_full_coverage": all(r["weak_augmented"] == 1.0 and r["strong_augmented"] == 1.0 for r in det),

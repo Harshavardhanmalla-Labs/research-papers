@@ -25,6 +25,10 @@
 \usepackage[noend]{algpseudocode}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\let\openbox\relax  % newtx already defines \openbox; let amsthm redefine cleanly
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
 
 \graphicspath{{figures/}}
 
@@ -342,6 +346,24 @@ checkpoint) and the public key $pk$.
 \end{algorithmic}
 \end{algorithm}
 
+\textbf{Worked example.} Consider the deferral scenario of
+Section~\ref{sec:threat} as a four-record window: $r_1$ scores the
+public-facing server's (host, CVE) pair; $r_2$ schedules three higher-scored
+hosts, exhausting capacity; $r_3$ defers the server with
+\texttt{weights\_version} $=$ \texttt{w-2026Q2-v1}; $r_4$ records the breach
+outcome. The window closes with a signed checkpoint $s_4 =
+\mathrm{Sig}_{sk}(4, h_4, w, \rho)$, and the auditor retains $s_4$ as the
+anchor $a$. An insider now wants the log to end at the justified deferral, so
+truncates to $r_1,r_2,r_3$ and recomputes the chain so it verifies internally.
+\textsc{VerifyLedger} replays the three-record chain successfully (Layer 1
+passes), then reaches the anchor check: $|\text{log}|=3 \neq a.\text{count}=4$,
+and the Merkle root over three records does not equal $a.\text{root}$. The log
+is rejected. Had the insider instead rewritten $r_3$'s \texttt{weights\_version}
+to an older value to make the deferral look policy-compliant, the leaf hash of
+$r_3$ would change, the window root would change, and the same anchor check
+would fail. Neither edit survives, which is precisely the accountability the
+naive chain failed to provide.
+
 \section{Security Analysis}
 \label{sec:analysis}
 We state the guarantees \textsc{VerifyLedger} provides to an honest auditor
@@ -349,9 +371,12 @@ holding the genuine latest checkpoint $a$ and the signer's public key $pk$,
 assuming SHA-256 collision-resistance and Ed25519 unforgeability. Throughout,
 ``caught'' means \textsc{VerifyLedger} returns \textsc{reject}.
 
-\textbf{P1 (content integrity).} \emph{Any modification, reordering, or
-interior deletion of retained records is caught.}
-\emph{Sketch.} Changing any field of $r_i$ changes $H(\mathrm{can}(r_i))$, so
+\begin{theorem}[Content integrity]
+\label{thm:p1}
+Any modification, reordering, or interior deletion of a retained record is
+caught.
+\end{theorem}
+\emph{Proof.} Changing any field of $r_i$ changes $H(\mathrm{can}(r_i))$, so
 either the recomputed self-hash fails the Layer-1 check, or, if the adversary
 fixes $r_i.\text{hash}$ and all downstream links, $r_i$'s leaf changes and so
 does the Merkle root over the full log, which no longer equals $a.\text{root}$
@@ -360,10 +385,12 @@ record's prior-link reference a digest no longer present. Both change the root.
 By collision-resistance the adversary cannot find a colliding substitute, so
 detection is certain. $\square$
 
-\textbf{P2 (completeness / truncation resistance).} \emph{Truncation or
-extension relative to the anchored count is caught, up to the
-inter-checkpoint residual.}
-\emph{Sketch.} $a$ binds the true count $n^\star$ and head $h_{n^\star}$ under
+\begin{theorem}[Completeness / truncation resistance]
+\label{thm:p2}
+Truncation or extension relative to the anchored count is caught, up to a
+residual of at most the inter-checkpoint interval.
+\end{theorem}
+\emph{Proof.} $a$ binds the true count $n^\star$ and head $h_{n^\star}$ under
 $pk$. A presented log of length $n' \neq n^\star$ fails $|\text{log}| =
 a.\text{count}$; a log of equal length but different content fails the head or
 root equality. Forging a fresh $a'$ with the adversary's count requires an
@@ -371,20 +398,26 @@ Ed25519 forgery. The sole gap is records created after the last anchored
 checkpoint, bounded by the interval (Table~\ref{tab:interval}); within
 anchored history, loss is always caught. $\square$
 
-\textbf{P3 (non-repudiation of policy context).} \emph{Rolling back the
-weights version or forging a feed-snapshot version is caught.}
-\emph{Sketch.} Both fields are inside $\mathrm{can}(\cdot)$, so altering them
-is a content edit and P1 applies. This is what makes the evidence about
-\emph{why} a decision was taken, not only \emph{that} it was recorded. $\square$
+\begin{theorem}[Non-repudiation of policy context]
+\label{thm:p3}
+Rolling back the weights version or forging a feed-snapshot version is caught.
+\end{theorem}
+\emph{Proof.} Both fields are inside $\mathrm{can}(\cdot)$, so altering them is
+a content edit and Theorem~\ref{thm:p1} applies. This is what makes the
+evidence about \emph{why} a decision was taken, not only \emph{that} it was
+recorded. $\square$
 
-\textbf{P4 (independence from the log holder).} Verification compares against
-$a$ and $pk$, never against the party storing the log, satisfying R2. The only
-trust assumptions are that $sk$ is held outside the log host and that $a$ is
-retained independently; under them, no log-only adversary, including the
-insider, evades P1-P3. $\square$
+\textbf{P4 (independence).} Verification compares against $a$ and $pk$, never
+against the party storing the log, satisfying R2. The only trust assumptions
+are that $sk$ is held outside the log host and that $a$ is retained
+independently.
 
-Taken together, P1-P4 establish that an honest verifier accepts only a log
-identical to the one the auditor signed, modulo the bounded residual of P2.
+\begin{corollary}[Soundness]
+\label{cor:sound}
+Under the assumptions of Theorems~\ref{thm:p1}-\ref{thm:p3} and P4, an honest
+verifier accepts a presented log only if it is identical to the one the auditor
+signed, modulo the bounded residual of Theorem~\ref{thm:p2}.
+\end{corollary}
 The evaluation in Section~\ref{sec:eval} confirms these guarantees empirically
 across all eight tampering classes and both adversaries.
 
@@ -450,6 +483,38 @@ columns are entirely green at 1.00.}
 \label{fig:detection}
 \end{figure}
 
+\textbf{Which layer does the work.} Table~\ref{tab:layer} attributes each
+detection to the mechanism that catches it. Against the restricted adversary,
+point tampering is caught by Layer 1 alone (broken self-hash or prior-link);
+against the insider, who repairs Layer 1, detection always falls to the
+anchored Layer-2/3 check, which is why truncation and replacement, invisible
+to Layer 1 entirely, are caught there. This makes precise that the
+contribution is not a stronger hash but an \emph{external commitment}: the
+signed anchor is the single mechanism that closes both structural blind spots.
+
+\begin{table}[!t]
+\caption{The ledger mechanism that catches each attack. Layer 1: hash chain;
+Layer 2/3: Merkle root committed in the independently anchored signed
+checkpoint.\\[2pt]
+\textit{Alt text:} A table mapping the eight attacks to the detecting
+mechanism. Point edits and structural edits are caught by Layer 1 against the
+restricted adversary; every attack is caught by the anchored Layer 2/3 signed
+checkpoint against the insider, including truncation and wholesale replacement.}
+\label{tab:layer}
+\centering
+\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+Tampering class & Restricted adv. & Insider \\
+\midrule
+Modify / rollback / forge & Layer 1 self-hash & Layer 2/3 anchor \\
+Reorder / delete / insert  & Layer 1 links     & Layer 2/3 anchor \\
+Truncate tail              & (undetected)      & Layer 3 count/anchor \\
+Wholesale replace          & (undetected)      & Layer 3 signature \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \textbf{Overhead.} Fig.~\ref{fig:overhead} reports cost. Appending (hashing)
 sustains 68{,}000 to 110{,}000 records per second. Full verification is
 linear in log length: $10.5$~ms at 1{,}000 records and $925$~ms at
@@ -487,6 +552,31 @@ criminal-justice logs, looser intervals where a bounded recent window is
 acceptable. Streaming anchoring (signing every record) drives the residual
 to zero at the highest signing cost and is the appropriate setting when even
 a single unanchored decision is unacceptable.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig3_interval.pdf}
+\caption{The checkpoint-interval tradeoff. Tightening the anchoring interval
+shrinks the maximum unanchored-truncation residual (horizontal axis, log
+scale) at a bounded cost in space (blue) and signing time (amber, for a
+10{,}000-record log). Even the leftmost point, a 9-record residual, costs only
+$5.2\%$ space.\\[2pt]
+\textit{Alt text:} A line chart. As the maximum unanchored residual decreases
+from about 500 to about 9 records, the space-overhead curve rises from roughly
+0.1 to 5.2 percent and the signing-time curve rises from under 0.1 to about 4
+seconds, showing a smooth, bounded cost for tighter anchoring.}
+\label{fig:interval}
+\end{figure}
+
+\textbf{Even zero residual is affordable.} The question is whether per-record
+signing is too slow to keep up. It is not: raw Ed25519 signing sustains
+$30{,}703$ signatures per second and verification $9{,}935$ per second on a
+single core in our measurements. A fleet emits on the order of thousands of
+decisions per maintenance window, hours apart, so signing every decision
+consumes a small fraction of one core's capacity. The interval is therefore a
+policy choice about evidence latency, not a performance constraint: operators
+can anchor every record when the audit requirement demands it, and relax to
+per-window anchoring otherwise.
 
 \begin{table}[!t]
 \caption{Checkpoint-interval tradeoff on a 10{,}000-record log. A tighter
@@ -581,23 +671,43 @@ storage without losing verifiability.
 
 \section{Related Work}
 \label{sec:related}
-Hash-linked records for tamper-evident timestamping originate with Haber and
-Stornetta~\cite{haber1991timestamp}; Schneier and Kelsey applied chaining to
-secure audit logs on untrusted machines~\cite{schneier1999secure}. Crosby
-and Wallach showed that naive chains are costly to verify and introduced
-history trees for efficient tamper-evident logging~\cite{crosby2009tamper};
-our per-window Merkle commitment is in this lineage. Certificate
-Transparency~\cite{rfc6962} contributes the operational pattern we adopt: a
-signed commitment to log state, held independently, that makes omission
-detectable. Table~\ref{tab:related} situates the construction: prior
-tamper-evident logging gives content integrity and, with an external monitor,
-completeness, but is not specialized to decision provenance; our contribution
-is to instantiate these guarantees for \emph{autonomous remediation},
-characterize the hash-chain blind spot adversarially in that setting, bind
-policy and feed context into the evidence, and quantify the cost at fleet
-scale. This is orthogonal to work on the prioritization decision itself (for
-example EPSS-based ranking~\cite{jacobs2021epss}): we make the \emph{record}
-of any such decision trustworthy, whatever scorer produced it.
+\textbf{Tamper-evident logging.} Hash-linked records for tamper-evident
+timestamping originate with Haber and
+Stornetta~\cite{haber1991timestamp}. Schneier and Kelsey applied chaining,
+with per-entry forward-secure keys, to audit logs on untrusted
+machines~\cite{schneier1999secure}; Bellare and Yee formalized forward
+integrity for the same setting~\cite{bellare1997forward}, and Ma and Tsudik
+later gave forward-secure sequential aggregate signatures that compress an
+entire log's authentication into constant state~\cite{ma2009secure}. These
+schemes strengthen \emph{content} integrity and, with forward security, limit
+the damage of key compromise, but a pure chain still does not commit to log
+\emph{length}, which is the gap we target. Crosby and Wallach showed that
+naive chains are costly to audit and introduced history trees for efficient
+tamper-evident logging~\cite{crosby2009tamper}; our per-window Merkle
+commitment is in this lineage and reduces per-window verification to a single
+root.
+
+\textbf{Transparency systems.} Certificate Transparency~\cite{rfc6962}
+contributes the operational pattern we adopt: a signed commitment to log state,
+held and gossiped independently, that makes omission and equivocation
+detectable rather than merely modification. Key-transparency systems such as
+CONIKS extend the idea to per-user directories with privacy~\cite{melara2015coniks}.
+Our anchor is the same signed-tree-head mechanism, specialized to a
+remediation decision stream and to an offline auditor who retains the latest
+checkpoint rather than a gossip network.
+
+\textbf{Accountability for automated decisions and our position.}
+Table~\ref{tab:related} situates the construction: prior tamper-evident logging
+gives content integrity and, with an external monitor, completeness, but is not
+specialized to decision provenance and does not bind the policy and
+threat-feed context that explains \emph{why} an automated action was taken. Our
+contribution is to instantiate these guarantees for \emph{autonomous
+remediation}, to characterize the hash-chain blind spot adversarially in that
+setting under two explicit adversaries, to bind policy and feed versions into
+the evidence, and to quantify the cost of closing the gap at fleet scale. This
+is orthogonal to work on the prioritization decision itself (for example
+EPSS-based ranking~\cite{jacobs2021epss}): we make the \emph{record} of any such
+decision trustworthy, whatever scorer, heuristic, or learned model produced it.
 
 \begin{table}[!t]
 \caption{Where the verifiable provenance ledger sits. Content: detects edits;
@@ -737,9 +847,23 @@ S.~A. Crosby and D.~S. Wallach, ``Efficient data structures for
 tamper-evident logging,'' in \emph{Proc. USENIX Security Symp.}, 2009, pp.
 317-334.
 
+\bibitem{bellare1997forward}
+M.~Bellare and B.~S. Yee, ``Forward integrity for secure audit logs,'' Computer
+Science and Engineering Dept., University of California, San Diego, Tech. Rep.,
+Nov. 1997.
+
+\bibitem{ma2009secure}
+D.~Ma and G.~Tsudik, ``A new approach to secure logging,'' \emph{ACM Trans.
+Storage}, vol.~5, no.~1, pp. 1-21, 2009.
+
 \bibitem{rfc6962}
 B.~Laurie, A.~Langley, and E.~Kasper, ``Certificate transparency,'' RFC 6962,
 Internet Engineering Task Force, Jun. 2013.
+
+\bibitem{melara2015coniks}
+M.~S. Melara, A.~Blankstein, J.~Bonneau, E.~W. Felten, and M.~J. Freedman,
+``{CONIKS}: Bringing key transparency to end users,'' in \emph{Proc. USENIX
+Security Symp.}, 2015, pp. 383-398.
 
 \bibitem{rfc8032}
 S.~Josefsson and I.~Liusvaara, ``Edwards-curve digital signature algorithm

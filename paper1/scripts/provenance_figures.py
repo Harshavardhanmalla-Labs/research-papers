@@ -9,7 +9,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES = os.path.join(HERE, "results", "provenance_v1")
 FIG = os.path.join(HERE, "paper", "submission", "ieee", "figures"); os.makedirs(FIG, exist_ok=True)
 d = json.load(open(os.path.join(RES, "provenance_summary.json")))
-BLUE, GRAY, RED, GREEN = "#2563eb", "#9aa3af", "#dc2626", "#059669"
+BLUE, GRAY, RED, GREEN, AMBER = "#2563eb", "#9aa3af", "#dc2626", "#059669", "#d97706"
 
 NICE = {"modify_field": "Modify field", "reorder": "Reorder", "delete_middle": "Delete (interior)",
         "truncate_tail": "Truncate tail", "insert": "Insert forged", "weight_rollback": "Weight rollback",
@@ -50,6 +50,24 @@ for i, v in enumerate(ov):
     a2.text(i, v + 0.02, f"{v:.2f}%", ha="center", fontsize=8)
 a2.spines[["top", "right"]].set_visible(False)
 plt.tight_layout(); plt.savefig(f"{FIG}/fig2_overhead.pdf"); plt.savefig(f"{FIG}/fig2_overhead.png", dpi=150); plt.close()
+# Fig 3 — checkpoint-interval tradeoff (residual vs cost)
+iv = d["interval_tradeoff"]
+res = [r["max_unanchored_records"] for r in iv]
+spc = [r["space_overhead_pct"] for r in iv]
+sgn = [r["sign_time_s"] for r in iv]
+fig, ax = plt.subplots(figsize=(6.0, 3.4))
+ax.plot(res, spc, "o-", color=BLUE, lw=2, label="space overhead (%)")
+ax.set_xlabel("max unanchored residual (records)"); ax.set_ylabel("space overhead (%)", color=BLUE)
+ax.tick_params(axis="y", labelcolor=BLUE); ax.set_xscale("log")
+ax2 = ax.twinx()
+ax2.plot(res, sgn, "s--", color=AMBER, lw=2, label="signing time (s)")
+ax2.set_ylabel("signing time (s, 10k log)", color=AMBER); ax2.tick_params(axis="y", labelcolor=AMBER)
+for x, s in zip(res, spc):
+    ax.annotate(f"{s:.2f}%", (x, s), textcoords="offset points", xytext=(0, 6), fontsize=7, ha="center")
+ax.set_title("Tighter anchoring shrinks the truncation residual, at bounded cost", fontsize=9.5)
+ax.spines["top"].set_visible(False); ax2.spines["top"].set_visible(False)
+plt.tight_layout(); plt.savefig(f"{FIG}/fig3_interval.pdf"); plt.savefig(f"{FIG}/fig3_interval.png", dpi=150); plt.close()
+
 print("figures ->", FIG)
 print("append throughput (rec/s):", [r["append_throughput_rec_s"] for r in ovh])
 print("verify augmented (ms):", [round(x, 1) for x in va])
