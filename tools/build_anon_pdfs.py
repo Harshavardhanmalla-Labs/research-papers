@@ -83,9 +83,17 @@ def replace_command(tex, cmd, replacement=None):
 def redact_text(s):
     """Blanket author-identifier redaction — applied to EVERY .tex/.bib source file.
     Handles all separators (space, ~, \\,, comma order) and the org-slug URL."""
-    # name-bearing repo URL -> anonymized review link
+    # De-anonymizing repo link -> withheld for double-blind review (no dead/fake URL).
+    # 1) Data Availability phrasing "...repository at \url{<repo>}" -> clean parenthetical.
+    s = re.sub(r'repository\s+at\s+\\url\{https?://github\.com/Harshavardhanmalla-Labs/[^}]*\}',
+               'repository (anonymized for double-blind review; the link is provided upon acceptance)',
+               s, flags=re.IGNORECASE)
+    # 2) Any other \url{<repo>} (e.g. self-citations in the bibliography) -> neutral marker.
+    s = re.sub(r'\\url\{https?://github\.com/Harshavardhanmalla-Labs/[^}]*\}',
+               '[repository link withheld for double-blind review]', s, flags=re.IGNORECASE)
+    # 3) Bare residual repo URL (not wrapped in \url) -> neutral marker, never a fake link.
     s = re.sub(r'https?://github\.com/Harshavardhanmalla-Labs/[^\s}\)>\]`"\']*',
-               'https://anonymous.4open.science/r/anonymous', s, flags=re.IGNORECASE)
+               '[repository link withheld for double-blind review]', s, flags=re.IGNORECASE)
     s = re.sub(r'Harshavardhanmalla-?Labs', 'anonymous', s, flags=re.IGNORECASE)
     s = re.sub(r'Harshavardhanmalla', 'anonymous', s, flags=re.IGNORECASE)
     # initial form "H.~Malla" / "H. Malla" / "H.\,Malla"  (any LaTeX spacing)
