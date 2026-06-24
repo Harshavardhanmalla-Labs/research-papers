@@ -1,93 +1,35 @@
-% ============================================================
-%  main.tex,  IEEE Conference Submission
-%  Context-Aware Vulnerability Prioritization for Government
-%  Endpoint Fleets: Integrating Exploit Intelligence, Asset
-%  Criticality, and Endpoint Telemetry
+% =====================================================================
+% Auditable Autonomy: Tamper-Evident, Cryptographically Verifiable
+% Decision Provenance for Autonomous Vulnerability Remediation.
 %
-%  Author: Harshavardhan Malla, Independent Researcher
-%
-%  Compile: pdflatex main && bibtex main && pdflatex main
-%           && pdflatex main
-%
-%  NOTE: All data are synthetic and seeded; no production or
-%  government operational data were used. All figures must be
-%  placed in figures/ before final compilation.
-% ============================================================
-
+% Repositioned paper1: the contribution is a verifiable provenance ledger
+% (SHA-256 hash chain + per-window Merkle commitments + Ed25519 signed
+% checkpoints) for capacity-constrained automated remediation in regulated
+% fleets. All numbers trace to paper1/results/provenance_v1/.
+% Build: tectonic main.tex
+% =====================================================================
 \documentclass[journal]{IEEEtran}
 
-%, - Packages,,,,,,,, --
-\usepackage[table]{xcolor}
 \usepackage{graphicx}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning,
-                fit, backgrounds, calc}
 \usepackage{booktabs}
-\usepackage{multirow}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{newtxtext,newtxmath}
-\usepackage{microtype}
-\usepackage{url}
-\usepackage[hidelinks]{hyperref}
-\usepackage{cite}
-\usepackage{balance}
-\usepackage{xspace}
-\usepackage{enumitem}
-
-%, - Color palette for TikZ,,,,,, 
-\definecolor{blueboxfill}{RGB}{210,228,255}
-\definecolor{blueboxborder}{RGB}{60,100,200}
-\definecolor{greenboxfill}{RGB}{210,245,220}
-\definecolor{greenboxborder}{RGB}{40,140,70}
-\definecolor{orangeboxfill}{RGB}{255,232,205}
-\definecolor{orangeboxborder}{RGB}{200,110,20}
-\definecolor{grayboxfill}{RGB}{235,235,235}
-\definecolor{grayboxborder}{RGB}{110,110,110}
-
-%, - TikZ node styles,,,,,,, 
-\tikzset{
-  bluebox/.style={
-    rectangle, rounded corners=3pt,
-    fill=blueboxfill, draw=blueboxborder, line width=0.7pt,
-    text width=2.0cm, align=center, font=\scriptsize,
-    inner sep=4pt, minimum height=0.65cm},
-  greenbox/.style={
-    rectangle, rounded corners=3pt,
-    fill=greenboxfill, draw=greenboxborder, line width=0.7pt,
-    text width=2.0cm, align=center, font=\scriptsize,
-    inner sep=4pt, minimum height=0.65cm},
-  orangebox/.style={
-    rectangle, rounded corners=3pt,
-    fill=orangeboxfill, draw=orangeboxborder, line width=0.7pt,
-    text width=2.0cm, align=center, font=\scriptsize,
-    inner sep=4pt, minimum height=0.65cm},
-  graybox/.style={
-    rectangle, rounded corners=3pt,
-    fill=grayboxfill, draw=grayboxborder, line width=0.7pt,
-    text width=2.0cm, align=center, font=\scriptsize,
-    inner sep=4pt, minimum height=0.65cm},
-  arrow/.style={-{Stealth[length=5pt]}, line width=0.6pt,
-                color=black!70}
-}
-
-%, - Utility,,,,,,,,  
-\newcommand{\eg}{\textit{e.g.},\xspace}
-\newcommand{\ie}{\textit{i.e.},\xspace}
-
-% =============================================================
-\renewcommand{\textendash}{-}
-\renewcommand{\textemdash}{-}
+\usepackage{hyperref}
 \usepackage{xurl}
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd{\abstract}{---}{:\space}{}{}
-\patchcmd{\IEEEkeywords}{---}{:\space}{}{}
-\makeatother
-\begin{document}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
 
-\title{Context-Aware Vulnerability Prioritization for\\
-       Government Endpoint Fleets: Integrating Exploit\\
-       Intelligence, Asset Criticality, and Endpoint Telemetry}
+\graphicspath{{figures/}}
+
+\title{Auditable Autonomy: Tamper-Evident, Cryptographically Verifiable
+Decision Provenance for Autonomous Vulnerability Remediation in Regulated Fleets}
 
 \author{%
   \IEEEauthorblockN{Harshavardhan Malla}
@@ -95,1007 +37,656 @@
   Email: harshavardhanmalla75@gmail.com}%
 }
 
+\renewcommand{\textendash}{-}
+\renewcommand{\textemdash}{-}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\abstract}{---}{:\space}{}{}
+\patchcmd{\IEEEkeywords}{---}{:\space}{}{}
+\makeatother
+
+\begin{document}
 \maketitle
 
-% \IEEEpeerreviewmaketitle  % Uncomment for peer-review header
-
-% =============================================================
 \begin{abstract}
-Vulnerability remediation in large government endpoint fleets is
-constrained by finite patch capacity, mandatory regulatory
-timelines, and the daily flood of newly published Common
-Vulnerabilities and Exposures (CVEs).  Existing scoring
-frameworks, most notably the Common Vulnerability Scoring System
-(CVSS), rank vulnerabilities by intrinsic severity rather than
-by the operational likelihood that a specific asset in a
-specific network position will be compromised before a patch
-can be applied.  We present \textbf{VulnPrio}, a seven-feature
-linear prioritization framework that integrates exploit
-probability (EPSS), Known Exploited Vulnerability (KEV) status,
-CVSS base score, asset criticality, network exposure, urgency,
-and remediation complexity into a single composite score.  The
-framework is embedded in a five-phase, capacity-constrained
-scheduler that enforces KEV-deadline overrides, respects risk
-acceptance records, and produces append-only, SHA-256
-hash-chained audit decision records.
-
-We evaluate VulnPrio against twelve competing strategies
-including EPSS-only, CVSS-only, KEV-first, random ordering, a
-label-prioritizing oracle reference, and feature ablations across 30 independent random seeds on a
-fully synthetic, seeded fleet dataset.  The primary operational
-metric, Expected Exploited Host-Days (EHD), is drawn from a frozen
-artifact of 4,290 non-missing metric rows.  Across all 13 strategies,
-mean EHD clusters around $1.12 \times 10^6$ simulated host-days and the
-strategies are \emph{not separable}: the total inter-strategy spread is
-below 0.5\% of the mean, which is smaller than the per-seed standard
-deviation, so all differences fall within seed-to-seed variation.  We
-report descriptive statistics only and apply no significance tests, as
-the null result is already evident from the overlapping per-seed
-distributions.  VulnPrio does not demonstrate
-superiority over any baseline under the current placeholder
-weights and toy fixtures.  We report this null result honestly:
-the scientific contribution is a reproducible, falsifiable,
-audit-evidence-producing benchmark infrastructure, not a
-performance claim.  All 390 audit logs hash-verify correctly.
-Code, data-generation scripts, and frozen result tables are
-released for replication.
+As vulnerability remediation in large regulated fleets becomes automated,
+the security question shifts from \emph{which vulnerability to patch first}
+to \emph{whether the record of what was decided, and why, can be trusted
+after the fact}. Regulatory regimes (FISMA, FedRAMP, the FBI CJIS Security
+Policy) require audit trails that survive a privileged insider, yet the
+append-only hash chains commonly used for decision logging carry a
+structural blind spot: they certify internal consistency, not completeness.
+We make this precise with an adversarial evaluation of an automated
+remediation log under two adversaries and eight tampering classes (200
+trials each). A naive SHA-256 hash chain detects point edits, reordering,
+interior deletion, and insertion against a restricted adversary, but is
+\emph{blind to tail truncation and wholesale replacement} (detection rate
+$0.00$ for both); against a realistic insider who can recompute downstream
+hashes it detects \emph{nothing} ($0.00$ across all eight classes). We then
+present a verifiable provenance ledger that augments the chain with
+per-window Merkle commitments and periodic Ed25519-signed checkpoints
+anchored by an independently held latest checkpoint, in the style of a
+Certificate Transparency signed tree head. The ledger detects all eight
+attacks under both adversaries (detection rate $1.00$) while adding
+$0.21\%$ space overhead and verifying a 50{,}000-record log in under one
+second; append throughput remains 68{,}000 to 110{,}000 records per second.
+We map the construction to NIST SP 800-53 audit controls (AU-9, AU-10) and
+release the ledger, the adversarial harness, and the frozen results. The
+contribution is a deployable accountability layer for autonomous security
+decisions whose integrity guarantees are stated in advance and verified
+adversarially, not asserted.
 \end{abstract}
 
 \begin{IEEEkeywords}
-vulnerability prioritization, exploit prediction, EPSS, KEV,
-government endpoint security, patch scheduling, audit logging,
-reproducible benchmarks, null result
+audit logging, tamper-evidence, hash chains, Merkle trees, digital
+signatures, decision provenance, vulnerability remediation, accountability,
+regulatory compliance, reproducibility.
 \end{IEEEkeywords}
 
-% =============================================================
 \section{Introduction}
 \label{sec:intro}
+Enterprise and government fleets increasingly delegate vulnerability
+remediation to automated pipelines: a scorer ranks (host, CVE) pairs, a
+capacity-constrained scheduler selects what to patch within finite windows
+and mandatory regulatory deadlines, and an executor applies or defers each
+action~\cite{cisa2021bod2201,nist2022sp80040r4}. Automation raises a
+question that ranking accuracy does not answer. When an auditor, an
+inspector general, or opposing counsel later asks \emph{why} a specific
+exploited host was deferred, the answer is only as trustworthy as the log
+that recorded the decision, the feature values it used, and the policy
+version in force at the time. In regulated settings this is not optional:
+FISMA, FedRAMP, and the FBI CJIS Security Policy require audit records that
+remain attributable and intact even against insiders with administrative
+access~\cite{nist2022sp80053,cjis2023}.
 
-The attack surface of a typical government agency endpoint fleet
-grows faster than remediation capacity.  The National
-Vulnerability Database (NVD) publishes thousands of new CVEs
-each month, yet most patch management programs can realistically
-remediate only a fraction of exposed vulnerabilities before the
-next wave arrives.  Regulatory mandates such as CISA Binding
-Operational Directive 22-01~\cite{cisa_bod2201} impose hard
-deadlines on Known Exploited Vulnerabilities, but do not
-prescribe how remaining capacity should be allocated among the
-long tail of unclassified exposures.
+The common engineering answer is an append-only, hash-chained log: each
+record carries the cryptographic hash of its predecessor, so editing any
+stored record breaks the chain~\cite{haber1991timestamp,schneier1999secure}.
+This is necessary but not sufficient, and the gap is routinely
+underappreciated. A hash chain certifies that the records \emph{present}
+are mutually consistent; it says nothing about records that are
+\emph{absent}. An adversary who deletes the most recent $k$ records leaves a
+chain that still verifies perfectly. An insider who can run the logging code
+can recompute every downstream hash and rewrite history into a different,
+internally consistent narrative. Neither attack is exotic; both are exactly
+the post-incident tampering that audit requirements exist to deter.
 
-The dominant operational heuristic is CVSS base score.  While
-CVSS~\cite{first_cvss_v31} provides a standardized measure of
-\emph{intrinsic} severity, it explicitly discourages use as a
-sole remediation prioritization signal: it captures neither
-exploit likelihood nor the operational context of the target
-environment.  Research has consistently shown that the vast
-majority of ``Critical'' CVSS-scored vulnerabilities are never
-exploited in practice, while lower-scored CVEs with active
-exploitation infrastructure pose the actual daily
-risk~\cite{allodi2014comparing, sabottke2015vulnerability}.
+The stakes are concrete. Binding operational directives impose hard
+remediation deadlines for known-exploited vulnerabilities, and missing one is
+a reportable event~\cite{cisa2021bod2201}. When automation makes the deferral
+that leads to a breach, the resulting review is adversarial: the operator has
+both the access and the incentive to make the log support whatever account is
+least damaging. An audit trail that any sufficiently privileged party can
+silently rewrite is not evidence; it is a liability dressed as one. The
+security property that matters is therefore not confidentiality of the log nor
+even its availability, but the ability of an \emph{independent} verifier to
+detect that the log has been altered or shortened, no matter who altered it.
+Hash chaining is widely assumed to provide this; we show it does not, and that
+the gap is closable cheaply.
 
-The Exploit Prediction Scoring System
-(EPSS)~\cite{jacobs2021epss} partially addresses this gap by
-modeling the thirty-day probability of observed exploitation for
-each CVE.  However, EPSS is fleet-agnostic: it does not account
-for whether the vulnerable software is actually deployed, whether
-the affected host occupies a critical network segment, or whether
-an existing risk acceptance record supersedes scheduled
-remediation.
+This paper repositions a vulnerability-remediation framework around the
+problem that automation actually creates: \emph{verifiable decision
+provenance}. Our contributions are:
+\begin{itemize}
+\item A precise, adversarial characterization of the hash-chain blind spot.
+Under a restricted adversary the naive chain misses tail truncation and
+wholesale replacement; under a realistic insider it provides \emph{no}
+tamper-evidence at all (Section~\ref{sec:eval}).
+\item A verifiable provenance ledger (Section~\ref{sec:design}) that
+augments the chain with per-window Merkle commitments and periodic
+Ed25519-signed checkpoints~\cite{merkle1980protocols,rfc8032}, anchored by an
+independently held latest checkpoint as in Certificate
+Transparency~\cite{rfc6962,crosby2009tamper}. We state its guarantees in
+advance (Section~\ref{sec:analysis}).
+\item A reproducible adversarial evaluation (Section~\ref{sec:eval}): eight
+tampering classes, two adversaries, 200 trials each, plus runtime and space
+overhead at fleet scale. The ledger detects every attack under both
+adversaries at $0.21\%$ space overhead and sub-second verification.
+\item A mapping to NIST SP 800-53 audit controls and a discussion of what
+the construction does and does not guarantee (Sections~\ref{sec:compliance},
+\ref{sec:limitations}).
+\end{itemize}
+Every number traces to a frozen artifact; the ledger and harness are
+released for replication.
 
-This paper contributes \textbf{VulnPrio}, a framework that
-assembles seven contextual signals into a linear composite score,
-embeds that score in a capacity-constrained scheduling algorithm,
-and records every scheduling decision in a tamper-evident
-append-only audit log.  Our central finding is deliberately
-anti-climactic: under placeholder weights and synthetic data,
-VulnPrio is not separable from the twelve
-competing strategies on the primary operational metric, with all
-inter-strategy differences falling within seed-to-seed variation.  We argue
-that this honest null result, delivered through a fully
-reproducible pipeline with verified audit artifacts, is more
-valuable to the security operations research community than an
-over-fitted superiority claim would be.
+\section{Preliminaries}
+\label{sec:prelim}
+We use four standard primitives.
+\emph{Cryptographic hash.} SHA-256~\cite{fips180-4} maps arbitrary input to a
+256-bit digest and is collision- and second-preimage-resistant: it is
+infeasible to find a different input with a given digest. We treat any digest
+collision as negligible.
+\emph{Hash chain.} Linking each record to the digest of its predecessor makes
+the digest of the head a commitment to the entire prefix: changing any record
+changes the head~\cite{haber1991timestamp,schneier1999secure}. A chain proves
+\emph{internal consistency} of the records present; crucially it does not
+commit to how many records there should be.
+\emph{Merkle tree.} A binary tree whose leaves are record digests and whose
+internal nodes hash their children yields a single root that commits to the
+exact set and order of leaves, with $O(\log n)$ membership
+proofs~\cite{merkle1980protocols,crosby2009tamper}.
+\emph{Digital signature.} Ed25519 (EdDSA over Curve25519)~\cite{rfc8032} lets
+a holder of a private key produce signatures verifiable with the
+corresponding public key; without the private key, forging a signature on a
+new message is infeasible. Binding a signature to a Merkle root and a record
+count produces a commitment that a log holder cannot later repudiate or
+silently change, the mechanism transparency logs use to make omission
+detectable~\cite{rfc6962}.
 
-The remainder of the paper is organized as follows.
-Section~\ref{sec:background} reviews relevant background.
-Section~\ref{sec:related} surveys related work.
-Section~\ref{sec:problem} formalizes the problem.
-Section~\ref{sec:framework} describes the scoring model.
-Section~\ref{sec:architecture} presents the system architecture.
-Section~\ref{sec:methodology} details the experimental
-methodology.
-Section~\ref{sec:results} reports empirical results.
-Section~\ref{sec:discussion} interprets the findings and
-discusses limitations.
-Section~\ref{sec:conclusion} concludes.
+\section{Threat Model and Requirements}
+\label{sec:threat}
+\textbf{System.} An automated remediation pipeline emits one
+\emph{decision record} per action: scoring, scheduling, approval, deferral,
+risk acceptance, or outcome. Each record carries the (host, CVE) pair, the
+maintenance window, the decision type, the feature values used, the policy
+(weights) version, the threat-feed snapshot versions, and the framework
+version. Records are written to an append-only log.
 
-% =============================================================
-\section{Background}
-\label{sec:background}
+\textbf{Adversary.} The adversary's goal is post-hoc repudiation: to make
+the log tell a story other than what happened, undetectably. We consider two
+capability levels.
+\begin{itemize}
+\item \emph{Restricted adversary (W).} Can read and overwrite stored log
+bytes but does not recompute chain hashes; models partial or forensic
+tampering, an append-only medium, or a tool that lacks the chain logic.
+\item \emph{Insider (S).} Has log-write access and runs the logging code, so
+can recompute every downstream hash to restore internal consistency. This is
+the realistic regulated-fleet threat: a privileged operator covering tracks.
+\end{itemize}
+In both cases the adversary cannot forge a signature under a key it does not
+hold, and cannot alter an independently retained or published checkpoint.
+This is the standard trust anchor of transparency systems~\cite{rfc6962}.
 
-\subsection{Vulnerability Scoring and Prioritization}
+\textbf{Tampering classes.} We enumerate eight (Table~\ref{tab:attacks}):
+field modification, reordering, interior deletion, tail truncation, forged
+insertion, policy (weight) rollback, threat-feed forgery, and wholesale
+replacement. The last two are domain-specific: silently swapping in stale
+weights or an old feed snapshot changes \emph{why} a decision looks
+justified without changing the decision itself.
 
-CVSS version 3.1~\cite{first_cvss_v31} decomposes a
-vulnerability's intrinsic properties into Attack Vector, Attack
-Complexity, Privileges Required, User Interaction, Scope,
-Confidentiality Impact, Integrity Impact, and Availability
-Impact.  The resulting base score ranges from 0.0 to 10.0.
-Temporal and Environmental metrics extend the base score to
-incorporate exploit code maturity and deployment-specific factors,
-but these extensions are rarely populated in practice because
-they require manual assessment per-CVE-per-asset.
+\textbf{Requirements.} (R1) Any of the eight tampering classes, under either
+adversary, must be detectable by an independent verifier. (R2) Detection
+must not require trusting the party that holds the log. (R3) Overhead must be
+compatible with fleet scale (tens of thousands of decisions per cycle).
 
-NIST Special Publication 800-40 Revision 4~\cite{nist80040r4}
-recommends risk-based patch prioritization but does not specify a
-scoring formula.  SP 800-53 Revision 5~\cite{nist80053r5} and the
-CIS Critical Security Controls v8~\cite{cis_controls_v8} similarly
-provide control frameworks without operationally prescribing
-multi-signal composite scoring.
+\textbf{Worked scenario.} A public-facing server with a known-exploited
+vulnerability is deferred past its BOD 22-01 deadline because the automated
+scheduler exhausted its patch capacity on higher-scored hosts. The server is
+later compromised. During the post-incident review the operator, wishing to
+show the deferral was justified, has motive to (a) truncate the log so the
+deferral record is the last surviving entry with no contradicting outcome, or
+(b) rewrite the deferred record's feature values or the weights version so
+the decision appears to follow then-current policy. Under a naive chain both
+edits can be made to verify: (a) leaves an intact chain, and (b) an insider
+recomputes the downstream hashes. The reviewer cannot distinguish the
+doctored log from the truth. This is precisely the failure the ledger
+prevents.
 
-\subsection{Exploit Intelligence}
+\section{The Verifiable Provenance Ledger}
+\label{sec:design}
+The ledger has three layers (Fig.~\ref{fig:arch}); the first is the
+construction already present in the remediation framework, the second and
+third are the contribution.
 
-EPSS, maintained by FIRST, estimates the probability that a CVE
-will be observed in exploitation activity within the next thirty
-days~\cite{jacobs2021epss}.  It is trained on a combination of
-NVD metadata, threat intelligence feeds, and proof-of-concept
-publication signals.  Allodi and Massacci~\cite{allodi2014comparing}
-demonstrated using case-control study methodology that exploit
-databases carry significantly more predictive value for actual
-attacks than CVSS alone.  Sabottke et al.~\cite{sabottke2015vulnerability}
-further showed that social media signals about vulnerability
-discussions provide early warning of impending exploitation.
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+  font=\scriptsize,
+  box/.style={draw, rounded corners=2pt, align=center, inner sep=3pt, minimum height=0.5cm},
+  arr/.style={-{Stealth[length=1.6mm]}},
+  node distance=0.32cm and 0.42cm]
+\node[box, fill=blue!4] (pipe) {Remediation pipeline\\ \tiny score $\cdot$ schedule $\cdot$ approve $\cdot$ defer};
+\node[box, below=of pipe] (rec) {Decision record\\ \tiny pair, window, features, \textbf{weights ver.}, \textbf{feed ver.}};
+\node[box, below=of rec, fill=gray!8] (l1) {Layer 1: hash chain\\ \tiny $h_i = H(\mathrm{can}(r_i \Vert h_{i-1}))$};
+\node[box, below=of l1, fill=gray!8] (l2) {Layer 2: per-window Merkle root};
+\node[box, below=of l2, fill=blue!6] (l3) {Layer 3: Ed25519 signed checkpoint\\ \tiny $\mathrm{Sig}_{sk}(\text{count}, h_c, \text{window}, \text{root})$};
+\node[box, right=0.7cm of l3, fill=green!8] (anc) {Independent\\ anchor\\ (latest cp)};
+\node[box, below=of l3] (ver) {Verifier (holds $pk$, anchor $a$)};
+\draw[arr] (pipe) -- (rec);
+\draw[arr] (rec) -- (l1);
+\draw[arr] (l1) -- (l2);
+\draw[arr] (l2) -- (l3);
+\draw[arr] (l3) -- (anc);
+\draw[arr] (l3) -- (ver);
+\draw[arr] (anc.south) |- (ver.east);
+\end{tikzpicture}
+\caption{The three-layer verifiable provenance ledger. Each automated
+decision becomes a record; Layer 1 chains it, Layer 2 commits each window to a
+Merkle root, and Layer 3 signs periodic checkpoints whose latest instance is
+held independently. The verifier checks the presented log against the signed
+anchor, so detection never relies on the log holder.\\[2pt]
+\textit{Alt text:} A vertical block diagram. The remediation pipeline emits a
+decision record carrying weights and feed versions; the record feeds Layer 1
+(hash chain), then Layer 2 (per-window Merkle root), then Layer 3 (Ed25519
+signed checkpoint). The signed checkpoint flows both to an independent anchor
+store and to a verifier that also reads the anchor and the public key.}
+\label{fig:arch}
+\end{figure}
 
-\subsection{Regulatory Context}
+\textbf{Layer 1: append-only hash chain.} Each record's
+\texttt{record\_hash} is the SHA-256~\cite{fips180-4} of its canonical JSON
+serialization (keys sorted, tight separators, \texttt{record\_hash}
+excluded). Each record's \texttt{prior\_record\_hash} is the predecessor's
+\texttt{record\_hash}; the genesis predecessor is 64 zeros. Editing a stored
+record changes its recomputed hash and breaks the next link, so a restricted
+adversary's point edits are caught.
 
-CISA BOD 22-01~\cite{cisa_bod2201} requires all Federal Civilian
-Executive Branch agencies to remediate CVEs appearing on the KEV
-catalog within defined deadlines, typically fourteen days for
-internet-facing assets.  The KEV catalog~\cite{cisa_kev} is
-continuously updated and currently serves as the authoritative
-``must-patch'' list for Federal networks.
+\textbf{Layer 2: per-window Merkle commitment.} Within each maintenance
+window the record hashes are the leaves of a binary SHA-256 Merkle
+tree~\cite{merkle1980protocols}; the root commits to the exact multiset and
+order of records in that window. A checkpoint can therefore commit to a
+whole window in one hash, and membership of any record can be proven in
+logarithmic space.
 
-% =============================================================
+\textbf{Layer 3: signed checkpoints with an external anchor.} Periodically
+(every window, and at the log head) the auditor signs a \emph{checkpoint}:
+the tuple (record count, head hash, window id, Merkle root) under an Ed25519
+private key~\cite{rfc8032}; verifiers hold only the public key. The latest
+checkpoint is retained independently by the auditor or published to a
+transparency log, exactly as a Certificate Transparency monitor retains a
+signed tree head~\cite{rfc6962}. Verification (i) replays the hash chain,
+(ii) checks every checkpoint signature, and (iii) checks that the presented
+log reproduces the \emph{independently held} latest checkpoint's count, head
+hash, and Merkle root. Step (iii) is what defeats truncation and
+replacement: a short or rewritten log cannot reproduce a count and root it
+never signed, and the adversary cannot re-sign.
+
+\textbf{Construction.} Let $r_1,\dots,r_n$ be the records in append order,
+$H$ be SHA-256, and $\mathrm{can}(\cdot)$ the canonical serialization that
+excludes \texttt{record\_hash}. Define $h_0=0^{64}$ (genesis) and, for each
+$i$, $p_i = h_{i-1}$ (the prior link) and $h_i = H(\mathrm{can}(r_i \Vert
+p_i))$. A window $w$ with record hashes $\{h_j\}_{j\in w}$ has Merkle root
+$\mathrm{MR}(\{h_j\})$. A checkpoint at index $c$ is $s_c =
+\mathrm{Sig}_{sk}(c, h_c, w_c, \mathrm{MR}(h_{1..c}))$. Algorithms
+\ref{alg:append} and \ref{alg:verify} give the append and verify procedures;
+the verifier is parameterized by the trusted anchor $a$ (the genuine latest
+checkpoint) and the public key $pk$.
+
+\begin{algorithm}[!t]
+\caption{AppendRecord$(r,\ \text{state})$}
+\label{alg:append}
+\begin{algorithmic}[1]
+\State $p \gets \text{state.lastHash}$ \Comment{genesis $0^{64}$ if empty}
+\State $r.\text{prior} \gets p$
+\State $r.\text{hash} \gets H(\mathrm{can}(r))$ \Comment{prior is inside $\mathrm{can}(r)$}
+\State append $r$ to log; $\text{state.lastHash} \gets r.\text{hash}$
+\If{end of window \textbf{or} checkpoint interval reached}
+  \State $\rho \gets \mathrm{MR}(\text{hashes of window so far})$
+  \State emit $s \gets \mathrm{Sig}_{sk}(\text{count}, r.\text{hash}, r.\text{window}, \rho)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[!t]
+\caption{VerifyLedger$(\text{log},\ \text{checkpoints},\ a,\ pk)$}
+\label{alg:verify}
+\begin{algorithmic}[1]
+\State $p \gets 0^{64}$
+\For{each $r$ in log}                                  \Comment{Layer 1}
+  \If{$r.\text{prior} \neq p$ \textbf{or} $H(\mathrm{can}(r)) \neq r.\text{hash}$}
+    \State \Return \textsc{reject}
+  \EndIf
+  \State $p \gets r.\text{hash}$
+\EndFor
+\If{$\neg \mathrm{Verify}_{pk}(a)$} \Return \textsc{reject} \EndIf \Comment{trusted anchor}
+\If{$|\text{log}| \neq a.\text{count}$ \textbf{or} $\text{log}[a.\text{count}].\text{hash} \neq a.\text{head}$}
+  \State \Return \textsc{reject}                       \Comment{truncation / replacement}
+\EndIf
+\If{$\mathrm{MR}(\text{all log hashes}) \neq a.\text{root}$} \Return \textsc{reject} \EndIf
+\For{each checkpoint $s$ in checkpoints}               \Comment{Layer 3}
+  \If{$\neg \mathrm{Verify}_{pk}(s)$ \textbf{or} $\text{log}[s.\text{count}].\text{hash} \neq s.\text{head}$}
+    \State \Return \textsc{reject}
+  \EndIf
+\EndFor
+\State \Return \textsc{accept}
+\end{algorithmic}
+\end{algorithm}
+
+\section{Security Analysis}
+\label{sec:analysis}
+We state the guarantees \textsc{VerifyLedger} provides to an honest auditor
+holding the genuine latest checkpoint $a$ and the signer's public key $pk$,
+assuming SHA-256 collision-resistance and Ed25519 unforgeability. Throughout,
+``caught'' means \textsc{VerifyLedger} returns \textsc{reject}.
+
+\textbf{P1 (content integrity).} \emph{Any modification, reordering, or
+interior deletion of retained records is caught.}
+\emph{Sketch.} Changing any field of $r_i$ changes $H(\mathrm{can}(r_i))$, so
+either the recomputed self-hash fails the Layer-1 check, or, if the adversary
+fixes $r_i.\text{hash}$ and all downstream links, $r_i$'s leaf changes and so
+does the Merkle root over the full log, which no longer equals $a.\text{root}$
+(step iii). Reordering changes prior-links; interior deletion makes the next
+record's prior-link reference a digest no longer present. Both change the root.
+By collision-resistance the adversary cannot find a colliding substitute, so
+detection is certain. $\square$
+
+\textbf{P2 (completeness / truncation resistance).} \emph{Truncation or
+extension relative to the anchored count is caught, up to the
+inter-checkpoint residual.}
+\emph{Sketch.} $a$ binds the true count $n^\star$ and head $h_{n^\star}$ under
+$pk$. A presented log of length $n' \neq n^\star$ fails $|\text{log}| =
+a.\text{count}$; a log of equal length but different content fails the head or
+root equality. Forging a fresh $a'$ with the adversary's count requires an
+Ed25519 forgery. The sole gap is records created after the last anchored
+checkpoint, bounded by the interval (Table~\ref{tab:interval}); within
+anchored history, loss is always caught. $\square$
+
+\textbf{P3 (non-repudiation of policy context).} \emph{Rolling back the
+weights version or forging a feed-snapshot version is caught.}
+\emph{Sketch.} Both fields are inside $\mathrm{can}(\cdot)$, so altering them
+is a content edit and P1 applies. This is what makes the evidence about
+\emph{why} a decision was taken, not only \emph{that} it was recorded. $\square$
+
+\textbf{P4 (independence from the log holder).} Verification compares against
+$a$ and $pk$, never against the party storing the log, satisfying R2. The only
+trust assumptions are that $sk$ is held outside the log host and that $a$ is
+retained independently; under them, no log-only adversary, including the
+insider, evades P1-P3. $\square$
+
+Taken together, P1-P4 establish that an honest verifier accepts only a log
+identical to the one the auditor signed, modulo the bounded residual of P2.
+The evaluation in Section~\ref{sec:eval} confirms these guarantees empirically
+across all eight tampering classes and both adversaries.
+
+\section{Evaluation}
+\label{sec:eval}
+\textbf{Setup.} We implement both schemes and an adversarial harness that
+mirrors the framework's hash-chain semantics exactly. For each of the eight
+tampering classes and each adversary (W, S) we run 200 independent trials on
+seeded logs of 400 records across 8 windows, injecting the tamper at random
+positions and measuring whether an independent verifier rejects the log.
+Overhead is measured on logs of 1{,}000 to 50{,}000 records.
+
+\begin{table}[!t]
+\caption{Tampering classes and detection rate (200 trials each). W: restricted
+adversary; S: insider who recomputes hashes. ``Chain'' is the naive
+append-only hash chain; ``Ledger'' is the signed-checkpoint construction.\\[2pt]
+\textit{Alt text:} A table of eight attack rows. The naive chain detects six
+attacks under the restricted adversary but scores 0.00 on tail truncation and
+wholesale replacement, and 0.00 on all eight under the insider. The ledger
+scores 1.00 on every attack under both adversaries.}
+\label{tab:attacks}
+\centering
+\footnotesize
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+& \multicolumn{2}{c}{Chain} & \multicolumn{2}{c}{Ledger} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Tampering class & W & S & W & S \\
+\midrule
+Modify field        & 1.00 & 0.00 & 1.00 & 1.00 \\
+Reorder             & 1.00 & 0.00 & 1.00 & 1.00 \\
+Delete (interior)   & 1.00 & 0.00 & 1.00 & 1.00 \\
+Truncate tail       & \textbf{0.00} & 0.00 & 1.00 & 1.00 \\
+Insert forged       & 1.00 & 0.00 & 1.00 & 1.00 \\
+Weight rollback     & 1.00 & 0.00 & 1.00 & 1.00 \\
+Feed-version forge  & 1.00 & 0.00 & 1.00 & 1.00 \\
+Wholesale replace   & \textbf{0.00} & 0.00 & 1.00 & 1.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Detection.} Table~\ref{tab:attacks} and Fig.~\ref{fig:detection}
+report the results. The naive chain behaves as its design promises only
+against the restricted adversary, and even then has two structural blind
+spots: tail truncation and wholesale replacement are undetected
+($0.00$), because both leave an internally consistent chain. Against the
+insider the chain collapses entirely: detection is $0.00$ for all eight
+classes, since an attacker who recomputes hashes faces no obstacle. The
+signed-checkpoint ledger detects every class under both adversaries
+($1.00$), as Properties P1-P3 predict.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig1_detection.pdf}
+\caption{Tamper-detection rate by attack, scheme, and adversary. Green is
+$1.00$ (always caught), red is $0.00$ (never caught). The naive chain (left
+two columns) has red cells; the ledger (right two columns) is uniformly
+green.\\[2pt]
+\textit{Alt text:} A color heatmap, eight attack rows by four columns. The
+two naive-chain columns contain red 0.00 cells (all cells red in the insider
+column; truncate and replace red in the restricted column); the two ledger
+columns are entirely green at 1.00.}
+\label{fig:detection}
+\end{figure}
+
+\textbf{Overhead.} Fig.~\ref{fig:overhead} reports cost. Appending (hashing)
+sustains 68{,}000 to 110{,}000 records per second. Full verification is
+linear in log length: $10.5$~ms at 1{,}000 records and $925$~ms at
+50{,}000 records, dominated by rehashing, with a small additive
+signature-check term. Signed checkpoints add $0.21\%$ space, effectively
+constant in the log size because checkpoints are emitted per window rather
+than per record. The ledger therefore meets R3: a full cycle of tens of
+thousands of decisions is verifiable end to end in well under a second.
+
+\textbf{Where the verification cost goes.} The augmented verifier does
+everything the naive one does (replay the chain, the dominant cost) plus a
+Merkle-root recomputation and a bounded number of signature checks. At
+50{,}000 records the naive replay takes $505$~ms and the full augmented
+verification $925$~ms, so the added integrity machinery accounts for roughly
+$420$~ms, of which the signature checks are a small constant (200 Ed25519
+verifications at a per-window interval) and the remainder is the single
+Merkle pass. The added cost is thus linear in log length with a small
+constant, and independent of how many checkpoints are present beyond the
+signature-check term. For logs an order of magnitude larger than a single
+fleet cycle, verification remains well within an interactive budget, and
+sealed historical segments need not be re-verified once their anchoring
+checkpoint is checked.
+
+\textbf{The completeness residual is a tunable knob.} Property P2 leaves a
+residual: records created after the most recent anchored checkpoint are not
+yet covered, so the checkpoint interval bounds the window of undetectable
+recent truncation. This is a design parameter, not a flaw, and the cost of
+shrinking it is modest. Table~\ref{tab:interval} measures the tradeoff on a
+10{,}000-record log. Anchoring every 10 records caps the unanchored window at
+9 records for $5.2\%$ space and $4.0$~s of signing; anchoring every window
+(here, every 250-500 records) caps it at a few hundred records for $0.10$ to
+$0.21\%$ space and under $0.15$~s of signing. An operator chooses the
+interval from the audit requirement: tight intervals for high-assurance
+criminal-justice logs, looser intervals where a bounded recent window is
+acceptable. Streaming anchoring (signing every record) drives the residual
+to zero at the highest signing cost and is the appropriate setting when even
+a single unanchored decision is unacceptable.
+
+\begin{table}[!t]
+\caption{Checkpoint-interval tradeoff on a 10{,}000-record log. A tighter
+interval shrinks the unanchored-truncation residual at a modest, bounded cost
+in signing time and space.\\[2pt]
+\textit{Alt text:} A table with five interval rows. As the checkpoint
+interval decreases from 500 to 10 records, the maximum unanchored window
+falls from 499 to 9 records while space overhead rises from 0.10 to 5.19
+percent and signing time rises from 0.08 to 4.01 seconds.}
+\label{tab:interval}
+\centering
+\footnotesize
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Interval & Checkpoints & Residual ($\leq$) & Sign time (s) & Space (\%) \\
+\midrule
+10  & 1000 & 9   & 4.01 & 5.19 \\
+50  & 200  & 49  & 0.75 & 1.04 \\
+100 & 100  & 99  & 0.40 & 0.52 \\
+250 & 40   & 249 & 0.15 & 0.21 \\
+500 & 20   & 499 & 0.08 & 0.10 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig2_overhead.pdf}
+\caption{Left: full verification time scales linearly for both schemes; the
+ledger adds a small constant for signature checks. Right: checkpoint space
+overhead is near-constant at $0.21\%$.\\[2pt]
+\textit{Alt text:} Two charts. The left line chart shows verification time
+rising roughly linearly from about 10 ms at 1,000 records to about 925 ms at
+50,000 records, with the ledger curve slightly above the naive-chain curve.
+The right bar chart shows checkpoint space overhead flat at about 0.21
+percent across all log sizes.}
+\label{fig:overhead}
+\end{figure}
+
+\textbf{Robustness and false positives.} The detection results are stable
+across the experiment's randomization. Each cell of Table~\ref{tab:attacks}
+aggregates 200 trials in which the tamper is injected at an independently
+drawn position, and the rates are degenerate at $0$ or $1$: detection does
+not depend on \emph{where} the tamper lands, only on \emph{what} structural
+invariant it violates, as Properties P1-P3 predict. Before each trial the
+clean log is verified under both schemes; across all $1{,}600$ clean
+verifications ($8\times200$) neither scheme produced a single false positive,
+so the ledger never rejects an untampered log. The asymmetry is the intended
+one: the augmented ledger adds detections without adding false alarms.
+
+\section{Compliance Mapping}
+\label{sec:compliance}
+The construction discharges concrete audit controls.
+NIST SP 800-53 \textbf{AU-9 (Protection of Audit Information)} requires audit
+records be protected from unauthorized modification and deletion: P1 and P2
+provide detection of both, including by privileged
+users~\cite{nist2022sp80053}. \textbf{AU-10 (Non-repudiation)} is served by
+the Ed25519 signatures binding each checkpoint to the auditor key (P4).
+\textbf{AU-9(3)} (cryptographic protection) is met by SHA-256 plus EdDSA.
+The same evidence supports FedRAMP audit requirements and the CJIS Security
+Policy's logging and accountability provisions for criminal-justice
+information~\cite{cjis2023}. Because verification is independent of the log
+holder (R2), the evidence is meaningful to an external assessor, not only to
+the operator.
+
+\section{Deployment Considerations}
+\label{sec:deploy}
+\textbf{Integration.} The ledger sits behind the remediation pipeline's
+existing decision-logging call: every scorer, scheduler, and executor action
+already emits a record, so adoption is a drop-in replacement of the log
+writer plus a checkpoint emitter on the window boundary. No change to the
+prioritization logic is required, which is why the construction is
+independent of the scorer.
+
+\textbf{Key management.} The signing key is the trust root and must live
+outside the host that holds the log, for example in a hardware security
+module or a separate auditor service; otherwise an insider who holds both
+defeats P4. Verifiers need only the public key and the latest anchor.
+Rotation is handled by recording the key identifier in each checkpoint and
+publishing rotation events, standard EdDSA practice~\cite{rfc8032}. Key
+compromise is out of scope and composes with HSM and threshold-signing
+defenses.
+
+\textbf{Performance budget.} A maintenance cycle of $5\times10^4$ decisions
+appends in under a second (Fig.~\ref{fig:overhead}) and is fully verifiable
+in under a second; checkpoint signing at a per-window interval adds tens of
+milliseconds. These costs are negligible against the hours-to-days cadence of
+patch windows, so the ledger imposes no operational drag. Storage grows
+linearly with decisions plus the constant-fraction checkpoint overhead, and
+old segments can be sealed by their anchoring checkpoint and moved to cold
+storage without losing verifiability.
+
 \section{Related Work}
 \label{sec:related}
-
-Prior work on vulnerability prioritization spans three broad
-themes: score aggregation, machine learning prediction, and
-operational scheduling.
-
-\textbf{Score aggregation} methods extend CVSS with additional
-signals.  Allodi and Massacci~\cite{allodi2014comparing} established
-that exploit database presence is the strongest single predictor
-of real-world exploitation, dominating CVSS scores.  Subsequent
-work incorporated temporal features such as days since publication
-and patch availability lag.  EPSS~\cite{jacobs2021epss} currently
-represents the state of the art in single-signal exploit
-likelihood estimation.
-
-\textbf{Machine learning} approaches have applied random forests,
-gradient boosting, and neural networks to predict exploitation.
-Sabottke et al.~\cite{sabottke2015vulnerability} demonstrated
-that Twitter discussion volume substantially improves
-thirty-day exploitation prediction relative to NVD metadata alone.
-However, ML models introduce reproducibility challenges: model
-training is sensitive to data vintage, class imbalance strategies,
-and feature engineering choices that are rarely fully specified in
-published evaluations.
-
-\textbf{Operational scheduling} is comparatively understudied.
-Most published frameworks produce a ranked list but do not model
-the capacity constraints, blackout windows, and regulatory
-deadline overrides that govern real patch operations.  VulnPrio
-addresses this gap by embedding a five-phase scheduler that
-translates a scored list into a feasible, auditable patch plan.
-
-In contrast to prior superiority-claiming work, we deliberately
-report a transparent null result over a frozen, integrity-verified
-artifact, contributing benchmark infrastructure rather than a
-model performance claim.
-
-% =============================================================
-\section{Problem Statement}
-\label{sec:problem}
-
-\subsection{Fleet Model}
-
-Let $\mathcal{H}$ denote a set of hosts and $\mathcal{V}$ a set
-of CVEs observed at time $t_0$.  Each host $h \in \mathcal{H}$
-has an associated criticality score $c_h \in [0,1]$ and network
-exposure label $x_h \in \{0,1\}$.  A pair $(h, v) \in
-\mathcal{H} \times \mathcal{V}$ is \emph{exposed} if host $h$
-runs software affected by CVE $v$ as determined by the
-asset inventory at time $t_0$.
-
-\subsection{Scheduler Constraints}
-
-The patch scheduler operates under the following constraints:
-
-\begin{enumerate}
-
-\item \textbf{Capacity}: at most $C_{\text{max}}$ patch-host
-  pairs may be scheduled per planning cycle.
-
-\item \textbf{KEV deadlines}: any pair $(h,v)$ where $v \in
-  \text{KEV}$ must be scheduled before the regulatory deadline
-  $d_v$, regardless of composite score rank.
-
-\item \textbf{Risk acceptances}: a pair $(h,v)$ with an active
-  risk acceptance record is excluded from scheduling unless the
-  record has expired or been revoked.
-
-\item \textbf{Blackout windows}: hosts in designated maintenance
-  blackout windows may not receive patches during the blackout
-  period.
-
-\end{enumerate}
-
-\subsection{Optimization Objective}
-
-Define the \emph{Expected Exploited Host-Days} (EHD) metric as:
-\begin{equation}
-  \text{EHD} = \sum_{(h,v) \in \text{unpatched}} p_{h,v}
-                \cdot \Delta t_{h,v},
-\label{eq:ehd}
-\end{equation}
-where $p_{h,v}$ is the estimated exploitation probability for
-pair $(h,v)$ during the exposure window, and $\Delta t_{h,v}$
-is the number of days the pair remains unpatched within the
-evaluation horizon.  A lower EHD indicates that high-risk
-pairs were patched earlier.  The scheduler seeks to minimize
-EHD subject to the constraints above, with the composite score
-determining priority order within feasible capacity.
-
-% =============================================================
-\section{The VulnPrio Scoring Framework}
-\label{sec:framework}
-
-\subsection{Seven-Feature Representation}
-
-For each exposed pair $(h,v)$ at observation time $t_0$, we
-extract the following features:
-
-\begin{description}
-  \item[$E$] \textbf{EPSS score}: thirty-day exploitation
-    probability from the EPSS API, clipped to $[0,1]$.
-
-  \item[$K$] \textbf{KEV indicator}: binary flag ($K=1$ if
-    $v \in \text{KEV}$ at $t_0$, else $K=0$).
-
-  \item[$S$] \textbf{CVSS base score}: normalized to $[0,1]$
-    by dividing by 10.0.
-
-  \item[$C$] \textbf{Asset criticality}: host-level criticality
-    score derived from the synthetic asset inventory, $C \in [0,1]$.
-
-  \item[$X$] \textbf{Network exposure}: binary ($X=1$ for
-    internet-facing hosts, $0$ otherwise).
-
-  \item[$U$] \textbf{Urgency}: a synthetic urgency signal
-    capturing deadline proximity and threat intelligence freshness,
-    $U \in [0,1]$.
-
-  \item[$R$] \textbf{Remediation complexity}: normalized patch
-    difficulty score, $R \in [0,1]$; higher values indicate
-    harder-to-apply patches.
-\end{description}
-
-All features are observed at $t_0$; no information from the
-label window $(t_0, t_0 + H]$ is permitted to influence feature
-values, enforcing temporal discipline.
-
-\subsection{Composite Scoring Formula}
-
-The composite priority score for pair $(h,v)$ is:
-\begin{align}
-  \text{score}(h,v) =\;&
-    w_E \cdot E + w_K \cdot K + w_S \cdot S \notag \\
-    &+ w_C \cdot C + w_X \cdot X + w_U \cdot U - w_R \cdot R,
-\label{eq:score}
-\end{align}
-where $w_E, w_K, w_S, w_C, w_X, w_U, w_R \geq 0$ are
-non-negative weights.  The remediation complexity term is
-\emph{subtracted} to penalize pairs whose patches impose high
-operational overhead, consistent with the capacity-constrained
-scheduling context.
-
-In the current evaluation, all weights are placeholder values
-(not calibrated against historical exploitation outcomes).
-Weight calibration is identified as a direct extension in
-Section~\ref{sec:discussion}.
-
-\subsection{Label Definition}
-
-For evaluation purposes, a pair $(h,v)$ receives a positive
-label $y=1$ if CVE $v$ enters the KEV catalog or a public
-proof-of-concept (PoC) exploit is observed within the $H$-day
-evaluation window following $t_0$.  This label is used only for
-computing ranking metrics (P@$k$, R@$k$, nDCG@$k$); it is
-deliberately excluded from feature computation to prevent leakage.
-
-% =============================================================
-\section{System Architecture}
-\label{sec:architecture}
-
-Figure~\ref{fig:pipeline} illustrates the end-to-end pipeline.
-Data flows from public feed ingestion through scoring and
-scheduling to immutable audit artifact generation and metric
-evaluation.
-
-\begin{figure}[t]
-\centering
-\scalebox{0.87}{%
-\begin{tikzpicture}[node distance=0.45cm and 0.3cm]
-
-  %% Row 1: inputs
-  \node[bluebox] (nvd) {NVD / CVE Feed};
-  \node[bluebox, right=of nvd] (epss) {EPSS Feed};
-  \node[bluebox, right=of epss] (kev) {KEV Catalog};
-  \node[bluebox, right=of kev] (poc) {PoC Feed};
-
-  %% Row 2: fleet generator
-  \node[greenbox, below=0.55cm of epss, xshift=0.5cm]
-    (fleet) {Synthetic Fleet Generator (seeded)};
-
-  %% Row 3: pair builder
-  \node[greenbox, below=0.45cm of fleet]
-    (pairs) {Pair Builder (no future leakage)};
-
-  %% Row 4: feature frame
-  \node[greenbox, text width=2.3cm, below=0.45cm of pairs]
-    (feat) {7-Feature Frame:\\$E, K, S, C, X, U, R$};
-
-  %% Row 5: strategies
-  \node[greenbox, below=0.45cm of feat]
-    (strat) {13 Scoring Strategies (score per Eq.~\ref{eq:score})};
-
-  %% Row 6: scheduler
-  \node[orangebox, below=0.45cm of strat, xshift=-1.2cm]
-    (sched) {5-Phase Capacity-\\Constrained Scheduler};
-
-  \node[orangebox, right=0.3cm of sched]
-    (audit) {Append-Only\\Hash-Chained Audit Logs};
-
-  %% Row 7: freeze/verify
-  \node[orangebox, below=0.5cm of audit]
-    (freeze) {Freeze \& Verify\\(SHA-256 chain)};
-
-  %% Row 8: metrics
-  \node[graybox, below=0.5cm of sched]
-    (ehd) {EHD Metric\\(Eq.~\ref{eq:ehd})};
-
-  \node[graybox, right=0.3cm of ehd]
-    (rank) {Ranking Metrics\\P@$k$, nDCG@$k$};
-
-  \node[graybox, text width=2.3cm, right=0.3cm of rank]
-    (stat) {Descriptive Stats\\\& Integrity Checks};
-
-  %% Arrows: inputs -> fleet
-  \draw[arrow] (nvd.south)  -- ++(0,-0.25) -| (fleet.north);
-  \draw[arrow] (epss.south) -- (fleet.north);
-  \draw[arrow] (kev.south)  -- ++(0,-0.25) -| (fleet.north);
-  \draw[arrow] (poc.south)  -- ++(0,-0.25) -| (fleet.north);
-
-  %% Arrows: pipeline flow
-  \draw[arrow] (fleet.south) -- (pairs.north);
-  \draw[arrow] (pairs.south) -- (feat.north);
-  \draw[arrow] (feat.south)  -- (strat.north);
-  \draw[arrow] (strat.south) -- ++(0,-0.15) -| (sched.north);
-  \draw[arrow] (sched.east)  -- (audit.west);
-  \draw[arrow] (audit.south) -- (freeze.north);
-  \draw[arrow] (sched.south) -- (ehd.north);
-  \draw[arrow] (strat.south) -- ++(0,-0.15) -| (rank.north);
-  \draw[arrow] (ehd.east)    -- (rank.west);
-  \draw[arrow] (rank.east)   -- (stat.west);
-
-\end{tikzpicture}%
-}% end \scalebox
-\caption{VulnPrio end-to-end pipeline.
-  \textit{Blue}: public data feeds ingested as read-only inputs.
-  \textit{Green}: synthetic fleet generation, pair construction,
-  feature extraction, and scoring.
-  \textit{Orange}: capacity-constrained scheduling, append-only
-  audit log production, and hash-chain verification.
-  \textit{Gray}: metric computation, descriptive statistics, and
-  integrity checks.
-  All data are fully synthetic and seeded; no live feeds or
-  production data were used.\\[2pt]\textit{Alt text:} A top-to-bottom
-  TikZ flow diagram of the VulnPrio pipeline. Four blue input boxes
-  (NVD/CVE Feed, EPSS Feed, KEV Catalog, PoC Feed) feed a column of
-  green processing boxes (synthetic fleet generator, pair builder,
-  7-feature frame, 13 scoring strategies), which feed orange scheduling
-  and audit boxes (5-phase scheduler, append-only hash-chained audit
-  logs, freeze and verify) and gray metric boxes (EHD metric, ranking
-  metrics, descriptive statistics and integrity checks), connected by
-  directed arrows showing data flow.}
-\label{fig:pipeline}
-\end{figure}
-
-\subsection{Public Feed Ingestion}
-
-In the research prototype, all feeds are simulated from seeded
-random processes that match the distributional properties of
-their real counterparts.  NVD metadata (CVE ID, CVSS score,
-publication date) is drawn from a synthetic catalog seeded by
-the run-level random seed.  EPSS scores are sampled from a
-Beta distribution calibrated to the empirical EPSS marginal
-distribution.  KEV membership is assigned with a seed-controlled
-Bernoulli process.  PoC presence is assigned analogously.
-
-\subsection{Synthetic Fleet Generator}
-
-The fleet generator produces a synthetic set of hosts with
-configurable size, criticality distribution, and network exposure
-fractions.  Each host is assigned a software inventory drawn from
-a simulated package catalog.  Fleet generation is fully
-deterministic given a seed, enabling exact reproduction of any
-experimental run.
-
-\subsection{Pair Builder}
-
-The pair builder enumerates all $(h,v)$ pairs where host $h$'s
-software inventory includes a package version affected by CVE
-$v$, as of time $t_0$.  Feature values for each pair are
-extracted \emph{only} from information available at $t_0$.
-Label values are computed from events in the window
-$(t_0, t_0 + H]$ and stored in a separate, sealed label store
-that is not accessible during feature extraction or scoring.
-
-\subsection{Five-Phase Scheduler}
-\label{sec:scheduler}
-
-The scheduler processes the ranked pair list in five sequential
-phases:
-
-\begin{enumerate}[leftmargin=*]
-  \item \textbf{KEV-deadline override}: pairs where $v \in
-    \text{KEV}$ and the regulatory deadline $d_v$ falls within
-    the planning horizon are unconditionally promoted to the head
-    of the schedule, consuming capacity first.
-
-  \item \textbf{Risk acceptance reawakening}: pairs with expired
-    or revoked risk acceptance records are reinstated into the
-    eligible set.
-
-  \item \textbf{Greedy fill under blackout}: remaining capacity
-    is filled greedily in composite-score descending order,
-    skipping pairs whose hosts are in active blackout windows.
-
-  \item \textbf{Bundle expansion}: patch bundles (groups of
-    related CVEs that must be applied together) are expanded
-    atomically; if expanding a bundle would exceed capacity, the
-    entire bundle is deferred to the next cycle.
-
-  \item \textbf{Cycle summary}: the scheduler emits a structured
-    summary record containing: total pairs scheduled, capacity
-    utilization fraction, KEV pairs forced, risk acceptance
-    records processed, and blackout-excluded pairs.
-\end{enumerate}
-
-\subsection{Append-Only Hash-Chained Audit Logs}
-
-Every scheduling decision is recorded as an \texttt{AuditDecisionRecord}
-containing: timestamp, CVE ID, host identifier, decision
-(schedule / defer / force-KEV / risk-accepted / blackout-skip),
-composite score at decision time, the active weight vector, and
-a SHA-256 hash of the current record concatenated with the hash
-of the immediately preceding record (chain pointer).  Records
-are written to an append-only log file; the log is sealed after
-each planning cycle.
-
-Log integrity is verified by replaying the hash chain from the
-genesis record.  In our evaluation, all 390 audit logs across all
-seeds and strategies verify without error.
-
-% =============================================================
-\section{Experimental Methodology}
-\label{sec:methodology}
-
-\subsection{Evaluation Infrastructure}
-
-All experiments were executed using a fully self-contained
-Python pipeline with no external service dependencies.  Results
-were frozen to Parquet files immediately upon computation.
-Frozen files are hash-verified before downstream analysis.  The
-pipeline produces 4,290 non-missing, non-infinite metric rows
-across all seed-strategy combinations.
-
-\subsection{Seeds and Strategies}
-
-We use 30 independent random seeds (seed-stratified random
-ordering serves as one of the 13 strategies, with each seed
-producing a distinct random ordering).  The 13 strategies
-evaluated are:
-
-\begin{enumerate}[leftmargin=*]
-  \item \textbf{proposed\_full}: VulnPrio with all seven features
-    and placeholder weights (Equation~\ref{eq:score}).
-  \item \textbf{proposed\_no\_criticality}: Equation~\ref{eq:score}
-    with the asset-criticality term $w_C \cdot C$ removed.
-  \item \textbf{proposed\_no\_exposure}: Equation~\ref{eq:score}
-    with the network-exposure term $w_X \cdot X$ removed.
-  \item \textbf{epss\_only}: rank by $E$ descending.
-  \item \textbf{cvss\_only}: rank by $S$ descending.
-  \item \textbf{kev\_first}: KEV members first, then by $E$
-    descending.
-  \item \textbf{cvss\_plus\_epss\_plus\_kev}: linear combination of
-    $S$, $E$, and $K$ only, equal weights.
-  \item \textbf{cvss\_x\_epss}: product of $S$ and $E$.
-  \item \textbf{cve\_sum}: rank by the summed per-CVE score.
-  \item \textbf{cve\_max}: rank by the maximum per-CVE score.
-  \item \textbf{cve\_mean}: rank by the mean per-CVE score.
-  \item \textbf{random}: seed-stratified random ordering.
-  \item \textbf{oracle}: label-prioritizing reference ranker with
-    foreknowledge of exploit labels (upper-reference, not a
-    strict EHD lower bound under capacity constraints).
-\end{enumerate}
-
-\subsection{Temporal Discipline}
-
-For each seed, the dataset is split into observation window and
-label window.  Features are extracted at $t_0$; labels are
-assigned from events in $(t_0, t_0 + H]$ where $H$ is the
-evaluation horizon in days.  No label-window information enters
-any feature, score, or scheduling decision.  This protocol
-prevents temporal leakage that has been identified as a common
-validity threat in vulnerability prediction
-literature~\cite{jacobs2021epss}.
-
-\subsection{Primary Metric: EHD}
-
-EHD (Equation~\ref{eq:ehd}) integrates exploit probability over
-unpatched exposure time.  It is computed independently for each
-seed-strategy combination.  Lower EHD is better.  Across 30
-seeds and 13 strategies there are $30 \times 13 = 390$
-seed-strategy cells; with 11 metrics recorded per cell, this
-yields the observed count of $390 \times 11 = 4{,}290$ non-missing
-metric rows.
-
-\subsection{Ranking Metrics}
-
-Secondary ranking metrics are Precision at $k$ (P@$k$),
-Recall at $k$ (R@$k$), and Normalized Discounted Cumulative Gain
-at $k$ (nDCG@$k$), reported at $k = 10$.  Positive labels
-are defined as described in Section~\ref{sec:framework}.
-
-\subsection{Statistical Reporting}
-
-This study uses descriptive-only reporting.  Paired comparison
-helpers, the Wilcoxon signed-rank test~\cite{wilcoxon1945}, Holm
-correction~\cite{holm1979} for the $\binom{13}{2} = 78$ pairwise
-comparisons, and bias-corrected and accelerated (BCa)
-bootstrap~\cite{efron1987better} confidence intervals, are
-implemented in the pipeline but are \emph{not} applied as
-significance claims here.  We refrain from hypothesis testing
-because the null result is already evident from the overlapping
-per-seed distributions and the sub-0.5\% inter-strategy spread,
-which is smaller than the per-seed standard deviation.
-
-% =============================================================
-\section{Results}
-\label{sec:results}
-
-\subsection{Primary EHD Results}
-
-Table~\ref{tab:ehd_primary} reports mean EHD with standard
-deviation and the relative position against the \texttt{random}
-and \texttt{epss\_only} references across 30 seeds for all 13
-strategies (visualized in Figure~\ref{fig:ehd_by_strategy}).
-Mean absolute EHD clusters around $1.12 \times 10^6$ simulated
-host-days for every strategy.  The nominal ordering places
-\texttt{cvss\_only} ($1.1190 \times 10^6$) and \texttt{oracle}
-($1.1193 \times 10^6$) at the low end and
-\texttt{proposed\_no\_criticality} ($1.1243 \times 10^6$) at the
-high end; inter-strategy differences are negligible relative to
-the per-seed standard deviation.
-
-\begin{table}[t]
-\caption{EHD Primary Results: Mean $\pm$ Std (30 seeds), with
-         relative position vs.\ \texttt{random} and
-         \texttt{epss\_only} and fraction of oracle headroom.
-         Lower EHD is better; a positive relative value means the
-         strategy has lower EHD than the reference.  Strategies
-         ordered by ascending mean EHD.}
-\label{tab:ehd_primary}
+Hash-linked records for tamper-evident timestamping originate with Haber and
+Stornetta~\cite{haber1991timestamp}; Schneier and Kelsey applied chaining to
+secure audit logs on untrusted machines~\cite{schneier1999secure}. Crosby
+and Wallach showed that naive chains are costly to verify and introduced
+history trees for efficient tamper-evident logging~\cite{crosby2009tamper};
+our per-window Merkle commitment is in this lineage. Certificate
+Transparency~\cite{rfc6962} contributes the operational pattern we adopt: a
+signed commitment to log state, held independently, that makes omission
+detectable. Table~\ref{tab:related} situates the construction: prior
+tamper-evident logging gives content integrity and, with an external monitor,
+completeness, but is not specialized to decision provenance; our contribution
+is to instantiate these guarantees for \emph{autonomous remediation},
+characterize the hash-chain blind spot adversarially in that setting, bind
+policy and feed context into the evidence, and quantify the cost at fleet
+scale. This is orthogonal to work on the prioritization decision itself (for
+example EPSS-based ranking~\cite{jacobs2021epss}): we make the \emph{record}
+of any such decision trustworthy, whatever scorer produced it.
+
+\begin{table}[!t]
+\caption{Where the verifiable provenance ledger sits. Content: detects edits;
+Completeness: detects truncation/omission; Insider: holds against an adversary
+who recomputes hashes; Context: binds policy/feed version into the evidence.\\[2pt]
+\textit{Alt text:} A comparison table. Plain hash chains provide content
+integrity only. Schneier-Kelsey and history trees add efficiency. Certificate
+Transparency adds completeness and insider resistance via external anchoring.
+This work provides all four properties including decision-context binding.}
+\label{tab:related}
 \centering
 \footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{@{}lrrrrr@{}}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
-\textbf{Strategy} & \textbf{Mean EHD} & \textbf{Std} &
-  \textbf{rel.\ rand} & \textbf{rel.\ EPSS} &
-  \textbf{frac.\ orc.} \\
+Approach & Content & Complete & Insider & Context \\
 \midrule
-cvss\_only               & 1{,}118{,}983 & 3{,}440 & $+0.205\%$ & $+0.260\%$ & $1.177$ \\
-oracle                   & 1{,}119{,}328 & 3{,}436 & $+0.174\%$ & $+0.230\%$ & $1.000$ \\
-cve\_sum                 & 1{,}120{,}720 & 4{,}943 & $+0.050\%$ & $+0.105\%$ & $0.285$ \\
-random                   & 1{,}121{,}276 & 3{,}398 & $0.000\%$ & $+0.056\%$ & $0.000$ \\
-cve\_max                 & 1{,}121{,}346 & 4{,}915 & $-0.006\%$ & $+0.050\%$ & $-0.036$ \\
-proposed\_no\_exposure   & 1{,}121{,}570 & 4{,}704 & $-0.026\%$ & $+0.030\%$ & $-0.151$ \\
-proposed\_full           & 1{,}121{,}717 & 4{,}874 & $-0.039\%$ & $+0.017\%$ & $-0.226$ \\
-epss\_only               & 1{,}121{,}903 & 4{,}887 & $-0.056\%$ & $0.000\%$ & $-0.322$ \\
-kev\_first               & 1{,}121{,}903 & 4{,}887 & $-0.056\%$ & $0.000\%$ & $-0.322$ \\
-cvss\_plus\_epss\_plus\_kev & 1{,}122{,}106 & 5{,}235 & $-0.074\%$ & $-0.018\%$ & $-0.426$ \\
-cvss\_x\_epss            & 1{,}122{,}376 & 5{,}172 & $-0.098\%$ & $-0.042\%$ & $-0.565$ \\
-cve\_mean                & 1{,}122{,}596 & 5{,}245 & $-0.118\%$ & $-0.062\%$ & $-0.678$ \\
-proposed\_no\_criticality & 1{,}124{,}320 & 4{,}320 & $-0.271\%$ & $-0.215\%$ & $-1.562$ \\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/fig_ehd_by_strategy}
-  \caption{Mean absolute EHD by strategy across 30 seeds. All 13 strategies cluster within 0.5\% of the mean EHD ($\approx 1.12 \times 10^6$ simulated host-days); no strategy is separable from the EPSS baseline or from random ordering, with all spreads within seed-to-seed variation.\\[2pt]\textit{Alt text:} A bar chart of mean Expected Exploited Host-Days (EHD) on the y-axis for each of the 13 strategies on the x-axis. All bars are nearly equal in height at about $1.12 \times 10^6$ host-days, clustering within 0.5\% of one another.}
-  \label{fig:ehd_by_strategy}
-\end{figure}
-
-\subsection{Strategy Comparison}
-
-Table~\ref{tab:strategy_comparison} presents the full 13-strategy
-comparison including ranking metrics and the signed difference in
-mean EHD relative to the \texttt{epss\_only} baseline
-(Figure~\ref{fig:delta_ehd} plots the $\Delta$EHD values).
-
-\begin{table}[t]
-\caption{Strategy Comparison: 13 strategies $\times$ key metrics
-         (30 seeds). $\delta_{\text{EHD}}$: signed difference in
-         mean EHD vs.\ \texttt{epss\_only} (negative is lower
-         EHD, i.e.\ better). P@10 and nDCG@10 are means across
-         seeds. Differences are within seed noise; no
-         significance tests are applied.}
-\label{tab:strategy_comparison}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-\textbf{Strategy} & \textbf{EHD Mean} &
-  \textbf{P@10} & \textbf{nDCG@10} &
-  $\boldsymbol{\delta_{\text{EHD}}}$ \\
-\midrule
-cvss\_only               & 1{,}118{,}983 & 1.00 & 1.00 & $-2{,}920$ \\
-oracle                   & 1{,}119{,}328 & 1.00 & 1.00 & $-2{,}575$ \\
-cve\_sum                 & 1{,}120{,}720 & 0.80 & 0.80 & $-1{,}183$ \\
-random                   & 1{,}121{,}276 & 0.73 & 0.73 & $-627$ \\
-cve\_max                 & 1{,}121{,}346 & 0.70 & 0.70 & $-557$ \\
-proposed\_no\_exposure   & 1{,}121{,}570 & 0.72 & 0.72 & $-333$ \\
-proposed\_full           & 1{,}121{,}717 & 0.69 & 0.69 & $-186$ \\
-epss\_only               & 1{,}121{,}903 & 0.63 & 0.63 & $0$ \\
-kev\_first               & 1{,}121{,}903 & 0.63 & 0.63 & $0$ \\
-cvss\_plus\_epss\_plus\_kev & 1{,}122{,}106 & 0.60 & 0.60 & $+203$ \\
-cvss\_x\_epss            & 1{,}122{,}376 & 0.57 & 0.57 & $+473$ \\
-cve\_mean                & 1{,}122{,}596 & 0.53 & 0.53 & $+693$ \\
-proposed\_no\_criticality & 1{,}124{,}320 & 0.30 & 0.30 & $+2{,}417$ \\
+Plain hash chain~\cite{haber1991timestamp}      & \checkmark &            &            &            \\
+Secure audit log~\cite{schneier1999secure}      & \checkmark &            &            &            \\
+History tree~\cite{crosby2009tamper}            & \checkmark & \checkmark &            &            \\
+Cert. Transparency~\cite{rfc6962}               & \checkmark & \checkmark & \checkmark &            \\
+\textbf{This work}                              & \checkmark & \checkmark & \checkmark & \checkmark \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The maximum inter-strategy EHD spread, from \texttt{cvss\_only}
-to \texttt{proposed\_no\_criticality}, is approximately
-$5{,}337$ host-days against a mean of approximately
-$1.122 \times 10^6$, a relative spread of $0.48\%$.  This is
-within the per-seed standard deviations of $3{,}400$-$5{,}200$
-host-days, so the strategies are not separable on EHD.
-\texttt{proposed\_full}'s nominal gain over \texttt{epss\_only}
-($186$ host-days, $\approx 0.017\%$) is an order of magnitude
-smaller than the seed standard deviation, and \texttt{random}
-appears nominally better than \texttt{epss\_only} by a similar
-margin, confirming that these sub-$0.1\%$ gaps are noise.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/fig_delta_ehd_vs_epss_by_strategy}
-  \caption{$\Delta$EHD relative to EPSS baseline per strategy (mean across 30 seeds). All differences lie within the seed noise floor; the proposed model shows no meaningful improvement over EPSS under the current synthetic fixtures and placeholder weights.\\[2pt]\textit{Alt text:} A bar chart of the signed difference in mean EHD relative to the EPSS-only baseline (y-axis) for each strategy (x-axis). Bars are small and span both positive and negative values, ranging from about $-2{,}920$ to $+2{,}417$ host-days, all within the seed noise floor.}
-  \label{fig:delta_ehd}
-\end{figure}
-
-\subsection{Ranking Metrics}
-
-Table~\ref{tab:ranking_metrics} reports the ranking metric suite
-at $k = 10$.  Under the toy fixtures (small CVE catalog, high
-positive base rate), \texttt{oracle} and \texttt{cvss\_only}
-attain perfect P@10 and nDCG@10 ($1.0$), while \texttt{random}
-($0.73$) exceeds \texttt{proposed\_full} ($0.69$), indicating
-that top-$k$ precision does not discriminate between methods on
-this run.  Recall@10 is uniformly small ($\approx 5 \times
-10^{-4}$) by construction.  These ranking differences are not
-sufficient to distinguish strategies on the primary operational
-metric~\cite{jacobs2021epss, allodi2014comparing}.
-
-\begin{table}[t]
-\caption{Ranking Metrics at $k=10$: P@10, R@10, and nDCG@10
-         (means across 30 seeds, all 13 strategies). Censored
-         labels excluded. These ranking differences do not
-         distinguish strategies on the primary EHD metric;
-         shown for completeness.}
-\label{tab:ranking_metrics}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-\textbf{Strategy} & \textbf{P@10} & \textbf{R@10} &
-  \textbf{nDCG@10} \\
-\midrule
-cvss\_only               & 1.00 & $6.5\times10^{-4}$ & 1.00 \\
-oracle                   & 1.00 & $6.5\times10^{-4}$ & 1.00 \\
-cve\_sum                 & 0.80 & $5.2\times10^{-4}$ & 0.80 \\
-random                   & 0.73 & $4.7\times10^{-4}$ & 0.73 \\
-proposed\_no\_exposure   & 0.72 & $4.7\times10^{-4}$ & 0.72 \\
-cve\_max                 & 0.70 & $4.5\times10^{-4}$ & 0.70 \\
-proposed\_full           & 0.69 & $4.5\times10^{-4}$ & 0.69 \\
-epss\_only               & 0.63 & $4.1\times10^{-4}$ & 0.63 \\
-kev\_first               & 0.63 & $4.1\times10^{-4}$ & 0.63 \\
-cvss\_plus\_epss\_plus\_kev & 0.60 & $3.9\times10^{-4}$ & 0.60 \\
-cvss\_x\_epss            & 0.57 & $3.7\times10^{-4}$ & 0.57 \\
-cve\_mean                & 0.53 & $3.5\times10^{-4}$ & 0.53 \\
-proposed\_no\_criticality & 0.30 & $1.9\times10^{-4}$ & 0.30 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Audit Integrity}
-
-Table~\ref{tab:audit_integrity} summarizes hash-chain verification
-across all runs.  Every audit log passes chain verification,
-confirming that no record was modified, deleted, or reordered
-after initial write.
-
-\begin{table}[t]
-\caption{Audit Integrity Check Results (all 390 runs).}
-\label{tab:audit_integrity}
-\centering
-\footnotesize
-\begin{tabular}{@{}lrr@{}}
-\toprule
-\textbf{Check} & \textbf{Count} & \textbf{Pass Rate} \\
-\midrule
-Total audit log runs        & 390    & \\
-Logs verified (hash chain)  & 390    & 100.0\% \\
-Logs with chain break       & 0      & 0.0\% \\
-Frozen metric rows          & 4{,}290 & no NaN / no $\infty$ \\
-Records with hash mismatch  & 0      & 0.0\% \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Operational Metrics}
-
-Table~\ref{tab:operational} reports scheduler feasibility and
-capacity utilization across all strategy-seed combinations.
-Figure~\ref{fig:fraction_oracle} shows the fraction of oracle
-EHD reduction achieved, and Figure~\ref{fig:capacity_sensitivity}
-plots sensitivity to patch capacity.
-Figure~\ref{fig:scheduler_feasibility} confirms that all 390 runs
-produced feasible schedules.
-
-\begin{table}[t]
-\caption{Operational Metrics: Scheduler Feasibility and
-         Capacity Utilization (means across 30 seeds,
-         all strategies).}
-\label{tab:operational}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{} >{\raggedright\arraybackslash}p{3.3cm} r >{\raggedright\arraybackslash}p{2.2cm} @{}}
-\toprule
-\textbf{Metric} & \textbf{Value} & \textbf{Notes} \\
-\midrule
-Feasible schedules (of 390)    & 390    & 100\% feasibility \\
-Scheduled count (per window)   & 100    & capacity binding \\
-Capacity efficiency (range)    & 0.30-1.00 & \texttt{proposed\_full} 0.65 \\
-KEV breach rate (range)        & 0.985-0.996 & capacity-dominated \\
-Risk-acceptance rate (range)   & 0.000-0.004 & near zero \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/fig_fraction_of_oracle}
-  \caption{Fraction-of-oracle scale (random $= 0$, oracle $= 1$) for all 13 strategies, mean across 30 seeds. Several strategies fall outside $[0,1]$ (\eg \texttt{cvss\_only} $\approx 1.18$, \texttt{proposed\_full} $\approx -0.23$, \texttt{proposed\_no\_criticality} $\approx -1.56$); because the label-prioritizing oracle is not a strict EHD lower bound under capacity constraints, these out-of-range values reflect a metric artifact rather than genuine performance, and the within-noise spread means the scale is not a reliable ranking signal in this run.\\[2pt]\textit{Alt text:} A bar chart showing the fraction-of-oracle EHD reduction (y-axis) for each strategy (x-axis), on a scale where random equals 0 and oracle equals 1. Several bars fall outside the $[0,1]$ range, with \texttt{cvss\_only} near $1.18$ and \texttt{proposed\_no\_criticality} near $-1.56$, reflecting a metric artifact.}
-  \label{fig:fraction_oracle}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/fig_capacity_sensitivity_delta_ehd}
-  \caption{Capacity sensitivity: EHD as the patch-capacity ratio varies across the swept levels. EHD decreases substantially as capacity increases, confirming that capacity is the dominant EHD driver; at any fixed capacity level the baselines remain tightly clustered, so the capacity setting matters far more than the choice of ordering strategy among them.\\[2pt]\textit{Alt text:} A line chart of EHD (y-axis) against the patch-capacity ratio across the swept levels (x-axis). The curves decrease substantially as capacity increases and remain tightly grouped across strategies at every fixed capacity level.}
-  \label{fig:capacity_sensitivity}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/fig_scheduler_feasibility_sentinel}
-  \caption{Scheduler feasibility sentinel across all 390 strategy$\times$seed runs. Every run produces a feasible schedule (feasibility rate = 1.0), and scheduled count equals the per-window capacity (100) throughout, confirming correctness of the scheduler (Section~\ref{sec:scheduler}). Under the binding capacity constraint, the KEV-deadline breach rate is uniformly high ($\approx 0.985$-$0.996$), reflecting capacity saturation rather than a Phase 1 fault.\\[2pt]\textit{Alt text:} A sentinel chart over all 390 strategy-by-seed runs showing the feasibility rate flat at 1.0 and the scheduled count flat at the per-window capacity of 100, while the KEV-deadline breach rate stays uniformly high between about $0.985$ and $0.996$.}
-  \label{fig:scheduler_feasibility}
-\end{figure}
-
-% =============================================================
 \section{Discussion}
 \label{sec:discussion}
+\textbf{From ``which to patch'' to ``can we prove what we did.''} Most
+vulnerability-management research optimizes the ranking
+decision~\cite{jacobs2021epss}. As that decision is automated, a second,
+orthogonal question becomes load-bearing: whether the institution can later
+\emph{prove}, to an adversarial reviewer, what its automation decided and on
+what basis. Verifiable provenance answers it independently of the scorer, so
+the same ledger serves any prioritization method, including future
+machine-learning ones whose decisions are harder to explain and therefore
+more in need of an incorruptible record.
 
-\subsection{Interpreting the Null Result}
+\textbf{What pre-stated, adversarially-tested guarantees buy.} A common
+failure mode in security engineering is to assert that a hash chain ``makes
+the log tamper-proof.'' Our evaluation shows that claim is false in two
+concrete ways against a realistic insider. Stating the guarantees as
+checkable properties (P1-P4) and then attacking the system across eight
+classes converts a vague assurance into a measured one. This discipline,
+rather than any single primitive, is what makes the construction defensible
+to an auditor or in a dispute.
 
-The central finding, that the 13 strategies are not separable
-on EHD, is not a failure of the framework.
-It is an honest characterization of the current research
-maturity.  Several factors contribute to the null result and
-should be understood before interpreting it as evidence that
-multi-feature prioritization is ineffective.
+\textbf{Generality.} Nothing in the ledger is specific to vulnerability data;
+it applies to any append-only stream of automated decisions that must remain
+attributable, such as access-control changes or model-driven enforcement
+actions. The vulnerability-remediation setting supplies a concrete,
+regulated, high-stakes instance with explicit deadline and accountability
+requirements (BOD 22-01, CJIS), which is why we evaluate it there.
 
-First, the \emph{weights are placeholders}.  The linear scoring
-formula (Equation~\ref{eq:score}) is theoretically grounded but
-requires calibration against historical exploitation outcomes to
-set meaningful weights.  Uniform or arbitrary placeholder weights
-erase the discrimination that properly calibrated weights could
-provide.
+\section{Limitations}
+\label{sec:limitations}
+The completeness guarantee (P2) holds only up to the most recent anchored
+checkpoint; decisions made after the last checkpoint and before the next are
+not yet covered, so the inter-checkpoint interval bounds the undetectable
+truncation window. We checkpoint per window to keep this small, but
+streaming anchoring (signing every record, or near-real-time publication)
+would remove it at higher signing cost. The evaluation uses synthetic logs
+with the production record schema; it exercises the integrity machinery
+faithfully but does not model operational failure modes such as key
+compromise or clock manipulation, which are out of scope and would compose
+with standard key-management and trusted-time defenses. Finally, the trust
+anchor must genuinely be independent; if the adversary controls both the log
+and the retained checkpoint, no log-only scheme can help.
 
-Second, the \emph{data are fully synthetic}.  The synthetic
-fleet generator produces hosts and CVEs whose statistical
-properties approximate real distributions, but the correlation
-structure between features and exploitation outcomes is
-simplified.  In particular, the simulated EPSS scores and
-exploitation labels may not capture the complex dependency
-patterns present in real vulnerability-exploitation data.
-
-Third, the \emph{fleet size and capacity constraints} in the
-synthetic environment may suppress inter-strategy differences.
-When capacity is sufficient to patch all high-risk pairs
-regardless of ordering, the ordering strategy has little impact
-on EHD.
-
-\subsection{What the Benchmark Does Contribute}
-
-Despite the null result on EHD, VulnPrio delivers several
-substantive contributions.
-
-\textbf{Reproducible infrastructure.} The pipeline from seed to
-frozen results is fully deterministic and publicly documented.
-Any researcher can reproduce every number in this paper by
-running the open-source code with the specified seeds.
-
-\textbf{Audit artifact production.} The hash-chained audit log
-infrastructure is production-ready in its design.  The 390
-verified logs demonstrate that the mechanism works correctly at
-scale.  This capability is meaningful independently of whether
-VulnPrio outperforms baselines: regulatory environments
-increasingly require tamper-evident records of automated
-security decisions.
-
-\textbf{Falsifiable baseline.} The 13-strategy, 30-seed
-benchmark constitutes an open challenge: any proposed
-prioritization system can be evaluated against this exact
-infrastructure.  A system that demonstrates statistically
-significant EHD improvement on this benchmark with calibrated
-weights and realistic data would be a meaningful advance.
-
-\textbf{Honest null reporting.} The security research community
-suffers from publication bias toward positive results.  A
-transparent null finding, reported with descriptive statistics
-over a frozen, integrity-verified artifact and with the inter-strategy
-spread shown to be smaller than the per-seed standard deviation,
-provides calibration for future work.
-
-\subsection{Limitations}
-
-The primary limitations of this study are:
-
-\begin{enumerate}[leftmargin=*]
-  \item \textbf{Synthetic data.}  All results derive from seeded
-    synthetic data.  Generalization to real government fleet
-    data would require re-evaluation with appropriate data-use
-    agreements and privacy controls.
-
-  \item \textbf{Uncalibrated weights.}  Placeholder weights are
-    known to be suboptimal.  Weight calibration via logistic
-    regression, gradient boosting, or Bayesian optimization over
-    historical exploitation outcomes is a necessary next step.
-
-  \item \textbf{Fleet scale.}  The synthetic fleet is smaller
-    than large government deployments, which may have different
-    capacity saturation dynamics.
-
-  \item \textbf{Single planning horizon.}  EHD is measured over
-    a single $H$-day window.  Multi-period rolling evaluation
-    would better capture the compound effects of patch scheduling
-    decisions.
-
-  \item \textbf{No live feed integration.}  Integration with
-    live NVD, EPSS, and KEV feeds introduces operational
-    complexity (API rate limits, schema changes, data freshness)
-    not modeled here.
-\end{enumerate}
-
-\subsection{Sensitivity Analyses}
-
-To probe the robustness of the primary finding, we report
-exploratory sensitivity sweeps along three axes: blackout-window
-policy (Figure~\ref{fig:blackout_sensitivity}), weight-family
-variation (Figure~\ref{fig:weight_sensitivity}), and feature
-ablation (Figure~\ref{fig:feature_ablation}).  These sweeps are
-descriptive only; no significance tests are applied.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/fig_blackout_sensitivity_delta_ehd}
-  \caption{Blackout sensitivity: EHD across blackout policy levels (\textit{none}, \textit{light}, \textit{strict}). EHD increases monotonically as the blackout policy tightens (none $<$ light $<$ strict), for both the EPSS baseline and the proposed weight families, indicating that stricter maintenance windows raise residual exposure under the binding capacity constraint.\\[2pt]\textit{Alt text:} A grouped bar or line chart of EHD (y-axis) across three blackout policy levels (none, light, strict) on the x-axis, for both the EPSS baseline and the proposed weight families. EHD rises monotonically from none to light to strict.}
-  \label{fig:blackout_sensitivity}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/fig_weight_family_sensitivity_delta_ehd}
-  \caption{Weight-family sensitivity: EHD across design-prior weight families for the proposed scorer, alongside the fixed baselines. The single-signal baselines (\texttt{cvss\_only}, \texttt{epss\_only}, \texttt{kev\_first}, \texttt{cvss\_x\_epss}, \texttt{cvss\_plus\_epss\_plus\_kev}) cluster tightly, while the proposed weight families (\eg \texttt{w\_context\_dominant}, \texttt{w\_uniform}) show larger nominal separation, illustrating that the choice of weight prior, not the feature set alone, drives the proposed scorer's behavior. Reported descriptively without significance testing.\\[2pt]\textit{Alt text:} A bar chart of EHD (y-axis) for several design-prior weight families of the proposed scorer alongside the fixed single-signal baselines (x-axis). The single-signal baseline bars cluster tightly while the proposed weight-family bars (such as \texttt{w\_context\_dominant} and \texttt{w\_uniform}) show larger nominal separation.}
-  \label{fig:weight_sensitivity}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/fig_feature_ablation_delta_ehd}
-  \caption{Feature-ablation EHD: effect of removing each feature ($-C$, $-E$, $-K$, $-R$, $-S$, $-X$) from the composite score, under two weight families. Removing a single feature shifts mean EHD by amounts comparable to the cross-feature range; under the placeholder weights, no single removal dominates, while under the context-dominant weights the removals separate more visibly. Reported descriptively.\\[2pt]\textit{Alt text:} A grouped bar chart of EHD (y-axis) for each single-feature removal ($-C$, $-E$, $-K$, $-R$, $-S$, $-X$) on the x-axis, under two weight families. Under placeholder weights the bars are similar in height with no dominant removal; under context-dominant weights the bars separate more.}
-  \label{fig:feature_ablation}
-\end{figure}
-
-Across the three sensitivity axes, the descriptive picture is
-consistent with the primary result on the placeholder-weight
-single-cell run: the single-signal baselines remain tightly
-clustered, capacity and blackout policy move EHD more than the
-choice of ordering strategy among the baselines, and the proposed
-scorer's behavior is governed primarily by its weight prior.
-These sweeps are reported as observed and motivate calibrated,
-multi-cell evaluation as future work.
-
-\subsection{Scope Boundaries}
-
-This work does not constitute a deployment in any government
-operational environment.  It does not involve real agency data,
-real endpoint telemetry, or any production system.  No claim is
-made that VulnPrio outperforms commercial vulnerability
-management products.  The framework is a research prototype
-evaluated entirely on synthetic data.
-
-% =============================================================
 \section{Conclusion}
 \label{sec:conclusion}
+Automating remediation moves the trust boundary from the decision to its
+record. We showed adversarially that the append-only hash chains used for
+that record have a structural blind spot, undetectable to a restricted
+adversary for truncation and replacement and useless against a realistic
+insider, and we closed it with a verifiable provenance ledger combining
+per-window Merkle commitments and independently anchored Ed25519 checkpoints.
+The ledger detects all eight tampering classes under both adversaries at
+$0.21\%$ space overhead and sub-second verification for 50{,}000 records.
+The result is an accountability layer for autonomous security operations
+whose guarantees are pre-stated, adversarially tested, and reproducible.
 
-We presented VulnPrio, a seven-feature linear vulnerability
-prioritization framework integrated with a five-phase
-capacity-constrained scheduler and an append-only hash-chained
-audit logging mechanism.  We evaluated the framework against
-twelve competing strategies across 30 random seeds on a fully
-synthetic government endpoint fleet dataset, using Expected
-Exploited Host-Days as the primary operational metric and
-Precision, Recall, and nDCG at $k=10$ as secondary
-ranking metrics.
-
-The primary result is a transparent null: the 13
-strategies are not separable on EHD, with a total inter-strategy
-spread below 0.5\% of the mean that is smaller than the per-seed
-standard deviation.  We report descriptive statistics only and
-apply no significance tests, as the null is already evident from
-the overlapping per-seed distributions.  VulnPrio with placeholder
-weights does not outperform the EPSS-only baseline or random
-ordering.
-
-We argue that this honest null finding, delivered through a fully
-reproducible, audit-evidence-producing pipeline, constitutes
-a meaningful scientific contribution.  All 390 audit logs
-hash-verify correctly.  The 4,290-row frozen metric table is
-publicly released with the code.
-
-Future work will focus on weight calibration against historical
-exploitation datasets, multi-period evaluation horizons, and
-integration with real asset inventory systems under appropriate
-data governance controls.  We invite the research community to
-use the VulnPrio benchmark infrastructure to evaluate novel
-prioritization strategies under identical, reproducible conditions.
-
-% =============================================================
 \section*{Data Availability Statement}
-The data and code that support the findings of this study are openly available in the research-papers repository at \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper1}. The manuscript sources, figures, analysis code, and frozen result tables are included and regenerate every reported number deterministically from the fixed seeds.
+The data and code that support the findings of this study are openly
+available in the research-papers repository at
+\url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper1}.
+The ledger implementation, the adversarial harness, and the frozen result
+tables (\texttt{detection.csv}, \texttt{overhead.csv}, and
+\texttt{provenance\_summary.json}) are included and regenerate every reported
+number deterministically from the fixed seeds.
 
 \section*{Disclosure Statement}
 No potential conflict of interest was reported by the author.
@@ -1103,100 +694,66 @@ No potential conflict of interest was reported by the author.
 \section*{Funding}
 No funding was received.
 
-% =============================================================
-\balance
-
-% Generated by IEEEtran.bst, version: 1.14 (2015/08/26)
 \begin{thebibliography}{10}
 \providecommand{\url}[1]{#1}
 \csname url@samestyle\endcsname
-\providecommand{\newblock}{\relax}
-\providecommand{\bibinfo}[2]{#2}
-\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
-\providecommand{\BIBentryALTinterwordstretchfactor}{4}
-\providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
-\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
-  \fontdimen4\font\relax}
-\providecommand{\BIBforeignlanguage}[2]{{%
-\expandafter\ifx\csname l@#1\endcsname\relax
-\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
-\typeout{** loaded for the language `#1'. Using the pattern for}%
-\typeout{** the default language instead.}%
-\else
-\language=\csname l@#1\endcsname
-\fi
-#2}}
-\providecommand{\BIBdecl}{\relax}
-\BIBdecl
 
-\bibitem{cisa_bod2201}
-{Cybersecurity and Infrastructure Security Agency (CISA)}, ``Binding
-  operational directive 22-01: Reducing the significant risk of known exploited
-  vulnerabilities,''
-  \url{https://www.cisa.gov/binding-operational-directive-22-01}, 2021.
+\bibitem{cisa2021bod2201}
+{CISA}, ``Binding operational directive 22-01: Reducing the significant risk
+of known exploited vulnerabilities,'' U.S. Cybersecurity and Infrastructure
+Security Agency, Nov. 2021. [Online]. Available:
+\url{https://www.cisa.gov/news-events/directives/bod-22-01}
 
-\bibitem{first_cvss_v31}
-\BIBentryALTinterwordspacing
-{Forum of Incident Response and Security Teams (FIRST)}, ``Common vulnerability
-  scoring system version 3.1: Specification document,'' FIRST.org, Tech. Rep.,
-  2019. [Online]. Available:
-  \url{https://www.first.org/cvss/v3.1/specification-document}
-\BIBentrySTDinterwordspacing
+\bibitem{nist2022sp80040r4}
+{NIST}, ``Guide to enterprise patch management planning: Preventive
+maintenance for technology,'' National Institute of Standards and Technology,
+Special Publication 800-40 Rev.~4, Apr. 2022.
 
-\bibitem{allodi2014comparing}
-L.~Allodi and F.~Massacci, ``Comparing vulnerability severity and exploits
-  using case-control studies,'' \emph{ACM Transactions on Information and
-  System Security}, vol.~17, no.~1, pp. 1:1-1:20, 2014.
+\bibitem{nist2022sp80053}
+{NIST}, ``Security and privacy controls for information systems and
+organizations,'' National Institute of Standards and Technology, Special
+Publication 800-53 Rev.~5, Sep. 2020.
 
-\bibitem{sabottke2015vulnerability}
-\BIBentryALTinterwordspacing
-C.~Sabottke, O.~Suciu, and T.~Dumitras, ``Vulnerability disclosure in the age
-  of social media: Exploiting {Twitter} for predicting real-world exploits,''
-  in \emph{24th {USENIX} Security Symposium ({USENIX} Security 15)}, 2015, pp.
-  1041-1056. [Online]. Available:
-  \url{https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/sabottke}
-\BIBentrySTDinterwordspacing
+\bibitem{cjis2023}
+{Federal Bureau of Investigation}, ``Criminal justice information services
+(CJIS) security policy, version 5.9.2,'' 2022. [Online]. Available:
+\url{https://www.fbi.gov/file-repository/cjis-security-policy-v5-9-2-20221207.pdf}
+
+\bibitem{haber1991timestamp}
+S.~Haber and W.~S. Stornetta, ``How to time-stamp a digital document,''
+\emph{Journal of Cryptology}, vol.~3, no.~2, pp. 99-111, 1991.
+
+\bibitem{schneier1999secure}
+B.~Schneier and J.~Kelsey, ``Secure audit logs to support computer
+forensics,'' \emph{ACM Trans. Information and System Security}, vol.~2,
+no.~2, pp. 159-176, 1999.
+
+\bibitem{merkle1980protocols}
+R.~C. Merkle, ``Protocols for public key cryptosystems,'' in \emph{Proc.
+IEEE Symp. Security and Privacy}, 1980, pp. 122-134.
+
+\bibitem{crosby2009tamper}
+S.~A. Crosby and D.~S. Wallach, ``Efficient data structures for
+tamper-evident logging,'' in \emph{Proc. USENIX Security Symp.}, 2009, pp.
+317-334.
+
+\bibitem{rfc6962}
+B.~Laurie, A.~Langley, and E.~Kasper, ``Certificate transparency,'' RFC 6962,
+Internet Engineering Task Force, Jun. 2013.
+
+\bibitem{rfc8032}
+S.~Josefsson and I.~Liusvaara, ``Edwards-curve digital signature algorithm
+(EdDSA),'' RFC 8032, Internet Engineering Task Force, Jan. 2017.
+
+\bibitem{fips180-4}
+{NIST}, ``Secure hash standard (SHS),'' National Institute of Standards and
+Technology, FIPS PUB 180-4, Aug. 2015.
 
 \bibitem{jacobs2021epss}
-J.~Jacobs, S.~Romanosky, B.~Edwards, M.~Roytman, and I.~Adjerid, ``Exploit
-  prediction scoring system ({EPSS}),'' \emph{Digital Threats: Research and
-  Practice}, vol.~2, no.~3, pp. 14:1-14:17, 2021.
-
-\bibitem{nist80040r4}
-M.~Souppaya and K.~Scarfone, ``Guide to enterprise patch management planning:
-  Preventive maintenance for technology,'' National Institute of Standards and
-  Technology, Tech. Rep. {NIST} Special Publication 800-40 Revision 4, 2022.
-
-\bibitem{nist80053r5}
-{Joint Task Force}, ``Security and privacy controls for information systems and
-  organizations,'' National Institute of Standards and Technology, Tech. Rep.
-  {NIST} Special Publication 800-53 Revision 5, 2020.
-
-\bibitem{cis_controls_v8}
-{Center for Internet Security}, ``{CIS} critical security controls version 8,''
-  \url{https://www.cisecurity.org/controls/v8}, 2021.
-
-\bibitem{cisa_kev}
-{Cybersecurity and Infrastructure Security Agency (CISA)}, ``Known exploited
-  vulnerabilities catalog,''
-  \url{https://www.cisa.gov/known-exploited-vulnerabilities-catalog}, 2021.
-
-\bibitem{wilcoxon1945}
-F.~Wilcoxon, ``Individual comparisons by ranking methods,'' \emph{Biometrics
-  Bulletin}, vol.~1, no.~6, pp. 80-83, 1945.
-
-\bibitem{holm1979}
-\BIBentryALTinterwordspacing
-S.~Holm, ``A simple sequentially rejective multiple test procedure,''
-  \emph{Scandinavian Journal of Statistics}, vol.~6, no.~2, pp. 65-70, 1979.
-  [Online]. Available: \url{https://www.jstor.org/stable/4615733}
-\BIBentrySTDinterwordspacing
-
-\bibitem{efron1987better}
-B.~Efron, ``Better bootstrap confidence intervals,'' \emph{Journal of the
-  American Statistical Association}, vol.~82, no. 397, pp. 171-185, 1987.
+J.~Jacobs, S.~Romanosky, B.~Edwards, I.~Adjerid, and M.~Roytman, ``Exploit
+prediction scoring system (EPSS),'' \emph{Digital Threats: Research and
+Practice}, vol.~2, no.~3, pp. 1-17, 2021.
 
 \end{thebibliography}
-
 
 \end{document}
