@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldHalf, ExternalLink, StickyNote, Scale, X, Loader2, FileText } from "lucide-react";
+import { ArrowLeft, ShieldHalf, ExternalLink, StickyNote, Scale, X, Loader2, FileText, AlignLeft, User2, Building2, ListChecks } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -15,9 +15,27 @@ const PATENT_STATUS_CLS: Record<string, string> = {
   granted: "text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800 bg-emerald-500/10",
 };
 
+/* Extract a "## Heading" section (through the next "## ") from the patent markdown. */
+function grabSection(md: string, name: string): string {
+  const re = new RegExp(`(^|\\n)##\\s+${name}[^\\n]*[\\s\\S]*?(?=\\n##\\s|$)`, "i");
+  const m = md.match(re);
+  return m ? m[0].trim() : "";
+}
+
+const PATENT_TABS = [
+  { key: "full",     label: "Full document", Icon: FileText },
+  { key: "claims",   label: "Claims",        Icon: ListChecks },
+  { key: "abstract", label: "Abstract",      Icon: AlignLeft },
+] as const;
+type PatentTab = typeof PATENT_TABS[number]["key"];
+
+/* Full-screen patent reader styled like the papers viewer: rail-coloured header
+   (title, kind, status, metadata) + tab strip + scrolling content pane. */
 function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () => void }) {
   const [md, setMd] = useState<string | null>(null);
   const [err, setErr] = useState(false);
+  const [tab, setTab] = useState<PatentTab>("full");
+
   useEffect(() => {
     const abs = `${PAPERS_ROOT}/${patent.docPath}`;
     fetch(`/api/file?path=${encodeURIComponent(abs)}`)
@@ -31,23 +49,65 @@ function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () =>
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
+  const body = useMemo(() => {
+    if (!md) return "";
+    if (tab === "claims")   return grabSection(md, "Claims") || md;
+    if (tab === "abstract") return grabSection(md, "Abstract") || md;
+    return md;
+  }, [md, tab]);
+
+  const statusLabel = PATENT_STATUS_CLS[patent.status] ?? "";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm p-4 md:p-8 overflow-y-auto" onClick={onClose}>
-      <div className="bg-surface-0 border border-border rounded-2xl max-w-3xl w-full my-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="sticky top-0 flex items-center justify-between gap-4 px-6 py-3.5 border-b border-border bg-surface-1/95 backdrop-blur rounded-t-2xl">
-          <span className="inline-flex items-center gap-2 text-[12px] font-semibold text-fg">
-            <Scale size={14} className="text-accent" /> {patent.kind}
-          </span>
-          <button onClick={onClose} className="text-fg-4 hover:text-fg"><X size={18} /></button>
+    <div className="fixed inset-0 z-50 flex flex-col bg-surface-0">
+      {/* Header — mirrors the papers viewer */}
+      <div className="px-7 pt-5 pb-0 flex-shrink-0 border-b border-border backdrop-blur-md border-t-2 border-t-violet-500 bg-gradient-to-b from-violet-500/[0.04] to-transparent bg-surface-1/80">
+        <div className="flex items-start justify-between gap-6 mb-3">
+          <div className="min-w-0 flex-1">
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-fg-4 mb-1.5">
+              <Scale size={12} className="text-violet-500" /> {patent.kind}
+            </span>
+            <h1 className="text-[17px] font-bold text-fg leading-tight tracking-tight line-clamp-2">{patent.title}</h1>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${statusLabel}`}>{patent.status}</span>
+            <button onClick={onClose} title="Close (Esc)" className="inline-flex items-center justify-center w-7 h-7 rounded-md border border-border text-fg-4 hover:text-fg hover:border-accent/50 transition-colors">
+              <X size={16} />
+            </button>
+          </div>
         </div>
-        <div className="px-7 py-6">
+
+        {/* Metadata row — like the papers viewer's data-repo strip */}
+        <div className="flex items-center gap-x-5 gap-y-1 mb-3 flex-wrap text-[11px] text-fg-4">
+          <span className="inline-flex items-center gap-1.5"><User2 size={12} /> Inventor: <span className="text-fg-3 font-medium">{patent.inventor}</span></span>
+          <span className="inline-flex items-center gap-1.5"><Building2 size={12} /> Assignee: <span className="text-fg-3 font-medium">{patent.assignee}</span></span>
+          <span className="inline-flex items-center gap-1.5"><ListChecks size={12} /> <span className="text-fg-3 font-semibold">{patent.claims}</span> claims ({patent.independentClaims} independent)</span>
+        </div>
+
+        {/* Tab strip */}
+        <div className="flex gap-0 -mb-px overflow-x-auto hide-scrollbar">
+          {PATENT_TABS.map(({ key, label, Icon }) => {
+            const active = tab === key;
+            return (
+              <button key={key} onClick={() => setTab(key)}
+                className={`flex items-center gap-2 px-5 py-3 text-[11px] font-semibold border-b-2 whitespace-nowrap transition-all duration-150 flex-shrink-0 ${active ? "border-accent text-accent" : "border-transparent text-fg-4 hover:text-fg-2 hover:bg-surface-3/40"}`}>
+                <Icon size={13} className={active ? "text-accent" : "text-fg-4"} /> {label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="max-w-3xl mx-auto px-7 py-8">
           {err ? (
             <p className="text-[13px] text-red-500">Could not load the patent document.</p>
           ) : md === null ? (
             <p className="flex items-center gap-2 text-[13px] text-fg-4"><Loader2 size={14} className="animate-spin" /> Loading…</p>
           ) : (
             <article className="prose-patent">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{md}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
             </article>
           )}
         </div>
