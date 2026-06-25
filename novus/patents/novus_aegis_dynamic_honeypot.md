@@ -1,7 +1,7 @@
 # Systems and Methods for Autonomous, Threat-Intelligence-Driven Deployment and Behaviorally-Adaptive Configuration of Deception Assets
 
 **Application type:** Provisional patent application (draft for filing)
-**Inventor:** Harshavardhan Malla
+**Inventors:** Onyekachi Agudosi; Harshavardhan Malla; Sasi Preetham Rangudu
 **Applicant / Assignee:** NovusAI
 **Priority date:** to be assigned at filing
 
@@ -9,10 +9,14 @@
 
 ## Cross-Reference to Related Applications
 
-This application is associated with the Novus Aegis AI dynamic-honeypot program
-documentation (v1.0, 11 February 2026) and with the inventor's research on
+This application is associated with the Novus Aegis AI ("Aegis") dynamic-honeypot
+program documentation (v1.0, 11 February 2026) and with the inventors' research on
 behavioral-cognitive attacker-intent modeling from honeypot interaction telemetry.
-No related applications are presently on file.
+It consolidates four related deception inventions — (i) language-model-driven
+interactive honeypot response, (ii) threat-intelligence-driven dynamic deployment,
+(iii) self-healing vulnerability mutation, and (iv) on-demand trigger-based
+deployment and teardown — which may be claimed together or divided. No related
+applications are presently on file.
 
 ## Technical Field
 
@@ -111,9 +115,18 @@ various aspects:
   constraints at both decision time and execution time, so that autonomy is bounded
   and auditable.
 
-These aspects may be practiced separately or in combination, and the deception
-surface randomization and the intent-driven adaptation each constitute independent
-inventive concepts.
+- A **self-healing vulnerability-mutation** subsystem modifies the exposed
+  vulnerabilities and interaction surface of a decoy *during a live session* —
+  healing, swapping, or introducing attack surface — without terminating the
+  session, so that a decoy is not exhausted once a known flaw is exploited.
+
+- An **on-demand, trigger-based** subsystem provisions decoys in response to
+  discrete threat, alert, anomaly, or manual triggers gated by a threat score, and
+  decommissions them when their lifecycle or intelligence value is complete.
+
+These aspects may be practiced separately or in combination; the deception-surface
+randomization, the intent-driven adaptation, the self-healing mutation, and the
+on-demand triggering each constitute independent inventive concepts.
 
 ## Brief Description of the Drawings
 
@@ -124,10 +137,12 @@ inventive concepts.
   fingerprint dimensions.
 - **FIG. 4** — The behavioral-cognitive intent-inference pipeline operating on
   early, pre-action interaction features.
-- **FIG. 5** — Policy-guardrail enforcement at decision time and execution time.
-- **FIG. 6** — Conceptual data model of the principal domain objects.
-- **FIG. 7** — A multi-cloud, multi-tenant deployment topology with time-to-live
-  recycling.
+- **FIG. 5** — The self-healing vulnerability-mutation process that heals, swaps,
+  or introduces attack surface mid-session to prolong engagement.
+- **FIG. 6** — The on-demand, trigger-based deployment and teardown lifecycle.
+- **FIG. 7** — Policy-guardrail enforcement at decision time and execution time.
+
+![FIG. 1 — System block diagram of the closed-loop deception platform.](figures/fig1_system.png)
 
 ## Detailed Description
 
@@ -204,6 +219,8 @@ sampler actively diversifies away from prior deployments. This randomization def
 signature-based and consistency-based honeypot-detection reconnaissance, materially
 extending the useful life and intelligence yield of each decoy.
 
+![FIG. 3 — Deception-surface randomization across multiple fingerprint dimensions.](figures/fig3_randomize.png)
+
 ### 6. Behavioral-cognitive intent model
 
 Referring to FIG. 4, a behavioral-cognitive intent model infers the probable intent
@@ -225,6 +242,8 @@ archetypes that parameterize future deployments. This early-intent capability
 distinguishes the invention from reactive deception that adapts only after an
 adversary has acted.
 
+![FIG. 4 — Behavioral-cognitive intent inference from early, pre-action interaction features.](figures/fig4_intent.png)
+
 ### 7. Constrained large-language-model interaction
 
 In some embodiments the configuration manager incorporates a constrained
@@ -235,6 +254,58 @@ filtering, capability restriction, and policy checks — that prevent the decoy 
 performing or facilitating actual malicious activity, exfiltrating real data, or
 emitting unsafe content. The guardrails are enforced independently of the language
 model, so that a model error cannot by itself breach the safety boundary.
+
+### 7A. Self-healing vulnerability mutation
+
+In a further embodiment, illustrated in FIG. 5, the system performs *self-healing
+vulnerability mutation*: during a live session it modifies its own set of exposed
+vulnerabilities and interaction surface in response to observed attacker behavior,
+so as to prolong deception and extract deeper intelligence rather than being
+exhausted once a known flaw is exploited. A real-time behavior analyzer assesses
+exploit attempts and interaction complexity and triggers a mutation evaluation. A
+vulnerability-profile manager maintains a catalog of currently live and dormant
+vulnerabilities, recording which have been used by the attacker and what behavior
+each attracts. A mutation-decision engine then selects, based on attack
+classification, one of: (a) *healing* a vulnerability by simulating a patch or
+service shutdown; (b) *swapping* to a different vulnerability by changing an
+operating-system or service version or configuration; or (c) *introducing a new
+attack surface* by enabling a new port or protocol to deepen engagement. A
+configuration modifier applies the selected change live — adjusting open ports and
+services, banner and version strings (for example, presenting Nginx in place of
+Apache), and the simulated filesystem, credentials, and keys — preferably without
+disconnecting the attacker, and while maintaining prompt, system-typical responses
+(for example, simulating a service restart) so that continuity of the ruse is
+preserved. For example, when an attacker exploits a known SSH vulnerability, the
+honeypot simulates a patch removing that vulnerability and instead exposes a
+different weakly-credentialed service, guiding the attacker into a new trap without
+resetting the session.
+
+![FIG. 5 — Self-healing vulnerability mutation: heal, swap, or introduce attack surface mid-session.](figures/fig5_selfheal.png)
+
+### 7B. On-demand, trigger-based deployment and teardown
+
+In a further embodiment, illustrated in FIG. 6, deception assets are provisioned
+*on demand* in response to discrete triggers, and are *retired* when their lifecycle
+or intelligence value is complete, rather than maintained continuously. A trigger-
+evaluation engine monitors a plurality of trigger sources — threat-intelligence
+feeds (indicators of compromise, disclosed vulnerabilities), security-information-
+and-event-management alerts, behavioral anomalies from intrusion-detection or
+endpoint tools (for example, brute force, lateral movement, or command-and-control
+activity), and manual or application-programming-interface triggers from incident
+responders or orchestration platforms. A trigger-normalization layer converts
+disparate formats into a unified structure, suppresses known false positives, and
+adds context such as geographic enrichment and attack history. A threat-scoring and
+prioritization stage assigns an urgency and scope to each trigger (for example,
+classifying a known ransomware command-and-control address as critical), and a
+deployment is initiated only when the score satisfies a policy-defined threshold. A
+template library supplies parameterized honeypot templates emulating various
+services (for example, SSH, RDP, FTP, HTTP), an orchestration engine provisions the
+selected template in a virtualized or containerized environment (for example, via
+Kubernetes, Docker, or infrastructure-as-code), and a teardown controller
+decommissions the asset upon expiry of its lifecycle or upon exhaustion of its
+intelligence value, reclaiming resources.
+
+![FIG. 6 — On-demand, trigger-based deployment and teardown lifecycle.](figures/fig6_ondemand.png)
 
 ### 8. Real-time monitoring, alerting, and correlation
 
@@ -262,6 +333,8 @@ handling constraints; and optional human approval for high-risk deployments. The
 decision engine cannot emit, and the orchestrator will not execute, an instruction
 that violates an applicable policy; rejected instructions are logged with reasons.
 
+![FIG. 7 — Policy-guardrail enforcement at decision time and execution time.](figures/fig7_policy.png)
+
 ### 10. Closed feedback loop
 
 Referring to FIG. 2, the modules form a closed loop: threat intelligence is ingested
@@ -272,6 +345,8 @@ interaction, infer intent, and produce enriched alerts and attacker profiles; an
 observed behavior and newly extracted indicators are returned to the decision engine
 to refine subsequent strategy. The deception population thereby continuously adapts
 to the prevailing threat environment and to inferred adversary intent.
+
+![FIG. 2 — End-to-end closed loop: ingest, decide, deploy, configure-and-randomize, monitor, infer intent, alert/correlate, feed back.](figures/fig2_loop.png)
 
 ### 11. Data model
 
@@ -469,6 +544,45 @@ characteristic selected to deepen engagement for that class.
 **25.** The method of claim 11, wherein the deception-asset type is selected from a
 low-interaction decoy, a medium-interaction decoy, a high-interaction decoy, a decoy
 token, and a decoy credential.
+
+**26.** A method for self-healing cyber-deception, comprising: assessing, by a
+behavior analyzer and during a live session between an adversary and a deception
+asset, an exploit attempt against the deception asset; and responsive to the
+assessment, mutating a vulnerability profile of the deception asset during the live
+session by performing one of: healing a vulnerability by simulating a patch or a
+service shutdown; swapping to a different vulnerability by altering a service
+version or configuration; and introducing a new attack surface by enabling an
+additional port or protocol; wherein the mutating is applied without terminating the
+live session so as to prolong engagement.
+
+**27.** The method of claim 26, further comprising maintaining a catalog of live and
+dormant vulnerabilities of the deception asset together with a record of which
+vulnerabilities the adversary has used and a behavior class each vulnerability
+attracts, and selecting the mutation based at least in part on a classification of
+the assessed exploit attempt.
+
+**28.** The method of claim 26, wherein mutating comprises modifying, during the live
+session, one or more of an open port, a listening service, a banner or version
+string, a simulated filesystem, and a simulated credential, while emitting
+system-typical responses that preserve continuity of the session.
+
+**29.** A method for on-demand cyber-deception, comprising: monitoring a plurality of
+trigger sources comprising a threat-intelligence feed, a security-event alert, a
+behavioral anomaly, and a manual or programmatic trigger; normalizing triggers from
+the plurality of sources into a unified representation and suppressing a false
+positive; assigning a threat score to a normalized trigger; responsive to the threat
+score satisfying a policy-defined threshold, provisioning a deception asset from a
+parameterized template library into a virtualized or containerized environment; and
+decommissioning the provisioned deception asset upon expiry of a lifecycle or upon
+exhaustion of an intelligence value of the deception asset.
+
+**30.** The method of claim 29, wherein normalizing comprises enriching the trigger
+with contextual data including a geographic attribution and an attack history, and
+wherein the threat score determines an urgency and a scope of the provisioning.
+
+**31.** The system of claim 1, wherein the instructions further cause the system to
+perform the self-healing mutation of claim 26 and the on-demand trigger-based
+provisioning and decommissioning of claim 29.
 
 ## Abstract
 

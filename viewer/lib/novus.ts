@@ -77,10 +77,10 @@ export const NOVUS_PATENTS: NovusPatent[] = [
       "Systems and Methods for Threat-Intelligence-Driven Dynamic Deployment and Adaptive Configuration of Deception Honeypots",
     kind: "Provisional patent application",
     status: "draft",
-    inventor: "Harshavardhan Malla",
+    inventor: "Onyekachi Agudosi, Harshavardhan Malla, Sasi Preetham Rangudu",
     assignee: "NovusAI",
-    claims: 25,
-    independentClaims: 5,
+    claims: 31,
+    independentClaims: 7,
     abstract:
       "A closed-loop, policy-bounded AI system autonomously deploys and configures deception assets from live threat intelligence and inferred attacker intent. A decision engine emits explainable, policy-constrained instructions; a configuration manager randomizes each decoy's fingerprint so no two deployments match; a behavioral-cognitive model infers attacker intent from early pre-action behavior and adapts the deception; and a monitoring loop turns interaction into technique-mapped alerts and attacker profiles that feed back to continuously optimize the deception population.",
     docPath: "novus/patents/novus_aegis_dynamic_honeypot.md",

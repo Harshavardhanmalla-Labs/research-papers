@@ -40,6 +40,7 @@ function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () =>
   const pdfUrl = patent.pdfPath
     ? `/api/serve?path=${encodeURIComponent(`${PAPERS_ROOT}/${patent.pdfPath}`)}`
     : null;
+  const baseDir = patent.docPath.replace(/\/[^/]+$/, ""); // e.g. "novus/patents"
 
   useEffect(() => {
     const abs = `${PAPERS_ROOT}/${patent.docPath}`;
@@ -121,7 +122,22 @@ function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () =>
                 <p className="flex items-center gap-2 text-[13px] text-fg-4"><Loader2 size={14} className="animate-spin" /> Loading…</p>
               ) : (
                 <article className="prose-patent">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      img: ({ src = "", alt }) => {
+                        const url = /^(https?:|\/api\/)/.test(String(src))
+                          ? String(src)
+                          : `/api/serve?path=${encodeURIComponent(`${PAPERS_ROOT}/${baseDir}/${src}`)}`;
+                        return (
+                          <figure className="my-5">
+                            <img src={url} alt={alt as string} className="rounded-lg border border-border bg-white max-w-full mx-auto" />
+                            {alt ? <figcaption className="text-[11px] text-fg-4 text-center mt-2">{alt as string}</figcaption> : null}
+                          </figure>
+                        );
+                      },
+                    }}
+                  >{body}</ReactMarkdown>
                 </article>
               )}
             </div>
