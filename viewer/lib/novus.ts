@@ -45,3 +45,43 @@ export const NOVUS_PAPERS: NovusPaper[] = [
   { n: 12, category: "Evaluation",            status: "proposed",
     title: "Measuring Deception Efficacy in AI-Native Honeypots: Precision, Engagement Depth, and Detection Yield" },
 ];
+
+// ── Patents & IP ───────────────────────────────────────────────────────────
+export type PatentStatus = "draft" | "filed" | "pending" | "granted";
+
+export interface NovusPatent {
+  id: string;
+  title: string;
+  kind: string;          // e.g. "Provisional patent application"
+  status: PatentStatus;
+  inventor: string;
+  assignee: string;
+  claims: number;        // total claims
+  independentClaims: number;
+  abstract: string;
+  docPath: string;       // markdown, relative to the repo root (PAPERS_ROOT)
+}
+
+export const PATENT_STATUS: Record<PatentStatus, string> = {
+  draft: "Draft for filing",
+  filed: "Filed",
+  pending: "Pending",
+  granted: "Granted",
+};
+
+export const NOVUS_PATENTS: NovusPatent[] = [
+  {
+    id: "novus-aegis-dynamic-honeypot",
+    title:
+      "Systems and Methods for Threat-Intelligence-Driven Dynamic Deployment and Adaptive Configuration of Deception Honeypots",
+    kind: "Provisional patent application",
+    status: "draft",
+    inventor: "Harshavardhan Malla",
+    assignee: "NovusAI",
+    claims: 14,
+    independentClaims: 3,
+    abstract:
+      "An AI decision engine ingests live threat intelligence and, under enforceable cost/region/compliance policies, generates an explainable instruction to deploy and configure honeypots whose deception surface is randomized so no two deployments share a fingerprint; a monitoring loop turns attacker interaction into enriched alerts and attacker profiles that feed back to continuously adapt the deception.",
+    docPath: "novus/patents/novus_aegis_dynamic_honeypot.md",
+  },
+];

@@ -1,9 +1,60 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldHalf, ExternalLink, StickyNote } from "lucide-react";
+import { ArrowLeft, ShieldHalf, ExternalLink, StickyNote, Scale, X, Loader2, FileText } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import ThemeToggle from "@/components/ThemeToggle";
-import { NOVUS_PAPERS, NOVUS_STATUS, type NovusStatus, type NovusPaper } from "@/lib/novus";
+import { NOVUS_PAPERS, NOVUS_STATUS, NOVUS_PATENTS, type NovusStatus, type NovusPaper, type NovusPatent } from "@/lib/novus";
+import { PAPERS_ROOT } from "@/lib/papers";
+
+const PATENT_STATUS_CLS: Record<string, string> = {
+  draft: "text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-800 bg-amber-500/10",
+  filed: "text-sky-700 dark:text-sky-400 border-sky-300 dark:border-sky-800 bg-sky-500/10",
+  pending: "text-violet-700 dark:text-violet-400 border-violet-300 dark:border-violet-800 bg-violet-500/10",
+  granted: "text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800 bg-emerald-500/10",
+};
+
+function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () => void }) {
+  const [md, setMd] = useState<string | null>(null);
+  const [err, setErr] = useState(false);
+  useEffect(() => {
+    const abs = `${PAPERS_ROOT}/${patent.docPath}`;
+    fetch(`/api/file?path=${encodeURIComponent(abs)}`)
+      .then((r) => (r.ok ? r.text() : Promise.reject()))
+      .then(setMd)
+      .catch(() => setErr(true));
+  }, [patent.docPath]);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm p-4 md:p-8 overflow-y-auto" onClick={onClose}>
+      <div className="bg-surface-0 border border-border rounded-2xl max-w-3xl w-full my-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 flex items-center justify-between gap-4 px-6 py-3.5 border-b border-border bg-surface-1/95 backdrop-blur rounded-t-2xl">
+          <span className="inline-flex items-center gap-2 text-[12px] font-semibold text-fg">
+            <Scale size={14} className="text-accent" /> {patent.kind}
+          </span>
+          <button onClick={onClose} className="text-fg-4 hover:text-fg"><X size={18} /></button>
+        </div>
+        <div className="px-7 py-6">
+          {err ? (
+            <p className="text-[13px] text-red-500">Could not load the patent document.</p>
+          ) : md === null ? (
+            <p className="flex items-center gap-2 text-[13px] text-fg-4"><Loader2 size={14} className="animate-spin" /> Loading…</p>
+          ) : (
+            <article className="prose-patent">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{md}</ReactMarkdown>
+            </article>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const COL_ACCENT: Record<NovusStatus, string> = {
   proposed: "border-t-fg-4",
@@ -40,6 +91,7 @@ function Card({ p }: { p: NovusPaper }) {
 
 export default function NovusAIPage() {
   const [q, setQ] = useState("");
+  const [openPatent, setOpenPatent] = useState<NovusPatent | null>(null);
 
   const byStatus = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -82,6 +134,45 @@ export default function NovusAIPage() {
           </p>
         </div>
 
+        {/* Patents & IP */}
+        {NOVUS_PATENTS.length > 0 && (
+          <section className="mb-12">
+            <div className="flex items-center gap-2.5 mb-4">
+              <Scale size={16} className="text-accent" />
+              <h2 className="font-serif text-[20px] font-semibold text-fg">Patents &amp; Intellectual Property</h2>
+              <span className="text-[11px] font-mono text-fg-4">{String(NOVUS_PATENTS.length).padStart(2, "0")}</span>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {NOVUS_PATENTS.map((pt) => (
+                <button
+                  key={pt.id}
+                  onClick={() => setOpenPatent(pt)}
+                  className="text-left group border border-border bg-surface-1 rounded-xl p-5 hover:border-accent/45 hover:shadow-[0_4px_18px_-6px_rgba(0,0,0,0.12)] transition-all"
+                >
+                  <div className="flex items-center justify-between gap-3 mb-2.5">
+                    <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-fg-4">
+                      <FileText size={12} /> {pt.kind}
+                    </span>
+                    <span className={`text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${PATENT_STATUS_CLS[pt.status] ?? ""}`}>
+                      {pt.status}
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-[15px] leading-snug text-fg group-hover:text-accent transition-colors">
+                    {pt.title}
+                  </h3>
+                  <p className="text-[12px] text-fg-4 leading-relaxed mt-2 line-clamp-4">{pt.abstract}</p>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3.5 pt-3 border-t border-border text-[11px] text-fg-4">
+                    <span>Inventor: <span className="text-fg-3 font-medium">{pt.inventor}</span></span>
+                    <span>Assignee: <span className="text-fg-3 font-medium">{pt.assignee}</span></span>
+                    <span><span className="text-fg-3 font-semibold">{pt.claims}</span> claims ({pt.independentClaims} independent)</span>
+                    <span className="inline-flex items-center gap-1 text-accent font-medium ml-auto group-hover:underline">Read full patent <ExternalLink size={11} /></span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Search + counts */}
         <div className="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-border">
           <input
@@ -119,6 +210,8 @@ export default function NovusAIPage() {
           Working board · update <code className="text-fg-3">lib/novus.ts</code> to advance a paper’s status, add notes, or link a draft.
         </p>
       </main>
+
+      {openPatent && <PatentReader patent={openPatent} onClose={() => setOpenPatent(null)} />}
     </div>
   );
 }

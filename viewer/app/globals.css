@@ -129,6 +129,21 @@ h1, h2, h3 { letter-spacing: -0.02em; }
 }
 .li-badge-card iframe { border-radius: 12px; }
 
+/* Patent document reader (markdown) */
+.prose-patent { color: rgb(var(--fg-2)); font-size: 13.5px; line-height: 1.7; }
+.prose-patent h1 { font-size: 20px; font-weight: 800; color: rgb(var(--fg)); line-height: 1.25; margin: 0 0 0.6em; }
+.prose-patent h2 { font-size: 15px; font-weight: 700; color: rgb(var(--fg)); margin: 1.6em 0 0.5em; padding-bottom: 0.25em; border-bottom: 1px solid rgb(var(--border-c)); }
+.prose-patent h3 { font-size: 13.5px; font-weight: 700; color: rgb(var(--fg)); margin: 1.2em 0 0.4em; }
+.prose-patent p { margin: 0.7em 0; }
+.prose-patent ul, .prose-patent ol { margin: 0.6em 0; padding-left: 1.4em; }
+.prose-patent li { margin: 0.3em 0; }
+.prose-patent strong { color: rgb(var(--fg)); font-weight: 700; }
+.prose-patent hr { border: none; border-top: 1px solid rgb(var(--border-c)); margin: 1.4em 0; }
+.prose-patent code { font-size: 0.9em; color: rgb(var(--code-color)); background: rgb(var(--s2)); padding: 0.1em 0.35em; border-radius: 4px; }
+.prose-patent table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 0.8em 0; }
+.prose-patent th, .prose-patent td { border: 1px solid rgb(var(--border-c)); padding: 5px 8px; text-align: left; }
+.prose-patent th { background: rgb(var(--s2)); font-weight: 600; }
+
 /* ═══════════════════
    SCROLLBAR
    ═══════════════════ */
