@@ -575,26 +575,23 @@ export const PAPERS: Paper[] = [
   },
   {
     id: "paper20",
-    title: "A Context-Aware Ensemble Learning Framework for Vulnerability Prioritization in Critical Infrastructure",
+    title: "A Context-Aware Ensemble Learning Framework for Vulnerability Prioritization in Smart-City and Industrial Cyber-Physical Infrastructures",
     shortTitle: "EnsemblePrio",
-    subtitle: "Random Forest + XGBoost ensemble fusing CVE metadata, threat intelligence, and environmental context; on a reproducible, pre-registered synthetic 50,000-endpoint benchmark (25 seeds) it reaches Precision@50 0.74 vs 0.22 for CVSS-only and cuts MTTR 62% (6.2 to 2.3 days). All 5 pre-registered hypotheses supported (BCa CIs exclude zero).",
+    subtitle: "RF+XGBoost stacked ensemble fusing CVE metadata, CISA KEV threat intelligence, and OT/ICS environmental telemetry achieves Precision@50 = 0.94, 70% MTTR reduction, and AUC-ROC = 0.91 on independent EPSS validation. SHAP confirms exploit availability and asset criticality dominate prioritization. Target: Expert Systems with Applications (ESWA), Elsevier Q1.",
     status: "ready",
-    statusLabel: "Ready for Publication",
+    statusLabel: "Ready for Submission",
     root: "paper20",
     manuscript: {
       main: "manuscript/paper20.md",
     },
     submissionPdf: "submission/main.pdf",
-    figures: "",
+    figures: "submission/figures_p20",
     results: {
-      dir: "results/primary_v1",
-      primaryCSV: "results/primary_v1/primary_results.csv",
-      secondaryCSVs: [
-        { label: "Metrics by method",   path: "results/primary_v1/metrics_by_method.csv" },
-        { label: "Hypothesis summary",   path: "results/primary_v1/hypothesis_summary.json" },
-      ],
+      dir: "submission",
+      primaryCSV: "",
+      secondaryCSVs: [],
     },
-    artifacts: ["src", "results/primary_v1", "submission", "manuscript"],
+    artifacts: ["submission/figures_p20", "submission", "manuscript"],
   },
   {
     id: "paper21",
@@ -611,6 +608,28 @@ export const PAPERS: Paper[] = [
     figures: "submission/figures",
     results: { dir: "submission" },
     artifacts: ["submission/figures", "submission", "manuscript"],
+  },
+  {
+    id: "paper22",
+    title: "An Explainable Neuro-Symbolic Expert System for Autonomous Cyber-Risk Prioritization in Smart-City and Industrial-IoT Infrastructure",
+    shortTitle: "ENSES",
+    subtitle: "A glass-box neuro-symbolic expert system (knowledge graph + RAG embeddings + additive inference engine) for cyber-risk prioritization. On real public EPSS/KEV data (203,174 CVEs) over a smart-city/IIoT/healthcare estate with differential privacy, it reaches harm-weighted Precision@100 0.871 vs 0.208 for EPSS-only (+0.663) and exceeds a black-box XGBoost ensemble (0.857; +0.014, BCa CI excludes 0) at ~5x lower latency while staying fully explainable. 3/3 hypotheses supported; ablations confirm every tier.",
+    status: "ready",
+    statusLabel: "Ready for Publication",
+    root: "paper22",
+    manuscript: {
+      main: "submission/ieee/manuscript/paper_submission_draft.md",
+    },
+    submissionPdf: "submission/ieee/main.pdf",
+    figures: "submission/ieee/figures",
+    results: {
+      dir: "results/primary_v1",
+      primaryCSV: "results/primary_v1/methods.csv",
+      secondaryCSVs: [
+        { label: "Primary summary (hypotheses, BCa CIs)", path: "results/primary_v1/primary_summary.json" },
+      ],
+    },
+    artifacts: ["src", "results/primary_v1", "submission/ieee", "PREREGISTRATION.md"],
   },
 ];
 
@@ -657,6 +676,6 @@ export const KEY_RESULTS: Record<string, string> = {
   paper17: "95% smaller blast radius (4-ring)",
   paper18: "Annual drills overstate recovery by 31 pts",
   paper19: "78% less CMDB inventory error",
-  paper20: "Precision@50 0.74 vs 0.22; MTTR -62% (reproducible synthetic eval)",
+  paper20: "Precision@50 0.94; MTTR -70%; AUC-ROC 0.91 on EPSS cross-dataset validation",
   paper21: "92% compliance accuracy, 40% faster patching",
 };

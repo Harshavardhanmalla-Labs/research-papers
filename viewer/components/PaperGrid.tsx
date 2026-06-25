@@ -33,7 +33,7 @@ const VENUES: Record<string, string> = {
   paper11: "Gov / Practitioner", paper12: "Gov / Practitioner", paper13: "Gov / Practitioner",
   paper14: "Gov / Practitioner", paper15: "Gov / Practitioner", paper16: "Gov / Practitioner",
   paper17: "Gov / Practitioner", paper18: "Gov / Practitioner", paper19: "Gov / Practitioner",
-  paper20: "Critical Infra", paper21: "JENRS",
+  paper20: "Critical Infra", paper21: "JENRS", paper22: "ESWA",
 };
 
 const SERIES = [
@@ -46,7 +46,7 @@ const SERIES = [
   { label: "Government & Practitioner", desc: "Applied security frameworks for the public sector",
     bar: "border-t-emerald-500", pill: "text-emerald-700 dark:text-emerald-400", ids: ["paper11","paper12","paper13","paper14","paper15","paper16","paper17","paper18","paper19"] },
   { label: "Critical-Infrastructure Frameworks", desc: "AI-native frameworks; one peer-reviewed (JENRS)",
-    bar: "border-t-rose-500",    pill: "text-rose-700 dark:text-rose-400",     ids: ["paper20", "paper21"] },
+    bar: "border-t-rose-500",    pill: "text-rose-700 dark:text-rose-400",     ids: ["paper20", "paper21", "paper22"] },
 ];
 
 // Submission lifecycle stages (editable per paper, persisted server-side).
