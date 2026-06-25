@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldHalf, ExternalLink, StickyNote, Scale, X, Loader2, FileText, AlignLeft, User2, Building2, ListChecks } from "lucide-react";
+import { ArrowLeft, ShieldHalf, ExternalLink, StickyNote, Scale, X, Loader2, FileText, AlignLeft, User2, Building2, ListChecks, Eye, Download } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -22,19 +22,24 @@ function grabSection(md: string, name: string): string {
   return m ? m[0].trim() : "";
 }
 
-const PATENT_TABS = [
+const ALL_PATENT_TABS = [
+  { key: "pdf",      label: "Patent PDF",    Icon: Eye },
   { key: "full",     label: "Full document", Icon: FileText },
   { key: "claims",   label: "Claims",        Icon: ListChecks },
   { key: "abstract", label: "Abstract",      Icon: AlignLeft },
 ] as const;
-type PatentTab = typeof PATENT_TABS[number]["key"];
+type PatentTab = typeof ALL_PATENT_TABS[number]["key"];
 
 /* Full-screen patent reader styled like the papers viewer: rail-coloured header
    (title, kind, status, metadata) + tab strip + scrolling content pane. */
 function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () => void }) {
   const [md, setMd] = useState<string | null>(null);
   const [err, setErr] = useState(false);
-  const [tab, setTab] = useState<PatentTab>("full");
+  const [tab, setTab] = useState<PatentTab>(patent.pdfPath ? "pdf" : "full");
+  const tabs = ALL_PATENT_TABS.filter((t) => t.key !== "pdf" || !!patent.pdfPath);
+  const pdfUrl = patent.pdfPath
+    ? `/api/serve?path=${encodeURIComponent(`${PAPERS_ROOT}/${patent.pdfPath}`)}`
+    : null;
 
   useEffect(() => {
     const abs = `${PAPERS_ROOT}/${patent.docPath}`;
@@ -70,6 +75,11 @@ function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () =>
             <h1 className="text-[17px] font-bold text-fg leading-tight tracking-tight line-clamp-2">{patent.title}</h1>
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
+            {pdfUrl && (
+              <a href={pdfUrl} download title="Download patent PDF" className="inline-flex items-center justify-center w-7 h-7 rounded-md border border-border text-fg-4 hover:text-accent hover:border-accent/50 transition-colors">
+                <Download size={15} />
+              </a>
+            )}
             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border ${statusLabel}`}>{patent.status}</span>
             <button onClick={onClose} title="Close (Esc)" className="inline-flex items-center justify-center w-7 h-7 rounded-md border border-border text-fg-4 hover:text-fg hover:border-accent/50 transition-colors">
               <X size={16} />
@@ -86,7 +96,7 @@ function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () =>
 
         {/* Tab strip */}
         <div className="flex gap-0 -mb-px overflow-x-auto hide-scrollbar">
-          {PATENT_TABS.map(({ key, label, Icon }) => {
+          {tabs.map(({ key, label, Icon }) => {
             const active = tab === key;
             return (
               <button key={key} onClick={() => setTab(key)}
@@ -99,18 +109,24 @@ function PatentReader({ patent, onClose }: { patent: NovusPatent; onClose: () =>
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-h-0 overflow-y-auto">
-        <div className="max-w-3xl mx-auto px-7 py-8">
-          {err ? (
-            <p className="text-[13px] text-red-500">Could not load the patent document.</p>
-          ) : md === null ? (
-            <p className="flex items-center gap-2 text-[13px] text-fg-4"><Loader2 size={14} className="animate-spin" /> Loading…</p>
-          ) : (
-            <article className="prose-patent">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
-            </article>
-          )}
-        </div>
+      <div className="flex-1 min-h-0 overflow-hidden">
+        {tab === "pdf" && pdfUrl ? (
+          <iframe key={pdfUrl} src={`${pdfUrl}#toolbar=1&navpanes=0`} className="w-full h-full border-0 bg-surface-2" title="Patent PDF" />
+        ) : (
+          <div className="h-full overflow-y-auto">
+            <div className="max-w-3xl mx-auto px-7 py-8">
+              {err ? (
+                <p className="text-[13px] text-red-500">Could not load the patent document.</p>
+              ) : md === null ? (
+                <p className="flex items-center gap-2 text-[13px] text-fg-4"><Loader2 size={14} className="animate-spin" /> Loading…</p>
+              ) : (
+                <article className="prose-patent">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
+                </article>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

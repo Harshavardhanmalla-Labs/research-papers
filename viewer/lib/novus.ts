@@ -60,6 +60,7 @@ export interface NovusPatent {
   independentClaims: number;
   abstract: string;
   docPath: string;       // markdown, relative to the repo root (PAPERS_ROOT)
+  pdfPath?: string;      // compiled PDF, relative to the repo root (PAPERS_ROOT)
 }
 
 export const PATENT_STATUS: Record<PatentStatus, string> = {
@@ -78,10 +79,11 @@ export const NOVUS_PATENTS: NovusPatent[] = [
     status: "draft",
     inventor: "Harshavardhan Malla",
     assignee: "NovusAI",
-    claims: 14,
-    independentClaims: 3,
+    claims: 25,
+    independentClaims: 5,
     abstract:
-      "An AI decision engine ingests live threat intelligence and, under enforceable cost/region/compliance policies, generates an explainable instruction to deploy and configure honeypots whose deception surface is randomized so no two deployments share a fingerprint; a monitoring loop turns attacker interaction into enriched alerts and attacker profiles that feed back to continuously adapt the deception.",
+      "A closed-loop, policy-bounded AI system autonomously deploys and configures deception assets from live threat intelligence and inferred attacker intent. A decision engine emits explainable, policy-constrained instructions; a configuration manager randomizes each decoy's fingerprint so no two deployments match; a behavioral-cognitive model infers attacker intent from early pre-action behavior and adapts the deception; and a monitoring loop turns interaction into technique-mapped alerts and attacker profiles that feed back to continuously optimize the deception population.",
     docPath: "novus/patents/novus_aegis_dynamic_honeypot.md",
+    pdfPath: "novus/patents/novus_aegis_dynamic_honeypot.pdf",
   },
 ];
