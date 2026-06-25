@@ -82,9 +82,12 @@ exploitation. These population-level signals are necessary but
 context-blind: they do not encode which asset a flaw threatens or how
 critical that asset is. Recent machine-learning approaches improve
 accuracy with gradient-boosted ensembles [@chen2016xgboost] over
-engineered features, but produce opaque scores; we adopt such an
-ensemble as a strong baseline and show that a glass-box neuro-symbolic
-system matches and exceeds it.
+engineered features; a context-aware ensemble of this
+kind [@malla2026ensemble] attains strong accuracy on a synthetic
+critical-infrastructure benchmark but remains a black box. We adopt such
+an ensemble as a strong baseline and show that a glass-box
+neuro-symbolic system matches and exceeds it on real data while
+explaining every decision.
 
 **Neuro-symbolic AI and knowledge graphs.** Neuro-symbolic
 methods [@garcez2023neurosymbolic] integrate learned perception with
@@ -367,6 +370,10 @@ Explaining the predictions of any classifier," in *Proc. ACM SIGKDD*,
 
 T. Chen and C. Guestrin, "XGBoost: A scalable tree boosting system," in
 *Proc. ACM SIGKDD*, 2016, pp. 785-794.
+
+H. Malla, "A context-aware ensemble learning framework for vulnerability
+prioritization in critical infrastructure," 2026, manuscript under
+review.
 
 B. E. Strom, A. Applebaum, D. P. Miller, K. C. Nickels, A. G.
 Pennington, and C. B. Thomas, "MITRE ATT&CK: Design and philosophy,"
