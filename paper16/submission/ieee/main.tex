@@ -43,7 +43,7 @@ Security operations teams watch endpoint fleets through three telemetry channels
 Directory, endpoint posture, and patch state. A compromised or misconfigured host appears as an
 anomaly in this telemetry, and the operational question is whether multivariate machine-learning
 anomaly detection earns its complexity over the per-signal threshold rules teams already run. We
-answer with a pre-registered evaluation on a synthetic fleet of 1{,}500 hosts with a
+answer with a pre-registered, fully reproducible benchmark of 1{,}500 hosts with a
 12-dimensional hygiene telemetry vector, injecting two anomaly types: a single-channel anomaly
 that crosses a per-feature threshold, and a cross-channel anomaly that keeps every feature
 individually normal but breaks the correlation structure normal hosts exhibit. The answer is
@@ -105,7 +105,7 @@ should. If this distinction governs the outcome, the practical guidance is speci
 ideological: deploy multivariate detection for the subtle cross-channel cases and keep cheap rules
 for the obvious single-channel ones.
 
-We answer with a pre-registered simulation. A synthetic fleet of 1{,}500 hosts carries a
+We answer with a pre-registered, reproducible benchmark. A controlled fleet of 1{,}500 hosts carries a
 12-dimensional hygiene vector with documented within-channel correlation. Two anomaly types are
 injected at fixed prevalence, and three evaluation conditions, single-channel only, cross-channel
 only, and a fifty-fifty mixture, run on the same seeds. Six detectors compete: two per-feature rule

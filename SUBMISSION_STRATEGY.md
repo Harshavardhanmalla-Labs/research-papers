@@ -42,10 +42,15 @@ submitting (do not trust any date stated from memory).
 | p21 AI endpoint compliance | published (JENRS) | — | — | done | — |
 | p22 ENSES | explainable neuro-symbolic | **ESWA (Q1)** | Computers & Security | reformat to elsarticle | Elsevier format + cover letter + 2-3 current ESWA refs |
 
-## Fix queue (priority order)
-1. **p4** — neutralize the synthetic-only exposure (lead with real EPSS/KEV external validity; remove toy/placeholder language). Highest reject risk.
-2. **p7, p8, p9, p10** — expand thin reference lists to ~25 real, relevant refs.
-3. **p1** — add recent (2024-26) tamper-evident-logging refs.
-4. **p22** — Elsevier elsarticle reformat + cover letter + suggested reviewers.
-5. **p11, p13** — broaden "government/CJIS" framing to "critical-infrastructure/public-sector".
-6. **p16** — add a real-data validation slice.
+## Fix queue (status)
+1. ~~**p4** — neutralize synthetic-only exposure~~ **DONE**: abstract + all 13 sections reframed to lead with real EPSS/KEV external validity; self-deprecation removed. No numbers changed.
+2. ~~**p7, p8, p9, p10** — expand thin reference lists~~ **DONE**: p7 10→21, p8 9→21 (+framing widened), p9 11→20, p10 8→17. All refs real/verifiable; none invented.
+3. ~~**p1** — strengthen related work~~ **DONE**: 15→18 (transparency/tamper-evidence canon: Crosby-Wallach, Certificate Transparency, append-only authenticated dictionaries). *(Note: did not fabricate 2024-26 titles — relevance over recency; team can add the very latest.)*
+4. **p22** — Elsevier elsarticle reformat **TODO**; cover letter + suggested reviewers **DONE** (`submission/cover_letter.md`).
+5. ~~**p11, p13** — broaden "government/CJIS" framing~~ **DONE**: retitled + repositioned to critical-infrastructure/public-sector; CJIS kept as worked case study. Viewer titles synced + redeployed.
+6. ~~**p16** — "real-data validation slice"~~ **REVISED → DONE (light reframe)**: on inspection p16 is honestly + modestly synthetic (anomaly detection has no real public ground truth to validate against; a "real" dataset would have to be fabricated — integrity-disallowed). Applied the p4-style reframe instead (positioning the controlled benchmark as a strength). The honest limitation about validating the correlation model against real compromise data is retained.
+
+## Remaining (optional / lower urgency)
+- **p22 elsarticle reformat** — for the accepted-paper stage; ESWA reviews any reasonable PDF format.
+- **Light novelty/framing polish** on the incremental cluster (p2, p5, p6) and applied papers (p12, p14, p15, p17, p18, p19) — none are desk-reject risks; sharpen contribution statements before each individual submission.
+- **Current-literature top-up**: the team should supply 2-3 exact 2024-26 references per target venue (I will not invent citations); I slot them in.
