@@ -6,7 +6,17 @@ A scorer is \textit{offline-calibrated} when its weights are fit on data
 that includes or post-dates the period it is applied to; it is
 \textit{online-calibrated} when its weights are fit using only information
 available before the prediction time. The distinction matters because
-deployable procedures cannot peek into the future. The temporal-stability study's H3
+deployable procedures cannot peek into the future. Calibration of
+scoring models is itself a well-studied problem: modern classifiers
+are frequently miscalibrated~\cite{guo2017calibration}, and a range of
+post-hoc remedies, including Platt scaling~\cite{platt1999probabilistic},
+isotonic-regression score transformation~\cite{zadrozny2002transforming},
+and the broader empirical comparison of probability-producing
+learners~\cite{niculescu2005predicting}, adjust raw scores toward
+well-calibrated probabilities. Those methods fit a static correction on
+a held-out set; the present work instead re-fits the scorer's
+combination weights as the operational state evolves. The
+temporal-stability study's H3
 ablation computed per-window weights by grid search
 on the calibration seeds' \textit{same-window} state, an offline-peek
 procedure that establishes an upper bound on what real-time recalibration
@@ -20,7 +30,10 @@ calibration set; window $w$ data is never inspected at training time.
 This pattern is standard in time-series cross-validation and is the
 weakest form of \textit{strictly online} learning: it uses only past
 observations and is therefore a valid stand-in for a real-time
-operational deployment.
+operational deployment. Re-fitting weights as the underlying
+distribution shifts is an instance of the concept-drift adaptation
+problem~\cite{gama2014survey}; the lag-1 grid search studied here is a
+deliberately minimal, auditable point in that design space.
 
 \subsection{Why High-Capacity Cells Matter Most}
 
@@ -37,6 +50,8 @@ fixed-weight procedure collapses.
 CISA BOD~22-01~\cite{cisa2021bod2201} and 23-01~\cite{cisa2022bod2301}
 together with NIST SP~800-40 Rev.~4~\cite{nist2022sp80040r4} define the
 operational scheduling regime under which any recalibration procedure
-must work. The procedure must be deployable, must not depend on
+must work. Stakeholder-specific prioritization schemes such as
+SSVC~\cite{spring2021ssvc} likewise assume a deployable, auditable
+decision procedure rather than a future-peeking one. The procedure must be deployable, must not depend on
 future-window data, and must be auditable, conditions that the
 rolling-history grid search satisfies and offline-peek does not.

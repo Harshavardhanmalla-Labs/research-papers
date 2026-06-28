@@ -11,9 +11,24 @@ vulnerability remediation (Microsoft Defender automated
 investigation; Tanium auto-remediation; IBM SOAR) are closed-source
 and do not publish their decision rules or safety bounds.
 
+\textbf{Vulnerability prioritization and exploit prediction.}
+The scoring rule that AutoHeal's triage consumes is the upstream of a
+broad literature: CVSS~\cite{mell2007cvss} for severity, EPSS for
+exploit likelihood~\cite{jacobs2021epss}, and SSVC for
+stakeholder-specific response decisions~\cite{spring2021ssvc}.
+Case-control evidence that severity poorly predicts exploitation in
+the wild~\cite{allodi2014comparing}, and the exploit-prediction work
+that followed~\cite{sabottke2015vulnerability,bullough2017predicting},
+motivate the EPSS-weighted scoring AutoHeal inherits from HygienePrio.
+Adversary-behaviour catalogues such as MITRE
+ATT\&CK~\cite{strom2020attack} frame the blast-radius risk that
+AutoHeal's safety bounds are designed to contain.
+
 \textbf{Pre-registered evaluation in security research.}
-Pre-registration discipline is rare in security; the VulnPrio
-sequence's earlier papers apply it consistently.
+Pre-registration discipline, well established in the empirical
+sciences as a defence against analytic
+flexibility~\cite{nosek2018preregistration}, is rare in security;
+the VulnPrio sequence's earlier papers apply it consistently.
 AutoHeal continues that discipline by locking the architecture's
 parameters and hypotheses before evaluation.
 

@@ -24,9 +24,21 @@ been deployed cautiously because of three risks:
 \textit{(i) Cascading failures.} A patch that introduces a regression
 on one host may affect many hosts if applied widely. Automated
 deployment without staged validation can amplify a single faulty
-patch into a fleet-wide outage.
+patch into a fleet-wide outage; the same blast-radius reasoning
+underlies adversary-behaviour models such as MITRE
+ATT\&CK~\cite{strom2020attack}, which catalogue how a foothold on one
+asset propagates across a fleet.
 
-\textit{(ii) False prioritisation.} If the scoring rule that selects
+\textit{(ii) False prioritisation.} The decision of \emph{which}
+pair to remediate first rests on a scoring rule; the dominant rules
+are CVSS~\cite{mell2007cvss}, the exploit-likelihood EPSS
+model~\cite{jacobs2021epss}, and the stakeholder-specific SSVC
+categorisation~\cite{spring2021ssvc}. Empirical studies show that
+severity alone is a poor predictor of real-world
+exploitation~\cite{allodi2014comparing}, motivating exploit-prediction
+signals built from disclosure-time
+data~\cite{sabottke2015vulnerability,bullough2017predicting}.
+If the scoring rule that selects
 patches to apply is biased, by attacker manipulation
 (the HygienePrio scorer, \S XI, adversarial robustness~\cite{paper4hygieneprio}),
 distributional shift

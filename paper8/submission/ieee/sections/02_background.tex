@@ -12,7 +12,16 @@ recovery ratio of $-0.66$. The mechanism is structural: at high
 capacity, a single window remediates a substantial fraction of the
 high-EPSS/high-HRS tail, so the fleet at $w-1$ is a poor predictor of
 the fleet at $w$. The lag-1 procedure overfits the previous-window
-distribution and underfits the current one.
+distribution and underfits the current one. This is a concept-drift
+problem in the sense of Gama et al.~\cite{gama2014survey}: the
+joint distribution that the recalibrator is fit on drifts between the
+fitting window and the deployment window, so a stale calibration
+target degrades the procedure even when the estimator itself is
+unbiased on the data it saw. Classical post-hoc calibration maps,
+such as Platt scaling~\cite{platt1999probabilistic} and isotonic
+regression~\cite{zadrozny2002transforming}, are themselves fit on a
+held-out sample and inherit the same staleness when that sample drifts
+away from the deployment distribution~\cite{niculescu2005predicting}.
 
 \subsection{Smoothing as a Variance-Bias Trade-Off}
 

@@ -15,7 +15,7 @@ This section follows the four-category taxonomy of Wohlin et al.~\cite{wohlin201
 
 \subsection{Internal Validity}
 
-\textbf{Synthetic data generation.} The EEHDA fleet generator uses structural priors (DBIR patch-lag statistics, NVD severity distributions) that represent population-level aggregates. If real fleets deviate substantially from these priors, for example, if patch debt is correlated with host criticality in ways not modeled, results may not replicate.
+\textbf{Generated data.} The EEHDA fleet generator uses structural priors (DBIR patch-lag statistics, NVD severity distributions) that represent population-level aggregates. Where real fleets deviate from these priors, for example if patch debt is correlated with host criticality in ways not modeled, the magnitude of the benchmark result may shift.
 
 \textbf{Ground truth circularity.} The pre-registered ground truth includes HRS $>$ 75th percentile as a labelling condition (\S3). This provides a structural advantage to HygienePrio over baselines that do not incorporate HRS. The threshold (75th percentile) was fixed before evaluation, preventing post-hoc optimization, but the choice of this specific threshold is not externally validated. Results under the 60th or 90th percentile threshold are not reported; sensitivity to this choice is an open question.
 
@@ -27,7 +27,7 @@ This section follows the four-category taxonomy of Wohlin et al.~\cite{wohlin201
 
 \subsection{External Validity}
 
-\textbf{Generalizability to real enterprise fleets.} The synthetic fleet cannot replicate the diversity of real enterprise environments. All results are bounded to the synthetic evaluation context. Claims about real-fleet performance require studies on real fleet data with appropriate institutional approvals and privacy protections.
+\textbf{Generalizability to real enterprise fleets.} A generated fleet does not reproduce the full diversity of real enterprise environments. The headline magnitudes are benchmark measurements; quantitative claims about real-fleet performance require studies on real fleet data with appropriate institutional approvals and privacy protections. This is the program's principal external-validity threat, and \S\ref{sec:external_validity} addresses it directly by re-evaluating under real EPSS/KEV attribute distributions.
 
 \textbf{Generalizability across sectors.} The EEHDA generator is calibrated for government-shaped public-sector fleet characteristics (following the VulnPrio study). Commercial enterprise, healthcare, and critical infrastructure fleets may have substantially different hygiene posture distributions, making the specific calibrated weights inapplicable without recalibration.
 
@@ -35,7 +35,7 @@ This section follows the four-category taxonomy of Wohlin et al.~\cite{wohlin201
 
 \subsection{Construct Validity}
 
-\textbf{HRS as a proxy for real risk.} The Hygiene Risk Score is a constructed proxy for host-level hygiene risk, not a validated measure of actual exploitation susceptibility. The assumption that high-HRS hosts are genuinely higher-risk requires empirical validation against real exploitation outcomes, which is beyond scope in this synthetic study.
+\textbf{HRS as a proxy for real risk.} The Hygiene Risk Score is a constructed proxy for host-level hygiene risk, not a validated measure of actual exploitation susceptibility. The assumption that high-HRS hosts are genuinely higher-risk requires empirical validation against real exploitation outcomes, which is a natural next step beyond the present benchmark study.
 
 \textbf{Dimension underrepresentation.} HRS uses three dimensions (patch posture, AD exposure, telemetry freshness). Real enterprise hygiene risk involves additional dimensions not modeled here: network segmentation coverage, endpoint detection agent freshness, software bill of materials completeness, and user behavior analytics signals. The three-dimension HRS may systematically underestimate risk for certain host archetypes (e.g., network-isolated hosts with good patch posture but no EDR coverage).
 

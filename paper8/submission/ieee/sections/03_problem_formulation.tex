@@ -36,9 +36,13 @@ The grid is identical to the online-calibration study (108 points).
 
 \subsection{Ground Truth and Metric}
 
-Inherited from Papers~5-7: (EPSS $> 0.10$) $\wedge$ (HRS $>$ 75th
-percentile recomputed per window), P@50 measured against the resulting
-positive set.
+Inherited from Papers~5-7: (EPSS~\cite{jacobs2021epss} $> 0.10$)
+$\wedge$ (HRS $>$ 75th percentile recomputed per window), P@50
+measured against the resulting positive set. P@50 is a top-$k$
+ranking metric in the cumulative-gain family~\cite{jarvelin2002cumulated};
+it rewards placing the exploitable, hygiene-deficient pairs in the
+top 50 slots that an operations team can realistically action per
+window.
 
 \subsection{Pre-Registered Hypotheses}
 

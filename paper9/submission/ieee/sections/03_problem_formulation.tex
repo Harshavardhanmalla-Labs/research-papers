@@ -30,6 +30,11 @@ selection history.
 
 \subsection{Metrics}
 
+We retain top-$K$ precision (P@50) as the headline metric for continuity
+with Papers~5-8; like cumulated-gain ranking measures~\cite{jarvelin2002cumulated}
+it evaluates the quality of the ranked head of the queue, which is exactly
+where a capacity-constrained remediation team operates.
+
 \begin{itemize}
 \item \textbf{P@50 grid:} $\mathrm{P@50}^{\mathrm{scorer}}_{K, w}(T_{\mathrm{driver}})$,
 the mean across 25 evaluation seeds.

@@ -277,7 +277,7 @@ adversary's point edits are caught.
 
 \textbf{Layer 2: per-window Merkle commitment.} Within each maintenance
 window the record hashes are the leaves of a binary SHA-256 Merkle
-tree~\cite{merkle1980protocols}; the root commits to the exact multiset and
+tree~\cite{merkle1980protocols,merkle1987digital}; the root commits to the exact multiset and
 order of records in that window. A checkpoint can therefore commit to a
 whole window in one hash, and membership of any record can be proven in
 logarithmic space.
@@ -687,11 +687,15 @@ tamper-evident logging~\cite{crosby2009tamper}; our per-window Merkle
 commitment is in this lineage and reduces per-window verification to a single
 root.
 
-\textbf{Transparency systems.} Certificate Transparency~\cite{rfc6962}
+\textbf{Transparency systems.} Certificate
+Transparency~\cite{rfc6962,laurie2014ct}
 contributes the operational pattern we adopt: a signed commitment to log state,
 held and gossiped independently, that makes omission and equivocation
 detectable rather than merely modification. Key-transparency systems such as
-CONIKS extend the idea to per-user directories with privacy~\cite{melara2015coniks}.
+CONIKS extend the idea to per-user directories with privacy~\cite{melara2015coniks},
+and subsequent work realizes transparency logs as append-only authenticated
+dictionaries, building completeness directly into the verifiable data
+structure~\cite{tomescu2019transparency}.
 Our anchor is the same signed-tree-head mechanism, specialized to a
 remediation decision stream and to an offline auditor who retains the latest
 checkpoint rather than a gossip network.
@@ -842,6 +846,10 @@ no.~2, pp. 159-176, 1999.
 R.~C. Merkle, ``Protocols for public key cryptosystems,'' in \emph{Proc.
 IEEE Symp. Security and Privacy}, 1980, pp. 122-134.
 
+\bibitem{merkle1987digital}
+R.~C. Merkle, ``A digital signature based on a conventional encryption
+function,'' in \emph{Advances in Cryptology - CRYPTO}, 1987, pp. 369-378.
+
 \bibitem{crosby2009tamper}
 S.~A. Crosby and D.~S. Wallach, ``Efficient data structures for
 tamper-evident logging,'' in \emph{Proc. USENIX Security Symp.}, 2009, pp.
@@ -860,10 +868,19 @@ Storage}, vol.~5, no.~1, pp. 1-21, 2009.
 B.~Laurie, A.~Langley, and E.~Kasper, ``Certificate transparency,'' RFC 6962,
 Internet Engineering Task Force, Jun. 2013.
 
+\bibitem{laurie2014ct}
+B.~Laurie, ``Certificate transparency,'' \emph{Communications of the ACM},
+vol.~57, no.~10, pp. 40-46, 2014.
+
 \bibitem{melara2015coniks}
 M.~S. Melara, A.~Blankstein, J.~Bonneau, E.~W. Felten, and M.~J. Freedman,
 ``{CONIKS}: Bringing key transparency to end users,'' in \emph{Proc. USENIX
 Security Symp.}, 2015, pp. 383-398.
+
+\bibitem{tomescu2019transparency}
+A.~Tomescu, V.~Bhupatiraju, D.~Papadopoulos, C.~Papamanthou, N.~Triandopoulos,
+and S.~Devadas, ``Transparency logs via append-only authenticated
+dictionaries,'' in \emph{Proc. ACM CCS}, 2019, pp. 1299-1316.
 
 \bibitem{rfc8032}
 S.~Josefsson and I.~Liusvaara, ``Edwards-curve digital signature algorithm

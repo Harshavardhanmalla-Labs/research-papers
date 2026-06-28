@@ -11,7 +11,12 @@ determined by HygienePrio's selection preferences, not by their own.
 
 Each paper documented the threat but bounded its claims to the
 HygienePrio-driven trajectory. None of them measured what would happen
-under a counterfactual trajectory.
+under a counterfactual trajectory. The threat is a closed-loop instance
+of the more general problem of evaluating a model under a non-stationary,
+self-induced distribution shift~\cite{gama2014survey}: here the scorer's
+own selection policy is what moves the evaluation distribution from one
+window to the next, so a scorer can appear to degrade simply because it
+reshaped the data it is later judged on.
 
 \subsection{Why It Could Change the Headline Conclusion}
 

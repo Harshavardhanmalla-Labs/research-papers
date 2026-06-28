@@ -1,5 +1,26 @@
 \section{Introduction}
 
+Turning a model's raw scores into reliable, decision-ready
+probabilities is the problem of \emph{calibration}, and it is central
+to any system that ranks items for limited human or machine
+attention~\cite{guo2017calibration,niculescu2005predicting}. In
+security operations, vulnerability prioritization scorers, from the
+Common Vulnerability Scoring System~\cite{mell2007cvss} and
+stakeholder-specific categorizations such as
+SSVC~\cite{spring2021ssvc} to exploit-likelihood models like
+EPSS~\cite{jacobs2021epss}, all face the same downstream requirement:
+their scores must stay well-ordered and well-calibrated as the
+underlying fleet evolves. That last clause is the hard part. Real
+remediation queues are non-stationary; the population of unpatched
+hosts and exploitable CVEs shifts from one maintenance window to the
+next, which is exactly the regime that the concept-drift literature
+studies~\cite{gama2014survey}. A recalibration procedure that is
+optimal on last week's distribution can be actively harmful on this
+week's. This paper is a controlled, pre-registered study of one such
+drift-coupled recalibration failure and of whether the most natural
+fix, smoothing the calibration target over a longer history, helps or
+hurts.
+
 The online-calibration study~\cite{paper7online} identified a capacity-dependent hazard
 in lag-1 rolling-history online recalibration of the HygienePrio
 vulnerability prioritization scorer. At moderate capacity

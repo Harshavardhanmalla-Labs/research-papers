@@ -17,6 +17,16 @@ Random), revising the interpretation from
 ``intrinsic property of hygiene-augmented scoring at high capacity''
 to ``closed-loop artefact of recursive deployment''.
 
+\textbf{Vulnerability scoring and prioritization.} Probabilistic and
+ordinal scorers for vulnerability triage span the deterministic severity
+of CVSS~\cite{mell2007cvss}, the stakeholder-specific decision trees of
+SSVC~\cite{spring2021ssvc}, and exploitation-likelihood scoring grounded
+in case-control studies of which vulnerabilities are actually
+attacked~\cite{allodi2014comparing}. HygienePrio sits in this lineage as
+a probabilistic scorer; the self-trajectory question we raise, whether a
+scorer's measured quality is intrinsic or trajectory-induced, applies to
+any of these scorers once it is also used to drive remediation.
+
 \textbf{EPSS dynamics.} Jacobs et al.~\cite{jacobs2021epss,jacobs2020improving}
 established per-CVE exploit-prediction scoring. Ravalico
 et al.~\cite{ravalico2025epsstemporal} studied per-CVE EPSS score drift.

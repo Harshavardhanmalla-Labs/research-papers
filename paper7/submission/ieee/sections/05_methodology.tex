@@ -51,7 +51,11 @@ This isolates the recalibration decision from the trajectory-generation
 decision: all three strategies see exactly the same evolving fleet, so
 any difference in P@50 is attributable to scoring weights alone. The
 choice and its threat-to-validity consequence are restated in
-\S\ref{sec:threats}.
+\S\ref{sec:threats}. We evaluate with Precision@$K$, a top-$K$ ranked
+retrieval metric in the same family as the rank-sensitive measures
+standard in information-retrieval evaluation~\cite{jarvelin2002cumulated},
+because prioritization is fundamentally a ranking task over a bounded
+patching budget.
 
 \subsection{Online Recovery Ratio}
 

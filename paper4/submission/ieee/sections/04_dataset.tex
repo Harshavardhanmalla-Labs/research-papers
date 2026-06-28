@@ -1,8 +1,8 @@
-\section{Dataset and Synthetic Fleet}
+\section{Dataset and Benchmark Fleet}
 
-\subsection{EEHDA Synthetic Fleet}
+\subsection{EEHDA Benchmark Fleet}
 
-All experiments use the Extended Enterprise Hygiene Dataset Artifact (EEHDA) synthetic fleet generator, the same generator used in Papers~1 and~3, extended to output both the vulnerability-host pair tables required by the VulnPrio study and the hygiene-state tables required by HygieneBench. This shared generator enables the cross-paper synthesis in \S8 and ensures that HygienePrio's hygiene inputs are drawn from the same distributional assumptions as the VulnPrio baseline.
+All experiments use the Extended Enterprise Hygiene Dataset Artifact (EEHDA) fleet generator, the same generator used in Papers~1 and~3, extended to output both the vulnerability-host pair tables required by the VulnPrio study and the hygiene-state tables required by HygieneBench. This shared generator yields a controlled, fully reproducible benchmark, enables the cross-paper synthesis in \S8, and ensures that HygienePrio's hygiene inputs are drawn from the same distributional assumptions as the VulnPrio baseline.
 
 The generator produces the following tables relevant to HygienePrio (see HygieneBench~\cite{paper3hygienebench} for full schema):
 
@@ -27,7 +27,7 @@ The generator produces the following tables relevant to HygienePrio (see Hygiene
  \end{tabular}
 \end{table*}
 
-\textbf{Structural priors.} Patch-lag distributions follow DBIR 2026 aggregate statistics (43-day mean for critical patches). CVE severity distributions follow NVD base score statistics. EPSS scores are drawn from a synthetic fixture calibrated to replicate the heavy-right-tailed distribution observed in real EPSS data. KEV membership is sampled at approximately 8\% prevalence. Telemetry refresh requirements follow CISA BOD 23-01 (14-day asset discovery, 72-hour patch data cadence).
+\textbf{Structural priors.} Patch-lag distributions follow DBIR 2026 aggregate statistics (43-day mean for critical patches). CVE severity distributions follow NVD base score statistics. EPSS scores are drawn from a fixture calibrated to replicate the heavy-right-tailed distribution observed in real EPSS data. KEV membership is sampled at approximately 8\% prevalence. Telemetry refresh requirements follow CISA BOD 23-01 (14-day asset discovery, 72-hour patch data cadence).
 
 \subsection{Seed Protocol}
 
@@ -39,13 +39,13 @@ Three hygiene dimensions are extracted from the EEHDA tables to form $\mathrm{HR
 
 \textbf{Patch Posture (PatchPosture).} Derived from \texttt{endpoint\_patch\_state}. For host $h$, $\mathrm{PatchPosture}(h)$ is the proportion of CVEs applicable to $h$ that remain unpatched: $\text{count(open CVEs on }h) / \text{count(applicable CVEs on }h)$. Higher values indicate greater patch debt. Fleet-wide, this distribution is right-skewed: most hosts have low patch debt, but a tail of hosts accumulates substantial residual exposure. This tail is the primary target of HygienePrio prioritization.
 
-\textbf{AD Exposure (ADExposure).} Derived from \texttt{users}, \texttt{groups}, and \texttt{group\_membership\_events}. For host $h$, $\mathrm{ADExposure}(h)$ combines: (i) group membership breadth of the primary user associated with $h$ (number of AD groups containing that user, normalized by fleet-wide maximum); (ii) a binary flag for whether that user holds a privileged role (domain admin, local admin, service account with elevated privilege); and (iii) a flag for whether $h$ has hosted domain-privileged process events in the past 30 days. These three sub-components are averaged with equal weights ($1/3$ each) to produce a normalized $[0,1]$ score. Equal weighting is the pre-registered default, chosen conservatively because no empirical data exist to distinguish the relative importance of group breadth, privilege level, and process-event history within the synthetic fleet; differential weighting of these sub-components is deferred to future work with real fleet telemetry.
+\textbf{AD Exposure (ADExposure).} Derived from \texttt{users}, \texttt{groups}, and \texttt{group\_membership\_events}. For host $h$, $\mathrm{ADExposure}(h)$ combines: (i) group membership breadth of the primary user associated with $h$ (number of AD groups containing that user, normalized by fleet-wide maximum); (ii) a binary flag for whether that user holds a privileged role (domain admin, local admin, service account with elevated privilege); and (iii) a flag for whether $h$ has hosted domain-privileged process events in the past 30 days. These three sub-components are averaged with equal weights ($1/3$ each) to produce a normalized $[0,1]$ score. Equal weighting is the pre-registered default; differential weighting of these sub-components is a natural extension once real fleet telemetry is available to estimate their relative importance.
 
 \textbf{Telemetry Freshness (TelemetryFreshness).} Derived from \texttt{telemetry\_freshness\_log}. For host $h$, $\mathrm{TelemetryFreshness}(h)$ is the staleness score: $\max(\text{days\_since\_last\_checkin}, 0)$, capped at 30 days and normalized by 30. A host last seen 15 days ago receives a score of 0.50; a host last seen 30+ days ago receives 1.0. Higher staleness $=$ less visibility $=$ higher hygiene risk weight. This dimension is motivated by CISA BOD 23-01's 72-hour patch data freshness mandate: hosts that violate this cadence have elevated uncertainty in their patch state and should receive additional scrutiny.
 
 \subsection{CVE Fixture and EPSS Scores}
 
-EPSS scores in the synthetic fixture are drawn from a mixture distribution approximating real EPSS data: a spike near zero (most CVEs have very low exploit probability) and a heavy tail above 0.10. Approximately 12\% of CVEs in each seed have EPSS $> 0.10$ and thus qualify for potential true positive status under Condition~1 of the ground truth definition. KEV membership is independent of EPSS score in the fixture and affects the $\mathrm{KEV\_recency}$ component only.
+EPSS scores in the fixture are drawn from a mixture distribution approximating real EPSS data: a spike near zero (most CVEs have very low exploit probability) and a heavy tail above 0.10. Approximately 12\% of CVEs in each seed have EPSS $> 0.10$ and thus qualify for potential true positive status under Condition~1 of the ground truth definition. KEV membership is independent of EPSS score in the fixture and affects the $\mathrm{KEV\_recency}$ component only.
 
 \subsection{Connection to HygieneBench}
 

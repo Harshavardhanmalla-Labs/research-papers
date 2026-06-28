@@ -14,7 +14,12 @@ The present paper inherits that finding as the motivation for
 H3 and reports that lag-1 online recalibration does not rescue
 the collapse and in fact worsens it transiently at $K = 200$.
 
-\textbf{EPSS dynamics.} Jacobs et al.~\cite{jacobs2021epss,jacobs2020improving}
+\textbf{Vulnerability scoring and exploit prediction.} The Common
+Vulnerability Scoring System~\cite{mell2007cvss} remains the default
+severity standard, yet empirical case-control work shows severity alone
+is a weak proxy for actual exploitation~\cite{allodi2014comparing},
+motivating exploit-likelihood scoring. Jacobs
+et al.~\cite{jacobs2021epss,jacobs2020improving}
 demonstrated the per-CVE exploit-likelihood scoring framework and
 its single-window advantage over CVSS. Ravalico
 et al.~\cite{ravalico2025epsstemporal} studied per-CVE EPSS score
@@ -24,7 +29,9 @@ online; the present paper is, to our knowledge, the first
 pre-registered evaluation of that question.
 
 \textbf{Online learning for security signals.} Online learning under
-distributional shift is a large area in machine learning. The
+distributional shift, surveyed comprehensively as the concept-drift
+adaptation problem~\cite{gama2014survey}, is a large area in machine
+learning. The
 specific question here, whether to deploy a deterministic
 grid-search recalibration with a one-window lag in a synthetic
 patch-management context, is methodologically narrow but

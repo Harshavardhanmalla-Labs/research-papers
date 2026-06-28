@@ -96,7 +96,7 @@ EPSS-only has no host-context information to filter gamed pairs and
 ranks them in proportion to the inflated EPSS.
 
 \textbf{The HygienePrio-vs-EPSS gap \emph{widens} under attack.}
-The synthetic-distribution baseline gap is $+26.4$~pp at $g = 0$.
+The benchmark baseline gap is $+26.4$~pp at $g = 0$.
 At $g = 0.05$ the gap grows to $+38.6$~pp; at $g = 0.30$ to $+37.4$~pp.
 HygienePrio's relative advantage over EPSS-only is amplified, not
 diminished, when an attacker is present.
@@ -126,11 +126,11 @@ attacker to compromise the hygiene posture of the host as well as the
 exploit-likelihood signal, a substantially harder attack than
 either alone.
 
-\subsection{Honest Caveats}
+\subsection{Caveats}
 
-\textit{(i) Synthetic distribution.} This analysis is on the EEHDA
-synthetic fleet. Section~\ref{sec:external_validity} showed that the
-synthetic EPSS distribution is heavier-tailed than reality. The
+\textit{(i) Benchmark distribution.} This analysis is on the EEHDA
+benchmark fleet. Section~\ref{sec:external_validity} showed that the
+benchmark EPSS distribution is heavier-tailed than reality. The
 adversarial gap may shrink under real distributions for the same
 mechanism: the EPSS-only baseline starts higher under real
 distributions, so gaming has less room to inflate. We do not re-run

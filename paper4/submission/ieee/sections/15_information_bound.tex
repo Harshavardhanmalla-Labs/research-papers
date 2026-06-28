@@ -1,7 +1,7 @@
 \section{An Information-Theoretic Ceiling on Hygiene Augmentation}
 \label{sec:info_bound}
 
-The empirical gap between synthetic ($+30.9$ pp) and real-distribution
+The empirical gap between the benchmark ($+30.9$ pp) and real-distribution
 ($+2.4$ pp) Precision@50 improvements (\S\ref{sec:external_validity})
 invites a question with a definite mathematical character:
 \emph{how much could hygiene augmentation possibly help, given the
@@ -60,7 +60,7 @@ publicly.
 
 Without a real-data MI estimate for $I(Y; X_H \mid X_E)$ we cannot
 compute the real-data ceiling directly. We can, however, make three
-honest observations bounded by the inequalities (\ref{eq:cmi_bound}):
+observations bounded by the inequalities (\ref{eq:cmi_bound}):
 
 \textit{(i) The real-distribution gap is consistent with low
 conditional information.} The empirical $+2.4$~pp real-distribution
@@ -71,13 +71,13 @@ conditional information; it is consistent with both ``HRS carries
 little CMI'' and ``HRS carries CMI but HygienePrio's linear scorer
 does not extract it efficiently.''
 
-\textit{(ii) The synthetic gap exceeds any plausible real-data MI
+\textit{(ii) The benchmark gap exceeds any plausible real-data MI
 budget.} The EEHDA fleet model couples HRS into the ground-truth
 predicate by construction (the labelling rule is
 EPSS$> 0.10$ AND HRS$> 75$th percentile). This makes
-$I(Y_{\text{synth}}; X_H \mid X_E)$ structurally large by design.
-The synthetic ceiling is therefore an upper bound on what hygiene
-augmentation could achieve \emph{under the synthetic labelling rule},
+$I(Y_{\text{bench}}; X_H \mid X_E)$ structurally large by design.
+The benchmark ceiling is therefore an upper bound on what hygiene
+augmentation could achieve \emph{under the benchmark labelling rule},
 not on what it would achieve under real exploitation outcomes.
 
 \textit{(iii) The major-CVE retrospective is a different conditional
@@ -91,9 +91,9 @@ The information-theoretic framing supports the
 \S\ref{sec:retrospective} operational claim more strongly than it
 supports the aggregate-distribution claim.
 
-\subsection{The Honest Conclusion}
+\subsection{Conclusion of the Bound Argument}
 
-A clean information-theoretic ceiling computation requires real-fleet
+A precise information-theoretic ceiling computation requires real-fleet
 exploitation-outcome data to estimate $I(Y; X_H \mid X_E)$. That data
 does not exist publicly. The most we can say from the public corpus
 is:
@@ -102,9 +102,9 @@ is:
 small in absolute terms ($\approx 0.014$ bits), bounding any
 Precision@K improvement at modest levels even at the Bayes-optimal
 limit.
-\item The synthetic Precision@K gaps observed for the HygienePrio scorer exceed what
+\item The benchmark Precision@K gaps observed for the HygienePrio scorer exceed what
 real-data information budgets plausibly support, consistent with the
-synthetic-distribution overestimate identified in
+distribution-dependent component of the headline identified in
 \S\ref{sec:external_validity}.
 \item The information-theoretic ceiling cannot be computed precisely
 without a real HRS signal correlated with real exploitation outcomes.
@@ -113,7 +113,7 @@ program's most consequential open problem is access to real fleet
 exploitation-outcome data, not algorithm refinement.
 \end{itemize}
 
-\subsection{Honest Caveats}
+\subsection{Caveats on the Estimates}
 
 \textit{(i) The MI estimates here are noisy plug-in estimates with
 five-bin uniform discretisation; finer bins and bias-corrected
@@ -128,7 +128,7 @@ that broader set is unobservable at any given moment.
 
 \textit{(iii) HRS proxy is structural, not predictive.}
 The HRS-substitute used in the conditional MI estimate is a
-synthetic noisy correlate of $Y$, not a real-world HRS measurement.
+constructed noisy correlate of $Y$ rather than a real-fleet HRS measurement.
 The reported $\hat I(Y; X_H^{\text{proxy}} \mid X_E) \approx 0.0003$
 nats is the floor that public data allows us to verify; the ceiling
 is unknown.

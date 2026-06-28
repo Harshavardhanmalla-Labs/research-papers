@@ -16,7 +16,12 @@ CVSS-only ($S = \mathrm{CVSS}_{\mathrm{base}}(c)$), and Random
 (seed-deterministic uniform ranking). We deliberately use the HygienePrio scorer's
 fixed weights and not the online-calibration study's online recalibration: the question
 in this paper is about \textit{trajectory effects} under a held-constant
-scorer, not about calibration.
+scorer, not about calibration. Holding the scorer fixed isolates the
+self-consistency question that motivates this study, whether a
+probabilistic security scorer's apparent quality is intrinsic or an
+artefact of the trajectory it is measured on, from the orthogonal and
+well-studied problem of whether the scorer's probabilities are themselves
+well calibrated~\cite{guo2017calibration,niculescu2005predicting}.
 
 \subsection{Driver-Stratified Fleet Evolution}
 

@@ -1,5 +1,36 @@
 \section{Related Work}
 
+\textbf{Probability calibration.} Producing well-calibrated
+probabilities from classifier scores is a long-studied
+problem~\cite{niculescu2005predicting}, with post-hoc maps including
+Platt scaling~\cite{platt1999probabilistic} and isotonic
+regression~\cite{zadrozny2002transforming}, and renewed attention to
+the miscalibration of high-capacity neural
+models~\cite{guo2017calibration}. The present paper does not propose a
+new calibration map; it studies the temporal-update layer that sits
+above any such map, asking how the calibration target should be
+aggregated across past windows. The finding, that a stale or
+over-smoothed target undoes the benefit of recalibration, is
+orthogonal to and compatible with the choice of map.
+
+\textbf{Concept drift.} The failure mode we document is a concept-drift
+phenomenon: the distribution shifts between the window the
+recalibrator is fit on and the window it is deployed on. The drift
+literature surveyed by Gama et al.~\cite{gama2014survey} catalogues
+exactly the adaptive-window and forgetting-factor mechanisms that our
+results, by elimination, point toward as the right class of fix.
+
+\textbf{Vulnerability prioritization and exploit likelihood.}
+Operational prioritization spans severity scoring with
+CVSS~\cite{mell2007cvss}, stakeholder-specific categorization with
+SSVC~\cite{spring2021ssvc}, empirical exploitation studies relating
+severity to observed exploits~\cite{allodi2014comparing}, and
+data-driven exploit-likelihood prediction with
+EPSS~\cite{jacobs2021epss}. Our scorer consumes EPSS as one input and
+inherits its non-stationarity; the calibration-update question we
+study applies to any of these scores when it is recalibrated online
+against an evolving fleet.
+
 \textbf{Lag-1 online calibration baseline.}
 The online-calibration study~\cite{paper7online} introduced the rolling-history grid-search
 recalibration procedure and reported the capacity-conditional hazard

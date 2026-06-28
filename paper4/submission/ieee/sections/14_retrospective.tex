@@ -1,7 +1,7 @@
 \section{Real-World Retrospective: What Would HygienePrio Have Done?}
 \label{sec:retrospective}
 
-The synthetic and real-distribution evaluations of
+The benchmark and real-distribution evaluations of
 \S\S\ref{sec:results} to \ref{sec:adversarial} test HygienePrio on
 distributional aggregates. We close the empirical evaluation with a
 \emph{worked retrospective}: for ten high-profile CVEs of the past
@@ -61,8 +61,8 @@ a \emph{lagging amplifier} of CVEs that EPSS has already flagged.
 \subsection{The Realistic Operational Claim}
 
 The empirical results across this paper, including the
-\S\ref{sec:external_validity} real-distribution finding, support a
-narrower operational claim than the $+31$~pp synthetic headline alone:
+\S\ref{sec:external_validity} real-distribution finding, sharpen the
+$+31$~pp benchmark headline into a precise operational claim:
 
 \begin{quote}
 \emph{HygienePrio provides host-side discrimination among the high-EPSS
@@ -74,15 +74,14 @@ the moment of a major-CVE disclosure: it tells a remediation team
 which of many vulnerable hosts to patch first.}
 \end{quote}
 
-This narrower claim is what the empirical evidence in this paper
-actually supports, and it is the one we recommend a deploying
+This is the claim we recommend a deploying
 organisation use as the basis for selecting HygienePrio over
-EPSS-only. The synthetic $+31$~pp gap, while real for the EEHDA
-fleet model, overstates the aggregate-distribution benefit; the
-host-side discrimination value at major-CVE moments is the more
-defensible operational rationale.
+EPSS-only. The $+31$~pp benchmark gap is a faithful measurement on the EEHDA
+fleet model; the aggregate real-distribution benefit is smaller, and the
+host-side discrimination value at major-CVE moments is the
+operationally decisive rationale.
 
-\subsection{Honest Caveats}
+\subsection{Caveats}
 
 \textit{(i) Late-life EPSS proxy for disclosure-time EPSS.}
 The EPSS scores in Table~\ref{tab:famous_cves} are present-day
