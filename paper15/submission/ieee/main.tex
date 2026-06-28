@@ -41,9 +41,10 @@ State agency cyber-operations teams routinely run two endpoint-management tools 
 strengths: a real-time agent that reports fresh state for the assets it covers, and a scheduled
 platform that covers a different, overlapping set but reports on a scan cadence and is often stale.
 Building a current vulnerability heatmap of the fleet means fusing these partial, differently-fresh
-feeds, yet the magnitude of the benefit and its limits are not obvious. We quantify both with a
-pre-registered simulation of a 5{,}000-asset fleet, with hypotheses, thresholds, and evaluation
-seeds locked before any result was inspected. At the reference coverage overlap, fusion detects
+feeds, yet prior fusion work reports that combining sources helps without saying how much current-vulnerability
+visibility is gained, by what mechanism, or what bounds it. We close that gap with a
+pre-registered, reproducible simulation of a 5{,}000-asset fleet, with hypotheses, thresholds, and evaluation
+seeds locked in a dated protocol before any result was inspected. At the reference coverage overlap, fusion detects
 current vulnerabilities at recall 0.8702 against 0.7498 for the better single tool, a gain of
 0.1204 (95\% bias-corrected and accelerated bootstrap interval $[0.1173, 0.1232]$), which clears
 the pre-registered 0.10 bar. The gain has an exact mechanism: it equals the fresh coverage unique
@@ -88,12 +89,19 @@ mechanism, so that a team can predict the gain from the properties of its two to
 discovering it after deployment? And what bounds the benefit, so that a program does not promise
 visibility that fusion structurally cannot deliver?
 
-This paper answers those three questions with a transparent model and a pre-registered evaluation.
-We do not claim to measure any particular agency's posture; we build an explicit model of two feeds
+This paper answers those three questions with a transparent model and a pre-registered, reproducible
+evaluation. We do not claim to measure any particular agency's posture; we build an explicit model of two feeds
 with documented coverage and freshness probabilities, lock a set of hypotheses and thresholds in a
 dated protocol before inspecting any evaluation seed, and report what the model says with
 bias-corrected and accelerated bootstrap intervals~\cite{efron1987bca} rather than
-significance tests. The contribution is fourfold.
+significance tests. The novel contribution is to make fusion's value \emph{predictable and bounded}:
+prior multisensor-fusion work establishes that combining complementary feeds helps in
+aggregate~\cite{hall1997fusion,bass2000fusion} but does not quantify the current-vulnerability gain,
+expose its mechanism, or identify the limit that fusion structurally cannot cross. We show the gain
+is exactly the second feed's unique fresh coverage, so an operator can predict it from two measurable
+tool properties before integrating anything, and that it is capped by a hard blind-spot floor that
+only new coverage, not better fusion logic, can lower. Pre-registration with locked seeds makes the
+study a reproducible specimen rather than a post-hoc fit. The contribution is fourfold.
 
 \begin{itemize}
 \item We \emph{quantify the fusion gain}. At the reference coverage overlap, fusing the two feeds
@@ -141,7 +149,7 @@ precision-recall framing is the appropriate evaluation lens for the skewed, miss
 we study~\cite{davis2006pr}. Our reproducible cyber-hygiene benchmark, together with prior
 prioritization work in this program, established that endpoint telemetry arrives over several
 distinct channels with different reliability and
-timeliness~\cite{paper4hygieneprio,paper1vulnprio}; the present paper isolates the
+timeliness~\cite{paper4hygieneprio,paper1vulnprio,paper3hygienebench,paper16hygieneml}; the present paper isolates the
 coverage-and-freshness structure of two such channels and the consequences of fusing them.
 
 \subsection{Federal asset-visibility mandates}
@@ -697,6 +705,12 @@ H.~Malla, ``Context-aware vulnerability prioritization for government endpoint
   \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper1},
   2026, companion paper; source, code, and frozen results in the same
   repository.
+
+\bibitem{paper3hygienebench}
+H.~Malla, ``{HygieneBench}: A reproducible synthetic benchmark for cyber-hygiene anomaly detection,'' \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper3}, 2026, companion paper.
+
+\bibitem{paper16hygieneml}
+H.~Malla, ``Multivariate machine learning for cyber-hygiene anomaly detection,'' \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper16}, 2026, companion paper.
 
 \bibitem{nist80053}
 {Joint Task Force}, ``Security and privacy controls for information systems and

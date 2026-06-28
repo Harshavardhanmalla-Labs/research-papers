@@ -1,7 +1,8 @@
 % =====================================================================
 % Paper 18 - The Drill Illusion: Latent Failover-Defect Decay and the
 % Recovery-Confidence Gain of Continuous Chaos Testing in Hybrid
-% Government Infrastructure. IEEE TNSM submission. Build with tectonic.
+% Government Infrastructure. IEEE Transactions on Reliability submission.
+% Build with tectonic.
 % Reproducibility: results/primary_v1/ (frozen on seeds 1200-1224).
 % Run src/run_evaluation.py.
 % =====================================================================
@@ -38,90 +39,106 @@ Gain of Continuous Chaos Testing in Hybrid Government Infrastructure}
 \maketitle
 
 \begin{abstract}
-Federal contingency planning assures recovery through periodic disaster-recovery drills, yet a
-recovery capability silently rots between drills as latent defects accumulate on components that
-nothing exercises. We quantify the consequence with a pre-registered simulation of a fleet of
-recovery-relevant components over a multi-year horizon, comparing annual drills against continuous
-chaos testing under a locked set of seeds, thresholds, and model constants. Our central quantity is
-at-random recovery: the probability that recovery succeeds when a failure strikes a component that
-was not specifically rehearsed near the failure time. Under annual drills, at-random recovery is
-only 0.6875 (95\% bias-corrected and accelerated bootstrap interval $[0.6797, 0.6951]$), even though
-the drill, run immediately after a validation, reports near-certain success. Continuous chaos
-testing, re-validating the covered components every few days, raises at-random recovery to 0.9489
-($[0.9443, 0.9533]$), a gain of 0.2614 ($[0.2549, 0.2678]$) that clears the pre-registered 0.10 bar.
-The gain is bounded by a coverage ceiling: it rises with chaos coverage, from 0.2184 at coverage 0.3
-to 0.2907 at coverage 0.9, and stays just below the perfect-freshness ceiling (gap $-0.0098$,
-$[-0.0102, -0.0094]$). The gain saturates as the chaos cadence tightens, from 0.1651 at a 90-day
-cadence to 0.2698 at a daily one, with marginal gains that fall to under one point. The drill
-illusion, the amount by which a periodic drill overstates true at-random recovery, grows with the
-drill interval and reaches 0.3125 ($[0.3051, 0.3204]$) at the annual interval: an annual drill
-overstates real recovery by about 31 points. A passing annual drill is not evidence of recovery
-readiness; only frequent validation of the components that matter keeps real recovery capability
-high, and that investment should be sized to coverage rather than to cadence past a point.
+A redundant system is dependable only if its failover path works at the instant a fault demands it,
+and periodic disaster-recovery drills are the proof tests that are meant to certify that readiness.
+We show that such proof tests create an illusion of failover readiness: latent failover defects
+accumulate undetected between drills, so the redundancy that a drill certifies decays steadily until
+the next test, and the at-fault availability of the failover path is far below the figure the drill
+reports. We quantify this with a pre-registered, reproducible simulation of a fleet of
+failover-relevant components subject to latent-defect arrival over a multi-year horizon, comparing
+annual proof-test drills against continuous chaos testing as a near-continuous proof-test regime,
+under a locked set of seeds, thresholds, and model constants. Our central reliability metric is
+at-random recovery: the probability that the failover path is in a working state when a fault strikes
+a component that was not recently proof-tested, i.e., the steady-state availability of redundancy
+against an arbitrarily timed demand. Under annual drills, at-random recovery is only 0.6875 (95\%
+bias-corrected and accelerated bootstrap interval $[0.6797, 0.6951]$), even though the drill, run
+immediately after a validation, reports near-certain success. Continuous chaos testing, re-validating
+the covered components every few days, raises at-random recovery to 0.9489 ($[0.9443, 0.9533]$), a
+gain of 0.2614 ($[0.2549, 0.2678]$) that clears the pre-registered 0.10 bar. The gain is bounded by a
+coverage ceiling set by which failure modes the proof test exercises: it rises with chaos coverage,
+from 0.2184 at coverage 0.3 to 0.2907 at coverage 0.9, and stays just below the perfect-freshness
+ceiling (gap $-0.0098$, $[-0.0102, -0.0094]$). The gain saturates as the proof-test cadence tightens,
+from 0.1651 at a 90-day cadence to 0.2698 at a daily one, with marginal gains that fall to under one
+point. The \emph{drill illusion}, the amount by which a periodic proof test overstates true at-random
+recovery, grows with the proof-test interval and reaches 0.3125 ($[0.3051, 0.3204]$) at the annual
+interval: an annual drill overstates real failover availability by about 31 points. A passing annual
+drill is therefore not evidence of failover readiness; only frequent proof-testing of the components
+that matter keeps real redundancy dependable, and that investment should be sized to coverage rather
+than to cadence past a point.
 \end{abstract}
 
 \begin{IEEEkeywords}
-disaster recovery, chaos engineering, failover, latent defects, recovery confidence, contingency
-planning, site reliability engineering, pre-registration, reproducibility
+dependability, redundancy, failover, proof testing, latent defects, availability, time to failure,
+disaster recovery, chaos engineering, recovery confidence, contingency planning, site reliability
+engineering, pre-registration, reproducibility
 \end{IEEEkeywords}
 
 \section{Introduction}
-\IEEEPARstart{F}{ederal} systems must be able to recover after a disruption, and contingency
-planning prescribes the drills that are meant to demonstrate that
-capability~\cite{nist80034}. A periodic disaster-recovery drill answers a narrow question, namely
-whether recovery works at the moment of the drill. That narrow answer is easily mistaken for a much
-broader one: whether recovery would work if a real disruption struck at an arbitrary later moment.
-The two answers diverge, and they diverge for a structural reason. Between drills, a recovery
-capability accumulates latent defects. A replication link breaks, a failover script's dependency
+\IEEEPARstart{D}{ependability} of a redundant system rests on a standby assumption: that when a
+fault demands the failover path, that path is in a working state. Reliability engineering certifies
+this assumption the way it certifies any protective function that is normally dormant, through
+\emph{proof testing}: the failover capability is exercised on a periodic schedule, the test passes,
+and the redundancy is presumed sound until the next test. In federal contingency planning the
+proof test is the periodic disaster-recovery drill~\cite{nist80034}. A periodic drill answers a
+narrow question, namely whether the failover path works at the moment of the test. That narrow
+answer is easily mistaken for a much broader one: whether the failover path would work if a fault
+struck at an arbitrary later moment. The two answers diverge, and they diverge for the same reason
+that proof-test intervals matter for any standby protective system: latent failover defects
+accumulate undetected between tests. A replication link breaks, a failover script's dependency
 changes underneath it, a credential expires, a routing rule is edited for a troubleshooting session
-and never restored. Each such defect sits undetected on the component it affects until something
+and never restored. Each such latent defect sits undetected on the component it affects until a test
 exercises that component again. If nothing does until the next annual drill, the component spends a
-large fraction of the year in a silently broken state, and a disruption arriving during that window
-finds a recovery path that does not work.
+large fraction of the year in a silently failed state, and a fault arriving during that window finds
+a failover path that does not work. The readiness certified by the last drill therefore has a
+finite time-to-failure governed by the latent-defect arrival rate.
 
-We call the consequence the drill illusion. A drill run immediately after a validation reports
-near-certain recovery, because the validation has just cleared any latent defect on the components
-it touched. But the probability that recovery succeeds at a random disruption time, when the struck
-component may not have been exercised recently, is materially lower. The gap between the two is the
-illusion: the amount by which a passing drill overstates the recovery capability that real incidents
-will actually encounter. The illusion is not a measurement error; it is a property of the cadence.
-The longer the interval between validations of a component, the longer that component spends in a
-latent-defect state, and the larger the overstatement.
+Our novel result is that this turns a periodic proof test into an \emph{illusion of failover
+readiness}. A drill run immediately after a validation reports near-certain recovery, because the
+validation has just cleared any latent defect on the components it touched. But the steady-state
+availability of the failover path under an arbitrarily timed demand, when the struck component may
+not have been proof-tested recently, is materially lower. The gap between the two is what we name the
+\emph{drill illusion}: the amount by which a passing proof test overstates the failover availability
+that real faults will actually encounter. The illusion is not a measurement error; it is a structural
+property of the proof-test interval. The longer the interval between validations of a component, the
+longer that component spends in a latent-defect state, and the larger the overstatement of its
+availability. To our knowledge no prior reliability or contingency-planning work quantifies this
+proof-test-induced overstatement of failover readiness, nor characterizes the bounds on closing it;
+the test-program literature establishes that exercises should be periodic but stops short of pricing
+the decay between them.
 
-Chaos engineering offers a different posture~\cite{basiri2016chaos,beyer2016sre}. Instead of
-exercising the recovery capability once a year, it injects faults continuously and automatically,
-re-validating the covered components every few days. A latent defect that would otherwise persist
-for months under an annual cadence is now caught within days, so the covered components spend almost
-all of their time in a healthy state and at-random recovery rises toward the at-drill figure. This
-is the autonomic, self-managing posture anticipated by the vision of autonomic
+Continuous chaos testing offers a near-continuous proof-test regime~\cite{basiri2016chaos,beyer2016sre}.
+Instead of exercising the failover capability once a year, it injects faults continuously and
+automatically, re-validating the covered components every few days. A latent defect that would
+otherwise persist for months under an annual cadence is now caught within days, so the covered
+components spend almost all of their time in a working state and at-random recovery rises toward the
+at-drill figure. This is the autonomic, self-managing posture anticipated by the vision of autonomic
 computing~\cite{kephart2003vision} and operationalized in our own prior work on self-healing
 remediation for government fleets~\cite{paper10autoheal}. The promise is attractive, and, like all
 attractive promises, it is easy to overstate. Two facts bound it. First, a chaos suite exercises only
-the components it covers; a failure mode that is never injected is never validated off-cadence and
+the failure modes it covers; a mode that is never injected is never proof-tested off-cadence and
 stays at the annual-drill level, so coverage sets a ceiling. Second, once chaos runs frequently
 enough that covered components are almost always fresh, tightening the cadence further adds little,
 so the benefit saturates.
 
-This paper quantifies the benefit and its two bounds. We do not claim to measure any particular
-agency's recovery posture. We build a transparent model of latent-defect decay on a fleet of
-recovery-relevant components, lock a set of hypotheses, thresholds, and seeds before inspecting any
-evaluation result, and report what the model says. Every magnitude in the paper comes from the
-frozen evaluation run on seeds 1200 to 1224, and every interval is a bias-corrected and accelerated
-(BCa) bootstrap interval. The contribution is fourfold.
+This paper quantifies the illusion, the benefit of near-continuous proof-testing, and its two bounds.
+We do not claim to measure any particular agency's recovery posture. We build a transparent model of
+latent-defect decay on a fleet of failover-relevant components, lock a set of hypotheses, thresholds,
+and seeds before inspecting any evaluation result, and report what the model says. Every magnitude in
+the paper comes from the frozen evaluation run on seeds 1200 to 1224, and every interval is a
+bias-corrected and accelerated (BCa) bootstrap interval. The contribution is fourfold.
 
 \begin{itemize}
-\item We define \emph{at-random recovery}, the probability that recovery succeeds when a failure
-strikes a component not specifically rehearsed near the failure time, and separate it from
-\emph{rehearsed recovery}, the near-certain figure a drill reports at the drill. The difference
-between these two is the drill illusion, and conflating them is the central error in optimistic
-disaster-recovery reporting.
-\item We show that continuous chaos testing raises at-random recovery from 0.6875 under annual
-drills to 0.9489, a gain of 0.2614 that clears the pre-registered 0.10 bar.
+\item We define \emph{at-random recovery}, the steady-state availability of the failover path when a
+fault strikes a component not recently proof-tested, and separate it from \emph{rehearsed recovery},
+the near-certain figure a drill reports at the test. The difference between these two is the drill
+illusion, and conflating them is the central error in optimistic disaster-recovery reporting.
+\item We show that near-continuous proof-testing via continuous chaos raises at-random recovery from
+0.6875 under annual drills to 0.9489, a gain of 0.2614 that clears the pre-registered 0.10 bar.
 \item We formalize a \emph{coverage ceiling}: the recovery-confidence gain cannot exceed what
-perfect freshness on the covered components would provide, and we confirm the realized gain sits
+perfect freshness on the proof-tested components would provide, and we confirm the realized gain sits
 just below that ceiling and rises with coverage.
-\item We show the gain \emph{saturates with cadence}: once the chaos cadence is tight enough that
-covered components are almost always fresh, further tightening adds little, which gives a direct
+\item We show the gain \emph{saturates with cadence}: once the proof-test cadence is tight enough
+that covered components are almost always fresh, further tightening adds little, which gives a direct
 budgeting rule, namely buy coverage rather than cadence past a point.
 \end{itemize}
 

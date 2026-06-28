@@ -40,7 +40,15 @@ Continuous Automated Evidence Collection and Its Automatability Ceiling}
 \maketitle
 
 \begin{abstract}
-Federal systems must show that their security controls remain effective over time, not only at an
+Expressing NIST 800-53 controls as executable policy-as-code lets a federal system collect control
+evidence continuously, but the field has reported only that drift is caught faster, never how much
+compliance exposure the executable form actually removes or what caps it. We give the first
+quantified answer: detection latency and exposure reduction are distinct payoffs, the former
+collapses by two orders of magnitude while the latter is hard-capped by the share of controls that
+can be expressed as code, and we measure that cap. The operational payoff is a sizing rule, exposure
+reduction tracks the automatable-exposure share rather than detection latency, so a program can be
+budgeted against the catalog instead of against collection speed. Federal systems must show that
+their security controls remain effective over time, not only at an
 annual audit. Continuous monitoring guidance and machine-readable control formats make it possible
 to collect control evidence automatically and continuously, so a control that drifts out of
 compliance is caught in days rather than at the next assessment. The operational question is how
@@ -89,7 +97,10 @@ a control is expressed as a checkable rule, the rule is evaluated on a short cad
 is caught within that cadence rather than at the next periodic assessment. The policy-as-code
 tooling that the wider industry has converged on, from general policy engines~\cite{opa} to
 desired-state configuration systems~\cite{powershelldsc}, makes the mechanics routine for the
-controls that can be expressed this way.
+controls that can be expressed this way. A companion study takes policy-as-code further still, using
+it for preventive enforcement that blocks recurring control violations before they occur rather than
+detecting them after~\cite{paper13policy}; here we hold the detection framing fixed and measure the
+exposure it removes.
 
 The promise is attractive enough that it is easy to overstate. Two facts bound it. First, not
 every control is machine-checkable. A control that requires a documented and approved policy, a
@@ -101,7 +112,16 @@ drifts twice a decade contributes little exposure whatever the monitoring regime
 that drifts monthly dominates the total. The value of automation is concentrated where drift is
 frequent, and those same controls, the technical ones, are also the most machine-checkable.
 
-This paper quantifies both the benefit and its bounds. We do not claim to measure any particular
+This paper quantifies both the benefit and its bounds. Prior policy-as-code work established that a
+control expressed as an executable rule can be evaluated on a short cadence and that drift is then
+caught faster; what it never measured is how much compliance exposure that executable form actually
+removes, or the hard limit on that removal. Our central quantified result supplies both: continuous
+evaluation of policy-as-code controls cuts detection latency by a factor of 272 yet removes only
+0.567 of annual exposure against a measured ceiling of 0.643, because the share of controls that can
+be expressed as code caps the exposure that any collection speed can remove. This separation of a
+latency payoff from an exposure payoff, and the measurement of the ceiling on the latter, is what
+prior compliance-as-code accounts did not show, and it converts the case for automation from a
+latency story into a budgetable sizing rule. We do not claim to measure any particular
 agency's posture; we build a transparent model of control drift, lock a set of hypotheses and
 thresholds before looking at the evaluation data, and report what the model says. The contribution
 is fourfold.
@@ -753,6 +773,12 @@ H.~Malla, ``Context-aware vulnerability prioritization for government endpoint
   \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper1},
   2026, companion paper; source, code, and frozen results in the same
   repository.
+
+\bibitem{paper13policy}
+H.~Malla, ``Policy-as-code for preventive compliance enforcement: prevention
+  versus detection for recurring control violations, with a {CJIS} case study,''
+  \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper13},
+  2026, companion paper.
 
 \bibitem{cover2006elements}
 T.~M. Cover and J.~A. Thomas, \emph{Elements of Information Theory},

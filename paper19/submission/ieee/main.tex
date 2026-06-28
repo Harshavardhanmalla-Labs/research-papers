@@ -38,12 +38,17 @@ Matching-Precision Ceiling of Self-Healing Reconciliation}
 \maketitle
 
 \begin{abstract}
-A configuration management database is the asset inventory on which security and cost management
+A configuration management database (CMDB) is the asset inventory on which security and cost management
 both depend, and it is never accurate because the fleet churns faster than it is reconciled. Its
 errors are two-sided: a ghost asset, meaning a real asset missing from the inventory, is a security
 cost, and a phantom asset, meaning a record with no real asset behind it, is a financial and noise
-cost. The two errors have opposite remedies, so reducing one tends to raise the other, and the
-operating point that minimizes their sum is not at either extreme. We quantify both errors with a
+cost. Prior asset-visibility and record-linkage work treats inventory accuracy as a single number to
+maximize; our contribution is to separate and quantify the two opposing costs from a single set of
+results, and to show that they have opposite remedies, so reducing one tends to raise the other and
+the operating point that minimizes their sum sits at an interior optimum, not at either extreme.
+The operational implication is concrete: asset-inventory hygiene is a tuning problem, not a chase to
+zero, and the right operating point is set by how an organization prices a security blind spot against
+a wasted-spend record. We quantify both errors with a
 pre-registered simulation of a churning fleet, with hypotheses, thresholds, and evaluation seeds
 locked before any result was inspected. Continuous self-healing reconciliation reduces total
 inventory error from 0.6047 under quarterly reconciliation to 0.1342, a reduction of 0.778 (95\%
@@ -107,7 +112,16 @@ correct existing record, producing duplicate phantoms that no cadence and no ret
 remove, because they are the result of a matching failure rather than a timing failure. Matching
 precision therefore sets a floor on inventory accuracy that operational tuning cannot cross.
 
-This paper quantifies the benefit and its bounds. We do not claim to measure any particular
+This paper quantifies the benefit and its bounds. The novel contribution is to make the two-sided cost
+of CMDB error explicit and to quantify both sides from a single set of pre-registered results: the
+ghost rate, a security cost, and the phantom rate, a financial and noise cost, measured together so
+that the tradeoff between them is visible rather than hidden inside an aggregate accuracy figure. What
+prior asset-visibility mandates~\cite{nist80053,cisabod2301} and record-linkage
+theory~\cite{fellegi1969linkage,christen2012matching} did not show is that these two costs move in
+opposite directions under operational tuning, so that there is an interior operating point and a hard
+matching-precision floor rather than a monotone accuracy gain. The operational implication is direct:
+inventory hygiene should be tuned to the interior optimum set by the organization's security-to-cost
+balance, not driven toward zero error on either axis. We do not claim to measure any particular
 organization's inventory; we build a transparent model of a churning fleet under reconciliation,
 lock a set of hypotheses and thresholds before looking at the evaluation data, and report what the
 model says. The contribution is fourfold.
@@ -173,9 +187,12 @@ when its records diverge from reality. Breach data continues to attribute incide
 unknown assets~\cite{verizon2026dbir}, the operational manifestation of the ghost error, and the
 author's prior work on hygiene-augmented vulnerability
 prioritization~\cite{paper4hygieneprio}, together with the author's earlier context-aware
-vulnerability-prioritization study for government endpoint fleets, depends on the inventory being
+vulnerability-prioritization study for critical-infrastructure and public-sector endpoint
+fleets~\cite{paper11capg} and the asset-criticality-driven patch-triage
+study~\cite{paper14patch}, depends on the inventory being
 right in the first place, since an asset absent from the inventory is absent from every
-prioritization that reads it.
+prioritization that reads it, and asset criticality cannot be assigned to an asset the inventory
+does not record.
 
 \section{System Model}
 We model a single fleet over a long horizon and measure, at steady state, how much inventory error
@@ -815,6 +832,12 @@ H.~Malla, ``{HygienePrio}: Cyber-hygiene signal augmentation for
   \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper4},
   2026, companion paper; source, code, and frozen results in the same
   repository.
+
+\bibitem{paper11capg}
+H.~Malla, ``Context-aware vulnerability prioritization for critical-infrastructure and public-sector endpoint fleets,'' \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper11}, 2026, companion paper.
+
+\bibitem{paper14patch}
+H.~Malla, ``Patch {Tuesday} triage: asset criticality, not exploit likelihood,'' \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper14}, 2026, companion paper.
 
 \end{thebibliography}
 

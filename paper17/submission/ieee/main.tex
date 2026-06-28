@@ -47,7 +47,10 @@ which deploys to a small canary ring first and expands only if that ring stays h
 the tradeoff with a pre-registered simulation of a fleet partitioned into rings through which a bad
 change is promoted ring by ring and caught at each inter-ring gate with a per-stage detection
 probability. Hypotheses, thresholds, and the evaluation seeds were locked before any result was
-inspected. A four-ring rollout reduces the expected blast radius of a faulty change, the fraction of
+inspected. The measurable contribution is a reproducible accounting that, for fleet-scale script
+enforcement specifically, separates the containment benefit of staging from its convergence cost and
+quantifies how each scales, which prior progressive-delivery work treated qualitatively. A four-ring
+rollout reduces the expected blast radius of a faulty change, the fraction of
 the fleet harmed before the change is caught, by 0.9522 relative to a big-bang rollout (95\%
 bias-corrected and accelerated bootstrap interval $[0.9511, 0.9531]$), cutting the expected blast
 radius from 1.0 to 0.0478 at a fixed convergence cost of three inter-ring stages. The expected blast
@@ -64,6 +67,12 @@ and stop adding rings once the marginal reduction no longer justifies the added 
 configuration enforcement, PowerShell, ring rollout, canary, blast radius, progressive delivery,
 staged rollout, change safety, pre-registration, reproducibility
 \end{IEEEkeywords}
+
+% Measurable, pre-registered contribution stated crisply in the abstract above
+% (0.9522 blast-radius reduction at fixed 3-stage convergence cost) and the
+% introduction's fourfold list below; prior staged-rollout work did not separate
+% the containment benefit from the convergence cost or quantify the observability
+% scaling for fleet-scale script enforcement.
 
 \section{Introduction}
 \IEEEPARstart{G}{overnment} endpoint teams keep large fleets compliant by running enforcement
@@ -102,7 +111,13 @@ other.
 This paper quantifies that tradeoff. We do not claim to measure any particular agency's deployment
 record; we build a transparent model of a fleet partitioned into rings through which a bad change is
 promoted and caught with a per-stage detection probability, lock a set of hypotheses and thresholds
-before inspecting any evaluation data, and report what the model says. The contribution is fourfold.
+before inspecting any evaluation data, and report what the model says. The measurable, pre-registered
+contribution is a reproducible decomposition of the staged-rollout tradeoff for fleet-scale script
+enforcement: it quantifies the blast-radius containment a ring rollout achieves, isolates the fixed
+convergence cost it charges, and shows how containment scales with canary observability and ring
+granularity. Prior progressive-delivery work established that staging limits the impact of a bad push
+but did not, for this setting, separate that benefit from its cost or quantify either as a function of
+the two operating levers. The contribution is fourfold.
 
 \begin{itemize}
 \item We formalize the \emph{blast radius} of a faulty change under ring rollout as the cumulative
@@ -148,7 +163,8 @@ as a first-class objective~\cite{beyer2016sre}, and resilience and fault-injecti
 practice~\cite{basiri2016chaos} deliberately introduces faults into a bounded slice of a system to
 verify that containment holds before a real fault arrives. The autonomic-computing vision of
 self-managing systems~\cite{kephart2003vision} anticipated this shift toward continuous,
-self-correcting enforcement; ring rollout is the safety scaffold that keeps such continuous
+self-correcting enforcement, and self-healing remediation frameworks now act on faults
+autonomously~\cite{paper10autoheal}; ring rollout is the safety scaffold that keeps such continuous
 enforcement from amplifying its own errors. Our model makes the blast-radius limitation explicit and
 quantitative for the specific case of staged enforcement deployment.
 
@@ -157,7 +173,9 @@ Government endpoint enforcement operates inside a body of guidance. The enterpri
 planning guide~\cite{nist2022sp80040r4} frames deployment as a risk-managed process and explicitly
 recommends phased rollout to limit the impact of a bad patch. The control
 catalog~\cite{nist80053} and continuous-monitoring guidance~\cite{nist80137} define what must be
-enforced and how its effectiveness is to be tracked over time, and binding operational
+enforced and how its effectiveness is to be tracked over time; preventive, policy-as-code enforcement
+turns those controls into machine-checkable rules that block recurring violations before they
+recur~\cite{paper13policy}, and binding operational
 directives~\cite{cisabod2201} place agencies under remediation timelines that a staged rollout must
 respect, since slower convergence still has to clear a deadline. Breach data continues to attribute
 incidents to known, unremediated weaknesses~\cite{verizon2026dbir}, which is the pressure to deploy
@@ -764,6 +782,18 @@ H.~Malla, ``Context-aware vulnerability prioritization for government endpoint
   \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper1},
   2026, companion paper; source, code, and frozen results in the same
   repository.
+
+\bibitem{paper13policy}
+H.~Malla, ``Policy-as-code for preventive compliance enforcement: prevention
+  versus detection for recurring control violations, with a {CJIS} case study,''
+  \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper13},
+  2026, companion paper.
+
+\bibitem{paper10autoheal}
+H.~Malla, ``{AutoHeal}: a pre-registered self-healing framework for autonomous
+  vulnerability remediation,''
+  \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper10},
+  2026, companion paper.
 
 \end{thebibliography}
 
