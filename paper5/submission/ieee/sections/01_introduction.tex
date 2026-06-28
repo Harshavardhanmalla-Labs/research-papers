@@ -10,8 +10,10 @@ This paper tests this hypothesis through a pre-registered multi-window simulatio
 
 \subsection{Contributions}
 
+The novel contribution of this paper is a pre-registered, fully reproducible study of how the hygiene-augmentation advantage in vulnerability prioritization \textit{persists or decays over time} across rolling maintenance windows, a temporal dimension that prior single-window evaluations, including our own, could not observe. Concretely:
+
 \begin{itemize}
-\item \textbf{C1, Multi-window evaluation framework.} An extension of the Extended Enterprise Hygiene Dataset Artifact (EEHDA) synthetic fleet simulation to support temporal fleet state evolution: patch application, new CVE disclosure, EPSS score update, and telemetry freshness accumulation across consecutive maintenance windows.
+\item \textbf{C1, Multi-window evaluation framework.} An extension of the Extended Enterprise Hygiene Dataset Artifact (EEHDA) synthetic fleet simulation to support temporal fleet state evolution: patch application, new CVE disclosure, EPSS score update, and telemetry freshness accumulation across consecutive maintenance windows. This is the first evaluation harness in this research sequence that observes prioritization effectiveness as the fleet is actively remediated rather than at a single frozen snapshot.
 
 \item \textbf{C2, Temporal stability finding.} HygienePrio-full outperforms EPSS-only in all 150 of 150 window-seed evaluation pairs. EPSS-only decays from $0.331$ at Window~1 to $0.034$ at Window~6 (89.6\% relative drop); HygienePrio-full maintains P@50 $\geq 0.499$ at every window.
 
@@ -22,4 +24,4 @@ This paper tests this hypothesis through a pre-registered multi-window simulatio
 
 \subsection{Relationship to Prior Papers}
 
-This paper is the fifth in the VulnPrio research sequence. The VulnPrio study~\cite{paper1vulnprio} reported a null result, CVE-level augmentation $\approx$ EPSS-only at a single window. Our earlier reproducible cyber-hygiene benchmark showed that hygiene signals carry discriminative structure in anomaly detection tasks. The HygienePrio scorer~\cite{paper4hygieneprio} (HygienePrio) demonstrated approximately 31 percentage-point Precision@50 improvement from hygiene augmentation at a single window. This paper extends the HygienePrio scorer to a temporal setting, showing that the hygiene advantage persists across six windows and that the absolute gap to EPSS-only grows from $26.4$ pp at Window~1 to $46.5$ pp at Window~6 as EPSS-only decays.
+This paper is the fifth in the VulnPrio research sequence. The VulnPrio study~\cite{paper1vulnprio} reported a null result, CVE-level augmentation $\approx$ EPSS-only at a single window. Our earlier reproducible cyber-hygiene benchmark, HygieneBench~\cite{paper3hygienebench}, showed that hygiene signals carry discriminative structure in anomaly detection tasks. The HygienePrio scorer~\cite{paper4hygieneprio} (HygienePrio) demonstrated approximately 31 percentage-point Precision@50 improvement from hygiene augmentation at a single window. This paper extends the HygienePrio scorer to a temporal setting, showing that the hygiene advantage persists across six windows and that the absolute gap to EPSS-only grows from $26.4$ pp at Window~1 to $46.5$ pp at Window~6 as EPSS-only decays.

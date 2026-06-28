@@ -1,0 +1,30 @@
+\begin{table}[!t]
+\caption{Harm-weighted prioritization on real EPSS/KEV data (25 seeds). ENSES
+(ours, glass-box) leads all methods and exceeds the black-box ensemble at lower
+latency. Ablations remove one ENSES tier each.\\[2pt]
+\textit{Alt text:} A results table of eight methods by six columns
+(Precision@50/100/250/500, NDCG@100, latency). ENSES has the highest scores
+(0.83/0.87/0.91/0.93, NDCG 0.86) at 4.5 microseconds; the XGBoost ensemble is
+just below at 24 microseconds; ablations and EPSS-only are lower.}
+\label{tab:main}
+\centering
+\footnotesize
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+& \multicolumn{4}{c}{Harm-weighted P@$k$} & NDCG & Lat. \\
+\cmidrule(lr){2-5}
+Method & 50 & 100 & 250 & 500 & @100 & ($\mu$s) \\
+\midrule
+\textbf{ENSES (ours)} & \textbf{0.832} & \textbf{0.871} & \textbf{0.906} & \textbf{0.931} & \textbf{0.860} & 4.5 \\
+XGBoost ensemble      & 0.821 & 0.857 & 0.903 & 0.927 & 0.841 & 24.1 \\
+\midrule
+\;ENSES $-$ knowl. graph & 0.773 & 0.836 & 0.874 & 0.915 & 0.784 & n/a \\
+\;ENSES $-$ neural tier  & 0.775 & 0.802 & 0.883 & 0.899 & 0.790 & n/a \\
+\;ENSES $-$ criticality  & 0.365 & 0.397 & 0.465 & 0.552 & 0.379 & n/a \\
+\midrule
+EPSS-only             & 0.176 & 0.208 & 0.274 & 0.367 & 0.189 & 1.0 \\
+KEV-first             & 0.175 & 0.208 & 0.275 & 0.369 & 0.189 & 0.7 \\
+Random                & 0.038 & 0.039 & 0.050 & 0.061 & 0.037 & 0.7 \\
+\bottomrule
+\end{tabular}
+\end{table}

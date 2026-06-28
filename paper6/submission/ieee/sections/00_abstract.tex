@@ -18,7 +18,16 @@ $96.0\%$ of (cell, seed, window) triples on the synthetic fixture; a
 real-distribution capacity sweep (CISA KEV and FIRST.org EPSS
 attributes, 6{,}750 rows) shows this persistence is a
 synthetic-distribution artifact, falling to $10.0\%$ with the two
-methods tied within $0.5$~pp in $69\%$ of triples. All claims remain
+methods tied within $0.5$~pp in $69\%$ of triples. The contribution
+is a pre-registered, reproducible characterization of how the
+hygiene-augmentation advantage varies with \emph{remediation
+capacity}: it is decisive when capacity is scarce ($K \leq 50$, where
+HygienePrio-full holds its W6 floor) and dissolves when capacity is
+ample ($K \in \{100, 200\}$, where both methods collapse). Prior
+single-cell work fixed capacity and could not expose this dependence;
+the resulting operational decision rule is to augment EPSS with hygiene
+signals precisely in the capacity-constrained regime and not to expect
+an absolute-quality floor at high throughput. All claims remain
 bounded to the synthetic evaluation context; external validation on
 real fleet telemetry with longitudinal exploitation outcomes is
 required before any deployment recommendation.

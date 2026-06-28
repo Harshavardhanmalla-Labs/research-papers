@@ -22,8 +22,19 @@ the temporal-stability study's single-cell result cannot tell either organisatio
 
 This paper sweeps a pre-registered 5$\times$4 grid of $(K, \lambda)$
 on the 25 evaluation seeds inherited from the temporal-stability study, generating 15{,}000
-result rows under the same EEHDA fleet model. We report three
+result rows under the same EEHDA fleet model. We report our
 findings honestly against the pre-registration.
+
+The novel contribution is a pre-registered, reproducible
+characterization of how the hygiene-augmentation advantage varies with
+\emph{remediation capacity}: scarce capacity is precisely where hygiene
+augmentation pays off, and ample capacity is where it does not.
+No prior study in this line, or to our knowledge in the open
+prioritization literature, varied capacity as a first-class axis; each
+fixed it at a single operating point and therefore could not show that
+the headline advantage is capacity-conditional. Surfacing that
+dependence yields a concrete operational decision rule, stated below,
+that single-cell evaluations cannot.
 
 \subsection{Contributions}
 
@@ -63,14 +74,24 @@ triples ($2{,}881$/$3{,}000$). Minimum per-cell dominance is $76.7\%$.
 Hygiene augmentation is a strict improvement over EPSS-only in the
 regimes studied, but is not a guarantee of absolute scheduling quality
 at the high-capacity end.
+
+\item \textbf{C6, Capacity-conditional decision rule.} Combining the
+above, the advantage of hygiene augmentation is \emph{capacity-conditional}:
+at $K \leq 50$ HygienePrio-full holds a W6 P@50 floor of $\geq 0.473$
+and is the clear choice, whereas at $K \in \{100, 200\}$ its absolute
+floor collapses alongside EPSS-only. The operational rule that follows
+is to augment EPSS with hygiene signals in the capacity-constrained
+regime and to treat no method as offering an absolute-quality floor at
+high throughput. This conditional characterization is what prior
+single-cell evaluations, which fixed capacity, could not provide.
 \end{itemize}
 
 \subsection{Relationship to Prior Papers}
 
 This paper is the sixth in the VulnPrio research sequence. Our origin
 vulnerability-prioritization study reported a null result for CVE-level
-augmentation at one window. The reproducible hygiene benchmark in this line
-demonstrated discriminative structure
+augmentation at one window. The reproducible HygieneBench
+benchmark~\cite{paper3hygienebench} demonstrated discriminative structure
 in hygiene signals. The HygienePrio scorer~\cite{paper4hygieneprio} integrated those
 signals and showed $\approx 31$~pp Precision@50
 improvement over EPSS-only at one window. The temporal-stability study~\cite{paper5temporal}
