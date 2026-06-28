@@ -330,7 +330,7 @@ export const PAPERS: Paper[] = [
   },
   {
     id: "paper11",
-    title: "Context-Aware Vulnerability Prioritization for Government Endpoint Fleets",
+    title: "Context-Aware Vulnerability Prioritization for Critical-Infrastructure and Public-Sector Endpoint Fleets",
     shortTitle: "CAP-G",
     subtitle: "Asset criticality + network zone + data sensitivity layered on HygienePrio: +9.5pp mission precision at triage, H1 partial / H2 ✓ / H3 ✓ / H4 ✓",
     status: "ready",
@@ -386,7 +386,7 @@ export const PAPERS: Paper[] = [
   },
   {
     id: "paper13",
-    title: "Policy-as-Code for CJIS Compliance: Prevention versus Detection for Recurring Control Violations on Law-Enforcement Endpoint Fleets",
+    title: "Policy-as-Code for Preventive Compliance Enforcement: Prevention versus Detection for Recurring Control Violations, with a CJIS Case Study",
     shortTitle: "PolicyGate",
     subtitle: "Preventive guardrails cut CJI exposure 70% over detection, growing to 81% as violations recur, while the false-block cost stays fixed. H1-H4 all supported.",
     status: "ready",
