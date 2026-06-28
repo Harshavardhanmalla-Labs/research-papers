@@ -47,20 +47,26 @@ disclosure, however, the Exploit Prediction Scoring System (EPSS) score~\cite{ja
 immature: it rises over the days after disclosure as evidence accrues~\cite{jacobs2023enhancing},
 and Known Exploited Vulnerability (KEV) entry lags disclosure. We ask which signal governs good
 disclosure-time triage on a government fleet: the early exploit estimate or the asset context of
-the host. Using a pre-registered simulation on a synthetic 830-host fleet whose EPSS and KEV
-signal is resampled from a frozen real corpus of 203{,}174 CVEs, with the immature day-0
-observation produced by a pre-registered maturation model, we find that asset context, not the
-early exploit signal, drives emergent-risk prioritization. Context-weighted triage raises
-mission-weighted precision at the top 50 from 0.234 to 0.298 over a context-blind day-0 EPSS
-baseline ($+6.5$ points; 95\% BCa interval $[4.9, 7.8]$). Dropping the day-0 observation changes
-that precision by only 1.5 points, and removing the context factor erases the entire gain.
-Context-weighted triage with stable signals (0.298) nearly matches an oracle with the matured
-EPSS score (0.302). A closed-form analysis explains the effect: inverse-variance fusion places only
-weight 0.2 on the stable severity correlate at the reference noise, and the exact asset-context multiplier
-reorders the scarce top-K queue more than the saturated exploit term can, which is also why the
-context weighting is robust to an adversary who times exploitation to the immaturity window. The
-recommendation is direct: at disclosure time, weight the patch queue by asset criticality
-immediately rather than waiting for the exploit signal to mature.
+the host. This paper contributes the first pre-registered, reproducible demonstration that, in the
+scarce-capacity disclosure-time regime, \emph{asset criticality dominates exploit-likelihood} for
+patch-window triage, together with the operational decision rule that follows from it. Using a
+pre-registered simulation on a synthetic 830-host fleet whose EPSS and KEV signal is resampled from
+a frozen real corpus of 203{,}174 CVEs, with the immature day-0 observation produced by a
+pre-registered maturation model, we establish that asset context, not the early exploit signal,
+drives emergent-risk prioritization. Context-weighted triage raises mission-weighted precision at
+the top 50 from 0.234 to 0.298 over a context-blind day-0 EPSS baseline ($+6.5$ points; 95\% BCa
+interval $[4.9, 7.8]$). Dropping the day-0 observation changes that precision by only 1.5 points,
+and removing the context factor erases the entire gain, so the advantage is the asset weighting
+itself and not a better treatment of the exploit signal. Context-weighted triage with stable
+signals (0.298) nearly matches an oracle with the matured EPSS score (0.302). A closed-form analysis
+explains the effect: inverse-variance fusion places only weight 0.2 on the stable severity
+correlate at the reference noise, and the exact asset-context multiplier reorders the scarce top-K
+queue more than the saturated exploit term can, which is also why the context weighting is robust to
+an adversary who times exploitation to the immaturity window. Prior prioritization work weights
+asset context but does not isolate the disclosure-time regime in which the immature exploit signal
+makes that context decisive; we do, and the resulting recommendation is direct and actionable: at
+disclosure time, weight the patch queue by asset criticality immediately rather than waiting for the
+exploit signal to mature.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -112,13 +118,19 @@ mission-weighted precision at the top of the queue, the quantity that captures h
 scarce remediation slots land on vulnerabilities that will become high exploit-risk on high-context
 hosts. The headline finding is that asset context, dominated by asset criticality, drives
 emergent-risk prioritization, and the immature day-0 exploit estimate contributes little beyond the
-stable signals already available at disclosure. The contribution is fourfold.
+stable signals already available at disclosure. The novelty is precise: prior prioritization work
+establishes that asset context helps, but none isolates the disclosure-time, capacity-constrained
+regime and shows, under pre-registration, that in that regime asset criticality \emph{dominates}
+exploit-likelihood to the point where the early exploit signal is nearly dispensable. We close that
+gap and convert it into a single operational rule. The contribution is fourfold.
 
 \begin{itemize}
-\item We show that \emph{asset context, not the early exploit estimate, governs good
-disclosure-time triage}. Weighting the queue by asset criticality raises mission-weighted precision
-at the top 50 by 6.48 points over a context-blind day-0 EPSS baseline, with a BCa interval of
-$[4.9, 7.8]$ that clears the pre-registered five-point bar.
+\item We deliver the first pre-registered, reproducible result that \emph{asset criticality, not
+the early exploit estimate, governs good disclosure-time triage}: weighting the queue by asset
+criticality raises mission-weighted precision at the top 50 by 6.48 points over a context-blind
+day-0 EPSS baseline, with a BCa interval of $[4.9, 7.8]$ that clears the pre-registered five-point
+bar, and the rule it yields, weight the queue by asset criticality at disclosure rather than wait
+for the exploit signal to mature, is immediately deployable on data agencies already hold.
 \item We show that the \emph{immature day-0 exploit observation is nearly redundant} given stable
 signals: dropping it from the predictor changes precision by only 1.52 points, so intrinsic
 severity and the partial KEV-at-disclosure flag carry almost all of the recoverable exploit
@@ -203,8 +215,10 @@ intervals~\cite{efron1987bca,efron1994introduction} and using interval non-overl
 significance testing, in line with the pre-registration practice that empirical software
 engineering has adopted to control researcher degrees of freedom~\cite{wohlin2012experimentation}.
 The study continues the author's prior work on context-aware vulnerability prioritization for
-government endpoint fleets~\cite{paper1vulnprio} and on augmenting EPSS-weighted prioritization with
-additional signals~\cite{paper4hygieneprio}; the present contribution is narrower and sharper,
+government endpoint fleets~\cite{paper1vulnprio}, on extending that context-aware prioritization to
+critical-infrastructure and public-sector endpoint fleets~\cite{paper11capg}, and on augmenting
+EPSS-weighted prioritization with additional hygiene signals~\cite{paper4hygieneprio}; the present
+contribution is narrower and sharper,
 isolating the disclosure-time regime in which the asset signal alone, with the exploit signal at
 its weakest, suffices to recover almost all of the achievable precision.
 
@@ -840,6 +854,12 @@ H.~Malla, ``{HygienePrio}: Cyber-hygiene signal augmentation for
   \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper4},
   2026, companion paper; source, code, and frozen results in the same
   repository.
+
+\bibitem{paper11capg}
+H.~Malla, ``Context-aware vulnerability prioritization for
+  critical-infrastructure and public-sector endpoint fleets,''
+  \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper11},
+  2026, companion paper.
 
 \bibitem{nist2022sp80040r4}
 {National Institute of Standards and Technology}, ``Guide to enterprise patch
