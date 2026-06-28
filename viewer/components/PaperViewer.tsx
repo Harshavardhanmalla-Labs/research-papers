@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check, EyeOff, FileOutput, ChevronLeft, ChevronRight } from "lucide-react";
+import { BookOpen, Image, BarChart2, FolderOpen, FileText, Code2, Github, Copy, Check, EyeOff, FileOutput, ChevronLeft, ChevronRight, Mail } from "lucide-react";
 import type { Paper } from "@/lib/papers";
 import clsx from "clsx";
 import AnonymousViewer from "./AnonymousViewer";
@@ -13,6 +13,7 @@ import ResultsExplorer   from "./ResultsExplorer";
 import ArtifactBrowser   from "./ArtifactBrowser";
 import PdfViewer         from "./PdfViewer";
 import LatexViewer       from "./LatexViewer";
+import CoverLetterViewer from "./CoverLetterViewer";
 
 interface Props { paper: Paper; papers?: Paper[]; onSelect?: (id: string) => void }
 
@@ -26,6 +27,7 @@ const PDF_BADGE: Record<string, string> = {
 
 const TABS = [
   { key: "pdf",        label: "Submission PDF", Icon: FileText,   badge: null    },
+  { key: "cover",      label: "Cover Letter",   Icon: Mail,       badge: null    },
   { key: "manuscript", label: "Manuscript",     Icon: BookOpen,   badge: null    },
   { key: "anonymous",  label: "Manuscript (anonymous)", Icon: EyeOff, badge: null },
   { key: "latex",      label: "LaTeX",           Icon: Code2,      badge: null    },
@@ -170,6 +172,7 @@ export default function PaperViewer({ paper, papers, onSelect }: Props) {
         <div className="flex gap-0 -mb-px overflow-x-auto hide-scrollbar">
           {TABS.map(({ key, label, Icon }) => {
             if (key === "pdf" && !paper.submissionPdf) return null;
+            if (key === "cover" && !paper.coverLetter) return null;
             const active = tab === key;
             const badge = key === "pdf" ? (PDF_BADGE[paper.id] ?? "PDF") : null;
             return (
@@ -205,6 +208,7 @@ export default function PaperViewer({ paper, papers, onSelect }: Props) {
       {/* ── Content ── */}
       <div key={tab} className="flex-1 min-h-0 overflow-hidden tab-content">
         {tab === "pdf"        && <PdfViewer       paper={paper} />}
+        {tab === "cover"      && <CoverLetterViewer paper={paper} />}
         {tab === "manuscript" && <ManuscriptViewer paper={paper} />}
         {tab === "anonymous"  && <AnonymousViewer   paper={paper} />}
         {tab === "export"     && <ExportPanel       paper={paper} />}

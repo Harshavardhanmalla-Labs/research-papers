@@ -30,6 +30,8 @@ export interface Paper {
     extras?: { label: string; path: string }[];
   };
   submissionPdf?: string;
+  /** Relative path (from the paper root) to a submission cover letter, in Markdown. */
+  coverLetter?: string;
   figures: string;
   results: ResultsConfig;
   artifacts: string[];
@@ -62,6 +64,7 @@ export const PAPERS: Paper[] = [
     status: "ready",
     statusLabel: "Ready for Publication",
     root: "paper1",
+    coverLetter: "submission_cover_letter.md",
     manuscript: {
       main: "paper/manuscript/paper_submission_draft.md",
     },
@@ -117,6 +120,7 @@ export const PAPERS: Paper[] = [
     status: "ready",
     statusLabel: "Ready for Publication",
     root: "paper3",
+    coverLetter: "submission/cover_letter.md",
     manuscript: {
       main: "manuscript/paper_draft_v0.1.md",
       supplemental: "manuscript/supplemental_appendix_v0.1.md",
@@ -148,6 +152,7 @@ export const PAPERS: Paper[] = [
     status: "ready",
     statusLabel: "Ready for Publication",
     root: "paper4",
+    coverLetter: "submission/cover_letter.md",
     manuscript: {
       main: "manuscript/paper4_draft_v0.1.md",
       extras: [
@@ -419,6 +424,7 @@ export const PAPERS: Paper[] = [
     status: "ready",
     statusLabel: "Ready for Publication",
     root: "paper14",
+    coverLetter: "submission/cover_letter.md",
     manuscript: {
       main: "manuscript/paper14_draft_v0.1.md",
       extras: [
@@ -617,6 +623,7 @@ export const PAPERS: Paper[] = [
     status: "ready",
     statusLabel: "Ready for Publication",
     root: "paper22",
+    coverLetter: "submission/cover_letter.md",
     manuscript: {
       main: "submission/ieee/manuscript/paper_submission_draft.md",
     },
