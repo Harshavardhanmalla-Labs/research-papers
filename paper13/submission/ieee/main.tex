@@ -20,8 +20,8 @@
 
 \graphicspath{{figures/}}
 
-\title{Policy-as-Code for CJIS Compliance: Prevention versus Detection\\
-for Recurring Control Violations on Law-Enforcement Endpoint Fleets}
+\title{Policy-as-Code for Preventive Compliance Enforcement: Prevention versus Detection\\
+for Recurring Control Violations, with a CJIS Case Study}
 
 \author{%
   \IEEEauthorblockN{Harshavardhan Malla}
@@ -40,15 +40,16 @@ for Recurring Control Violations on Law-Enforcement Endpoint Fleets}
 \maketitle
 
 \begin{abstract}
-Endpoints that handle Criminal Justice Information are bound by the FBI CJIS Security Policy, whose
-controls drift out of compliance whenever a configuration is changed by hand, reverted by an update,
-or loosened by a script. The standard automated response is detective: a continuous monitor finds
-the violation and auto-remediates it, paying a fresh exposure window every time the same
-misconfiguration returns. A stronger posture is preventive policy-as-code, in which a non-compliant
-change is blocked at the moment it is attempted, for example through application allowlisting or a
-policy engine guardrail, so the violation never takes effect. The operational question is when
-prevention is worth its cost and what bounds the benefit. We answer with a pre-registered
-simulation of a 500-endpoint law-enforcement fleet over one year, with hypotheses, thresholds, and
+Security and compliance controls codified in regimes such as the NIST SP 800-53 catalog, the CIS
+Benchmarks, and the FBI CJIS Security Policy drift out of compliance whenever a configuration is
+changed by hand, reverted by an update, or loosened by a script. The standard automated response is
+detective: a continuous monitor finds the violation and auto-remediates it, paying a fresh exposure
+window every time the same misconfiguration returns. A stronger posture is preventive
+policy-as-code, in which a non-compliant change is blocked at the moment it is attempted, for
+example through application allowlisting or a policy engine guardrail, so the violation never takes
+effect. The operational question is when prevention is worth its cost and what bounds the benefit.
+We answer with a pre-registered simulation, instantiated as a concrete CJIS case study on a
+500-endpoint law-enforcement fleet over one year, with hypotheses, thresholds, and
 evaluation seeds locked before any result was inspected. At a reference violation recurrence of six
 per endpoint per year, prevention reduces Criminal Justice Information exposure by 0.703 relative to
 detective auto-remediation (95\% bias-corrected and accelerated bootstrap interval $[0.700, 0.706]$),
@@ -70,21 +71,26 @@ actions evades prevention entirely, so the residual must be covered by detective
 \end{abstract}
 
 \begin{IEEEkeywords}
-CJIS, policy as code, preventive controls, application allowlisting, configuration drift,
-compliance exposure, Open Policy Agent, recurrence, pre-registration, reproducibility
+policy as code, preventive controls, compliance enforcement, security control automation,
+application allowlisting, configuration drift, compliance exposure, Open Policy Agent, NIST 800-53,
+CIS Benchmarks, CJIS, recurrence, pre-registration, reproducibility
 \end{IEEEkeywords}
 
 \section{Introduction}
-\IEEEPARstart{A}{law-enforcement} agency that handles Criminal Justice Information operates its
-endpoint fleet under the FBI CJIS Security Policy~\cite{cjis2023}, which mandates controls such as
-advanced authentication, session lock, full-disk encryption, audit logging, and password
-complexity. Those controls are correct at the moment an endpoint is provisioned, and they are
-correct again at the next audit. Between those two moments the endpoint keeps running and its
-configuration keeps changing. A control drifts out of compliance when an administrator disables a
-setting for a troubleshooting session, a software update silently reverts a policy, or a deployment
-script loosens a permission and never restores it. Each such drift opens a window during which an
-endpoint that touches Criminal Justice Information is out of compliance, and the window lasts until
-something notices and repairs it.
+\IEEEPARstart{A}{n} endpoint fleet bound by a security or compliance regime, whether the NIST SP
+800-53 control catalog~\cite{nist80053}, the CIS Benchmarks, or a sector-specific standard, must
+keep a set of mandated controls such as advanced authentication, session lock, full-disk
+encryption, audit logging, and password complexity continuously in force. Those controls are correct
+at the moment an endpoint is provisioned, and they are correct again at the next audit. Between those
+two moments the endpoint keeps running and its configuration keeps changing. A control drifts out of
+compliance when an administrator disables a setting for a troubleshooting session, a software update
+silently reverts a policy, or a deployment script loosens a permission and never restores it. Each
+such drift opens a window during which the endpoint is out of compliance, and the window lasts until
+something notices and repairs it. We ground the analysis in a concrete case study: a law-enforcement
+agency that handles Criminal Justice Information operates its endpoint fleet under the FBI CJIS
+Security Policy~\cite{cjis2023}, a representative instance of the broader class of control regimes,
+and we use the resulting Criminal Justice Information exposure as the worked unit throughout. The
+mechanism and its bounds are properties of the policy-as-code approach, not of any one regime.
 
 The prevailing automated response to drift is detective. A continuous monitor evaluates the fleet
 on a short cadence~\cite{nist80137,nist80137a}, finds the control that has drifted, and
@@ -117,10 +123,12 @@ benign one, and each such false block is operational friction borne by an admini
 investigate or override it. The value of prevention is the exposure it removes net of the friction
 it imposes, and the two scale differently with how often violations recur.
 
-This paper quantifies both the benefit and its bounds. We do not claim to measure any particular
-agency's posture; we build a transparent model of a Criminal Justice Information endpoint fleet,
-lock a set of hypotheses and thresholds before looking at the evaluation data, and report what the
-model says. The contribution is fourfold.
+This paper quantifies both the benefit and its bounds for preventive policy-as-code as a general
+approach to compliance control enforcement. We do not claim to measure any particular agency's
+posture; we build a transparent model of a control-bound endpoint fleet, instantiated as the CJIS
+case study, lock a set of hypotheses and thresholds before looking at the evaluation data, and
+report what the model says. The structural results below carry over to any control regime whose
+violations split into change-driven and emergent parts. The contribution is fourfold.
 
 \begin{itemize}
 \item We separate the \emph{exposure-reduction} benefit of preventive policy-as-code, which is
@@ -652,19 +660,23 @@ Because the study is pre-registered and the evaluation seeds were inspected only
 numbers are not the product of analytic search, and no rate was tuned to clear a threshold.
 
 \section{Conclusion}
-Preventive policy-as-code is a strong posture for a Criminal Justice Information endpoint fleet, but
+Preventive policy-as-code is a strong posture for enforcing security and compliance controls, but
 its program-level benefit is governed by two facts that a naive prevention pitch hides. A substantial
 share of violations is emergent and cannot be blocked, setting a hard floor on exposure, and the
 value of prevention is concentrated where misconfigurations recur, because detection pays a fresh
-window on every recurrence while prevention pays none. In a pre-registered simulation, prevention
-reduced Criminal Justice Information exposure by 0.703 at the reference recurrence against a binding
-ceiling of 0.7534, saved exposure that grew monotonically from 696.5 to 7986.6 control-days as
-recurrence rose from one to twelve per year, and imposed a flat false-block cost of about 0.30 per
-endpoint-month that the security benefit outgrew, lifting the benefit-to-cost ratio from 0.39 to
-4.42. The deployment guidance is correspondingly concrete: block the high-recurrence blockable
-controls first, size expectations to the blockable-exposure share, and treat the false-block cost as
-a fixed toll that prevention earns back as churn rises. Calibrating the model against a real CJIS
-change record is the next step toward turning these structural findings into field estimates.
+window on every recurrence while prevention pays none. Both facts follow from the exposure
+accounting and are properties of the policy-as-code approach rather than of any single regime, so
+they apply equally to NIST 800-53, CIS Benchmark, and CJIS deployments whose violations split into
+change-driven and emergent parts. In a pre-registered simulation grounded in the CJIS case study,
+prevention reduced Criminal Justice Information exposure by 0.703 at the reference recurrence against
+a binding ceiling of 0.7534, saved exposure that grew monotonically from 696.5 to 7986.6
+control-days as recurrence rose from one to twelve per year, and imposed a flat false-block cost of
+about 0.30 per endpoint-month that the security benefit outgrew, lifting the benefit-to-cost ratio
+from 0.39 to 4.42. The deployment guidance is correspondingly concrete: block the high-recurrence
+blockable controls first, size expectations to the blockable-exposure share, and treat the
+false-block cost as a fixed toll that prevention earns back as churn rises. Calibrating the model
+against a real CJIS change record is the next step toward turning these structural findings into
+field estimates.
 
 \section*{Data Availability Statement}
 The data and code that support the findings of this study are openly available in the research-papers repository at \url{https://github.com/Harshavardhanmalla-Labs/research-papers/tree/main/paper13}. The manuscript sources, figures, analysis code, and frozen result tables are included and regenerate every reported number deterministically from the fixed seeds.

@@ -1,8 +1,8 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-Asset context is an under-used, already-collected signal for government vulnerability
-remediation. Adding a pre-registered, criticality-dominant context factor to a
+Asset context is an under-used, already-collected signal for critical-infrastructure and
+public-sector vulnerability remediation. Adding a pre-registered, criticality-dominant context factor to a
 hygiene-augmented base scorer~\cite{paper4hygieneprio} delivers a large, mechanism-confirmed
 mission-precision gain in the capacity-scarce triage regime, $+9.5$~pp MWP@50 and a near-doubling
 of NDCG@50, at no measurable cost to context-blind precision, entirely driven by fleet
@@ -11,10 +11,10 @@ and is nothing on a uniform fleet, so we frame CAP-G as a triage-regime tool and
 capacity-flat primary hypothesis as partially supported rather than re-cutting the bar to
 claim a clean win.
 
-The practical message for a government security operations team is narrow and concrete. Where the
+The practical message for a public-sector security operations team is narrow and concrete. Where the
 remediation window is tight and the fleet is mission-heterogeneous, which is the common operating
 condition, ordering the queue by a criticality-weighted context factor moves mission-critical
-exposure to the front for the cost of a scoring change over data the agency already maintains;
+exposure to the front for the cost of a scoring change over data the organization already maintains;
 where capacity is ample or the fleet is uniform, the simpler context-blind scorer is sufficient
 and the context layer adds nothing worth its complexity. The ablation sharpens this further: a
 criticality-only context layer captures essentially all of the benefit on the target we defined,
@@ -22,7 +22,7 @@ so a deployable version of CAP-G can be simpler than its full three-dimensional 
 specific scorer, the study is offered as an example of how to bound the value of a prioritization
 signal honestly, by pre-registering the bar, isolating the mechanism with an exact control, and
 reporting a near-miss as a near-miss. Future work should validate the context mixes against a real
-agency asset inventory, test whether the criticality-only context layer generalizes across fleet
+public-sector asset inventory, test whether the criticality-only context layer generalizes across fleet
 compositions, and situate the scorer within a continuously self-assessing remediation
 loop~\cite{kephart2003vision} where host and exploit state, and therefore the right ordering,
 change over time.

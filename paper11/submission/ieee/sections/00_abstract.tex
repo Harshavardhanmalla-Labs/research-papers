@@ -2,14 +2,15 @@ Exploit-likelihood prioritization, expressed through the Exploit Prediction Scor
 (EPSS)~\cite{jacobs2021epss}, and hygiene-augmented prioritization, which adds host patch
 posture and exposure signals to EPSS, both rank a (host, CVE) pair by how likely the CVE is to
 be exploited and how poorly the host is maintained. Neither assigns weight to how much the
-organization would lose if a given host were compromised. Government endpoint fleets are
-mission-heterogeneous: a Criminal Justice Information Services (CJIS) domain controller in a
-DMZ and a training-room kiosk are scored alike beyond their hygiene posture. We introduce a
+organization would lose if a given host were compromised. Critical-infrastructure and
+public-sector endpoint fleets are mission-heterogeneous: a Criminal Justice Information
+Services (CJIS) domain controller in a DMZ and a training-room kiosk are scored alike
+beyond their hygiene posture. We introduce a
 pre-registered Asset Context Score that combines asset criticality tier, network exposure
 zone, and data sensitivity, with category mixes drawn from public guidance (FIPS~199, CISA
 Binding Operational Directives 22-01 and 23-01, and the FBI CJIS Security Policy). The
 resulting scorer, CAP-G, multiplies a hygiene-augmented base score by a host context factor.
-On a synthetic 830-host government fleet whose EPSS and Known Exploited Vulnerability signal is
+On a synthetic 830-host public-sector fleet whose EPSS and Known Exploited Vulnerability signal is
 resampled from a frozen real corpus of 203{,}174 CVEs (snapshot 2026-06-05), evaluated on 25
 pre-registered seeds, CAP-G raises mission-weighted precision at the top 50 from 0.255 to 0.350
 ($+9.5$ points, 95\% BCa interval $[7.8, 11.3]$) and raises NDCG@50 from 0.339 to 0.613. The

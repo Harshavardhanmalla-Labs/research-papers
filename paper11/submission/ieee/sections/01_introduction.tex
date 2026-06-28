@@ -1,8 +1,8 @@
 \section{Introduction}
 
-Federal and state security programs are required to prioritize remediation by organizational
-risk rather than raw severity~\cite{nist80053} and to categorize systems by mission
-impact~\cite{fips199}. The strongest published prioritization signals do not encode that
+Critical-infrastructure and public-sector security programs are required to prioritize
+remediation by organizational risk rather than raw severity~\cite{nist80053} and to categorize
+systems by mission impact~\cite{fips199}. The strongest published prioritization signals do not encode that
 mission dimension. The Exploit Prediction Scoring System (EPSS) estimates the probability that
 a CVE is exploited in the wild within twelve months of disclosure~\cite{jacobs2021epss}.
 Hygiene-augmented scorers add host-level signals such as patch posture and exposure, improving
@@ -13,8 +13,9 @@ a freshly-patched Criminal Justice Information Services (CJIS) controller waits.
 
 The gap is structural rather than incidental. EPSS scores a CVE; a hygiene score rates a host
 as a potential weak link; neither answers the question an authorizing official actually asks,
-which is what the organization stands to lose if a particular host is compromised. A government
-endpoint fleet is mission-heterogeneous by construction: a CJIS-bearing domain controller in a
+which is what the organization stands to lose if a particular host is compromised. A
+critical-infrastructure or public-sector endpoint fleet is mission-heterogeneous by
+construction: a CJIS-bearing domain controller in a
 demilitarized zone and a training-room kiosk may carry the same software and the same exploit
 exposure, yet a compromise of the first is a reportable incident and a compromise of the second
 is an inconvenience. When remediation capacity is the binding constraint, which it almost always
@@ -40,7 +41,8 @@ as partially supported rather than re-cut a threshold to manufacture a clean pas
 \item \textbf{CAP-G}, a context-aware scorer that multiplies a hygiene-augmented base score by
 a host context factor built from FIPS-199 criticality, network zone, and data sensitivity
 (Section~\ref{sec:method}).
-\item A \textbf{mission-weighted evaluation} (MWP@K, CWER@K) appropriate to government fleets
+\item A \textbf{mission-weighted evaluation} (MWP@K, CWER@K) appropriate to
+critical-infrastructure and public-sector fleets
 and distinct from the context-blind precision the base scorer optimizes
 (Section~\ref{sec:eval}).
 \item A \textbf{pre-registered, honestly-reported result} (Section~\ref{sec:results}): a large
@@ -55,7 +57,7 @@ identifies asset criticality as the load-bearing context attribute.
 
 The result is deliberately framed as a bounded, regime-specific finding rather than a universal
 improvement. CAP-G helps where a triage budget is scarce and a fleet is mission-heterogeneous,
-which is the common operating condition for a government security operations team; it does
+which is the common operating condition for a public-sector security operations team; it does
 nothing where capacity is generous or the fleet is uniform. Stating those bounds plainly, and
 holding to a pre-registered bar that the data narrowly miss, is the point of the study rather
 than a concession.
